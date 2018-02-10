@@ -1,0 +1,3 @@
+Users
+
+ALTER TABLE `app_users` ADD `no_hp` INT(20) NULL AFTER `nama`;
