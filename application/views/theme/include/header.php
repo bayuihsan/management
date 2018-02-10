@@ -346,7 +346,7 @@
     <li><a href="<?php echo site_url('Reports/reportByPayee') ?>"><i class="fa fa-angle-double-right"></i> Report By Payee</a></li>
 </ul>
 </li>
-<?php if($this->session->userdata('user_type')=='Admin') {?>
+<?php if($this->session->userdata('level')=='4') {?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">Master</span></a>
