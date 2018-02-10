@@ -91,10 +91,10 @@ class ReportModel extends CI_Model{
 
 			//For pending
 			// if($maxpending>0){
-			// 	if($date1==$pending_query[$j]->tanggal_validasi){	
+			// 	if($date2==$pending_query[$j]->tanggal_validasi){	
 			// 		$pending[$day]=array(
 			// 			"amount"=>$pending_query[$j]->amount,
-			// 			"date"=>$date1,
+			// 			"date"=>$date2,
 			// 			"m_name"=>$pending_query[$j]->m_name
 			// 			);
 			// 		if($j<($maxpending-1)){$j++;}
@@ -105,6 +105,7 @@ class ReportModel extends CI_Model{
 			$day++;
 			$date1 = date ("Y-m-d", strtotime("+1 day", strtotime($date1)));
 		}
+		// return array($sukses,$pending);
 		return array($sukses);
 	}
 

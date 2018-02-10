@@ -232,11 +232,11 @@ $(document).ready(function() {
             } ?>
             ],
 
-            ['Pending', 
-            <?php for($i=1;$i<=count($line_chart[1]);$i++){ 
-            echo  $line_chart[1][$i]['amount'].",";
-            } ?>
-            ],
+            // ['Pending', 
+            // <?php // for($i=1;$i<=count($line_chart[1]);$i++){ 
+            // echo  $line_chart[1][$i]['amount'].",";
+            // } ?>
+            // ],
 
             
         ]
