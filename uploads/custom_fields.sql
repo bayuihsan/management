@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 10 Feb 2018 pada 12.40
+-- Generation Time: 10 Feb 2018 pada 15.33
 -- Versi Server: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_advocate`
+-- Database: `db_hvcares`
 --
 
 -- --------------------------------------------------------
@@ -29,12 +29,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `custom_fields` (
-  `id` int(9) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `field_type` int(10) NOT NULL,
-  `form` int(10) NOT NULL,
-  `values` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_custom` int(11) NOT NULL,
+  `desc_query` varchar(500) NOT NULL,
+  `id_users` int(11) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `custom_fields`
+--
+
+INSERT INTO `custom_fields` (`id_custom`, `desc_query`, `id_users`, `tanggal`) VALUES
+(2, 'DELETE FROM `custom_fields` WHERE `custom_fields`.`id_custom` = 1', 10, '2018-02-10 14:31:35'),
+(3, 'ALTER TABLE `branch` DROP `alamat', 10, '2018-02-10 14:32:23');
 
 --
 -- Indexes for dumped tables
@@ -44,7 +51,7 @@ CREATE TABLE `custom_fields` (
 -- Indexes for table `custom_fields`
 --
 ALTER TABLE `custom_fields`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_custom`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -54,7 +61,7 @@ ALTER TABLE `custom_fields`
 -- AUTO_INCREMENT for table `custom_fields`
 --
 ALTER TABLE `custom_fields`
-  MODIFY `id` int(9) UNSIGNED NOT NULL AUTO_INCREMENT;COMMIT;
+  MODIFY `id_custom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
