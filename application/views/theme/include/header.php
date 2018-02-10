@@ -354,7 +354,6 @@
     <li><a href="<?php echo site_url('branch/view') ?>"><i class="fa fa-calendar-plus-o"></i> Branch</a></li>
     <li><a href="<?php echo site_url('paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Paket</a></li>
     <li><a href="<?php echo site_url('kategori_paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>
-    <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
     <li><a href="<?php echo site_url('users/view') ?>"><i class="fa fa-users"></i> User Management</a></li>
 </ul>
 </li>
