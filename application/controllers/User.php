@@ -5,8 +5,9 @@ class User extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-		$this->load->database();
+		$this->db2 = $this->load->database('hvc',TRUE);
         $this->load->model('Usermodel');
+        $this->load->library('form_validation');
 		/*cash control*/
 		$this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
 		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
@@ -30,11 +31,19 @@ class User extends CI_Controller {
         if($this->session->userdata('logged_in')==TRUE){
     	    redirect('Admin/dashboard');    
         }
-        $email=$this->input->post('email',true);
+        $username=$this->input->post('username',true);
         $password=$this->input->post('password',true);
         
-        if($this->Usermodel->login($email,md5($password))){
-        	echo "true";
+        $this->form_validation->set_rules('username','Username','trim|strip_tags|required');
+		$this->form_validation->set_rules('password','Password','trim|required');
+
+        if(!$this->form_validation->run() == FALSE){
+        	if($this->Usermodel->login($username,md5($password))){
+        		echo "true";	
+        	}else{
+        		echo "False";
+        	}
+        	
         }else{
         	echo "False";
         }

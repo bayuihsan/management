@@ -101,20 +101,22 @@
 <!--End Income Col-->
 
 
-<!--Start Income-->
+<!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
 <div class="panel panel-default custom-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
     <div class="panel-body" style="height: 260px; overflow: auto;">
-        <!--Income Table-->
+        <!--Branch Table-->
         <table class="table table-bordered" >
+            <th>No</th>
             <th>Branch</th>
             <th>Bulan</th>
             <th class="text-right">Jumlah</th>
-         <?php foreach($top_branch as $top){ ?>   
+         <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
+                <td><?php echo $no++; ?></td>
                 <td><?php echo $top->nama_branch ?></td>
                 <td><?php echo $top->m_name ?></td>
                 <td class="text-right"><?php echo number_format($top->amount) ?></td>
@@ -129,7 +131,7 @@
 </div>
 <!--End Panel-->
 </div>
-<!--End Income Col-->
+<!--End Branch Col-->
 
 <!--Start Expense-->
 <div class="col-md-6 col-sm-6 col-lg-6">
@@ -139,11 +141,13 @@
     <div class="panel-heading">Top 10 Paket (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
     <div class="panel-body" style="height: 260px; overflow: auto;">
         <table class="table table-bordered">
+            <th>No</th>
             <th>Paket</th>
             <th>Bulan</th>
             <th class="text-right">Jumlah</th>
-             <?php foreach($top_paket as $paket){ ?>   
+             <?php $no=1; foreach($top_paket as $paket){ ?>   
             <tr>
+                <td><?php echo $no++; ?></td>
                 <td><?php echo $paket->nama_paket ?></td>
                 <td><?php echo $paket->m_name ?></td>
                 <td class="text-right"><?php echo number_format($paket->amount) ?></td>
@@ -228,6 +232,11 @@ $(document).ready(function() {
             } ?>
             ],
 
+            ['Pending', 
+            <?php for($i=1;$i<=count($line_chart[1]);$i++){ 
+            echo  $line_chart[1][$i]['amount'].",";
+            } ?>
+            ],
 
             
         ]

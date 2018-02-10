@@ -45,12 +45,12 @@
           <form class="login-form" method="post" action="<?php echo site_url('User/varifyUser') ?>">
 
 
-            <input type="text" class="my-control email-icon" name="email" placeholder="Email"/>
+            <input type="text" class="my-control user-icon" name="username" placeholder="Username"/>
             <input type="password" class="my-control pass-icon" name="password" placeholder="Password"/>
             <button type="submit" class="my-btn">Login</button>
           </form>
 
-          <p>Reset Password</p>
+          <p></p>
         </div>
       </div>
     </div><!-- End Wrapper -->
