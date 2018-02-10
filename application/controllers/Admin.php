@@ -31,6 +31,8 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
+            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
+            $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
             $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
             $data['financialBalance']=$this->Reportmodel->financialBalance();
             $this->load->view('theme/index',$data);
@@ -40,6 +42,8 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
+            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
+            $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
             $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
             $data['financialBalance']=$this->Reportmodel->financialBalance();
             $this->load->view('theme/include/header');
@@ -51,6 +55,8 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
+            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
+            $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
             $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
             $data['financialBalance']=$this->Reportmodel->financialBalance();
             $this->load->view('theme/index',$data);

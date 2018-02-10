@@ -133,7 +133,7 @@
 </div>
 <!--End Branch Col-->
 
-<!--Start Expense-->
+<!--Start Paket-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
 <div class="panel panel-default custom-box">
@@ -145,7 +145,7 @@
             <th>Paket</th>
             <th>Bulan</th>
             <th class="text-right">Jumlah</th>
-             <?php $no=1; foreach($top_paket as $paket){ ?>   
+        <?php $no=1; foreach($top_paket as $paket){ ?>   
             <tr>
                 <td><?php echo $no++; ?></td>
                 <td><?php echo $paket->nama_paket ?></td>
@@ -153,14 +153,76 @@
                 <td class="text-right"><?php echo number_format($paket->amount) ?></td>
             </tr>
 
-          <?php } ?>  
+        <?php } ?>  
         </table>
     </div>
     <!--End Panel Body-->
 </div>
 <!--End Panel-->
 </div>
-<!--End Expense Col-->
+<!--End Paket Col-->
+
+<!--Start Channel-->
+<div class="col-md-6 col-sm-6 col-lg-6">
+<!--Start Panel-->
+<div class="panel panel-default custom-box">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Top Channel (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
+    <div class="panel-body" style="height: 260px; overflow: auto;">
+        <!--Branch Table-->
+        <?php $data_cn = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom'); ?>
+        <table class="table table-bordered" >
+            <th>No</th>
+            <th>Channel</th>
+            <th>Bulan</th>
+            <th class="text-right">Jumlah</th>
+        <?php $no=1; foreach($top_channel as $channel){ ?>   
+            <tr>
+                <td><?php echo $no++; ?></td>
+                <td><?php echo $data_cn[$channel->sales_channel] ?></td>
+                <td><?php echo $channel->m_name ?></td>
+                <td class="text-right"><?php echo number_format($channel->amount) ?></td>
+            </tr>
+
+        <?php } ?>
+
+        </table>
+    </div>
+    <!--End Panel Body-->
+
+</div>
+<!--End Panel-->
+</div>
+<!--End Branch Col-->
+
+<!--Start Paket-->
+<div class="col-md-6 col-sm-6 col-lg-6">
+<!--Start Panel-->
+<div class="panel panel-default custom-box">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Top 10 Team Leader (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
+    <div class="panel-body" style="height: 260px; overflow: auto;">
+        <table class="table table-bordered">
+            <th>No</th>
+            <th>Nama</th>
+            <th>Branch</th>
+            <th class="text-right">Jumlah</th>
+        <?php $no=1; foreach($top_tl as $tl){ ?>   
+            <tr>
+                <td><?php echo $no++; ?></td>
+                <td><?php echo $tl->nama ?></td>
+                <td><?php echo $tl->nama_branch ?></td>
+                <td class="text-right"><?php echo number_format($tl->amount) ?></td>
+            </tr>
+
+        <?php } ?>
+        </table>
+    </div>
+    <!--End Panel Body-->
+</div>
+<!--End Panel-->
+</div>
+<!--End Paket Col-->
 
 <!--Start Income Vs Expense Chart-->
 <div class="col-md-6 col-sm-6 col-lg-6">

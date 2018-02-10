@@ -269,11 +269,11 @@
 
 <li class="has-sub">
 <a href="#"><i class="fa fa-credit-card"></i>
-<span class="title">PSB</span></a>
+<span class="title">Sales</span></a>
 <ul class="collapse">
-    <li><a class="asyn-income" href="<?php echo site_url('Admin/addIncome') ?>"><i class="fa fa-plus-square"></i> Add PSB</a></li>
+    <li><a class="asyn-income" href="<?php echo site_url('Admin/addIncome') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>
     
-    <li><a href="<?php echo site_url('Admin/manageIncome') ?>"><i class="fa fa-book"></i> Manage PSB</a></li>
+    <li><a href="<?php echo site_url('Admin/manageIncome') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
 </ul>
 </li>
 
