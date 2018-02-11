@@ -11,9 +11,8 @@ class Branch extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model('Branchmodel');
-        $this->load->library('form_validation');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Branchmodel'));
     }
     
 	public function view($action='')
@@ -60,15 +59,15 @@ class Branch extends CI_Controller {
             {
                 if($do=='insert'){ 
 
-                    $this->db2->insert('branch',$data); 
+                    $this->db->insert('branch',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
                     $id=$this->input->post('branch_id',true);
                     
-                    $this->db2->where('branch_id', $id);
-                    $this->db2->update('branch', $data);
+                    $this->db->where('branch_id', $id);
+                    $this->db->update('branch', $data);
 
                     echo "true";
                     
@@ -81,7 +80,7 @@ class Branch extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db2->delete('branch', array('branch_id' => $param1));       
+            $this->db->delete('branch', array('branch_id' => $param1));       
         }
 	}
 

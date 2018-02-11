@@ -6,11 +6,10 @@ class Admin extends CI_Controller {
     public function __construct() {
         parent::__construct();
         if($this->session->userdata('logged_in')==FALSE){
-        redirect('User');    
+            redirect('User');    
         }
-		$this->load->database();
-        $this->load->model('Adminmodel');
-        $this->load->library('form_validation');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Adminmodel','Reportmodel'));
     }
     
 	public function index()
@@ -22,7 +21,6 @@ class Admin extends CI_Controller {
     public function dashboard($action='', $param1='')
 	{
         $data=array();
-        $this->load->model('Reportmodel');
         $tanggal = $this->Reportmodel->getMaxDate();
         $data['max_tanggal'] = $tanggal->tgl_max;
         if($action=='asyn'){
@@ -34,7 +32,7 @@ class Admin extends CI_Controller {
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
             $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
-            $data['financialBalance']=$this->Reportmodel->financialBalance();
+            $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/index',$data);
         }else if($action==''){
             $param1 = $tanggal->tgl_max;
@@ -45,7 +43,7 @@ class Admin extends CI_Controller {
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
             $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
-            $data['financialBalance']=$this->Reportmodel->financialBalance();
+            $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/include/header');
     		$this->load->view('theme/index',$data);
     		$this->load->view('theme/include/footer');
@@ -58,10 +56,103 @@ class Admin extends CI_Controller {
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
             $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
-            $data['financialBalance']=$this->Reportmodel->financialBalance();
+            $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/index',$data);
         }
 	}
+
+    /** Method For general settings page  **/
+    public function generalSettings($action='')
+    {
+        checkPermission(4);
+        $data=array();  
+        $data['settings']=$this->Adminmodel->getAllSettings();
+        $data['timezone']=timezone_list();
+        if($action=='asyn'){
+            $this->load->view('content/General_settings',$data);
+        }else if($action==''){    
+            $this->load->view('theme/include/header');
+            $this->load->view('content/General_settings',$data);
+            $this->load->view('theme/include/footer');
+        }
+
+        //update general Settings 
+        if($action=='update'){
+            $data = array(
+                array(
+                  'settings' => 'company_name' ,
+                  'value' => $this->input->post("company-name",true)
+                ),
+                array(
+                  'settings' => 'language' ,
+                  'value' => $this->input->post("language",true)
+                ),
+                array(
+                  'settings' => 'currency_code' ,
+                  'value' => $this->input->post("cur-symbol",true)
+                ),
+                array(
+                  'settings' => 'email_address' ,
+                  'value' => $this->input->post("email",true)
+                ),
+                array(
+                  'settings' => 'address' ,
+                  'value' => $this->input->post("address",true)
+                ),
+                array(
+                  'settings' => 'phone' ,
+                  'value' => $this->input->post("phone",true)
+                ),
+                array(
+                  'settings' => 'website' ,
+                  'value' => $this->input->post("website",true)
+                ),
+                array(
+                  'settings' => 'timezone' ,
+                  'value' => $this->input->post("timezone",true)
+)
+            );
+            //-----Validation-----//   
+            $this->form_validation->set_rules('company-name', 'Company Name', 'trim|required|min_length[2]|max_length[50]');
+            if (!$this->form_validation->run() == FALSE)
+            {
+                //Update Code
+                $this->db->update_batch('settings', $data, 'settings');
+                echo "true";
+                //Finish Update Code
+            }else{
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+            }
+
+        }
+
+    }
+
+    /** Method For upload new logo  **/
+    public function uploadLogo()
+    {
+        checkPermission(4);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '1000';
+
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload("logo"))
+        {
+            echo $this->upload->display_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+        }
+        else
+        {
+            $data = array('upload_data' => $this->upload->data());
+            $object=array();
+            $object['value']=$data['upload_data']['file_name'];
+            $this->db2->where('settings','logo_path');
+            if($this->db2->update('settings', $object)){
+                echo "true";
+            }
+        } 
+
+    }
 
     //Date Wise Income Report
         public function datewiseIncomeReport($action='')
@@ -1054,98 +1145,7 @@ class Admin extends CI_Controller {
         }
 	}
     
-	    /** Method For general settings page  **/
-        public function generalSettings($action='')
-	{
-        checkPermission('Employee');
-        $data=array();  
-        $data['settings']=$this->Adminmodel->getAllSettings();
-        $data['timezone']=timezone_list();
-        if($action=='asyn'){
-        $this->load->view('theme/General_settings',$data);
-        }else if($action==''){    
-	    $this->load->view('theme/include/header');
-		$this->load->view('theme/General_settings',$data);
-		$this->load->view('theme/include/footer');
-        }
-
-        //update general Settings 
-        if($action=='update'){
-        $data = array(
-           array(
-              'settings' => 'company_name' ,
-              'value' => $this->input->post("company-name",true)
-           ),
-           array(
-              'settings' => 'language' ,
-              'value' => $this->input->post("language",true)
-           ),
-           array(
-              'settings' => 'currency_code' ,
-              'value' => $this->input->post("cur-symbol",true)
-           ),
-            array(
-              'settings' => 'email_address' ,
-              'value' => $this->input->post("email",true)
-           ),
-            array(
-              'settings' => 'address' ,
-              'value' => $this->input->post("address",true)
-           ),
-            array(
-              'settings' => 'phone' ,
-              'value' => $this->input->post("phone",true)
-           ),
-            array(
-              'settings' => 'website' ,
-              'value' => $this->input->post("website",true)
-           ),
-            array(
-              'settings' => 'timezone' ,
-              'value' => $this->input->post("timezone",true)
-           )
-        );
-        //-----Validation-----//   
-        $this->form_validation->set_rules('company-name', 'Company Name', 'trim|required|min_length[2]|max_length[50]');
-        if (!$this->form_validation->run() == FALSE)
-        {
-        //Update Code
-        $this->db->update_batch('settings', $data, 'settings');
-        echo "true";
-        //Finish Update Code
-        }else{
-        echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
-        }
-
-        }
-
-	}
-
-	    /** Method For upload new logo  **/
-        public function uploadLogo()
-    {
-        checkPermission('Employee');
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '1000';
-
-        $this->load->library('upload', $config);
-        if ( ! $this->upload->do_upload("logo"))
-        {
-            echo $this->upload->display_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
-        }
-        else
-        {
-        $data = array('upload_data' => $this->upload->data());
-        $object=array();
-        $object['value']=$data['upload_data']['file_name'];
-        $this->db->where('settings','logo_path');
-        if($this->db->update('settings', $object)){
-        echo "true";
-           }
-        } 
-
-    }
+	
 
 
         /** Method For backup database  **/

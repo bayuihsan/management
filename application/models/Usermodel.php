@@ -8,17 +8,17 @@ class Usermodel extends CI_Model{
 	public function __construct()
 	{
 		parent::__construct();
-	    $this->db2 = $this->load->database('hvc', TRUE);
+	    $this->db2 = $this->load->database('cm', TRUE);
 	}
 	
 	public function login($username,$password)
 	{
-		$this->db2->select('*');
-		$this->db2->from('app_users');
-		$this->db2->where('username',$username);
-		$this->db2->where('password',$password);
-		$this->db2->where('keterangan','Aktif');
-		$query=$this->db2->get();
+		$this->db->select('*');
+		$this->db->from('app_users');
+		$this->db->where('username',$username);
+		$this->db->where('password',$password);
+		$this->db->where('keterangan','Aktif');
+		$query=$this->db->get();
 		$row_count=$query->num_rows();
 		if($row_count>0){
 			$userdata=$query->row();	
@@ -60,8 +60,8 @@ public function logout(){
 
 public function setLoginTime($user_id){
 	$data['last_login']=date("Y-m-d H:i:s");
-	$this->db2->where('id_users',$user_id);
-	$this->db2->update('app_users',$data);
+	$this->db->where('id_users',$user_id);
+	$this->db->update('app_users',$data);
 }
 
 }

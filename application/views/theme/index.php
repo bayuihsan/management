@@ -33,7 +33,7 @@
                 <i class="ion-speedometer cart-icon"></i>
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Current Day PSB<br>
+                <p class="card-head">Current Sales  <br>
                     <span class="card-value"><?php echo $cart_summery['current_day_psb']; ?></span></p>
             </div>
         </div>
@@ -47,7 +47,7 @@
                 <i class="ion-speedometer cart-icon"></i>
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Current Month PSB<br>
+                <p class="card-head">Month Sales<br>
                     <span class="card-value"><?php echo $cart_summery['current_month_psb']; ?></span></p>
             </div>
         </div>
@@ -60,8 +60,8 @@
                 <i class="ion-social-bitcoin cart-icon"></i>
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Current Day Revenue<br>
-                    <span class="card-value"></span></p>
+                <p class="card-head">Current Revenue<br>
+                    <span class="card-value"><?php echo get_current_setting('currency_code')." ".$cart_summery['current_day_revenue']; ?></span></p>
             </div>
         </div>
     </div>
@@ -74,8 +74,8 @@
                 <i class="ion-social-bitcoin cart-icon"></i>
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Current Month Revenue<br>
-                    <span class="card-value"></span></p>
+                <p class="card-head">Month Revenue<br>
+                    <span class="card-value"><?php echo get_current_setting('currency_code')." ".$cart_summery['current_month_revenue']; ?></span></p>
             </div>
         </div>
     </div>
@@ -100,14 +100,13 @@
 </div>
 <!--End Income Col-->
 
-
 <!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
-<div class="panel panel-default custom-box">
+<div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body" style="height: 260px; overflow: auto;">
+    <div class="panel-body financial-bal">
         <!--Branch Table-->
         <table class="table table-bordered" >
             <th>No</th>
@@ -117,8 +116,8 @@
          <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $top->nama_branch ?></td>
-                <td><?php echo $top->m_name ?></td>
+                <td><a href="#" data-toggle="modal" data-target=".bd-example-modal-lg"> <?php echo strtoupper($top->nama_branch) ?></td></td>
+                <td><?php echo strtoupper($top->m_name) ?></td>
                 <td class="text-right"><?php echo number_format($top->amount) ?></td>
             </tr>
 
@@ -136,10 +135,10 @@
 <!--Start Paket-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
-<div class="panel panel-default custom-box">
+<div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Paket (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body" style="height: 260px; overflow: auto;">
+    <div class="panel-body financial-bal">
         <table class="table table-bordered">
             <th>No</th>
             <th>Paket</th>
@@ -148,8 +147,8 @@
         <?php $no=1; foreach($top_paket as $paket){ ?>   
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $paket->nama_paket ?></td>
-                <td><?php echo $paket->m_name ?></td>
+                <td><?php echo strtoupper($paket->nama_paket) ?></td>
+                <td><?php echo strtoupper($paket->m_name) ?></td>
                 <td class="text-right"><?php echo number_format($paket->amount) ?></td>
             </tr>
 
@@ -165,10 +164,10 @@
 <!--Start Channel-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
-<div class="panel panel-default custom-box">
+<div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Channel (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body" style="height: 260px; overflow: auto;">
+    <div class="panel-body financial-bal" >
         <!--Branch Table-->
         <?php $data_cn = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom'); ?>
         <table class="table table-bordered" >
@@ -179,8 +178,8 @@
         <?php $no=1; foreach($top_channel as $channel){ ?>   
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $data_cn[$channel->sales_channel] ?></td>
-                <td><?php echo $channel->m_name ?></td>
+                <td><?php echo strtoupper($data_cn[$channel->sales_channel]) ?></td>
+                <td><?php echo strtoupper($channel->m_name) ?></td>
                 <td class="text-right"><?php echo number_format($channel->amount) ?></td>
             </tr>
 
@@ -193,15 +192,15 @@
 </div>
 <!--End Panel-->
 </div>
-<!--End Branch Col-->
+<!--End channel Col-->
 
-<!--Start Paket-->
+<!--Start TL-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
-<div class="panel panel-default custom-box">
+<div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Team Leader (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body" style="height: 260px; overflow: auto;">
+    <div class="panel-body financial-bal">
         <table class="table table-bordered">
             <th>No</th>
             <th>Nama</th>
@@ -210,8 +209,8 @@
         <?php $no=1; foreach($top_tl as $tl){ ?>   
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $tl->nama ?></td>
-                <td><?php echo $tl->nama_branch ?></td>
+                <td><?php echo strtoupper($tl->nama) ?></td>
+                <td><?php echo strtoupper($tl->nama_branch) ?></td>
                 <td class="text-right"><?php echo number_format($tl->amount) ?></td>
             </tr>
 
@@ -239,20 +238,22 @@
 </div>
 <!--End Income Vs Expense Chart-->
 
-<!--Start Account Status-->
+<!--Start login Status-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
-    <div class="panel-heading">Financial Balance Status</div>
+    <div class="panel-heading">Last Login</div>
     <div class="panel-body financial-bal">
         <table class="table table-bordered ">
-            <th>Account</th>
-            <th class="text-right">Balance</th>
-            <?php foreach($financialBalance as $balance) {?>
+            <th>Username</th>
+            <th>Branch</th>
+            <th class="text-right">Last Login</th>
+            <?php foreach($last_login as $last) {?>
             <tr>
-                <td><?php echo $balance->account ?></td>
-                <td class="text-right"><?php echo get_current_setting('currency_code')." ".$balance->balance ?></td>
+                <td><?php echo strtoupper($last->username) ?></td>
+                <td><?php echo strtoupper($last->nama_branch) ?></td>
+                <td class="text-right"><?php echo $last->last_login ?></td>
             </tr>
 
             <?php } ?>
@@ -263,7 +264,34 @@
 </div>
 <!--End Panel-->
 </div>
-<!--End Account Status Col-->
+<!--End login Status Col-->
+
+<!-- Large modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal -->
 
 </div>
 <!--End Row-->

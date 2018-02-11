@@ -19,6 +19,7 @@
                 <th>Harga Paket</th>
                 <th>Kategori</th>
                 <th>Status</th>
+                <th>Time Update</th>
                 <th class="single-action">Action</th>
             </thead>
 
@@ -27,9 +28,10 @@
                 <tr>
                 <td class="date"><?php echo $new->paket_id ?></td>
                 <td><?php echo $new->nama_paket ?></td>
-                <td><?php echo $new->harga_paket ?></td>
+                <td><?php echo get_current_setting('currency_code')." ".$new->harga_paket ?></td>
                 <td><?php if ($new->id_kategori == "1") { echo "Paket > 100"; }else{ echo "Paket < 100"; } ?></td>
                 <td><?php if ($new->aktif == "y") { echo "Aktif"; }else{ echo "Tidak Aktif"; } ?></td>
+                <td><?php echo $new->time_update ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('paket/edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
                 <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('paket/add/remove/'.$new->paket_id) ?>">Remove</a></td>

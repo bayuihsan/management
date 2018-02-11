@@ -11,13 +11,13 @@ class Kategori_paket extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model('Kategoripaketmodel');
-        $this->load->library('form_validation');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Kategoripaketmodel'));
     }
     
 	public function view($action='')
 	{
+        checkPermission(4);
         $data=array();
         $data['kategori_paket']=$this->Kategoripaketmodel->get_all(); 
         if($action=='asyn'){
@@ -32,6 +32,7 @@ class Kategori_paket extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
+        checkPermission(4);
         if($action=='asyn'){
         $this->load->view('content/kategori_paket/add');
         }else if($action==''){
@@ -56,15 +57,15 @@ class Kategori_paket extends CI_Controller {
             {
                 if($do=='insert'){ 
 
-                    $this->db2->insert('kategori_paket',$data); 
+                    $this->db->insert('kategori_paket',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
                     $id=$this->input->post('id_kategori',true);
                     
-                    $this->db2->where('id_kategori', $id);
-                    $this->db2->update('kategori_paket', $data);
+                    $this->db->where('id_kategori', $id);
+                    $this->db->update('kategori_paket', $data);
 
                     echo "true";
                     
@@ -77,13 +78,14 @@ class Kategori_paket extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db2->delete('kategori_paket', array('id_kategori' => $param1));       
+            $this->db->delete('kategori_paket', array('id_kategori' => $param1));       
         }
 	}
 
     /** Method For get branch information for Branch Edit **/ 
     public function edit($id_kategori,$action='')
     {
+        checkPermission(4);
         $data=array();
         $data['edit_kategori']=$this->Kategoripaketmodel->get_kategori_paket_by_id($id_kategori); 
         if($action=='asyn'){

@@ -5,6 +5,7 @@ class DataModel extends CI_Model{
 		function __construct()
     {
         parent::__construct();
+        $this->db2 = $this->load->database('hvc',TRUE);
     }
 
     //Backup Database
@@ -58,19 +59,19 @@ class DataModel extends CI_Model{
 	{
 		if($type == 'all')
 		{
-			$this->db->truncate('accounts');
-			$this->db->truncate('chart_of_accounts');
-			$this->db->truncate('language');
-			$this->db->truncate('payee_payers');
-			$this->db->truncate('payment_method');
-			$this->db->truncate('repeat_transaction');
-			$this->db->truncate('settings');
-			$this->db->truncate('transaction');
-			$this->db->truncate('user');
+			$this->db2->truncate('accounts');
+			$this->db2->truncate('chart_of_accounts');
+			$this->db2->truncate('language');
+			$this->db2->truncate('payee_payers');
+			$this->db2->truncate('payment_method');
+			$this->db2->truncate('repeat_transaction');
+			$this->db2->truncate('settings');
+			$this->db2->truncate('transaction');
+			$this->db2->truncate('user');
 		}
 		else
 		{	
-			$this->db->truncate($type);
+			$this->db2->truncate($type);
 		}
 	}
 

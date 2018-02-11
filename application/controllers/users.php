@@ -11,10 +11,8 @@ class users extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model('usersmodel');
-        $this->load->model('Branchmodel');
-        $this->load->library('form_validation');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Usermodel','Branchmodel'));
     }
     
 	public function view($action='')
@@ -69,15 +67,15 @@ class users extends CI_Controller {
             {
                 if($do=='insert'){ 
 
-                    $this->db2->insert('users',$data); 
+                    $this->db->insert('users',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
                     $id=$this->input->post('users_id',true);
                     
-                    $this->db2->where('users_id', $id);
-                    $this->db2->update('users', $data);
+                    $this->db->where('users_id', $id);
+                    $this->db->update('users', $data);
 
                     echo "true";
                     
@@ -90,7 +88,7 @@ class users extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db2->delete('users', array('users_id' => $param1));       
+            $this->db->delete('users', array('users_id' => $param1));       
         }
 	}
 

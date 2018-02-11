@@ -8,10 +8,8 @@ class Reports extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
         redirect('User');    
         }
-		$this->load->database();
-        $this->load->model('Reportmodel');
-        $this->load->model('Adminmodel');
-
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Reportmodel','Adminmodel'));
     }
 
 	//View Account Statement Report// 

@@ -11,14 +11,14 @@ class custom_fields extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->library('form_validation');
-        $this->load->model('custom_fieldsmodel');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('custom_fieldsmodel'));
     }
     
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
+        checkPermission(4);
         $data['custom_fields']=$this->custom_fieldsmodel->get_all();
         if($action=='asyn'){
             $this->load->view('content/custom_fields/add',$data);
@@ -42,8 +42,8 @@ class custom_fields extends CI_Controller {
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='eksekusi'){ 
-                    $this->db2->insert('custom_fields',$data);
-                    $this->db2->query($input_query); 
+                    $this->db->insert('custom_fields',$data);
+                    $this->db->query($input_query); 
                     
                     echo "true";         
                 }
@@ -59,6 +59,7 @@ class custom_fields extends CI_Controller {
     /** Method For get custom_fields information for custom_fields Edit **/ 
     public function edit($custom_fields_id,$action='')
     {
+        checkPermission(4);
         $data=array();
         $data['edit_custom_fields']=$this->custom_fieldsmodel->get_custom_fields_by_id($custom_fields_id); 
         if($action=='asyn'){

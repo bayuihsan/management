@@ -11,10 +11,8 @@ class Salesperson extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model('Salespersonmodel');
-        $this->load->model('Branchmodel');
-        $this->load->library('form_validation');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Salespersonmodel','Branchmodel'));
     }
     
 	public function view($action='')
@@ -67,15 +65,15 @@ class Salesperson extends CI_Controller {
             {
                 if($do=='insert'){ 
 
-                    $this->db2->insert('sales_person',$data); 
+                    $this->db->insert('sales_person',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
                     $id=$this->input->post('id_sales',true);
                     
-                    $this->db2->where('id_sales', $id);
-                    $this->db2->update('sales_person', $data);
+                    $this->db->where('id_sales', $id);
+                    $this->db->update('sales_person', $data);
 
                     echo "true";
 
@@ -87,7 +85,7 @@ class Salesperson extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db2->delete('sales_person', array('id_sales' => $param1));       
+            $this->db->delete('sales_person', array('id_sales' => $param1));       
         }
 	}
 

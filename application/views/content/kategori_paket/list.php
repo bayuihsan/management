@@ -26,7 +26,7 @@
                 <tr>
                 <td><?php echo strtoupper ($new->id_kategori) ?></td>
                 <td><?php echo strtoupper ($new->nama_kategori) ?></td>
-                <td><?php echo strtoupper ($new->harga_kategori) ?></td>
+                <td><?php echo get_current_setting('currency_code')." ".strtoupper ($new->harga_kategori) ?></td>
                 <td><?php echo strtoupper ($new->last_update) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('kategori_paket/edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 

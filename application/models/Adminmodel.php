@@ -2,12 +2,44 @@
 
 class AdminModel extends CI_Model{
  
+ 	// db2 digunakan untuk mengakses database ke-2
+	private $db2;
+
+	public function __construct()
+	{
+		parent::__construct();
+	    $this->db2 = $this->load->database('hvc',TRUE);
+	}
+	
+	//get all settings  
+	public function getAllSettings(){
+		$this->db->select('*');
+		$this->db->from('settings');    
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
+
+	}  
+
+	public function getLastLogin($limit = 0){
+		//get Max Date
+		$last_query=$this->db->query("SELECT a.username, b.nama_branch, a.last_login 
+			FROM app_users a
+			JOIN branch b ON a.branch_id=b.branch_id 
+			ORDER BY last_login desc
+			LIMIT ".$limit." ");	
+		$last_result = $last_query->result();
+
+		return $last_result;
+	}
+
+
 //get all Chart Of Accounts  
 public function getAllChartOfAccounts(){
-$this->db->select('*');
-$this->db->from('chart_of_accounts');  
-$this->db->order_by("chart_id", "desc");    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('chart_of_accounts');  
+$this->db2->order_by("chart_id", "desc");    
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -15,20 +47,20 @@ return $result;
 
 //get Chart Of Accounts by type 
 public function getChartOfAccountByType($type){
-$this->db->select('*');
-$this->db->from('chart_of_accounts');  
-$this->db->where('accounts_type',$type);  
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('chart_of_accounts');  
+$this->db2->where('accounts_type',$type);  
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
 }
 //get all payer and payee    
 public function getAllPayeryAndPayee(){
-$this->db->select('*');
-$this->db->from('payee_payers');  
-$this->db->order_by("trace_id", "desc");    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('payee_payers');  
+$this->db2->order_by("trace_id", "desc");    
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -36,10 +68,10 @@ return $result;
 
 //get payer and payee by type   
 public function getPayeryAndPayeeByType($type){
-$this->db->select('*');
-$this->db->from('payee_payers');  
-$this->db->where("type", $type);    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('payee_payers');  
+$this->db2->where("type", $type);    
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -48,10 +80,10 @@ return $result;
 
 //get all payment method   
 public function getAllPaymentmethod(){
-$this->db->select('*');
-$this->db->from('payment_method');  
-$this->db->order_by("p_method_id", "desc");    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('payment_method');  
+$this->db2->order_by("p_method_id", "desc");    
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -59,32 +91,20 @@ return $result;
  
 //get all user     
 public function getAllUsers(){
-$this->db->select('*');
-$this->db->from('user');  
-$this->db->order_by("user_id", "desc");    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('user');  
+$this->db2->order_by("user_id", "desc");    
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
 }    
 
-
-//get all settings  
-public function getAllSettings(){
-$this->db->select('*');
-$this->db->from('settings');    
-$query_result=$this->db->get();
-$result=$query_result->result();
-return $result;
-
-}  
-
-
 //get all Personal/Bank Account 
 public function getAllAccounts(){
-$this->db->select('*');
-$this->db->from('accounts');    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('accounts');    
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -93,10 +113,10 @@ return $result;
 
 //get account by id  
 public function getAccount($accounts_id){
-$this->db->select('*');
-$this->db->from('accounts');
-$this->db->where('accounts_id',$accounts_id);    
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('accounts');
+$this->db2->where('accounts_id',$accounts_id);    
+$query_result=$this->db2->get();
 $result=$query_result->row();
 return $result;
 } 
@@ -107,14 +127,14 @@ public function getBalance($account,$amount,$action)
 {
 if($action=='add'){
 //get last balance
-$query=$this->db->query("SELECT bal FROM transaction 
+$query=$this->db2->query("SELECT bal FROM transaction 
 WHERE accounts_name='".$account."' ORDER BY
 trans_id DESC LIMIT 1");
 $result=$query->row();
 return $result->bal+$amount;
 }else if($action=='sub'){
 //get last balance
-$query=$this->db->query("SELECT bal FROM transaction 
+$query=$this->db2->query("SELECT bal FROM transaction 
 WHERE accounts_name='".$account."' ORDER BY
 trans_id DESC LIMIT 1");
 $result=$query->row();
@@ -128,17 +148,17 @@ return $result->bal-$amount;
 public function getTransaction($limit='',$type='')
 {
 	
-$this->db->select('*');
-$this->db->from('transaction');
+$this->db2->select('*');
+$this->db2->from('transaction');
 if($type!=''){
-$this->db->where('type',$type);	
+$this->db2->where('type',$type);	
 }
-$this->db->order_by("trans_id", "desc");
+$this->db2->order_by("trans_id", "desc");
 if($limit!='all'){ 
-$this->db->limit($limit);
+$this->db2->limit($limit);
 }    
 
-$query_result=$this->db->get();
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -147,10 +167,10 @@ return $result;
 
 //get single transaction
 public function getSingleTransaction($trans_id){
-$this->db->select('*');
-$this->db->from('transaction');
-$this->db->where('trans_id',$trans_id);
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('transaction');
+$this->db2->where('trans_id',$trans_id);
+$query_result=$this->db2->get();
 $result=$query_result->row();
 return $result;
 
@@ -161,15 +181,15 @@ return $result;
 public function getRepeatTransaction($type,$status,$status2='')
 {
 	
-$this->db->select('*');
-$this->db->from('repeat_transaction');
-$this->db->where('type',$type);
+$this->db2->select('*');
+$this->db2->from('repeat_transaction');
+$this->db2->where('type',$type);
 if($status2!=''){
-$this->db->where_in('status',array($status,$status2));	
+$this->db2->where_in('status',array($status,$status2));	
 }else{
-$this->db->where('status',$status);
+$this->db2->where('status',$status);
 }
-$query_result=$this->db->get();
+$query_result=$this->db2->get();
 $result=$query_result->result();
 return $result;
 
@@ -177,10 +197,10 @@ return $result;
 
 //get single repeat transaction
 public function getSingleRepeatTransaction($trans_id){
-$this->db->select('*');
-$this->db->from('repeat_transaction');
-$this->db->where('trans_id',$trans_id);
-$query_result=$this->db->get();
+$this->db2->select('*');
+$this->db2->from('repeat_transaction');
+$this->db2->where('trans_id',$trans_id);
+$query_result=$this->db2->get();
 $result=$query_result->row();
 return $result;
 
@@ -193,9 +213,9 @@ public function processRepeatTransaction($trans_id,$status)
 $data['status']=$status;	
 $data['pdate']=date("Y-m-d");
 
-$this->db->trans_begin();
-$this->db->where('trans_id',$trans_id);
-$this->db->update('repeat_transaction',$data);
+$this->db2->trans_begin();
+$this->db2->where('trans_id',$trans_id);
+$this->db2->update('repeat_transaction',$data);
 
 $trans=$this->getSingleRepeatTransaction($trans_id);
 if($trans->type=="Income"){
@@ -208,13 +228,13 @@ $this->insertExpense($trans->account,$trans->category,$trans->amount,$trans->pay
 }
 
 //end transaction
-if ($this->db->trans_status() === FALSE)
+if ($this->db2->trans_status() === FALSE)
 {
-    $this->db->trans_rollback();
+    $this->db2->trans_rollback();
 }
 else
 {
-    $this->db->trans_commit();
+    $this->db2->trans_commit();
     return true;
 }
 
@@ -238,7 +258,7 @@ $data['note']=$note;
 $data['dr']=0;  
 $data['cr']=$amount;
 $data['bal']=$this->getBalance($account,$amount,"add");  
-$this->db->insert('transaction',$data);	
+$this->db2->insert('transaction',$data);	
 }
 
 public function insertExpense($account,$cat,$amount,$payee,$p_method,$ref,$note)
@@ -257,7 +277,7 @@ $data['note']=$note;
 $data['dr']=$amount;  
 $data['cr']=0;
 $data['bal']=$this->getBalance($account,$amount,"sub");  
-$this->db->insert('transaction',$data);	
+$this->db2->insert('transaction',$data);	
 }
 
 

@@ -15,14 +15,14 @@ class custom_fieldsmodel extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->db2 = $this->load->database('hvc', TRUE);
+		$this->db2 = $this->load->database('hvc',TRUE);
 	}
 	
 	function get_all()
 	{
-			$this->db2->select('a.*, b.nama');
-			$this->db2->join('app_users b', 'b.id_users = a.id_users');
-			return $this->db2->get('custom_fields a')->result();
+			$this->db->select('a.*, b.nama');
+			$this->db->join('app_users b', 'b.id_users = a.id_users');
+			return $this->db->get('custom_fields a')->result();
 	}
 	
 }

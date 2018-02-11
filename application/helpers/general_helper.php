@@ -35,40 +35,40 @@ if ( ! function_exists('get_current_setting'))
 if ( ! function_exists('decimalPlace'))
 {
 
-function decimalPlace($number){
- return number_format((float)$number, 2);
-}
+  function decimalPlace($number){
+    return number_format((float)$number, 2);
+  }
 
 }
 
 if ( ! function_exists('getOld'))
 {
 
-function getOld($id,$id_value,$table){  
-$CI =&  get_instance();
-$CI->load->database();
-$CI->db->select('*');
-$CI->db->from($table);
-$CI->db->where($id,$id_value);
-$query=$CI->db->get();
-$result=$query->row(); 
-return $result;
-}
+  function getOld($id,$id_value,$table){  
+    $CI =&  get_instance();
+    $CI->load->database();
+    $CI->db->select('*');
+    $CI->db->from($table);
+    $CI->db->where($id,$id_value);
+    $query=$CI->db->get();
+    $result=$query->row(); 
+    return $result;
+  }
 
 }
 
 if ( ! function_exists('checkPermission'))
 {
 
-function checkPermission($type){  
-$CI =&  get_instance();  
-if (!isset($_SERVER['HTTP_REFERER']) && $CI->session->userdata('user_type')==$type){ 
-echo "<h2>Sorry, You have No Permission To Access This Page !</h2>";
-echo "<a href=".site_url('Admin/dashboard').">Go Dashboard</a>";
-exit;
-}
+  function checkPermission($type){  
+    $CI =&  get_instance();  
+    if (!isset($_SERVER['HTTP_REFERER']) && $CI->session->userdata('level')!=$type){ 
+      echo "<h2>Sorry, You have No Permission To Access This Page !</h2>";
+      echo "<a href=".site_url('Admin/dashboard').">Go Dashboard</a>";
+      exit;
+    }
 
-}
+  }
 
 }
 

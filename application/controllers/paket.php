@@ -11,10 +11,8 @@ class Paket extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model('Paketmodel');
-        $this->load->model('Kategoripaketmodel');
-        $this->load->library('form_validation');
+        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->load->model(array('Kategoripaketmodel', 'Paketmodel'));
     }
     
 	public function view($action='')
@@ -63,15 +61,15 @@ class Paket extends CI_Controller {
             {
                 if($do=='insert'){ 
 
-                    $this->db2->insert('paket',$data); 
+                    $this->db->insert('paket',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
                     $id=$this->input->post('paket_id',true);
                     
-                    $this->db2->where('paket_id', $id);
-                    $this->db2->update('paket', $data);
+                    $this->db->where('paket_id', $id);
+                    $this->db->update('paket', $data);
 
                     echo "true";
 
@@ -83,7 +81,7 @@ class Paket extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db2->delete('paket', array('paket_id' => $param1));       
+            $this->db->delete('paket', array('paket_id' => $param1));       
         }
 	}
 

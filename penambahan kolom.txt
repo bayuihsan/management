@@ -5,3 +5,5 @@ ALTER TABLE `app_users` ADD `no_hp` INT(20) NULL AFTER `nama`;
 ALTER TABLE `branch` ADD `alamat` VARCHAR(500) NULL AFTER `ketua`;
 
 ALTER TABLE `branch` DROP `alamat`;
+
+DELETE FROM `custom_fields` WHERE `custom_fields`.`id_custom` = 1
