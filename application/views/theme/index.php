@@ -12,7 +12,7 @@
         <div class="col-md-3 col-lg-3 col-sm-3"> 
             <div class="form-group"> 
                 <div class='input-group date' id='date'>
-                    <input type="text" class="form-control" placeholder="Tanggal" name="from-date" id="from-date"/>   
+                    <input type="text" class="form-control" placeholder="Tanggal" name="from-date" id="from-date" value="<?php echo $max_tanggal?>"/>   
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -300,6 +300,10 @@
 <!--End Main-content-->
 <script type="text/javascript">
 $(document).ready(function() {
+    $(".financial-bal").niceScroll({
+    cursorwidth: "8px",cursorcolor:"#7f8c8d"
+    });
+    
     var chart;
     chart = c3.generate({
     bindto: '#inc_vs_exp2',
