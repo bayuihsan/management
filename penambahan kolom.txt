@@ -2,6 +2,8 @@ Users
 
 ALTER TABLE `app_users` ADD `no_hp` INT(20) NULL AFTER `nama`;
 
+ALTER TABLE `app_users` ADD `no_rekening` INT(30) NULL AFTER `level`, ADD `nama_bank` VARCHAR(30) NULL AFTER `no_rekening`;
+
 ALTER TABLE `branch` ADD `alamat` VARCHAR(500) NULL AFTER `ketua`;
 
 ALTER TABLE `branch` DROP `alamat`;

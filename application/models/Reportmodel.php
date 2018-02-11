@@ -131,7 +131,7 @@ class ReportModel extends CI_Model{
 	public function getTopBranch($limit=0,$tgl='')
 	{
 
-		$sukses_query=$this->db->query("SELECT b.nama_branch, MONTHNAME('".$tgl."') as m_name, count(a.psb_id) as amount 
+		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, MONTHNAME('".$tgl."') as m_name, count(a.psb_id) as amount 
 			FROM new_psb a 
 			JOIN branch b ON a.branch_id=b.branch_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
@@ -147,7 +147,7 @@ class ReportModel extends CI_Model{
 	public function getTopPaket($limit=0,$tgl='')
 	{
 
-		$paket_query=$this->db->query("SELECT b.nama_paket, MONTHNAME('".$tgl."') as m_name, count(a.psb_id) as amount 
+		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, MONTHNAME('".$tgl."') as m_name, count(a.psb_id) as amount 
 			FROM new_psb a 
 			JOIN paket b ON a.paket_id=b.paket_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
@@ -178,7 +178,7 @@ class ReportModel extends CI_Model{
 	public function getTopTL($limit=0,$tgl='')
 	{
 
-		$tl_query=$this->db->query("SELECT b.nama, c.nama_branch, count(a.psb_id) as amount 
+		$tl_query=$this->db->query("SELECT b.id_users, b.nama, c.nama_branch, count(a.psb_id) as amount 
 			FROM new_psb a
 			JOIN app_users b on a.TL=b.username
 			JOIN branch c on a.branch_id=c.branch_id
