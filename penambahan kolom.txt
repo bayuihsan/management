@@ -4,8 +4,5 @@ ALTER TABLE `app_users` ADD `no_hp` INT(20) NULL AFTER `nama`;
 
 ALTER TABLE `app_users` ADD `no_rekening` INT(30) NULL AFTER `level`, ADD `nama_bank` VARCHAR(30) NULL AFTER `no_rekening`;
 
-ALTER TABLE `branch` ADD `alamat` VARCHAR(500) NULL AFTER `ketua`;
+ALTER TABLE `paket` ADD `harga_paket` INT NOT NULL AFTER `nama_paket`;
 
-ALTER TABLE `branch` DROP `alamat`;
-
-DELETE FROM `custom_fields` WHERE `custom_fields`.`id_custom` = 1
