@@ -281,7 +281,7 @@
 <a href="#"><i class="fa fa-university"></i>
 <span class="title">MSISDN</span></a>
 <ul class="collapse">
-    <li><a class="asyn-income" href="<?php echo site_url('Admin/addIncome') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
+    <li><a class="asyn-income" href="<?php echo site_url('msisdn/views') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
     
     <li><a href="<?php echo site_url('Admin/manageIncome') ?>"><i class="fa fa-book"></i> Manage MSISDN</a></li>
 </ul>
@@ -356,8 +356,7 @@
     <li><a href="<?php echo site_url('kategori_paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>
     <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
     <li><a href="<?php echo site_url('sales_channel/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Channel</a></li>
-    <li><a href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-calendar-plus-o"></i> MSISDN</a></li>
-    <li><a href="<?php echo site_url('users/view') ?>"><i class="fa fa-users"></i> User Management</a></li>
+    <li><a href="<?php echo site_url('manageuser/view') ?>"><i class="fa fa-users"></i> User Management</a></li>
     
 </ul>
 </li>
