@@ -16,7 +16,7 @@
     <!--<link href="css/jquery-ui.css" rel="stylesheet">-->
 
   </head>
-  <body class="login-body">
+  <body class="login-body" style="background-image:url('<?php echo base_url()?>image/halo.png'); background-size:100% 100%; background-repeat:no-repeat; background-attachment: fixed;">
     <div class="block-ui">
       <div class="spinner">
         <div class="rect1"></div>
