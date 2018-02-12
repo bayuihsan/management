@@ -48,7 +48,7 @@ class Admin extends CI_Controller {
     		$this->load->view('theme/index',$data);
     		$this->load->view('theme/include/footer');
         }else if($action=='view'){
-            $param1=$param1;
+            $data['max_tanggal'] = $param1 = $param1;
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);

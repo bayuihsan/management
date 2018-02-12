@@ -31,6 +31,10 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <label for="nama">Nama</label>
         <input type="text" class="form-control" name="nama" id="nama">
       </div>
+      <div class="form-group">
+        <label for="no_hp">No HP</label>
+        <input type="text" class="form-control" name="no_hp" id="no_hp">
+      </div>
       <div class="form-group"> 
         <label for="branch">Branch</label>
         <select name="branch_id" class="form-control" id="branch">  
@@ -50,8 +54,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         </select>      
       </div>
       <div class="form-group"> 
-        <label for="channel">Level</label>
-        <select name="channel" class="form-control" id="level">  
+        <label for="level">Level</label>
+        <select name="level" class="form-control" id="level">  
           <option value="">Pilih Level</option>
           <?php for($i=1; $i<count($level); $i++) { ?>
           <option value="<?php echo $i; ?>"><?php echo "(".$i.") ".$level[$i]; ?></option>
@@ -68,9 +72,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div>
       <div class="form-group">
         <label for="keterangan">Keterangan</label>
-        <select name="keterangan" class="form-control">
+        <select name="keterangan" class="form-control" id="keterangan">
           <option value="">Pilih Status</option>
-          <option value="aktif">Aktif</option>
+          <option value="Aktif">Aktif</option>
           <option value="nAktif">Tidak Aktif</option>
         </select>
       </div> 
@@ -81,8 +85,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       <hr>
       <p>Informasi Login</p>
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="username">Username</label> *Jika menggunakan spasi, otomatis akan diganti menjadi Underscore (_)
         <input type="text" class="form-control" name="username" id="username">
+        <input type="hidden" class="form-control" name="username1" id="username1">
       </div>
       <div class="form-group">
         <label for="password">Password</label>
@@ -102,6 +107,10 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       <div class="form-group">
         <label for="nama">Nama</label>
         <input type="text" class="form-control" name="nama" id="nama" value="<?php echo $edit_users->nama?>">
+      </div>
+      <div class="form-group">
+        <label for="no_rekening">No HP</label>
+        <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?php echo $edit_users->no_hp?>">
       </div>
       <div class="form-group"> 
         <label for="branch">Branch</label>
@@ -137,8 +146,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         </select>      
       </div>
       <div class="form-group"> 
-        <label for="channel">Level</label>
-        <select name="channel" class="form-control" id="level">  
+        <label for="level">Level</label>
+        <select name="level" class="form-control" id="level">  
           <option value="">Pilih Level</option>
           <?php for($i=1; $i<count($level); $i++) { 
             if($edit_users->level == $i){ $sel = "selected='selected'"; ?>
@@ -159,13 +168,13 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div>
       <div class="form-group">
         <label for="keterangan">Keterangan</label>
-        <select name="keterangan" class="form-control">
+        <select name="keterangan" class="form-control" id="keterangan">
           <option value="">Pilih Keterangan</option>
-          <?php if($edit_users->keterangan=="aktif"){ ?>
-          <option value="aktif" selected="selected">Aktif</option>
+          <?php if($edit_users->keterangan=="Aktif"){ ?>
+          <option value="Aktif" selected="selected">Aktif</option>
           <option value="nAktif">Tidak Aktif</option>
           <?php }else{?>
-          <option value="aktif">Aktif</option>
+          <option value="Aktif">Aktif</option>
           <option value="nAktif" selected="selected">Tidak Aktif</option>
           <?php } ?>
           
@@ -179,16 +188,11 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       <p>Informasi Login</p>
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" name="username" id="username" value="<?php echo $edit_users->username?>">
+        <input type="text" class="form-control" name="username" id="username" value="<?php echo $edit_users->username?>" readonly> 
+        change *Jika menggunakan spasi, otomatis akan diganti menjadi Underscore (_)
+        <input type="text" class="form-control" name="username1" id="username1" placeholder="Change Username">
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" id="password">
-      </div>
-      <div class="form-group">
-        <label for="password">Confirm Password</label>
-        <input type="password" class="form-control" name="repassword" id="repassword">
-      </div>
+      
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>
 
@@ -225,6 +229,14 @@ $("#no_rekening").keypress(function (e) {
   }
 });
 
+//for number only
+$("#no_hp").keypress(function (e) {
+  //if the letter is not digit then display error and don't type anything
+  if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+    //display error message
+    return false;
+  }
+});
 
 $('#add-users').on('submit',function(){    
   $.ajax({

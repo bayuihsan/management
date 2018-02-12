@@ -11,7 +11,7 @@ class users extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc',TRUE);
+        $this->db2 = $this->load->database('hvc', TRUE);
         $this->load->model(array('Usermodel','Branchmodel'));
     }
     
@@ -45,39 +45,67 @@ class users extends CI_Controller {
             $data=array();
             $do=$this->input->post('action',true);     
             $data['nama']=$this->input->post('nama',true); 
+            $data['no_hp']=$this->input->post('no_hp',true); 
             $data['branch_id']=$this->input->post('branch_id',true); 
             $data['channel']=$this->input->post('channel',true);  
             $data['level']=$this->input->post('level',true);  
             $data['no_rekening']=$this->input->post('no_rekening',true);  
             $data['nama_bank']=$this->input->post('nama_bank',true);
+            $data['keterangan']=$this->input->post('keterangan',true);
 
-            $data['username']=$this->input->post('username',true);     
-            $data['password']=$this->input->post('password',true);     
-       
+            $data['username'] = $username = str_replace(" ", "_", $this->input->post('username',true));         
+                 
             //-----Validation-----//   
             $this->form_validation->set_rules('nama', 'Nama', 'trim|required|min_length[3]');
+            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|min_length[10]|numeric');
             $this->form_validation->set_rules('branch_id', 'Branch ', 'trim|required');
-            $this->form_validation->set_rules('channel', 'Channel', 'trim|requddired');
+            $this->form_validation->set_rules('channel', 'Channel', 'trim|required');
             $this->form_validation->set_rules('level', 'Level', 'trim|required');
             $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|numeric|min_length[5]');
             $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'trim|required');
+            $this->form_validation->set_rules('keterangan', 'Status', 'trim|required');
+
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]');
+
+            if($do == 'insert'){
+                $data['password']=$this->input->post('password',true);
+                $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[repassword]');
+                $this->form_validation->set_rules('repassword', 'Confirm Password', 'trim|required');
+            }
 
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
+                    if(count($this->usersmodel->get_users_by_username($data['username']))>0) {  
 
-                    $this->db->insert('users',$data); 
-                    
-                    echo "true";    
-                    
+                        echo "This Username Is Already Exists !!!!"; 
+                                            
+                    }else{
+                        $this->db->insert('app_users',$data);
+                        echo "true";
+                    }
+                     
                 }else if($do=='update'){
-                    $id=$this->input->post('users_id',true);
-                    
-                    $this->db->where('users_id', $id);
-                    $this->db->update('users', $data);
+                    $username1 = $this->input->post('username1',true);
+                    if(count($this->usersmodel->get_users_by_username($username1))>0) {  
 
-                    echo "true";
+                        echo "This Username Is Already Exists !!!!"; 
+                                            
+                    }else{
+                        if($username1 == '' || $username1 == null){
+                            $data['username'] = $username;
+                        }else{
+                            $data['username'] = $username1;
+                        }
+
+                        $id=$this->input->post('id_users',true);
+                        
+                        $this->db->where('id_users', $id);
+                        $this->db->update('app_users', $data);
+
+                        echo "true";
+                    }
                     
                 }         
             }else{
@@ -88,7 +116,7 @@ class users extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('users', array('users_id' => $param1));       
+            $this->db->delete('app_users', array('id_users' => $param1));       
         }
 	}
 

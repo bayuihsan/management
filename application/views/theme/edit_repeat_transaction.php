@@ -102,13 +102,13 @@ $("#payment-method").select2();
 $("#date").datepicker();  
 $("#payment-method").select2("val","<?php echo $transaction->p_method ?>"); 
 
- $("#amount").keypress(function (e) {
-     //if the letter is not digit then display error and don't type anything
-     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
-        //display error message
-        return false;
-    }
-   });
+$("#amount").keypress(function (e) {
+  //if the letter is not digit then display error and don't type anything
+  if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+    //display error message
+    return false;
+  }
+});
 
 $('#edit-repeat-transaction').on('submit',function(event){ 
 $.ajax({

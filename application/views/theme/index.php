@@ -116,7 +116,7 @@
          <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><a href="#" data-toggle="modal" data-target=".bd-example-modal-lg"> <?php echo strtoupper($top->nama_branch) ?></td></td>
+                <td><a href="#branch_detail" data-toggle="modal" data-id="<?php echo $top->branch_id ?>"> <?php echo strtoupper($top->nama_branch) ?></td></td>
                 <td><?php echo strtoupper($top->m_name) ?></td>
                 <td class="text-right"><?php echo number_format($top->amount) ?></td>
             </tr>
@@ -131,6 +131,34 @@
 <!--End Panel-->
 </div>
 <!--End Branch Col-->
+
+<!-- Large modal -->
+<div class="modal fade bd-branch-modal-lg" id="branch_detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="content_detail"></div>
+        <!-- <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div> -->
+    </div>
+</div>
+<!-- end modal -->
 
 <!--Start Paket-->
 <div class="col-md-6 col-sm-6 col-lg-6">
@@ -266,33 +294,6 @@
 </div>
 <!--End login Status Col-->
 
-<!-- Large modal -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end modal -->
-
 </div>
 <!--End Row-->
 </div>
@@ -300,10 +301,28 @@
 <!--End Main-content-->
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#myModal').on('show.bs.modal', function (e) {
+        var link    = "<?php echo site_url()?>Admin/dashboard";
+        var tanggal = $("#from-date").val();
+        var rowid   = $(e.relatedTarget).data('id');
+        //menggunakan fungsi ajax untuk pengambilan data
+        $.ajax({
+            type : 'post',
+            url : link,
+            data :  'rowid='+ rowid,
+            success : function(data){
+                history.pushState(null, null,link);  
+                $('.asyn-div').load(link+'/popup/'+rowid+'/'+tanggal,function() {
+                    $('#content_detail').html(data);//menampilkan data ke dalam modal
+                });
+            }
+        });
+    });
+
     $(".financial-bal").niceScroll({
     cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
-    
+
     var chart;
     chart = c3.generate({
     bindto: '#inc_vs_exp2',

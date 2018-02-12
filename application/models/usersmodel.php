@@ -8,7 +8,7 @@ class usersModel extends CI_Model{
 	public function __construct()
 	{
 		parent::__construct();
-	    $this->db2 = $this->load->database('hvc',TRUE);
+	    $this->db2 = $this->load->database('hvc', TRUE);
 	}
 
 	//get all users  
@@ -36,6 +36,16 @@ class usersModel extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('app_users');
 		$this->db->where('id_users',$users_id);    
+		$query_result=$this->db->get();
+		$result=$query_result->row();
+		return $result;
+	} 
+
+	//get users by username 
+	public function get_users_by_username($username){
+		$this->db->select('*');
+		$this->db->from('app_users');
+		$this->db->where('username',$username);    
 		$query_result=$this->db->get();
 		$result=$query_result->row();
 		return $result;
