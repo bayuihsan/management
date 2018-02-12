@@ -12,7 +12,7 @@
         <div class="col-md-3 col-lg-3 col-sm-3"> 
             <div class="form-group"> 
                 <div class='input-group date' id='date'>
-                    <input type="text" class="form-control" placeholder="Tanggal" name="from-date" id="from-date" value="<?php echo $max_tanggal?>"/>   
+                    <input type="text" class="form-control" placeholder="Month to date" name="from-date" id="from-date" value="<?php echo $max_tanggal?>"/>   
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -291,7 +291,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Persentase Status Sales (<span id="nilaipaket"><?php echo $max_tanggal?></span>) <span id="info_status" style="border-style: double;  float: right;">Jumlah</span></div>
-    <div class="panel-body financial-bal">
+    <div class="panel-body">
         
         <div id="persen_status"></div>
 

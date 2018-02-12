@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="user-scalable=no" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="icon" type="image/png" href="<?php echo base_url() ?>/theme/images/favicon.png">
+<link rel="icon" type="image/png" href="<?php echo base_url() ?>/theme/images/favicon.ico">
 <title>HVC Area 2</title>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,15 +67,11 @@
 <div class="rightheader-menu">
 
 <div class="header-nav-profile">
-    <a id="profile" href=""><img src="<?php echo base_url() ?>/theme/images/avatar.jpg" alt="" />
-        <span class="profile-info"><?php echo $this->session->userdata('username'); ?>
-<?php if ($this->session->userdata('user_type')=='Admin'){ ?>
-<small>Administrator</small>
-<?php }else{ ?>
-<small><?php echo $this->session->userdata('user_type'); ?></small>
-<?php } ?> 
-
-</span><span class="caret"></span>
+  <a id="profile" href=""><img src="<?php echo base_url() ?>/theme/images/avatar.jpg" alt="" />
+    <span class="profile-info"><?php echo $this->session->userdata('username'); ?>
+      <small><?php $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP'); echo $level[$this->session->userdata('level')]; ?></small>
+    </span>
+    <span class="caret"></span>
     </a>
     <ul class="dropdown-profile">
         <li><a href="" data-toggle="modal" data-target="#profileModal"><i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp;Profile</a></li>
