@@ -12,7 +12,7 @@ class users extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('Usermodel','Branchmodel'));
+        $this->load->model(array('usersmodel','Branchmodel'));
     }
     
     public function index(){
