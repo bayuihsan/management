@@ -154,6 +154,30 @@ class Admin extends CI_Controller {
 
     }
 
+    /** Method For backup database  **/
+    public function backupDatabase($action='',$table='')
+    {
+        checkPermission(4);
+        if($action=='asyn'){
+            $this->load->view('content/backup_database');
+        }else if($action==''){    
+            $this->load->view('theme/include/header');
+            $this->load->view('content/backup_database');
+            $this->load->view('theme/include/footer');
+        }
+
+        if($action=='backup'){
+            $this->load->model('Datamodel');
+            $this->Datamodel->backup($table);
+        }
+        /*
+        else if($action=='delete'){
+        $this->load->model('Datamodel');
+        $this->Datamodel->truncate($table);
+        }*/
+
+    }
+
     //Date Wise Income Report
         public function datewiseIncomeReport($action='')
     {
@@ -1148,29 +1172,7 @@ class Admin extends CI_Controller {
 	
 
 
-        /** Method For backup database  **/
-        public function backupDatabase($action='',$table='')
-	{
-        checkPermission('Employee');
-        if($action=='asyn'){
-        $this->load->view('theme/backup_database');
-        }else if($action==''){    
-	    $this->load->view('theme/include/header');
-		$this->load->view('theme/backup_database');
-		$this->load->view('theme/include/footer');
-        }
-
-        if($action=='backup'){
-         $this->load->model('Datamodel');
-         $this->Datamodel->backup($table);
-        }
-        /*
-        else if($action=='delete'){
-        $this->load->model('Datamodel');
-        $this->Datamodel->truncate($table);
-        }*/
-
-	}
+        
 
     /** Method For update profile  **/
     public function updateProfile(){

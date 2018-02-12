@@ -17,8 +17,8 @@
     <div class="panel-heading">Restore Database</div>
     <div class="panel-body add-client">
 <?php 
-$attributes = array('id' => 'restore-database');
-echo form_open_multipart('Admin/backupDatabase/restore',$attributes);
+$attributes //= array('id' => 'restore-database');
+//echo form_open_multipart('Admin/backupDatabase/restore',$attributes);
 ?>
  <div class="form-group"> 
     <label for="account">Restore Database</label>
@@ -45,39 +45,39 @@ echo form_open_multipart('Admin/backupDatabase/restore',$attributes);
         <th>Table Name</th><th width="60">Backup</th>
        
         <tr>
-        <td>accounts</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/accounts" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>App Users</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/app_users" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
         <tr>
-        <td>chart_of_accounts</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/chart_of_accounts" ?>"><i class="fa fa-download"></i></a></td> 
+            <td>Branch</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/branch" ?>"><i class="fa fa-download"></i></a></td> 
         </tr>
 
         <tr>
-        <td>language</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/language" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>CTP</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/ctp" ?>"><i class="fa fa-download"></i></a></td> 
         </tr>
 
         <tr>
-        <td>payee_payers</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/payee_payers" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>Custom Fields</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/custom_fields" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
         <tr>
-        <td>payment_method</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/payment_method" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>Feedback</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/feedback" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
         <tr>
-        <td>repeat_transaction</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/repeat_transaction" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>Kategori Paket</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/kategori_paket" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
         <tr>
