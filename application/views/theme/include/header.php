@@ -356,6 +356,7 @@
     <li><a href="<?php echo site_url('kategori_paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>
     <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
     <li><a href="<?php echo site_url('sales_channel/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Channel</a></li>
+    <li><a href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-calendar-plus-o"></i> MSISDN</a></li>
     <li><a href="<?php echo site_url('users/view') ?>"><i class="fa fa-users"></i> User Management</a></li>
     
 </ul>

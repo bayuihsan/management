@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Sales Person</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Paket</h4></div>
 
 <!--Alert-->
 <div class="system-alert-box">
@@ -16,73 +16,48 @@
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Add Sales Person</div>
+    <div class="panel-heading">Add Paket</div>
     <div class="panel-body add-client">
-    <?php if(!isset($edit_salesperson)){ ?>  
-    <form id="add-salesperson">
+    <?php if(!isset($edit_paket)){ ?>  
+    <form id="add-paket">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="sales_id" id="sales_id" value=""/>    
+      <input type="hidden" name="paket_id" id="paket_id" value=""/>    
       <div class="form-group">
-        <label for="acc_name">User Sales</label>
-        <input type="text" class="form-control" name="user_sales" id="user_sales">
+        <label for="acc_name">Nama Paket</label>
+        <input type="text" class="form-control" name="nama_paket" id="nama_paket">
       </div>
       <div class="form-group">
-        <label for="balance">Nama Sales</label>
-        <input type="text" class="form-control" name="nama_sales" id="nama_sales">
-      </div>
-      <div class="form-group">
-        <label for="balance">Branch</label>
-        <select name="branch_id" class="form-control" id="branch_id">
-          <option value="0">-- Pilih Branch --</option>  
-          <?php foreach ($pilihbranch as $pb) {?>
-          <option value="<?php echo $pb->branch_id?>"><?php echo $pb->nama_branch ?></option>
-          <?php } ?>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="balance">ID Users</label>
-        <select name="id_users" class="form-control" id="id_users">
-          <option value="0">-- Pilih ID User --</option>  
-          <?php foreach ($pilihid as $pi) {?>
-          <option value="<?php echo $pi->id_users?>"><?php echo $pi->nama ?></option>
-          <?php } ?>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="balance">No Telp</label>
-        <input type="text" class="form-control" name="no_telp" id="no_telp">
+        <label for="balance">Harga Paket</label>
+        <input type="text" class="form-control" name="harga_paket" id="harga_paket">
       </div>
       <div class="form-group">
         <label for="note">Status</label>
-        <select name="status" class="form-control">
+        <select name="aktif" class="form-control">
           <option value="">Pilih Status</option>
-          <option value="Aktif">Aktif</option>
-          <option value="Tidak Aktif">Tidak Aktif</option>
+          <option value="y">Aktif</option>
+          <option value="n">Tidak Aktif</option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="balance">Nama Bank</label>
-        <input type="text" class="form-control" name="nama_bank" id="nama_bank">
-      </div>
-      <div class="form-group">
-        <label for="balance">No. Rekening</label>
-        <input type="text" class="form-control" name="no_rekening" id="no_rekening">
-      </div>
-      <div class="form-group">
-        <label for="balance">Atas Nama</label>
-        <input type="text" class="form-control" name="atas_nama" id="atas_nama">
+      <div class='form-group'>
+        <label>Kategori</label>
+        <select name="id_kategori" class="form-control" id="id_kategori">
+          <option value="0">-- Pilih Kategori --</option>  
+          <?php foreach ($kategori_paket as $kp) {?>
+          <option value="<?php echo $kp->id_kategori?>"><?php echo $kp->nama_kategori ?></option>
+          <?php } ?>
+        </select>
       </div>
 
-<!--      <div class="form-group">
+      <div class="form-group">
         <label for="note">Input By</label>
         <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
-      </div> -->    
+      </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>
     <?php }else{ ?>
 
-    <form id="add-salesperson">
+    <form id="add-paket">
       <input type="hidden" name="action" id="action" value="update"/>  
       <input type="hidden" name="paket_id" id="paket_id" value="<?php echo $edit_paket->paket_id ?>"/>   
       <div class="form-group">
@@ -158,42 +133,23 @@ $("#harga_paket").keypress(function (e) {
   }
 });
 $('#id_kategori').select2();
-$('#id_users').select2();
-$('#branch_id').select2();
-$("#branch_id").change(function(){
-    var branch_id = {branch_id:$("#branch_id").val()};
-    //alert(sales_channel);
-    $.ajax({
-       type: "POST",
-       url : "<?php echo base_url(); ?>sales_person/tl",
-       data: branch_id,
-       success: function(msg){
-        $('#id_users').html(msg);
-       }
-    });
-  });
 
-$('#add-salesperson').on('submit',function(){    
+$('#add-paket').on('submit',function(){    
   $.ajax({
     method : "POST",
-    url : "<?php echo site_url('salesperson/add/insert') ?>",
+    url : "<?php echo site_url('paket/add/insert') ?>",
     data : $(this).serialize(),
     beforeSend : function(){
       $(".block-ui").css('display','block'); 
     },success : function(data){ 
     if(data=="true"){  
-      sucessAlert("Saved Sucessfully");
+      sucessAlert("Saved Sucessfully"); 
       $(".block-ui").css('display','none'); 
       if($("#action").val()!='update'){        
-        $('#user_sales').val("");
-        $('#nama_sales').val("");
-        $("#branch_id").val("");
-        $('#id_users').val("");      
-        $('#no_telp').val("");      
-        $('#status').val("");      
-        $('#nama_bank').val("");      
-        $('#no_rekening').val("");      
-        $('#atas_nama').val("");      
+        $('#nama_paket').val("");
+        $('#harga_paket').val("");
+        $("#aktif").val("");
+        $('#id_kategori').val("");      
       }
     }else{
       failedAlert2(data);
