@@ -12,7 +12,7 @@
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('msisdn/add') ?>">Add Msisdn</a>
     </div></div>
     <div class="panel-body">
-        <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
+        <table id="repeat-msisdn-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>ID Haloinstan</th>
                 <th>MSISDN</th>
@@ -59,7 +59,7 @@ $(document).ready(function() {
         cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
 
-    $("#repeat-branch-table").DataTable();
+    $("#repeat-msisdn-table").DataTable();
     $(".dataTables_length select").addClass("show_entries");
 
     $(document).on('click','.edit-btn',function(){
