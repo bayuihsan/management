@@ -191,18 +191,67 @@ class ReportModel extends CI_Model{
 
 	}
 
-	public function getContrBranch($tgl = ''){
-		$date=$tgl;	
-		$query=$this->db->query("SELECT b.nama_branch, count(a.psb_id) as jumlah 
-			FROM new_psb a
-			JOIN branch b ON a.branch_id=b.branch_id
-			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')
-			GROUP BY b.nama_branch")->result();
+	public function getContrStatus($tgl = ''){
+		$date=$tgl;		
+		$sukses=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
 
-		return $query;
+		$reject=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='reject' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$retur=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='retur' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$pending=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='pending' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$cancel=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='cancel' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$bentrok=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='bentrok' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$masuk=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='masuk' AND DATE_FORMAT(tanggal_masuk,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$blacklist=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='blacklist' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		$valid=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb
+			WHERE status='valid' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+
+		return array(
+			"sukses"=>$sukses->amount,
+			"reject"=>$reject->amount,
+			"retur"=>$retur->amount,
+			"pending"=>$pending->amount,
+			"cancel"=>$cancel->amount,
+			"bentrok"=>$bentrok->amount,
+			"masuk"=>$masuk->amount,
+			"blacklist"=>$blacklist->amount,
+			"valid"=>$valid->amount,
+		);
 
 	}
+
 
 public function getIncomeExpense(){
 //Get Current Day Income, Expense AND Current Month Income, Expense

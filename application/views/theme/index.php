@@ -291,9 +291,9 @@
 <div class="col-md-6 col-sm-6 col-lg-6">
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
-    <div class="panel-heading">Income Vs Expense - July 2015</div>
+    <div class="panel-heading">Persentase Status Sales (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
     <div class="panel-body">
-        <div id="inc_vs_exp"></div>
+        <div id="persen_status"></div>
 
     </div>
     <!--End Panel Body-->
@@ -402,66 +402,74 @@ $(document).ready(function() {
     });
 
 
-$("#date").datepicker();
+    $("#date").datepicker();
 
-$('#pencarian').on('submit',function(){
-    var link=$(this).attr("action");
-    var tanggal = $("#from-date").val();
-    if(tanggal!=""){
-        
-        //query data
-        $.ajax({
-            method : "POST",    
-            url : link,
-            data : $(this).serialize(),
-            beforeSend : function(){
-                $(".preloader").css("display","block");
-                $(".block-ui").css('display','block');
-            },success : function(data){
-                history.pushState(null, null,link);  
-                $('.asyn-div').load(link+'/view/'+tanggal,function() {
-                    $(".block-ui").css('display','none');  
-                    $("#from-date").val(tanggal);   
-                    $("#nilaidaily").html(tanggal);   
-                    $("#nilaibranch").html(tanggal);   
-                    $("#nilaipaket").html(tanggal);   
-                });
-            }
+    $('#pencarian').on('submit',function(){
+        var link=$(this).attr("action");
+        var tanggal = $("#from-date").val();
+        if(tanggal!=""){
+            
+            //query data
+            $.ajax({
+                method : "POST",    
+                url : link,
+                data : $(this).serialize(),
+                beforeSend : function(){
+                    $(".preloader").css("display","block");
+                    $(".block-ui").css('display','block');
+                },success : function(data){
+                    history.pushState(null, null,link);  
+                    $('.asyn-div').load(link+'/view/'+tanggal,function() {
+                        $(".block-ui").css('display','none');  
+                        $("#from-date").val(tanggal);   
+                        $("#nilaidaily").html(tanggal);   
+                        $("#nilaibranch").html(tanggal);   
+                        $("#nilaipaket").html(tanggal);   
+                    });
+                }
 
-        });
-    }else{
-        swal("Alert","Please Select Date Range.", "info");      
-    }
-
-    return false;
-});
-
-
-chart = c3.generate({
-    bindto: '#inc_vs_exp',
-    data: {
-        columns: [
-            ['Income', <?php echo $pie_data['income'] ?>],
-            ['Expense', <?php echo $pie_data['expense'] ?>],
-        ],
-        type: 'donut',
-        onclick: function(d, i) {
-            console.log("onclick", d, i);
-        },
-        onmouseover: function(d, i) {
-            console.log("onmouseover", d, i);
-        },
-        onmouseout: function(d, i) {
-            console.log("onmouseout", d, i);
+            });
+        }else{
+            swal("Alert","Please Select Date Range.", "info");      
         }
-    },
-    color: {
-        pattern: ['#23c6c8', '#f39c12']
-    },
-    donut: {
-        title: "Income VS Expense"
-    }
-});
+
+        return false;
+    });
+
+
+    chart = c3.generate({
+        bindto: '#persen_status',
+        data: {
+            columns: [
+                ['Sukses', <?php echo $pie_data['sukses'] ?>],
+                ['Reject', <?php echo $pie_data['reject'] ?>],
+                ['Retur', <?php echo $pie_data['retur'] ?>],
+                ['Pending', <?php echo $pie_data['pending'] ?>],
+                ['Cancel', <?php echo $pie_data['cancel'] ?>],
+                ['Bentrok', <?php echo $pie_data['bentrok'] ?>],
+                ['Masuk', <?php echo $pie_data['masuk'] ?>],
+                ['Blacklist', <?php echo $pie_data['blacklist'] ?>],
+                ['Valid', <?php echo $pie_data['valid'] ?>],
+            ],
+            type: 'donut',
+            onclick: function(d, i) {
+                alert(d['name']+' : '+d['value']);
+                // console.log("onclick", d, i);
+            },
+            // onmouseover: function(d, i) {
+            //     console.log("onmouseover", d, i);
+            // },
+            // onmouseout: function(d, i) {
+            //     console.log("onmouseout", d, i);
+            // }
+        },
+        // color: {
+        //     pattern: ['#23c6c8', '#f39c12']
+        // },
+        donut: {
+            title: "% Status Sales"
+        }
+    });
    
 });
 

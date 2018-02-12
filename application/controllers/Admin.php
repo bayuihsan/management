@@ -31,7 +31,7 @@ class Admin extends CI_Controller {
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
-            $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
+            $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/index',$data);
         }else if($action==''){
@@ -42,7 +42,7 @@ class Admin extends CI_Controller {
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
-            $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
+            $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/include/header');
     		$this->load->view('theme/index',$data);
@@ -55,7 +55,7 @@ class Admin extends CI_Controller {
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
-            $data['pie_data']=$this->Reportmodel->sumOfIncomeExpense();
+            $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/index',$data);
         }
