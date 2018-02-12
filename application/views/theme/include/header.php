@@ -355,19 +355,17 @@
     <li><a href="<?php echo site_url('paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Paket</a></li>
     <li><a href="<?php echo site_url('kategori_paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>
     <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
+    <li><a href="<?php echo site_url('sales_channel/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Channel</a></li>
     <li><a href="<?php echo site_url('users/view') ?>"><i class="fa fa-users"></i> User Management</a></li>
+    
 </ul>
 </li>
 <li class="has-sub">
 <a href="#"><i class="fa fa-cog"></i>
 <span class="title">Administration</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('Admin/chartOfAccounts') ?>"><i class="fa fa-book"></i> Chart Of Accounts</a></li>
-    <li><a href="<?php echo site_url('Admin/payeeAndPayers') ?>"><i class="fa fa-exchange"></i> Payees and payers</a></li>
-    <li><a href="<?php echo site_url('Admin/paymentMethod') ?>"><i class="fa fa-credit-card"></i> Payment Methods</a></li>
-    <li><a href="<?php echo site_url('Admin/userManagement') ?>"><i class="fa fa-users"></i> User Management</a></li>
-    <li><a href="<?php echo site_url('custom_fields/add') ?>"><i class="fa fa-language"></i>Custom Fields</a></li>
     <li><a href="<?php echo site_url('Admin/generalSettings') ?>"><i class="fa fa-cogs"></i> General Settings</a></li>
+    <li><a href="<?php echo site_url('custom_fields/add') ?>"><i class="fa fa-language"></i>Custom Fields</a></li>
     <li><a href="<?php echo site_url('Admin/backupDatabase') ?>"><i class="fa fa-database"></i> Backup Database</a></li>
 </ul>
 </li>

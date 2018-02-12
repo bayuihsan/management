@@ -15,6 +15,10 @@ class Kategori_paket extends CI_Controller {
         $this->load->model(array('Kategoripaketmodel'));
     }
     
+    public function index(){
+        redirect('Kategori_paket/view');
+    }
+    
 	public function view($action='')
 	{
         checkPermission(4);

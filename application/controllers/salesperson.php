@@ -15,6 +15,10 @@ class Salesperson extends CI_Controller {
         $this->load->model(array('Salespersonmodel','Branchmodel','usersmodel'));
     }
     
+    public function index(){
+        redirect('Salesperson/view');
+    }
+    
 	public function view($action='')
 	{   
         $data=array();

@@ -15,6 +15,10 @@ class Branch extends CI_Controller {
         $this->load->model(array('Branchmodel'));
     }
     
+    public function index(){
+        redirect('branch/view');
+    }
+
 	public function view($action='')
 	{   
         $data=array();

@@ -136,26 +136,62 @@
 <div class="modal fade bd-branch-modal-lg" id="branch_detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div id="content_detail"></div>
-        <!-- <div class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">New message</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
+            <div class="modal-body" style="overflow: auto;">
+                <div id="inc_vs_exp3"></div>
+                <script type="text/javascript">
+                $(document).ready(function() {
+                
+                    var chart;
+                    chart = c3.generate({
+                        bindto: '#inc_vs_exp3',
+                        data: {
+                            x: 'x',
+                    //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
+                            columns: [
+                                ['x'
+
+                                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
+                                 echo ",";    
+                                 echo "'".$line_chart[0][$i]['date']."'"; 
+                                } ?>
+
+                                ],
+
+                                ['Aktif', 
+                                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
+                                echo  $line_chart[0][$i]['amount'].",";
+                                } ?>
+                                ],
+
+                                // ['Pending', 
+                                // <?php // for($i=1;$i<=count($line_chart[1]);$i++){ 
+                                // echo  $line_chart[1][$i]['amount'].",";
+                                // } ?>
+                                // ],
+
+                                
+                            ]
+                        },
+                        axis: {
+                            x: {
+                                type: 'timeseries',
+                                tick: {
+                                    format: '%Y-%m-%d'
+                                }
+                            }
+                        }
+                    });
+                });
+                </script>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 <!-- end modal -->
@@ -320,49 +356,50 @@ $(document).ready(function() {
     });
 
     $(".financial-bal").niceScroll({
-    cursorwidth: "8px",cursorcolor:"#7f8c8d"
+        cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
+
 
     var chart;
     chart = c3.generate({
-    bindto: '#inc_vs_exp2',
-    data: {
-        x: 'x',
-//        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-        columns: [
-            ['x'
+        bindto: '#inc_vs_exp2',
+        data: {
+            x: 'x',
+    //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
+            columns: [
+                ['x'
 
-            <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
-             echo ",";    
-             echo "'".$line_chart[0][$i]['date']."'"; 
-            } ?>
+                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
+                 echo ",";    
+                 echo "'".$line_chart[0][$i]['date']."'"; 
+                } ?>
 
-            ],
+                ],
 
-            ['Aktif', 
-            <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
-            echo  $line_chart[0][$i]['amount'].",";
-            } ?>
-            ],
+                ['Aktif', 
+                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
+                echo  $line_chart[0][$i]['amount'].",";
+                } ?>
+                ],
 
-            // ['Pending', 
-            // <?php // for($i=1;$i<=count($line_chart[1]);$i++){ 
-            // echo  $line_chart[1][$i]['amount'].",";
-            // } ?>
-            // ],
+                // ['Pending', 
+                // <?php // for($i=1;$i<=count($line_chart[1]);$i++){ 
+                // echo  $line_chart[1][$i]['amount'].",";
+                // } ?>
+                // ],
 
-            
-        ]
-    },
-    axis: {
-        x: {
-            type: 'timeseries',
-            tick: {
-                format: '%Y-%m-%d'
+                
+            ]
+        },
+        axis: {
+            x: {
+                type: 'timeseries',
+                tick: {
+                    format: '%Y-%m-%d'
+                }
             }
         }
-    }
-});
+    });
 
 
 $("#date").datepicker();

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Paket extends CI_Controller {
+class sales_channel extends CI_Controller {
 
     // db2 digunakan untuk mengakses database ke-2
     private $db2;
@@ -12,22 +12,21 @@ class Paket extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Kategoripaketmodel', 'Paketmodel'));
+        $this->load->model(array('sales_channelmodel'));
     }
     
     public function index(){
-        redirect('Paket/view');
+        redirect('sales_channel/view');
     }
-    
 	public function view($action='')
 	{   
         $data=array();
-        $data['paket']=$this->Paketmodel->get_all(); 
+        $data['sales_channel']=$this->sales_channelmodel->get_all(); 
         if($action=='asyn'){
-            $this->load->view('content/paket/list',$data);
+            $this->load->view('content/sales_channel/list',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-            $this->load->view('content/paket/list',$data);
+            $this->load->view('content/sales_channel/list',$data);
             $this->load->view('theme/include/footer');
         }
 	}
@@ -35,12 +34,12 @@ class Paket extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['kategori_paket']=$this->Kategoripaketmodel->get_all(); 
+        $data['kategori_sales_channel']=$this->Kategorisales_channelmodel->get_all(); 
         if($action=='asyn'){
-            $this->load->view('content/paket/add',$data);
+            $this->load->view('content/sales_channel/add',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-    		$this->load->view('content/paket/add',$data);
+    		$this->load->view('content/sales_channel/add',$data);
     		$this->load->view('theme/include/footer');
         }
         //----End Page Load------//
@@ -48,15 +47,15 @@ class Paket extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do=$this->input->post('action',true);     
-            $data['nama_paket']=$this->input->post('nama_paket',true); 
-            $data['harga_paket']=$this->input->post('harga_paket',true); 
+            $data['nama_sales_channel']=$this->input->post('nama_sales_channel',true); 
+            $data['harga_sales_channel']=$this->input->post('harga_sales_channel',true); 
             $data['aktif']=$this->input->post('aktif',true); 
             $data['id_kategori']=$this->input->post('id_kategori',true);  
             $data['update_by']=$this->input->post('update_by',true);  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama_paket', 'Nama Paket', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('harga_paket', 'Harga Paket', 'trim|required|min_length[4]|numeric');
+            $this->form_validation->set_rules('nama_sales_channel', 'Nama sales_channel', 'trim|required|min_length[4]');
+            $this->form_validation->set_rules('harga_sales_channel', 'Harga sales_channel', 'trim|required|min_length[4]|numeric');
             $this->form_validation->set_rules('aktif', 'Status', 'trim|required');
             $this->form_validation->set_rules('id_kategori', 'Kategori', 'trim|required');
             $this->form_validation->set_rules('update_by', 'Input By', 'trim|required');
@@ -65,15 +64,15 @@ class Paket extends CI_Controller {
             {
                 if($do=='insert'){ 
 
-                    $this->db->insert('paket',$data); 
+                    $this->db->insert('sales_channel',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('paket_id',true);
+                    $id=$this->input->post('sales_channel_id',true);
                     
-                    $this->db->where('paket_id', $id);
-                    $this->db->update('paket', $data);
+                    $this->db->where('sales_channel_id', $id);
+                    $this->db->update('sales_channel', $data);
 
                     echo "true";
 
@@ -85,21 +84,21 @@ class Paket extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('paket', array('paket_id' => $param1));       
+            $this->db->delete('sales_channel', array('sales_channel_id' => $param1));       
         }
 	}
 
-    /** Method For get paket information for Branch Edit **/ 
-    public function edit($paket_id,$action='')
+    /** Method For get sales_channel information for Branch Edit **/ 
+    public function edit($sales_channel_id,$action='')
     {
         $data=array();
-        $data['edit_paket']=$this->Paketmodel->get_paket_by_id($paket_id);
-        $data['kategori_paket']=$this->Kategoripaketmodel->get_all();  
+        $data['edit_sales_channel']=$this->sales_channelmodel->get_sales_channel_by_id($sales_channel_id);
+        $data['kategori_sales_channel']=$this->Kategorisales_channelmodel->get_all();  
         if($action=='asyn'){
-            $this->load->view('content/paket/add',$data);
+            $this->load->view('content/sales_channel/add',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-            $this->load->view('content/paket/add',$data);
+            $this->load->view('content/sales_channel/add',$data);
             $this->load->view('theme/include/footer');
         }    
     }   

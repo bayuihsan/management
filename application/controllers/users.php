@@ -15,6 +15,10 @@ class users extends CI_Controller {
         $this->load->model(array('Usermodel','Branchmodel'));
     }
     
+    public function index(){
+        redirect('users/view');
+    }
+
 	public function view($action='')
 	{   
         $data=array();

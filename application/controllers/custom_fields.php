@@ -15,6 +15,10 @@ class custom_fields extends CI_Controller {
         $this->load->model(array('custom_fieldsmodel'));
     }
     
+    public function index(){
+        redirect('custom_fields/add');
+    }
+
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
