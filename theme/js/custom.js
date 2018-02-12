@@ -176,54 +176,52 @@ swal("Paid!", "Your Transaction Has Been Sucessfully Completed.", "success");
 
  
 function loadpage(){
-$(document).on('click','.asyn-menu li a,.slicknav_menu a',function(){		
-var link=$(this).attr("href");
-if(link!='#' && link !=''){  
-$(".block-ui").css('display','block');    
-history.pushState(null, null,link);
-link=link+"/asyn";  
-$('.asyn-div').empty();    
-$('.asyn-div').load(link,function() {
-$(".block-ui").css('display','none');
+    $(document).on('click','.asyn-menu li a,.slicknav_menu a',function(){		
+        var link=$(this).attr("href");
+        if(link!='#' && link !=''){  
+            $(".block-ui").css('display','block');    
+            history.pushState(null, null,link);
+            link=link+"/asyn";  
+            $('.asyn-div').empty();    
+            $('.asyn-div').load(link,function() {
+                $(".block-ui").css('display','none');
+                //Ajdust content
+                if($(".sidebar").width()=="0"){
+                    $(".main-content").css("padding-left","0px");
+                }   
+            }); 
+            $(".asyn-menu li a").removeClass('active-menu');
+            $(".slicknav_menu a").removeClass('active-menu');
+            $(this).addClass('active-menu'); 
 
+        }   
 
-//Ajdust content
-if($(".sidebar").width()=="0"){
-$(".main-content").css("padding-left","0px");
-}   
-}); 
-$(".asyn-menu li a").removeClass('active-menu');
-$(".slicknav_menu a").removeClass('active-menu');
-$(this).addClass('active-menu'); 
-
-}   
-
-return false;
-});
+        return false;
+    });
 
 }
 
 function loadpage2(){
-$(document).on('click','.asyn-link',function(){
-var link=$(this).attr("href");
-if(link!='#' && link !=''){  
-$(".block-ui").css('display','block');    
-history.pushState(null, null,link);
-link=link+"/asyn";  
-$('.asyn-div').empty();    
-$('.asyn-div').load(link,function() {
-$(".block-ui").css('display','none');
-//Ajdust content
-if($(".sidebar").width()=="0"){
-$(".main-content").css("padding-left","0px");
-}
-}); 
-$(".asyn-menu li a").removeClass('active-menu');
-$(".slicknav_menu a").removeClass('active-menu');
-$(this).addClass('active-menu');    
-}   
-return false;
-});
+    $(document).on('click','.asyn-link',function(){
+        var link=$(this).attr("href");
+        if(link!='#' && link !=''){  
+            $(".block-ui").css('display','block');    
+            history.pushState(null, null,link);
+            link=link+"/asyn";  
+            $('.asyn-div').empty();    
+            $('.asyn-div').load(link,function() {
+            $(".block-ui").css('display','none');
+                //Ajdust content
+                if($(".sidebar").width()=="0"){
+                $(".main-content").css("padding-left","0px");
+                }
+            }); 
+            $(".asyn-menu li a").removeClass('active-menu');
+            $(".slicknav_menu a").removeClass('active-menu');
+            $(this).addClass('active-menu');    
+        }   
+        return false;
+    });
 
 }
 

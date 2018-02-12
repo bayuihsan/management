@@ -34,7 +34,7 @@ class ReportModel extends CI_Model{
 		$curmonth_query=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb 
 			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-		INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')");	
+		INTERVAL 1 MONTH)), 1) AND '".$date."'");	
 		$curmonth_result=$curmonth_query->row();
 
 		//Current Day Revenue
@@ -49,7 +49,7 @@ class ReportModel extends CI_Model{
 			FROM new_psb a
 			JOIN paket b ON a.paket_id=b.paket_id 
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-		INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')");	
+		INTERVAL 1 MONTH)), 1) AND '".$date."'");	
 		$monthrev_result=$monthrev_query->row();
 
 		$transaction=array(
@@ -74,8 +74,8 @@ class ReportModel extends CI_Model{
 
 		$sukses_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$date."') as m_name FROM new_psb where
 		status='sukses' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
-		ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND
-		LAST_DAY('".$date."') GROUP BY tanggal_aktif")->result();
+		'".$date1."' AND
+		'".$date."' GROUP BY tanggal_aktif")->result();
 
 		// $pending_query=$this->db->query("SELECT DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') as tanggal_validasi ,count(psb_id) as amount,MONTHNAME('".$date."') as m_name FROM new_psb where
 		// status='pending' AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') between 
@@ -90,7 +90,7 @@ class ReportModel extends CI_Model{
 		// $j=0;
 
 		$day=1;
-		while (strtotime($date1) <= strtotime($date2)) {
+		while (strtotime($date1) <= strtotime($date)) {
 			//For sukses
 			if($maxsukses>0){
 				if($date1==$sukses_query[$i]->tanggal_aktif){	
@@ -135,8 +135,7 @@ class ReportModel extends CI_Model{
 			FROM new_psb a 
 			JOIN branch b ON a.branch_id=b.branch_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				LAST_DAY('".$tgl."') GROUP BY b.nama_branch order by amount desc limit ".$limit." ")->result();
+				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' GROUP BY b.nama_branch order by amount desc limit ".$limit." ")->result();
 
 		$result=$sukses_query;
 		return $result;
@@ -152,7 +151,7 @@ class ReportModel extends CI_Model{
 			JOIN paket b ON a.paket_id=b.paket_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
 				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				LAST_DAY('".$tgl."') GROUP BY b.nama_paket order by amount desc limit ".$limit." ")->result();
+				'".$tgl."' GROUP BY b.nama_paket order by amount desc limit ".$limit." ")->result();
 
 		$result=$paket_query;
 		return $result;
@@ -167,7 +166,7 @@ class ReportModel extends CI_Model{
 			FROM new_psb 
 			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
 				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				LAST_DAY('".$tgl."') GROUP BY sales_channel order by amount desc limit ".$limit." ")->result();
+				'".$tgl."' GROUP BY sales_channel order by amount desc limit ".$limit." ")->result();
 
 		$result=$channel_query;
 		return $result;
@@ -184,7 +183,7 @@ class ReportModel extends CI_Model{
 			JOIN branch c on a.branch_id=c.branch_id
 			WHERE a.status='sukses' AND b.level='3' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
 				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				LAST_DAY('".$tgl."') GROUP BY b.nama order by amount desc limit ".$limit." ")->result();
+				'".$tgl."' GROUP BY b.nama order by amount desc limit ".$limit." ")->result();
 
 		$result=$tl_query;
 		return $result;
@@ -196,47 +195,47 @@ class ReportModel extends CI_Model{
 		$sukses=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$reject=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='reject' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$retur=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='retur' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$pending=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='pending' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$cancel=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='cancel' AND DATE_FORMAT(tanggal_validasi,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$bentrok=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='bentrok' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$masuk=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='masuk' AND DATE_FORMAT(tanggal_masuk,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$blacklist=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='blacklist' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		$valid=$this->db->query("SELECT count(psb_id) as amount 
 			FROM new_psb
 			WHERE status='valid' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between 
-			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')")->row();
+			ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'")->row();
 
 		return array(
 			"sukses"=>$sukses->amount,
@@ -269,13 +268,13 @@ $expense_result=$expense_query->row();
 //Current Month Income
 $query1=$this->db2->query("SELECT sum(amount) as amount FROM `transaction` 
 WHERE type='Income'And trans_date between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')");	
+INTERVAL 1 MONTH)), 1) AND '".$date."'");	
 $curmonth_income_result=$query1->row();
 
 //Current Month Expense
 $query2=$this->db2->query("SELECT sum(amount) as amount FROM `transaction` 
 WHERE type='Expense'And trans_date between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-INTERVAL 1 MONTH)), 1) AND LAST_DAY('".$date."')");	
+INTERVAL 1 MONTH)), 1) AND '".$date."'");	
 $curmonth_expense_result=$query2->row();
 
 

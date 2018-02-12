@@ -19,7 +19,6 @@
                 </div>
             </div> 
         </div>
-
         <div class="col-md-1 col-lg-1 col-sm-1"> 
             <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
         </div>
@@ -291,8 +290,9 @@
 <div class="col-md-6 col-sm-6 col-lg-6">
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
-    <div class="panel-heading">Persentase Status Sales (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body">
+    <div class="panel-heading">Persentase Status Sales (<span id="nilaipaket"><?php echo $max_tanggal?></span>) <span id="info_status" style="border-style: double;  float: right;">Jumlah</span></div>
+    <div class="panel-body financial-bal">
+        
         <div id="persen_status"></div>
 
     </div>
@@ -337,23 +337,6 @@
 <!--End Main-content-->
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#myModal').on('show.bs.modal', function (e) {
-        var link    = "<?php echo site_url()?>Admin/dashboard";
-        var tanggal = $("#from-date").val();
-        var rowid   = $(e.relatedTarget).data('id');
-        //menggunakan fungsi ajax untuk pengambilan data
-        $.ajax({
-            type : 'post',
-            url : link,
-            data :  'rowid='+ rowid,
-            success : function(data){
-                history.pushState(null, null,link);  
-                $('.asyn-div').load(link+'/popup/'+rowid+'/'+tanggal,function() {
-                    $('#content_detail').html(data);//menampilkan data ke dalam modal
-                });
-            }
-        });
-    });
 
     $(".financial-bal").niceScroll({
         cursorwidth: "8px",cursorcolor:"#7f8c8d"
@@ -407,27 +390,15 @@ $(document).ready(function() {
     $('#pencarian').on('submit',function(){
         var link=$(this).attr("action");
         var tanggal = $("#from-date").val();
+        $(".block-ui").css('display','block'); 
         if(tanggal!=""){
-            
-            //query data
-            $.ajax({
-                method : "POST",    
-                url : link,
-                data : $(this).serialize(),
-                beforeSend : function(){
-                    $(".preloader").css("display","block");
-                    $(".block-ui").css('display','block');
-                },success : function(data){
-                    history.pushState(null, null,link);  
-                    $('.asyn-div').load(link+'/view/'+tanggal,function() {
-                        $(".block-ui").css('display','none');  
-                        $("#from-date").val(tanggal);   
-                        $("#nilaidaily").html(tanggal);   
-                        $("#nilaibranch").html(tanggal);   
-                        $("#nilaipaket").html(tanggal);   
-                    });
-                }
-
+            history.pushState(null, null,link);  
+            $('.asyn-div').load(link+'/view/'+tanggal,function() {
+                $(".block-ui").css('display','none');  
+                $("#from-date").val(tanggal);   
+                $("#nilaidaily").html(tanggal);   
+                $("#nilaibranch").html(tanggal);   
+                $("#nilaipaket").html(tanggal);   
             });
         }else{
             swal("Alert","Please Select Date Range.", "info");      
@@ -456,9 +427,11 @@ $(document).ready(function() {
                 alert(d['name']+' : '+d['value']);
                 // console.log("onclick", d, i);
             },
-            // onmouseover: function(d, i) {
-            //     console.log("onmouseover", d, i);
-            // },
+            onmouseover: function(d, i) {
+                document.getElementById("info_status").innerHTML = d['name']+' : '+d['value'].toLocaleString(undefined,{ minimumFractionDigits: 0 }
+);
+                // console.log("onmouseover", d, i);
+            },
             // onmouseout: function(d, i) {
             //     console.log("onmouseout", d, i);
             // }

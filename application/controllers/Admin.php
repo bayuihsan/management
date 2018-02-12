@@ -1169,10 +1169,6 @@ class Admin extends CI_Controller {
         }
 	}
     
-	
-
-
-        
 
     /** Method For update profile  **/
     public function updateProfile(){
