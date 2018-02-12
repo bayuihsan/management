@@ -12,7 +12,7 @@ class Salesperson extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Salespersonmodel','Branchmodel'));
+        $this->load->model(array('Salespersonmodel','Branchmodel','usersmodel'));
     }
     
 	public function view($action='')
@@ -27,12 +27,27 @@ class Salesperson extends CI_Controller {
             $this->load->view('theme/include/footer');
         }
 	}
+
+    function tl()
+    {
+        $branch_id = $this->input->post('branch_id');
+        //$data['sales'] = $sales_channel;
+        $data['tl_branch'] = $this->input->post('tl');
+        if($branch_id=="ALL" || $branch_id=='17'){
+            $data['tl'] = $this->mcrud->kondisi("app_users",array('level'=>3,'keterangan'=>'Aktif'))->result();
+        }else{
+            $data['tl'] = $this->mcrud->kondisi("app_users",array('branch_id'=>$branch_id,'level'=>3,'keterangan'=>'Aktif'))->result();
+        }
+        
+        $this->load->view('sales_person/tl',$data);
+    }
     
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
         $data['add-salesperson']=$this->Salespersonmodel->get_all();
-        $data['pilihbranch']=$this->Branchmodel->get_all(); 
+        $data['pilihbranch']=$this->Branchmodel->get_all();  
+        $data['pilihid']=$this->usersmodel->get_all_tl(); 
         if($action=='asyn'){
             $this->load->view('content/sales_person/add',$data);
         }else if($action==''){
@@ -95,6 +110,7 @@ class Salesperson extends CI_Controller {
         $data=array();
         $data['edit_salesperson']=$this->Salespersonmodel->get_salesperson_by_id($id_salesperson);
         $data['pilihbranch']=$this->Branchmodel->get_all();  
+        $data['pilihid']=$this->usersmodel->get_all_tl();  
         if($action=='asyn'){
             $this->load->view('content/sales_person/add',$data);
         }else if($action==''){

@@ -21,7 +21,15 @@ class usersModel extends CI_Model{
 		$result=$query_result->result();
 		return $result;
 
-	} 
+	}
+
+
+	public function get_all_tl(){  
+		$query_result=$this->db->query("Select * from app_users where level='3' and keterangan='Aktif'");
+		$result=$query_result->result();
+		return $result;
+
+	}
 
 	//get users by id  
 	public function get_users_by_id($users_id){

@@ -41,7 +41,12 @@
       </div>
       <div class="form-group">
         <label for="balance">ID Users</label>
-        <input type="text" class="form-control" name="id_users" id="id_users">
+        <select name="id_users" class="form-control" id="id_users">
+          <option value="0">-- Pilih ID User --</option>  
+          <?php foreach ($pilihid as $pi) {?>
+          <option value="<?php echo $pi->id_users?>"><?php echo $pi->nama ?></option>
+          <?php } ?>
+        </select>
       </div>
       <div class="form-group">
         <label for="balance">No Telp</label>
@@ -152,6 +157,20 @@ $("#harga_paket").keypress(function (e) {
   }
 });
 $('#id_kategori').select2();
+$('#id_users').select2();
+$('#branch_id').select2();
+$("#branch_id").change(function(){
+    var branch_id = {branch_id:$("#branch_id").val()};
+    //alert(sales_channel);
+    $.ajax({
+       type: "POST",
+       url : "<?php echo base_url(); ?>sales_person/tl",
+       data: branch_id,
+       success: function(msg){
+        $('#id_users').html(msg);
+       }
+    });
+  });
 
 $('#add-salesperson').on('submit',function(){    
   $.ajax({
