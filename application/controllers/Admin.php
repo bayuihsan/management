@@ -14,7 +14,9 @@ class Admin extends CI_Controller {
     
 	public function index()
 	{   
-        redirect('Admin/dashboard');
+        $this->load->view('theme/include/header');
+        $this->load->view('content/index_2');
+        $this->load->view('theme/include/footer');
 	}
 	
     /** Method For dashboard **/ 

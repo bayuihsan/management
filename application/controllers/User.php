@@ -20,7 +20,7 @@ class User extends CI_Controller {
 	//Method for view login page 
 	public function index(){
 	    if($this->session->userdata('logged_in')==TRUE){
-        	redirect('Admin/dashboard');    
+        	redirect('Admin');    
         }
         $data=array();
 		$this->load->view('theme/login');	
@@ -29,7 +29,7 @@ class User extends CI_Controller {
 	//Method for varify login information 
 	public function varifyUser(){
         if($this->session->userdata('logged_in')==TRUE){
-    	    redirect('Admin/dashboard');    
+    	    redirect('Admin');    
         }
         $username=$this->input->post('username',true);
         $password=$this->input->post('password',true);

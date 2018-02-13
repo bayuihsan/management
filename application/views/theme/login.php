@@ -76,7 +76,7 @@
               $(".block-ui").css("display","block");
             },success : function(data){ 
               if(data=='true'){
-                window.location.href ="<?php echo site_url('Admin/dashboard') ?>";
+                window.location.href ="<?php echo site_url('Admin') ?>";
                 $(".block-ui").css("display","none"); 
                 if (!$(".ajax-notify").length){
                   $(".system-alert-box").append("<div class='alert alert-success ajax-notify'></div>");
