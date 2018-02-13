@@ -18,7 +18,7 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Add Sales Channel</div>
     <div class="panel-body add-client">
-    <?php if(!isset($edit_paket)){ ?>  
+    <?php if(!isset($edit_sales_channel)){ ?>  
     <form id="add-paket">
       <input type="hidden" name="action" id="action" value="insert"/>  
       <input type="hidden" name="paket_id" id="paket_id" value=""/>    
@@ -44,41 +44,18 @@
 
     <form id="add-paket">
       <input type="hidden" name="action" id="action" value="update"/>  
-      <input type="hidden" name="paket_id" id="paket_id" value="<?php echo $edit_paket->paket_id ?>"/>   
+      <input type="hidden" name="id_channel" id="id_channel" value="<?php echo $edit_sales_channel->id_channel ?>"/>   
       <div class="form-group">
-        <label for="nama_paket">Nama Paket</label>
-        <input type="text" class="form-control" name="nama_paket" id="nama_paket" value="<?php echo $edit_paket->nama_paket ?>">
+        <label for="sales_channel">Sales Channel</label>
+        <input type="text" class="form-control" name="sales_channel" id="sales_channel" value="<?php echo $edit_sales_channel->sales_channel ?>">
       </div>
       <div class="form-group">
-        <label for="ketua">Harga Paket</label>
-        <input type="text" class="form-control" name="harga_paket" id="harga_paket" value="<?php echo $edit_paket->harga_paket ?>">
+        <label for="ketua">Branch</label>
+        <input type="text" class="form-control" name="branch_id" id="branch_id" value="<?php echo $edit_sales_channel->branch_id ?>">
       </div>
       <div class="form-group">
-        <label for="status">Status</label>
-        <select name="aktif" class="form-control">
-          <option value="">Pilih Status</option>
-          <?php if($edit_paket->aktif == "y"){ ?>
-          <option value="y" selected="selected">Aktif</option>
-          <option value="n">Tidak Aktif</option>
-          <?php }else{ ?>
-          <option value="y">Aktif</option>
-          <option value="n" selected="selected">Tidak Aktif</option>
-          <?php } ?>
-        </select>
-      </div>
-      <div class='form-group'>
-        <label>Kategori</label>
-        <select name="id_kategori" class="form-control" id="id_kategori">
-          <option value="0">-- Pilih Kategori --</option>  
-          <?php foreach ($kategori_paket as $kp) {
-            if($edit_paket->id_kategori == $kp->id_kategori){
-            ?>
-          <option value="<?php echo $kp->id_kategori?>" selected><?php echo $kp->nama_kategori ?></option>
-          <?php } else { ?>
-          <option value="<?php echo $kp->id_kategori?>"><?php echo $kp->nama_kategori ?></option>  
-          <?php }
-          }?>
-        </select>
+        <label for="ketua">Sub Channel</label>
+        <input type="text" class="form-control" name="sub_channel" id="sub_channel" value="<?php echo $edit_sales_channel->sub_channel ?>">
       </div> 
       <div class="form-group">
         <label for="update_by">Update By</label>

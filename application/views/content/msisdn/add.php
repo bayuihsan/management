@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Paket</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>MSISDN</h4></div>
 
 <!--Alert-->
 <div class="system-alert-box">
@@ -16,19 +16,19 @@
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Add Paket</div>
+    <div class="panel-heading">Add MSISDN</div>
     <div class="panel-body add-client">
-    <?php if(!isset($edit_paket)){ ?>  
+    <?php if(!isset($edit_msisdn)){ ?>  
     <form id="add-paket">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="paket_id" id="paket_id" value=""/>    
+      <input type="hidden" name="id_haloinstan" id="id_haloinstan" value=""/>    
       <div class="form-group">
-        <label for="acc_name">Nama Paket</label>
-        <input type="text" class="form-control" name="nama_paket" id="nama_paket">
+        <label for="acc_name">MSISDN</label>
+        <input type="text" class="form-control" name="msisdn" id="msisdn">
       </div>
       <div class="form-group">
-        <label for="balance">Harga Paket</label>
-        <input type="text" class="form-control" name="harga_paket" id="harga_paket">
+        <label for="balance">Tipe</label>
+        <input type="text" class="form-control" name="tipe" id="tipe">
       </div>
       <div class="form-group">
         <label for="note">Status</label>
@@ -39,19 +39,9 @@
         </select>
       </div>
       <div class='form-group'>
-        <label>Kategori</label>
-        <select name="id_kategori" class="form-control" id="id_kategori">
-          <option value="0">-- Pilih Kategori --</option>  
-          <?php foreach ($kategori_paket as $kp) {?>
-          <option value="<?php echo $kp->id_kategori?>"><?php echo $kp->nama_kategori ?></option>
-          <?php } ?>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="note">Input By</label>
-        <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
-      </div>    
+        <label>ID Users</label>
+        <input type="text" class="form-control" name="id_users" id="id_users">
+      </div>   
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>

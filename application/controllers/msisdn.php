@@ -35,12 +35,12 @@ class Msisdn extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['kategori_paket']=$this->Kategoripaketmodel->get_all(); 
+        $data['msisdn']=$this->Msisdnmodel->get_all(); 
         if($action=='asyn'){
-            $this->load->view('content/paket/add',$data);
+            $this->load->view('content/msisdn/add',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-    		$this->load->view('content/paket/add',$data);
+    		$this->load->view('content/msisdn/add',$data);
     		$this->load->view('theme/include/footer');
         }
         //----End Page Load------//
