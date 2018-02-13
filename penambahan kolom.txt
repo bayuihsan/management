@@ -6,3 +6,41 @@ ALTER TABLE `app_users` ADD `no_rekening` INT(30) NULL AFTER `level`, ADD `nama_
 
 ALTER TABLE `paket` ADD `harga_paket` INT NOT NULL AFTER `nama_paket`;
 
+
+SELECT b.branch_id, b.nama_branch, 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('2017-04-30',INTERVAL 1 MONTH)), 1) AND '2017-04-30'),0) AS 'last_month',
+COUNT(a.psb_id) AS amount
+FROM new_psb a 
+JOIN branch b ON a.branch_id=b.branch_id
+WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+	ADDDATE(LAST_DAY(SUBDATE('2017-05-30',INTERVAL 1 MONTH)), 1) AND '2017-05-30' GROUP BY b.nama_branch ORDER BY amount DESC LIMIT 20
+	
+
+SELECT b.paket_id, b.nama_paket, 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND paket_id=b.paket_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('2017-07-07',INTERVAL 1 MONTH)), 1) AND '2017-07-07'),0) AS 'last_month',
+COUNT(a.psb_id) AS amount 
+FROM new_psb a 
+JOIN paket b ON a.paket_id=b.paket_id
+WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+	ADDDATE(LAST_DAY(SUBDATE('2017-08-07',INTERVAL 1 MONTH)), 1) AND
+	'2017-08-07' GROUP BY b.nama_paket ORDER BY amount DESC LIMIT 10
+	
+	
+SELECT b.id_users, b.username, b.nama, c.nama_branch, 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND TL=b.username AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('2017-08-07',INTERVAL 1 MONTH)), 1) AND '2017-08-07'),0) AS 'last_month',
+COUNT(a.psb_id) AS amount 
+FROM new_psb a
+JOIN app_users b ON a.TL=b.username
+JOIN branch c ON a.branch_id=c.branch_id
+WHERE a.status='sukses' AND b.level='3' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+	ADDDATE(LAST_DAY(SUBDATE('2017-08-07',INTERVAL 1 MONTH)), 1) AND
+	'2017-08-07' GROUP BY b.nama ORDER BY amount DESC LIMIT 10
