@@ -105,7 +105,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 12px;">
+    <div class="panel-body financial-bal" style="font-size: 11px;">
         <!--Branch Table-->
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
@@ -216,7 +216,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Paket (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 12px;">
+    <div class="panel-body financial-bal" style="font-size: 11px;">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">PAKET</th>
@@ -260,7 +260,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Channel (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 12px;">
+    <div class="panel-body financial-bal" style="font-size: 11px;">
         <!--Branch Table-->
         <?php $data_cn = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom'); ?>
         <table class="table table-bordered" >
@@ -308,7 +308,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Team Leader (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 12px;">
+    <div class="panel-body financial-bal" style="font-size: 11px;">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">NAMA</th>
@@ -370,7 +370,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Last Login</div>
-    <div class="panel-body financial-bal" style="font-size: 12px;">
+    <div class="panel-body financial-bal" style="font-size: 11px;">
         <table class="table table-bordered ">
             <th>Username</th>
             <th>Branch</th>
