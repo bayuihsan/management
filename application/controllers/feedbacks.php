@@ -16,7 +16,7 @@ class Feedbacks extends CI_Controller {
     }
     
     public function index(){
-        redirect('Feedbacks/view');
+        redirect('feedbacks/view');
     }
     
 	public function view($action='')
@@ -31,32 +31,16 @@ class Feedbacks extends CI_Controller {
             $this->load->view('theme/include/footer');
         }
 	}
-
-    function tl()
-    {
-        $branch_id = $this->input->post('branch_id');
-        //$data['sales'] = $sales_channel;
-        $data['tl_branch'] = $this->input->post('tl');
-        if($branch_id=="ALL" || $branch_id=='17'){
-            $data['tl'] = $this->mcrud->kondisi("app_users",array('level'=>3,'keterangan'=>'Aktif'))->result();
-        }else{
-            $data['tl'] = $this->mcrud->kondisi("app_users",array('branch_id'=>$branch_id,'level'=>3,'keterangan'=>'Aktif'))->result();
-        }
-        
-        $this->load->view('sales_person/tl',$data);
-    }
     
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['add-salesperson']=$this->Salespersonmodel->get_all();
-        $data['pilihbranch']=$this->Branchmodel->get_all();  
-        $data['pilihid']=$this->usersmodel->get_all_tl(); 
+        $data['feedbacks']=$this->Feedbacksmodel->get_all(); 
         if($action=='asyn'){
-            $this->load->view('content/sales_person/add',$data);
+            $this->load->view('content/feedbacks/add',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-    		$this->load->view('content/sales_person/add',$data);
+    		$this->load->view('content/feedbacks/add',$data);
     		$this->load->view('theme/include/footer');
         }
         //----End Page Load------//
