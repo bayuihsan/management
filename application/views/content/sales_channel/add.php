@@ -16,43 +16,28 @@
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Add Paket</div>
+    <div class="panel-heading">Add Sales Channel</div>
     <div class="panel-body add-client">
     <?php if(!isset($edit_paket)){ ?>  
     <form id="add-paket">
       <input type="hidden" name="action" id="action" value="insert"/>  
       <input type="hidden" name="paket_id" id="paket_id" value=""/>    
       <div class="form-group">
-        <label for="acc_name">Nama Paket</label>
-        <input type="text" class="form-control" name="nama_paket" id="nama_paket">
+        <label for="acc_name">Sales Channel</label>
+        <input type="text" class="form-control" name="sales_channel" id="sales_channel">
       </div>
       <div class="form-group">
-        <label for="balance">Harga Paket</label>
-        <input type="text" class="form-control" name="harga_paket" id="harga_paket">
+        <label for="balance">Branch</label>
+        <input type="text" class="form-control" name="branch_id" id="branch_id">
       </div>
       <div class="form-group">
-        <label for="note">Status</label>
-        <select name="aktif" class="form-control">
-          <option value="">Pilih Status</option>
-          <option value="y">Aktif</option>
-          <option value="n">Tidak Aktif</option>
-        </select>
+        <label for="balance">Sub Channel</label>
+        <input type="text" class="form-control" name="sub_channel" id="sub_channel">
       </div>
-      <div class='form-group'>
-        <label>Kategori</label>
-        <select name="id_kategori" class="form-control" id="id_kategori">
-          <option value="0">-- Pilih Kategori --</option>  
-          <?php foreach ($kategori_paket as $kp) {?>
-          <option value="<?php echo $kp->id_kategori?>"><?php echo $kp->nama_kategori ?></option>
-          <?php } ?>
-        </select>
-      </div>
-
       <div class="form-group">
         <label for="note">Input By</label>
         <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
-            
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>
     <?php }else{ ?>

@@ -12,7 +12,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales Channel <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('paket/add') ?>">Add Sales Channel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales_channel/add') ?>">Add Sales Channel</a>
     </div></div>
     <div class="panel-body">
         <table id="sales_channel-table" class="display responsive nowrap" cellspacing="0" width="100%">

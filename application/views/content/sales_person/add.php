@@ -72,7 +72,6 @@
         <label for="balance">Atas Nama</label>
         <input type="text" class="form-control" name="atas_nama" id="atas_nama">
       </div>
-
 <!--      <div class="form-group">
         <label for="note">Input By</label>
         <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
@@ -182,7 +181,7 @@ $('#add-salesperson').on('submit',function(){
       $(".block-ui").css('display','block'); 
     },success : function(data){ 
     if(data=="true"){  
-      sucessAlert("Saved Sucessfully");
+      sucessAlert("Saved Sucessfully"); 
       $(".block-ui").css('display','none'); 
       if($("#action").val()!='update'){        
         $('#user_sales').val("");

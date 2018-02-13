@@ -34,7 +34,7 @@ class sales_channel extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['kategori_sales_channel']=$this->Kategorisales_channelmodel->get_all(); 
+        $data['sales_channel']=$this->sales_channelmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('content/sales_channel/add',$data);
         }else if($action==''){
