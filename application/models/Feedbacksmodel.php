@@ -14,25 +14,26 @@ class Feedbacksmodel extends CI_Model{
 	//get all Branch  
 	public function get_all(){
 		$this->db->select('*');
-		$this->db->from('feedback');    
+		$this->db->from('feedback');  
+		$this->db->order_by("id_feedback", "desc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
 	}
 
-	public function get_datapaket(){
+	public function get_datafeedback(){
 		$this->db->select('*');
-		$this->db->from('kategori_paket');     
+		$this->db->from('feedback');     
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
 	} 
 
 	//get branch by id  
-	public function get_paket_by_id($paket_id){
+	public function get_feedback_by_id($id_feedback){
 		$this->db->select('*');
-		$this->db->from('paket');
-		$this->db->where('paket_id',$paket_id);    
+		$this->db->from('feedback');
+		$this->db->where('id_feedback',$id_feedback);    
 		$query_result=$this->db->get();
 		$result=$query_result->row();
 		return $result;
