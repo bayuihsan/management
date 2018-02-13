@@ -48,13 +48,13 @@ class Kategori_paket extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['nama_kategori']=$this->input->post('nama_kategori',true); 
-            $data['harga_kategori']=$this->input->post('harga_kategori',true);   
+            $do=mysql_real_escape_string($this->input->post('action',true));     
+            $data['nama_kategori']=mysql_real_escape_string($this->input->post('nama_kategori',true)); 
+            $data['harga_kategori']=mysql_real_escape_string($this->input->post('harga_kategori',true));   
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('harga_kategori', 'Harga Kategori', 'trim|required|min_length[3]');
+            $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'trim|required|xss_clean|min_length[4]');
+            $this->form_validation->set_rules('harga_kategori', 'Harga Kategori', 'trim|required|xss_clean|min_length[3]');
 
 
             if (!$this->form_validation->run() == FALSE)

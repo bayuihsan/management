@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Paket</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Sales Channel</h4></div>
 
 <!--Alert-->
 <div class="system-alert-box">
@@ -11,7 +11,7 @@
 </div>
 <!--End Alert-->
 
-
+<?php $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom'); ?>
 <div class="col-md-8 col-lg-8 col-sm-8 branch-div">
 <!--Start Panel-->
 <div class="panel panel-default">
@@ -19,16 +19,26 @@
     <div class="panel-heading">Add Sales Channel</div>
     <div class="panel-body add-client">
     <?php if(!isset($edit_sales_channel)){ ?>  
-    <form id="add-paket">
+    <form id="add-sales_channel">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="paket_id" id="paket_id" value=""/>    
-      <div class="form-group">
-        <label for="acc_name">Sales Channel</label>
-        <input type="text" class="form-control" name="sales_channel" id="sales_channel">
+      <input type="hidden" name="id_channel" id="id_channel" value=""/>    
+      <div class="form-group"> 
+        <label for="sales_channel">Channel</label>
+        <select name="sales_channel" class="form-control" id="sales_channel">  
+          <option value="">Pilih Channel</option>
+          <?php for($i=0; $i<count($channel); $i++) { ?>
+          <option value="<?php echo $i; ?>"><?php echo "(".$i.") ".$channel[$i]; ?></option>
+          <?php } ?>
+        </select>      
       </div>
-      <div class="form-group">
-        <label for="balance">Branch</label>
-        <input type="text" class="form-control" name="branch_id" id="branch_id">
+      <div class="form-group"> 
+        <label for="branch">Branch</label>
+        <select name="branch_id" class="form-control" id="branch">  
+          <option value="">Pilih Branch</option>
+          <?php foreach ($branch as $new) {?>
+          <option value="<?php echo $new->branch_id ?>"><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+          <?php } ?>
+        </select>      
       </div>
       <div class="form-group">
         <label for="balance">Sub Channel</label>
@@ -36,13 +46,13 @@
       </div>
       <div class="form-group">
         <label for="note">Input By</label>
-        <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
+        <input type="text" class="form-control" name="username" id="username" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>
     <?php }else{ ?>
 
-    <form id="add-paket">
+    <form id="add-sales_channel">
       <input type="hidden" name="action" id="action" value="update"/>  
       <input type="hidden" name="id_channel" id="id_channel" value="<?php echo $edit_sales_channel->id_channel ?>"/>   
       <div class="form-group">
@@ -59,7 +69,7 @@
       </div> 
       <div class="form-group">
         <label for="update_by">Update By</label>
-        <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
+        <input type="text" class="form-control" name="username" id="username" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
@@ -87,19 +97,19 @@ if($(".sidebar").width()=="0"){
 } 
 
 //for number only
-$("#harga_paket").keypress(function (e) {
+$("#sdsd").keypress(function (e) {
   //if the letter is not digit then display error and don't type anything
   if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
     //display error message
     return false;
   }
 });
-$('#id_kategori').select2();
+$('#sales_channel, #branch').select2();
 
-$('#add-paket').on('submit',function(){    
+$('#add-sales_channel').on('submit',function(){    
   $.ajax({
     method : "POST",
-    url : "<?php echo site_url('paket/add/insert') ?>",
+    url : "<?php echo site_url('sales_channel/add/insert') ?>",
     data : $(this).serialize(),
     beforeSend : function(){
       $(".block-ui").css('display','block'); 
@@ -108,8 +118,8 @@ $('#add-paket').on('submit',function(){
       sucessAlert("Saved Sucessfully"); 
       $(".block-ui").css('display','none'); 
       if($("#action").val()!='update'){        
-        $('#nama_paket').val("");
-        $('#harga_paket').val("");
+        $('#nama_sales_channel').val("");
+        $('#harga_sales_channel').val("");
         $("#aktif").val("");
         $('#id_kategori').val("");      
       }

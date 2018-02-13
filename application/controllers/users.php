@@ -47,34 +47,34 @@ class users extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['nama']=$this->input->post('nama',true); 
-            $data['no_hp']=$this->input->post('no_hp',true); 
-            $data['branch_id']=$this->input->post('branch_id',true); 
-            $data['channel']=$this->input->post('channel',true);  
-            $data['level']=$this->input->post('level',true);  
-            $data['no_rekening']=$this->input->post('no_rekening',true);  
-            $data['nama_bank']=$this->input->post('nama_bank',true);
-            $data['keterangan']=$this->input->post('keterangan',true);
+            $do=mysql_real_escape_string($this->input->post('action',true));     
+            $data['nama']=mysql_real_escape_string($this->input->post('nama',true)); 
+            $data['no_hp']=mysql_real_escape_string($this->input->post('no_hp',true)); 
+            $data['branch_id']=mysql_real_escape_string($this->input->post('branch_id',true)); 
+            $data['channel']=mysql_real_escape_string($this->input->post('channel',true));  
+            $data['level']=mysql_real_escape_string($this->input->post('level',true));  
+            $data['no_rekening']=mysql_real_escape_string($this->input->post('no_rekening',true));  
+            $data['nama_bank']=mysql_real_escape_string($this->input->post('nama_bank',true));
+            $data['keterangan']=mysql_real_escape_string($this->input->post('keterangan',true));
 
             $data['username'] = $username = str_replace(" ", "_", $this->input->post('username',true));         
                  
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama', 'Nama', 'trim|required|min_length[3]');
-            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|min_length[10]|numeric');
-            $this->form_validation->set_rules('branch_id', 'Branch ', 'trim|required');
-            $this->form_validation->set_rules('channel', 'Channel', 'trim|required');
-            $this->form_validation->set_rules('level', 'Level', 'trim|required');
-            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|numeric|min_length[5]');
-            $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'trim|required');
-            $this->form_validation->set_rules('keterangan', 'Status', 'trim|required');
+            $this->form_validation->set_rules('nama', 'Nama', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
+            $this->form_validation->set_rules('branch_id', 'Branch ', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('channel', 'Channel', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('level', 'Level', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|xss_clean|numeric|min_length[5]');
+            $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('keterangan', 'Status', 'trim|required|xss_clean');
 
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|alpa_numeric|min_length[5]');
 
             if($do == 'insert'){
                 $data['password']=$this->input->post('password',true);
-                $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[repassword]');
-                $this->form_validation->set_rules('repassword', 'Confirm Password', 'trim|required');
+                $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|matches[repassword]');
+                $this->form_validation->set_rules('repassword', 'Confirm Password', 'trim|required|xss_clean');
             }
 
 

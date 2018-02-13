@@ -12,7 +12,7 @@ class sales_channel extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('sales_channelmodel'));
+        $this->load->model(array('sales_channelmodel','Branchmodel'));
     }
     
     public function index(){
@@ -34,7 +34,7 @@ class sales_channel extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['sales_channel']=$this->sales_channelmodel->get_all(); 
+        $data['branch']=$this->Branchmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('content/sales_channel/add',$data);
         }else if($action==''){
@@ -46,19 +46,17 @@ class sales_channel extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['nama_sales_channel']=$this->input->post('nama_sales_channel',true); 
-            $data['harga_sales_channel']=$this->input->post('harga_sales_channel',true); 
-            $data['aktif']=$this->input->post('aktif',true); 
-            $data['id_kategori']=$this->input->post('id_kategori',true);  
-            $data['update_by']=$this->input->post('update_by',true);  
+            $do=mysql_real_escape_string($this->input->post('action',true));     
+            $data['sales_channel']=mysql_real_escape_string($this->input->post('sales_channel',true)); 
+            $data['branch_id']=mysql_real_escape_string($this->input->post('branch_id',true)); 
+            $data['sub_channel']=mysql_real_escape_string($this->input->post('sub_channel',true)); 
+            $data['username']=mysql_real_escape_string($this->input->post('username',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama_sales_channel', 'Nama sales_channel', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('harga_sales_channel', 'Harga sales_channel', 'trim|required|min_length[4]|numeric');
-            $this->form_validation->set_rules('aktif', 'Status', 'trim|required');
-            $this->form_validation->set_rules('id_kategori', 'Kategori', 'trim|required');
-            $this->form_validation->set_rules('update_by', 'Input By', 'trim|required');
+            $this->form_validation->set_rules('sales_channel', 'Nama Channel', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('sub_channel', 'Sub Channel', 'trim|required|xss_clean|alpa_numeric|min_length[3]');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|alpa_numeric');
 
             if (!$this->form_validation->run() == FALSE)
             {

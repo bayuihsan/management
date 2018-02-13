@@ -47,19 +47,19 @@ class Paket extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['nama_paket']=$this->input->post('nama_paket',true); 
-            $data['harga_paket']=$this->input->post('harga_paket',true); 
-            $data['aktif']=$this->input->post('aktif',true); 
-            $data['id_kategori']=$this->input->post('id_kategori',true);  
-            $data['update_by']=$this->input->post('update_by',true);  
+            $do=mysql_real_escape_string($this->input->post('action',true));     
+            $data['nama_paket']=mysql_real_escape_string($this->input->post('nama_paket',true)); 
+            $data['harga_paket']=mysql_real_escape_string($this->input->post('harga_paket',true)); 
+            $data['aktif']=mysql_real_escape_string($this->input->post('aktif',true)); 
+            $data['id_kategori']=mysql_real_escape_string($this->input->post('id_kategori',true));  
+            $data['update_by']=mysql_real_escape_string($this->input->post('update_by',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama_paket', 'Nama Paket', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('harga_paket', 'Harga Paket', 'trim|required|min_length[4]|numeric');
-            $this->form_validation->set_rules('aktif', 'Status', 'trim|required');
-            $this->form_validation->set_rules('id_kategori', 'Kategori', 'trim|required');
-            $this->form_validation->set_rules('update_by', 'Input By', 'trim|required');
+            $this->form_validation->set_rules('nama_paket', 'Nama Paket', 'trim|required|xss_clean|min_length[4]');
+            $this->form_validation->set_rules('harga_paket', 'Harga Paket', 'trim|required|xss_clean|min_length[4]|numeric');
+            $this->form_validation->set_rules('aktif', 'Status', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('id_kategori', 'Kategori', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('update_by', 'Input By', 'trim|required|xss_clean');
 
             if (!$this->form_validation->run() == FALSE)
             {

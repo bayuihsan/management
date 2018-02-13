@@ -15,7 +15,7 @@ class BranchModel extends CI_Model{
 	public function get_all(){
 		$this->db->select('*');
 		$this->db->from('branch');  
-		$this->db->order_by("branch_id", "desc");    
+		$this->db->order_by("nama_branch", "asc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
