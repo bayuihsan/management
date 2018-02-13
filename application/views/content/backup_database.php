@@ -81,27 +81,45 @@ $attributes //= array('id' => 'restore-database');
         </tr>
 
         <tr>
-        <td>settings</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/settings" ?>"><i class="fa fa-download"></i></a></td>  
-        </tr>
-
-         <tr>
-        <td>transaction</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/transaction" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>MSISDN</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/msisdn" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
         <tr>
-        <td>user</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/user" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>New PSB</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/new_psb" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
         <tr>
-        <td>All</td>
-        <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
-        title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/all" ?>"><i class="fa fa-download"></i></a></td>  
+            <td>Paket</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/paket" ?>"><i class="fa fa-download"></i></a></td>  
+        </tr>
+
+        <tr>
+            <td>Sales Channel</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/sales_channel" ?>"><i class="fa fa-download"></i></a></td>  
+        </tr>
+
+        <tr>
+            <td>Sales Person</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/sales_person" ?>"><i class="fa fa-download"></i></a></td>  
+        </tr>
+
+        <tr>
+            <td>settings</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/settings" ?>"><i class="fa fa-download"></i></a></td>  
+        </tr>
+
+        <tr>
+            <td>All</td>
+            <td><a class="btn btn-default download-backup" data-toggle="tooltip" 
+            title="Download Backup" href="<?php echo site_url('Admin/backupDatabase')."/backup/all" ?>"><i class="fa fa-download"></i></a></td>  
         </tr>
 
 

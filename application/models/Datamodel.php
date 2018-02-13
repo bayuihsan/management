@@ -59,19 +59,22 @@ class DataModel extends CI_Model{
 	{
 		if($type == 'all')
 		{
-			$this->db2->truncate('accounts');
-			$this->db2->truncate('chart_of_accounts');
-			$this->db2->truncate('language');
-			$this->db2->truncate('payee_payers');
-			$this->db2->truncate('payment_method');
-			$this->db2->truncate('repeat_transaction');
-			$this->db2->truncate('settings');
-			$this->db2->truncate('transaction');
-			$this->db2->truncate('user');
+			$this->db->truncate('app_users');
+			$this->db->truncate('branch');
+			$this->db->truncate('ctp');
+			$this->db->truncate('custom_fields');
+			$this->db->truncate('feedback');
+			$this->db->truncate('kategori_paket');
+			$this->db->truncate('msisdn');
+			$this->db->truncate('new_psb');
+			$this->db->truncate('paket');
+			$this->db->truncate('sales_channel');
+			$this->db->truncate('sales_person');
+			$this->db->truncate('settings');
 		}
 		else
 		{	
-			$this->db2->truncate($type);
+			$this->db->truncate($type);
 		}
 	}
 
