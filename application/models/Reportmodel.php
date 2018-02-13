@@ -128,14 +128,20 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top branch information 
-	public function getTopBranch($limit=0,$tgl='')
+	public function getTopBranch($limit=0, $lm='', $tgl='')
 	{
 
-		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, MONTHNAME('".$tgl."') as m_name, count(a.psb_id) as amount 
+		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			COUNT(a.psb_id) AS amount 
 			FROM new_psb a 
 			JOIN branch b ON a.branch_id=b.branch_id
-			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' GROUP BY b.nama_branch order by amount desc limit ".$limit." ")->result();
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' GROUP BY b.nama_branch ORDER BY amount DESC LIMIT ".$limit."
+			")->result();
 
 		$result=$sukses_query;
 		return $result;
@@ -143,10 +149,15 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top paket information 
-	public function getTopPaket($limit=0,$tgl='')
+	public function getTopPaket($limit=0, $lm='', $tgl='')
 	{
 
-		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, MONTHNAME('".$tgl."') as m_name, count(a.psb_id) as amount 
+		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND paket_id=b.paket_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.psb_id) as amount 
 			FROM new_psb a 
 			JOIN paket b ON a.paket_id=b.paket_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
@@ -159,14 +170,19 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top channel information 
-	public function getTopChannel($limit=0,$tgl='')
+	public function getTopChannel($limit=0, $lm='', $tgl='')
 	{
 
-		$channel_query=$this->db->query("SELECT sales_channel, MONTHNAME('".$tgl."') as m_name, count(psb_id) as amount 
-			FROM new_psb 
-			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		$channel_query=$this->db->query("SELECT a.sales_channel, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.psb_id) as amount 
+			FROM new_psb a
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
 				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				'".$tgl."' GROUP BY sales_channel order by amount desc limit ".$limit." ")->result();
+				'".$tgl."' GROUP BY a.sales_channel order by amount desc limit ".$limit." ")->result();
 
 		$result=$channel_query;
 		return $result;
@@ -174,10 +190,15 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top TL information 
-	public function getTopTL($limit=0,$tgl='')
+	public function getTopTL($limit=0, $lm='', $tgl='')
 	{
 
-		$tl_query=$this->db->query("SELECT b.id_users, b.nama, c.nama_branch, count(a.psb_id) as amount 
+		$tl_query=$this->db->query("SELECT b.id_users, b.username, b.nama, c.nama_branch, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND TL=b.username AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.psb_id) as amount 
 			FROM new_psb a
 			JOIN app_users b on a.TL=b.username
 			JOIN branch c on a.branch_id=c.branch_id

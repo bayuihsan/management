@@ -23,9 +23,11 @@ class AdminModel extends CI_Model{
 
 	public function getLastLogin($limit = 0){
 		//get Max Date
+		$date = date('Y-m-d');
 		$last_query=$this->db->query("SELECT a.username, b.nama_branch, a.last_login 
 			FROM app_users a
 			JOIN branch b ON a.branch_id=b.branch_id 
+			WHERE DATE_FORMAT(a.last_login,'%Y-%m-%d')='".$date."'
 			ORDER BY last_login desc
 			LIMIT ".$limit." ");	
 		$last_result = $last_query->result();

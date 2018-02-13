@@ -23,41 +23,43 @@ class Admin extends CI_Controller {
         $data=array();
         $tanggal = $this->Reportmodel->getMaxDate();
         $data['max_tanggal'] = $tanggal->tgl_max;
+        $data['lmonth'] = $lm = date('Y-m-d', strtotime('-1 month', strtotime( $tanggal->tgl_max )));
         if($action=='asyn'){
             $param1 = $tanggal->tgl_max;
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
-            $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);
-            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
-            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
-            $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
+            $data['top_branch']=$this->Reportmodel->getTopBranch(20,$lm,$param1);
+            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$lm,$param1);
+            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$lm,$param1);
+            $data['top_tl']=$this->Reportmodel->getTopTL(10,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
-            $this->load->view('theme/index',$data);
+            $this->load->view('content/index',$data);
         }else if($action==''){
             $param1 = $tanggal->tgl_max;
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
-            $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);
-            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
-            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
-            $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
+            $data['top_branch']=$this->Reportmodel->getTopBranch(20,$lm,$param1);
+            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$lm,$param1);
+            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$lm,$param1);
+            $data['top_tl']=$this->Reportmodel->getTopTL(10,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
             $this->load->view('theme/include/header');
-    		$this->load->view('theme/index',$data);
+    		$this->load->view('content/index',$data);
     		$this->load->view('theme/include/footer');
         }else if($action=='view'){
             $data['max_tanggal'] = $param1 = $param1;
+            $data['lmonth'] = $lm = date('Y-m-d', strtotime('-1 month', strtotime( $param1 )));
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
-            $data['top_branch']=$this->Reportmodel->getTopBranch(20,$param1);
-            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$param1);
-            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$param1);
-            $data['top_tl']=$this->Reportmodel->getTopTL(10,$param1);
+            $data['top_branch']=$this->Reportmodel->getTopBranch(20,$lm,$param1);
+            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$lm,$param1);
+            $data['top_channel']=$this->Reportmodel->getTopChannel(10,$lm,$param1);
+            $data['top_tl']=$this->Reportmodel->getTopTL(10,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
-            $this->load->view('theme/index',$data);
+            $this->load->view('content/index',$data);
         }
 	}
 
