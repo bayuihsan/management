@@ -17,8 +17,8 @@
                 <th>ID Haloinstan</th>
                 <th>MSISDN</th>
                 <th>Tipe</th>
-                <th>ID Users</th>
                 <th>Status</th>
+                <th>ID Users</th>
                 <th class="single-action">Action</th>
             </thead>
 
