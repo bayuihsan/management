@@ -55,13 +55,34 @@
     <form id="add-sales_channel">
       <input type="hidden" name="action" id="action" value="update"/>  
       <input type="hidden" name="id_channel" id="id_channel" value="<?php echo $edit_sales_channel->id_channel ?>"/>   
-      <div class="form-group">
-        <label for="sales_channel">Sales Channel</label>
-        <input type="text" class="form-control" name="sales_channel" id="sales_channel" value="<?php echo $edit_sales_channel->sales_channel ?>">
+      <div class="form-group"> 
+        <label for="sales_channel">Channel</label>
+        <select name="sales_channel" class="form-control" id="sales_channel">  
+          <option value="">Pilih Channel</option>
+          <?php for($i=0; $i<count($channel); $i++) { 
+              if($edit_sales_channel->sales_channel == $i){ ?>
+            <option value="<?php echo $i; ?>" selected><?php echo "(".$i.") ".$channel[$i]; ?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $i; ?>"><?php echo "(".$i.") ".$channel[$i]; ?></option>
+            <?php }
+            ?>
+          
+          <?php } ?>
+        </select>      
       </div>
-      <div class="form-group">
-        <label for="ketua">Branch</label>
-        <input type="text" class="form-control" name="branch_id" id="branch_id" value="<?php echo $edit_sales_channel->branch_id ?>">
+      <div class="form-group"> 
+        <label for="branch">Branch</label>
+        <select name="branch_id" class="form-control" id="branch">  
+          <option value="">Pilih Branch</option>
+          <?php foreach ($branch as $new) { 
+            if($edit_sales_channel->branch_id == $new->branch_id){ ?>
+            <option value="<?php echo $new->branch_id ?>" selected><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+          <?php }else{ ?>
+            <option value="<?php echo $new->branch_id ?>"><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+            <?php }
+          
+           } ?>
+        </select>      
       </div>
       <div class="form-group">
         <label for="ketua">Sub Channel</label>
@@ -123,6 +144,7 @@ $('#add-sales_channel').on('submit',function(){
         $("#aktif").val("");
         $('#id_kategori').val("");      
       }
+      document.location.href = '<?php echo base_url()?>/sales_channel';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

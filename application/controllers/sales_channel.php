@@ -55,8 +55,8 @@ class sales_channel extends CI_Controller {
             //-----Validation-----//   
             $this->form_validation->set_rules('sales_channel', 'Nama Channel', 'trim|required|xss_clean|numeric');
             $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required|xss_clean|numeric');
-            $this->form_validation->set_rules('sub_channel', 'Sub Channel', 'trim|required|xss_clean|alpa_numeric|min_length[3]');
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|alpa_numeric');
+            $this->form_validation->set_rules('sub_channel', 'Sub Channel', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
 
             if (!$this->form_validation->run() == FALSE)
             {
@@ -67,9 +67,9 @@ class sales_channel extends CI_Controller {
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('sales_channel_id',true);
+                    $id=$this->input->post('id_channel',true);
                     
-                    $this->db->where('sales_channel_id', $id);
+                    $this->db->where('id_channel', $id);
                     $this->db->update('sales_channel', $data);
 
                     echo "true";
@@ -82,7 +82,7 @@ class sales_channel extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('sales_channel', array('sales_channel_id' => $param1));       
+            $this->db->delete('sales_channel', array('id_channel' => $param1));       
         }
 	}
 
@@ -91,7 +91,7 @@ class sales_channel extends CI_Controller {
     {
         $data=array();
         $data['edit_sales_channel']=$this->sales_channelmodel->get_sales_channel_by_id($sales_channel_id);
-        $data['kategori_sales_channel']=$this->Kategorisales_channelmodel->get_all();  
+        $data['branch']=$this->Branchmodel->get_all();  
         if($action=='asyn'){
             $this->load->view('content/sales_channel/add',$data);
         }else if($action==''){
