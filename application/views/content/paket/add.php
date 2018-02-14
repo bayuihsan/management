@@ -54,6 +54,7 @@
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>paket" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -101,6 +102,7 @@
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>paket" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -151,7 +153,6 @@ $('#add-paket').on('submit',function(){
         $("#aktif").val("");
         $('#id_kategori').val("");      
       }
-      document.location.href = '<?php echo base_url()?>/paket';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

@@ -49,6 +49,7 @@
         <input type="text" class="form-control" name="username" id="username" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>sales_channel" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -94,6 +95,7 @@
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>sales_channel" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -144,7 +146,6 @@ $('#add-sales_channel').on('submit',function(){
         $("#aktif").val("");
         $('#id_kategori').val("");      
       }
-      document.location.href = '<?php echo base_url()?>/sales_channel';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

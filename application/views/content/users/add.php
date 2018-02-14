@@ -98,6 +98,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <input type="password" class="form-control" name="repassword" id="repassword">
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>users" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -194,6 +195,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div>
       
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>users" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
 
  <?php } ?>

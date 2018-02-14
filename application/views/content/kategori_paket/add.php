@@ -36,6 +36,7 @@
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>kategori_paket" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -56,6 +57,7 @@
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>kategori_paket" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -104,7 +106,6 @@ $('#add-kategori').on('submit',function(){
         $('#nama_Kategori').val("");
         $("#harga_Kategori").val("");      
       }
-      document.location.href = '<?php echo base_url()?>/kategori_paket';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');
