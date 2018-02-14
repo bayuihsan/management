@@ -7,10 +7,7 @@ class Upload extends CI_Controller {
 		parent::__construct();
 		$this->load->library(array('PHPExcel','PHPExcel/IOFactory'));
 	}
- public function index()
- { $data['title']='<title> Upload axcel -> mysql</title>';
- $this->template->load('role','isi','update',$data);
-}
+  
 public function update()
 {
   $fileName = $this->input->post('file', TRUE);
@@ -64,6 +61,3 @@ public function update()
  }
 }
 }
-
-/* End of file Admin.php */
-/* Location: ./application/controllers/Admin.php */
