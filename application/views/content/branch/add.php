@@ -45,6 +45,7 @@
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>branch" class="mybtn btn-warning"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -78,6 +79,7 @@
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>branch" class="mybtn btn-warning"><i class="fa fa-back"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -127,7 +129,6 @@ $('#add-branch').on('submit',function(){
         $("#ketua").val("");
         $('#status').val("");      
       }
-      document.location.href = '<?php echo base_url()?>/branch';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

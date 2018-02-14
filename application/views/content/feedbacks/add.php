@@ -21,7 +21,7 @@
     <?php if(!isset($edit_feedbacks)){ ?>  
     <form id="add-feedbacks">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="id_feedbacks" id="id_feedbacks" value=""/>    
+      <input type="hidden" name="id_feedback" id="id_feedback" value=""/>    
       <div class="form-group">
         <label for="acc_name">No HP</label>
         <input type="text" class="form-control" name="no_hp" id="no_hp">
@@ -40,10 +40,11 @@
       </div>
       <div class="form-group">
         <label for="balance">ID Users</label>
-        <input type="text" class="form-control" name="id_users" id="id_users">
+        <input type="text" class="form-control" name="id_users" id="id_users" value="<?php echo $this->session->userdata('id_users')?>" readonly>
       </div>
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>feedbacks" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -69,10 +70,10 @@ if($(".sidebar").width()=="0"){
   $(".main-content").css("padding-left","0px");
 } 
 
-$('#add-salesperson').on('submit',function(){    
+$('#add-feedbacks').on('submit',function(){    
   $.ajax({
     method : "POST",
-    url : "<?php echo site_url('salesperson/add/insert') ?>",
+    url : "<?php echo site_url('feedbacks/add/insert') ?>",
     data : $(this).serialize(),
     beforeSend : function(){
       $(".block-ui").css('display','block'); 
@@ -81,15 +82,10 @@ $('#add-salesperson').on('submit',function(){
       sucessAlert("Saved Sucessfully"); 
       $(".block-ui").css('display','none'); 
       if($("#action").val()!='update'){        
-        $('#user_sales').val("");
-        $('#nama_sales').val("");
-        $("#branch_id").val("");
-        $('#id_users').val("");      
-        $('#no_telp').val("");      
-        $('#status').val("");      
-        $('#nama_bank').val("");      
-        $('#no_rekening').val("");      
-        $('#atas_nama').val("");      
+        $('#no_telp').val("");
+        $('#nama_pelanggan').val("");
+        $("#kota").val("");
+        $('#saran').val("");      
       }
     }else{
       failedAlert2(data);
