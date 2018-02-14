@@ -47,12 +47,12 @@ class Paket extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=mysql_real_escape_string($this->input->post('action',true));     
-            $data['nama_paket']=mysql_real_escape_string($this->input->post('nama_paket',true)); 
-            $data['harga_paket']=mysql_real_escape_string($this->input->post('harga_paket',true)); 
-            $data['aktif']=mysql_real_escape_string($this->input->post('aktif',true)); 
-            $data['id_kategori']=mysql_real_escape_string($this->input->post('id_kategori',true));  
-            $data['update_by']=mysql_real_escape_string($this->input->post('update_by',true));  
+            $do=$this->input->post('action',true);     
+            $data['nama_paket']=$this->input->post('nama_paket',true); 
+            $data['harga_paket']=$this->input->post('harga_paket',true); 
+            $data['aktif']=$this->input->post('aktif',true); 
+            $data['id_kategori']=$this->input->post('id_kategori',true);  
+            $data['update_by']=$this->input->post('update_by',true);  
        
             //-----Validation-----//   
             $this->form_validation->set_rules('nama_paket', 'Nama Paket', 'trim|required|xss_clean|min_length[4]');

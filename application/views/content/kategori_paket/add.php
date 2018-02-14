@@ -104,6 +104,7 @@ $('#add-kategori').on('submit',function(){
         $('#nama_Kategori').val("");
         $("#harga_Kategori").val("");      
       }
+      document.location.href = '<?php echo base_url()?>/kategori_paket';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

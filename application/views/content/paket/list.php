@@ -28,7 +28,7 @@
                 <tr>
                 <td class="date"><?php echo $new->paket_id ?></td>
                 <td><?php echo $new->nama_paket ?></td>
-                <td><?php echo get_current_setting('currency_code')." ".$new->harga_paket ?></td>
+                <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_paket) ?></td>
                 <td><?php if ($new->id_kategori == "1") { echo "Paket > 100"; }else{ echo "Paket < 100"; } ?></td>
                 <td><?php if ($new->aktif == "y") { echo "Aktif"; }else{ echo "Tidak Aktif"; } ?></td>
                 <td><?php echo $new->time_update ?></td>

@@ -35,8 +35,8 @@ class custom_fields extends CI_Controller {
         //----For eksekusi-----// 
         if($action=='eksekusi'){  
             $data=array();
-            $do=mysql_real_escape_string($this->input->post('action',true));     
-            $data['desc_query'] = $input_query = mysql_real_escape_string($this->input->post('input_query',true)); 
+            $do=$this->input->post('action',true);     
+            $data['desc_query'] = $input_query = $this->input->post('input_query',true); 
             $data['id_users'] = $this->input->post('id_users',true);
             //-----Validation-----//   
             $this->form_validation->set_rules('input_query', 'Query', 'trim|required|xss_clean|min_length[4]');

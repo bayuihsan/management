@@ -151,6 +151,7 @@ $('#add-paket').on('submit',function(){
         $("#aktif").val("");
         $('#id_kategori').val("");      
       }
+      document.location.href = '<?php echo base_url()?>/paket';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

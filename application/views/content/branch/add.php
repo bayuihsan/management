@@ -127,6 +127,7 @@ $('#add-branch').on('submit',function(){
         $("#ketua").val("");
         $('#status').val("");      
       }
+      document.location.href = '<?php echo base_url()?>/branch';
     }else{
       failedAlert2(data);
       $(".block-ui").css('display','none');

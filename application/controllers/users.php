@@ -47,15 +47,15 @@ class users extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=mysql_real_escape_string($this->input->post('action',true));     
-            $data['nama']=mysql_real_escape_string($this->input->post('nama',true)); 
-            $data['no_hp']=mysql_real_escape_string($this->input->post('no_hp',true)); 
-            $data['branch_id']=mysql_real_escape_string($this->input->post('branch_id',true)); 
-            $data['channel']=mysql_real_escape_string($this->input->post('channel',true));  
-            $data['level']=mysql_real_escape_string($this->input->post('level',true));  
-            $data['no_rekening']=mysql_real_escape_string($this->input->post('no_rekening',true));  
-            $data['nama_bank']=mysql_real_escape_string($this->input->post('nama_bank',true));
-            $data['keterangan']=mysql_real_escape_string($this->input->post('keterangan',true));
+            $do=$this->input->post('action',true);     
+            $data['nama']=$this->input->post('nama',true); 
+            $data['no_hp']=$this->input->post('no_hp',true); 
+            $data['branch_id']=$this->input->post('branch_id',true); 
+            $data['channel']=$this->input->post('channel',true);  
+            $data['level']=$this->input->post('level',true);  
+            $data['no_rekening']=$this->input->post('no_rekening',true);  
+            $data['nama_bank']=$this->input->post('nama_bank',true);
+            $data['keterangan']=$this->input->post('keterangan',true);
 
             $data['username'] = $username = str_replace(" ", "_", $this->input->post('username',true));         
                  

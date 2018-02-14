@@ -46,11 +46,11 @@ class Branch extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=mysql_real_escape_string($this->input->post('action',true));     
-            $data['nama_branch']=mysql_real_escape_string($this->input->post('nama_branch',true)); 
-            $data['ketua']=mysql_real_escape_string($this->input->post('ketua',true)); 
-            $data['status']=mysql_real_escape_string($this->input->post('status',true));  
-            $data['update_by']=($this->input->post('update_by',true));  
+            $do=$this->input->post('action',true);     
+            $data['nama_branch']=$this->input->post('nama_branch',true); 
+            $data['ketua']=$this->input->post('ketua',true); 
+            $data['status']=$this->input->post('status',true);  
+            $data['update_by']=$this->input->post('update_by',true);  
        
             //-----Validation-----//   
             $this->form_validation->set_rules('nama_branch', 'Nama Branch', 'trim|required|xss_clean|min_length[4]');
