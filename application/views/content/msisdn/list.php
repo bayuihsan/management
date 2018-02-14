@@ -14,6 +14,7 @@
     <div class="panel-body">
         <table id="repeat-msisdn-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
+                <th>NO.</th>
                 <th>ID Haloinstan</th>
                 <th>MSISDN</th>
                 <th>Tipe</th>
@@ -23,8 +24,9 @@
             </thead>
 
             <tbody>
-                <?php foreach($msisdn as $new) { ?>    
+                <?php $no=1; foreach($msisdn as $new) { ?>    
                 <tr>
+                <td><?php echo $no++; ?></td>
                 <td><?php echo $new->id_haloinstan ?></td>
                 <td><?php echo $new->msisdn ?></td>
                 <td><?php echo $new->tipe ?></td>

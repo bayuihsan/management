@@ -48,32 +48,29 @@ class Msisdn extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do=$this->input->post('action',true);     
-            $data['nama_paket']=$this->input->post('nama_paket',true); 
-            $data['harga_paket']=$this->input->post('harga_paket',true); 
-            $data['aktif']=$this->input->post('aktif',true); 
-            $data['id_kategori']=$this->input->post('id_kategori',true);  
-            $data['update_by']=$this->input->post('update_by',true);  
+            $data['msisdn']=$this->input->post('msisdn',true); 
+            $data['tipe']=$this->input->post('tipe',true); 
+            $data['id_users']=$this->input->post('id_users',true); 
+            $data['status']=$this->input->post('status',true);  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama_paket', 'Nama Paket', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('harga_paket', 'Harga Paket', 'trim|required|min_length[4]|numeric');
-            $this->form_validation->set_rules('aktif', 'Status', 'trim|required');
-            $this->form_validation->set_rules('id_kategori', 'Kategori', 'trim|required');
-            $this->form_validation->set_rules('update_by', 'Input By', 'trim|required');
+            $this->form_validation->set_rules('msisdn', 'MSISDN', 'trim|required|min_length[9]|numeric');
+            $this->form_validation->set_rules('tipe', 'Tipe', 'trim|required|min_length[4]');
+            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
 
-                    $this->db->insert('paket',$data); 
+                    $this->db->insert('msisdn',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('paket_id',true);
+                    $id=$this->input->post('id_haloinstan',true);
                     
-                    $this->db->where('paket_id', $id);
-                    $this->db->update('paket', $data);
+                    $this->db->where('id_haloinstan', $id);
+                    $this->db->update('msisdn', $data);
 
                     echo "true";
 

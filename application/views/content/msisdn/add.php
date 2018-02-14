@@ -34,14 +34,14 @@
         <label for="note">Status</label>
         <select name="aktif" class="form-control">
           <option value="">Pilih Status</option>
-          <option value="y">Aktif</option>
-          <option value="n">Tidak Aktif</option>
+          <option value="Aktif">Aktif</option>
+          <option value="Tidak Aktif">Tidak Aktif</option>
         </select>
       </div>
       <div class='form-group'>
         <label>ID Users</label>
-        <input type="text" class="form-control" name="id_users" id="id_users">
-      </div>   
+        <input type="text" class="form-control" name="id_users" id="id_users" value="<?php echo $this->session->userdata('id_users');?>" readonly>
+      </div>
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>
@@ -127,7 +127,7 @@ $('#id_kategori').select2();
 $('#add-paket').on('submit',function(){    
   $.ajax({
     method : "POST",
-    url : "<?php echo site_url('paket/add/insert') ?>",
+    url : "<?php echo site_url('msisdn/add/insert') ?>",
     data : $(this).serialize(),
     beforeSend : function(){
       $(".block-ui").css('display','block'); 
@@ -136,10 +136,10 @@ $('#add-paket').on('submit',function(){
       sucessAlert("Saved Sucessfully"); 
       $(".block-ui").css('display','none'); 
       if($("#action").val()!='update'){        
-        $('#nama_paket').val("");
-        $('#harga_paket').val("");
-        $("#aktif").val("");
-        $('#id_kategori').val("");      
+        $('#msisdn').val("");
+        $('#tipe').val("");
+        $("#status").val("");
+        $('#id_users').val("");      
       }
     }else{
       failedAlert2(data);
