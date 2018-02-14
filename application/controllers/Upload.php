@@ -19,7 +19,7 @@ public function update()
   $config['file_name'] = $fileName;
   $config['allowed_types'] = '*';
   $config['encrypt_name']= TRUE;
-  $config['max_size'] = 1000000000000000;
+  $config['max_size'] = 10000000000;
 
   $this->load->library('upload', $config);
   $this->upload->initialize($config); 
