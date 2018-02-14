@@ -47,36 +47,33 @@ class Feedbacks extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['user_sales']=$this->input->post('user_sales',true); 
-            $data['nama_sales']=$this->input->post('nama_sales',true); 
-            $data['branch_id']=$this->input->post('branch_id',true); 
-            $data['id_users']=$this->input->post('id_kategori',true);  
-            $data['status']=$this->input->post('status',true);  
-            $data['nama_bank']=$this->input->post('nama_bank',true);  
-            $data['no_rekening']=$this->input->post('no_rekening',true);  
-            $data['atas_nama']=$this->input->post('atas_nama',true);  
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['no_hp']          =addslashes($this->input->post('no_hp',true)); 
+            $data['nama_pelanggan'] =addslashes($this->input->post('nama_pelanggan',true)); 
+            $data['kota']           =addslashes($this->input->post('kota',true)); 
+            $data['saran']          =addslashes($this->input->post('saran',true));  
+            $data['id_users']       =addslashes($this->input->post('id_users',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('user_sales', 'User Sales', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required');
-            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required');
-            $this->form_validation->set_rules('status', 'Status', 'trim|required');
+            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
+            $this->form_validation->set_rules('nama_pelanggan', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('kota', 'Kota', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('saran', 'Saran', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required|xss_clean|min_length[3]');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
 
-                    $this->db->insert('sales_person',$data); 
+                    $this->db->insert('feedback',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('id_sales',true);
+                    $id=addslashes($this->input->post('id_feedback',true));
                     
-                    $this->db->where('id_sales', $id);
-                    $this->db->update('sales_person', $data);
+                    $this->db->where('id_feedback', $id);
+                    $this->db->update('feedback', $data);
 
                     echo "true";
 
@@ -88,22 +85,20 @@ class Feedbacks extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('sales_person', array('id_sales' => $param1));       
+            $this->db->delete('feedback', array('id_feedback' => $param1));       
         }
 	}
 
     /** Method For get paket information for Branch Edit **/ 
-    public function edit($id_sales,$action='')
+    public function edit($id_feedback,$action='')
     {
         $data=array();
-        $data['edit_salesperson']=$this->Salespersonmodel->get_salesperson_by_id($id_salesperson);
-        $data['pilihbranch']=$this->Branchmodel->get_all();  
-        $data['pilihid']=$this->usersmodel->get_all_tl();  
+        $data['edit_feedbacks']=$this->Feedbacksmodel->get_feedback_by_id($id_feedback);
         if($action=='asyn'){
-            $this->load->view('content/sales_person/add',$data);
+            $this->load->view('content/feedbacks/add',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-            $this->load->view('content/sales_person/add',$data);
+            $this->load->view('content/feedbacks/add',$data);
             $this->load->view('theme/include/footer');
         }    
     }   

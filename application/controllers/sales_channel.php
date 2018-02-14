@@ -46,11 +46,11 @@ class sales_channel extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['sales_channel']=$this->input->post('sales_channel',true); 
-            $data['branch_id']=$this->input->post('branch_id',true); 
-            $data['sub_channel']=$this->input->post('sub_channel',true); 
-            $data['username']=$this->input->post('username',true);  
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['sales_channel']  =addslashes($this->input->post('sales_channel',true)); 
+            $data['branch_id']      =addslashes($this->input->post('branch_id',true)); 
+            $data['sub_channel']    =addslashes($this->input->post('sub_channel',true)); 
+            $data['username']       =addslashes($this->input->post('username',true));  
        
             //-----Validation-----//   
             $this->form_validation->set_rules('sales_channel', 'Nama Channel', 'trim|required|xss_clean|numeric');

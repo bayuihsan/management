@@ -47,17 +47,17 @@ class users extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['nama']=$this->input->post('nama',true); 
-            $data['no_hp']=$this->input->post('no_hp',true); 
-            $data['branch_id']=$this->input->post('branch_id',true); 
-            $data['channel']=$this->input->post('channel',true);  
-            $data['level']=$this->input->post('level',true);  
-            $data['no_rekening']=$this->input->post('no_rekening',true);  
-            $data['nama_bank']=$this->input->post('nama_bank',true);
-            $data['keterangan']=$this->input->post('keterangan',true);
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['nama']           =addslashes($this->input->post('nama',true)); 
+            $data['no_hp']          =addslashes($this->input->post('no_hp',true)); 
+            $data['branch_id']      =addslashes($this->input->post('branch_id',true)); 
+            $data['channel']        =addslashes($this->input->post('channel',true));  
+            $data['level']          =addslashes($this->input->post('level',true));  
+            $data['no_rekening']    =addslashes($this->input->post('no_rekening',true));  
+            $data['nama_bank']      =addslashes($this->input->post('nama_bank',true));
+            $data['keterangan']     =addslashes($this->input->post('keterangan',true));
 
-            $data['username'] = $username = str_replace(" ", "_", $this->input->post('username',true));         
+            $data['username'] = $username = str_replace(" ", "_", addslashes($this->input->post('username',true)));         
                  
             //-----Validation-----//   
             $this->form_validation->set_rules('nama', 'Nama', 'trim|required|xss_clean|min_length[3]');
@@ -72,7 +72,7 @@ class users extends CI_Controller {
             $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|alpa_numeric|min_length[5]');
 
             if($do == 'insert'){
-                $data['password']=$this->input->post('password',true);
+                $data['password']   =addslashes($this->input->post('password',true));
                 $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|matches[repassword]');
                 $this->form_validation->set_rules('repassword', 'Confirm Password', 'trim|required|xss_clean');
             }
@@ -91,7 +91,7 @@ class users extends CI_Controller {
                     }
                      
                 }else if($do=='update'){
-                    $username1 = $this->input->post('username1',true);
+                    $username1      = addslashes($this->input->post('username1',true));
                     if(count($this->usersmodel->get_users_by_username($username1))>0) {  
 
                         echo "This Username Is Already Exists !!!!"; 

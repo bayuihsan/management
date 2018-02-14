@@ -31,8 +31,8 @@ class User extends CI_Controller {
         if($this->session->userdata('logged_in')==TRUE){
     	    redirect('Admin');    
         }
-        $username=$this->input->post('username',true);
-        $password=$this->input->post('password',true);
+        $username   =addslashes($this->input->post('username',true));
+        $password   =addslashes($this->input->post('password',true));
         
         $this->form_validation->set_rules('username','Username','trim|strip_tags|xss_clean|required');
 		$this->form_validation->set_rules('password','Password','trim|xss_clean|required');

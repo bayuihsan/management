@@ -12,7 +12,7 @@
 <!--End Alert-->
 
 
-<div class="col-md-8 col-lg-8 col-sm-8 branch-div">
+<div class="col-md-8 col-lg-8 col-sm-8 paket-div">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -30,14 +30,6 @@
         <label for="balance">Harga Paket</label>
         <input type="text" class="form-control" name="harga_paket" id="harga_paket">
       </div>
-      <div class="form-group">
-        <label for="note">Status</label>
-        <select name="aktif" class="form-control">
-          <option value="">Pilih Status</option>
-          <option value="y">Aktif</option>
-          <option value="n">Tidak Aktif</option>
-        </select>
-      </div>
       <div class='form-group'>
         <label>Kategori</label>
         <select name="id_kategori" class="form-control" id="id_kategori">
@@ -47,14 +39,22 @@
           <?php } ?>
         </select>
       </div>
-
+      <div class="form-group">
+        <label for="note">Status</label>
+        <select name="aktif" class="form-control">
+          <option value="">Pilih Status</option>
+          <option value="y">Aktif</option>
+          <option value="n">Tidak Aktif</option>
+        </select>
+      </div>
+      
       <div class="form-group">
         <label for="note">Input By</label>
         <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>paket" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
+      <a href="<?php echo base_url()?>paket/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -68,19 +68,6 @@
       <div class="form-group">
         <label for="ketua">Harga Paket</label>
         <input type="text" class="form-control" name="harga_paket" id="harga_paket" value="<?php echo $edit_paket->harga_paket ?>">
-      </div>
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select name="aktif" class="form-control">
-          <option value="">Pilih Status</option>
-          <?php if($edit_paket->aktif == "y"){ ?>
-          <option value="y" selected="selected">Aktif</option>
-          <option value="n">Tidak Aktif</option>
-          <?php }else{ ?>
-          <option value="y">Aktif</option>
-          <option value="n" selected="selected">Tidak Aktif</option>
-          <?php } ?>
-        </select>
       </div>
       <div class='form-group'>
         <label>Kategori</label>
@@ -97,12 +84,26 @@
         </select>
       </div> 
       <div class="form-group">
+        <label for="status">Status</label>
+        <select name="aktif" class="form-control">
+          <option value="">Pilih Status</option>
+          <?php if($edit_paket->aktif == "y"){ ?>
+          <option value="y" selected="selected">Aktif</option>
+          <option value="n">Tidak Aktif</option>
+          <?php }else{ ?>
+          <option value="y">Aktif</option>
+          <option value="n" selected="selected">Tidak Aktif</option>
+          <?php } ?>
+        </select>
+      </div>
+      
+      <div class="form-group">
         <label for="update_by">Update By</label>
         <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>paket" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
+      <a href="<?php echo base_url()?>paket/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -122,46 +123,66 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-if($(".sidebar").width()=="0"){
-  $(".main-content").css("padding-left","0px");
-} 
+  if($(".sidebar").width()=="0"){
+    $(".main-content").css("padding-left","0px");
+  } 
 
-//for number only
-$("#harga_paket").keypress(function (e) {
-  //if the letter is not digit then display error and don't type anything
-  if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
-    //display error message
-    return false;
-  }
-});
-$('#id_kategori').select2();
-
-$('#add-paket').on('submit',function(){    
-  $.ajax({
-    method : "POST",
-    url : "<?php echo site_url('paket/add/insert') ?>",
-    data : $(this).serialize(),
-    beforeSend : function(){
-      $(".block-ui").css('display','block'); 
-    },success : function(data){ 
-    if(data=="true"){  
-      sucessAlert("Saved Sucessfully"); 
-      $(".block-ui").css('display','none'); 
-      if($("#action").val()!='update'){        
-        $('#nama_paket').val("");
-        $('#harga_paket').val("");
-        $("#aktif").val("");
-        $('#id_kategori').val("");      
-      }
-    }else{
-      failedAlert2(data);
-      $(".block-ui").css('display','none');
-    }   
+  //for number only
+  $("#harga_paket").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+    if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+      //display error message
+      return false;
     }
-  });    
-  return false;
+  });
+  $('#id_kategori').select2();
 
-});
+  $('#add-paket').on('submit',function(){    
+    $.ajax({
+      method : "POST",
+      url : "<?php echo site_url('paket/add/insert') ?>",
+      data : $(this).serialize(),
+      beforeSend : function(){
+        $(".block-ui").css('display','block'); 
+      },success : function(data){ 
+      if(data=="true"){  
+        sucessAlert("Saved Sucessfully"); 
+        $(".block-ui").css('display','none'); 
+        if($("#action").val()!='update'){        
+          $('#nama_paket').val("");
+          $('#harga_paket').val("");
+          $("#aktif").val("");
+          $('#id_kategori').val("");      
+        }
+      }else{
+        failedAlert2(data);
+        $(".block-ui").css('display','none');
+      }   
+      }
+    });    
+    return false;
 
+  });
+  $(document).on('click','.kembali',function(){
+
+      var link=$(this).attr("href"); 
+      // alert(link);
+      $.ajax({
+          method : "POST",
+          url : link,
+          beforeSend : function(){
+              $(".block-ui").css('display','block'); 
+          },success : function(data){ 
+              //var link = location.pathname.replace(/^.*[\\\/]/, ''); //get filename only  
+              history.pushState(null, null,link);  
+              $('.asyn-div').load(link+'/asyn',function() {
+                  $(".block-ui").css('display','none');     
+              });     
+             
+          }
+      });
+
+      return false;
+  });
 });
 </script>

@@ -46,11 +46,11 @@ class Branch extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['nama_branch']=$this->input->post('nama_branch',true); 
-            $data['ketua']=$this->input->post('ketua',true); 
-            $data['status']=$this->input->post('status',true);  
-            $data['update_by']=$this->input->post('update_by',true);  
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['nama_branch']    =addslashes($this->input->post('nama_branch',true)); 
+            $data['ketua']          =addslashes($this->input->post('ketua',true)); 
+            $data['status']         =addslashes($this->input->post('status',true));  
+            $data['update_by']      =addslashes($this->input->post('update_by',true));  
        
             //-----Validation-----//   
             $this->form_validation->set_rules('nama_branch', 'Nama Branch', 'trim|required|xss_clean|min_length[4]');
@@ -68,7 +68,7 @@ class Branch extends CI_Controller {
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('branch_id',true);
+                    $id=addslashes($this->input->post('branch_id',true));
                     
                     $this->db->where('branch_id', $id);
                     $this->db->update('branch', $data);

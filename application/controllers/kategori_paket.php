@@ -49,8 +49,8 @@ class Kategori_paket extends CI_Controller {
         if($action=='insert'){
             $data=array();
             $do=$this->input->post('action',true);     
-            $data['nama_kategori']=$this->input->post('nama_kategori',true); 
-            $data['harga_kategori']=$this->input->post('harga_kategori',true);   
+            $data['nama_kategori']  =addslashes($this->input->post('nama_kategori',true)); 
+            $data['harga_kategori'] =addslashes($this->input->post('harga_kategori',true));   
        
             //-----Validation-----//   
             $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'trim|required|xss_clean|min_length[4]');
@@ -66,7 +66,7 @@ class Kategori_paket extends CI_Controller {
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('id_kategori',true);
+                    $id=addslashes($this->input->post('id_kategori',true));
                     
                     $this->db->where('id_kategori', $id);
                     $this->db->update('kategori_paket', $data);
