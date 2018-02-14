@@ -278,8 +278,7 @@
 <span class="title">MSISDN</span></a>
 <ul class="collapse">
     <li><a class="asyn-income" href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
-    
-    <li><a href="<?php echo site_url('Admin/manageIncome') ?>"><i class="fa fa-book"></i> Manage MSISDN</a></li>
+    <li><a class="asyn-income" href="<?php echo site_url('content/msisdn/update.php') ?>"><i class="fa fa-book"></i> Add From Excel</a></li>
 </ul>
 </li>
 <li class="has-sub">
