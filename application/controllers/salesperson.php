@@ -49,9 +49,16 @@ class Salesperson extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['add-salesperson']=$this->Salespersonmodel->get_all();
-        $data['pilihbranch']=$this->Branchmodel->get_all();  
-        $data['pilihid']=$this->usersmodel->get_all_tl(); 
+        $branch_id = $this->session->userdata('branch_id');
+        $level = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')!=4){
+            $data['pilihbranch']=$this->Branchmodel->get_branch_by_id($branch_id);  
+            $data['pilihid']=$this->usersmodel->get_all_tl_branch($branch_id, $level); 
+        }else{
+            $data['pilihbranch']=$this->Branchmodel->get_all();
+            $data['pilihid']=$this->usersmodel->get_all_tl();
+        }
+        
         if($action=='asyn'){
             $this->load->view('content/sales_person/add',$data);
         }else if($action==''){
@@ -63,38 +70,60 @@ class Salesperson extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do=$this->input->post('action',true);     
-            $data['user_sales']=$this->input->post('user_sales',true); 
-            $data['nama_sales']=$this->input->post('nama_sales',true); 
-            $data['branch_id']=$this->input->post('branch_id',true); 
-            $data['id_users']=$this->input->post('id_kategori',true);  
-            $data['status']=$this->input->post('status',true);  
-            $data['nama_bank']=$this->input->post('nama_bank',true);  
-            $data['no_rekening']=$this->input->post('no_rekening',true);  
-            $data['atas_nama']=$this->input->post('atas_nama',true);  
+            $do                     =addslashes($this->input->post('action',true));  
+            $data['user_sales']     = $user_sales = str_replace(" ", "_", addslashes($this->input->post('user_sales',true)));     
+            $data['nama_sales']     =addslashes($this->input->post('nama_sales',true)); 
+            $data['branch_id']      =addslashes($this->input->post('branch_id',true)); 
+            $data['id_users']       =addslashes($this->input->post('id_users',true)); //ID TL 
+            $data['no_telp']        =addslashes($this->input->post('no_telp',true));  
+            $data['nama_bank']      =addslashes($this->input->post('nama_bank',true));  
+            $data['no_rekening']    =addslashes($this->input->post('no_rekening',true));  
+            $data['atas_nama']      =addslashes($this->input->post('atas_nama',true));  
+            $data['status']         =addslashes($this->input->post('status',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('user_sales', 'User Sales', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required');
-            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required');
-            $this->form_validation->set_rules('status', 'Status', 'trim|required');
+            $this->form_validation->set_rules('user_sales', 'User Sales', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('id_users', 'TL', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('no_telp', 'No Telp', 'trim|required|xss_clean|min_length[10]|numeric');
+            $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|xss_clean|min_length[5]|numeric');
+            $this->form_validation->set_rules('atas_nama', 'Atas Nama', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
+                    if(count($this->Salespersonmodel->get_users_by_username($data['user_sales']))>0) {  
 
-                    $this->db->insert('sales_person',$data); 
-                    
-                    echo "true";    
+                        echo "This Username Is Already Exists !!!!"; 
+                                            
+                    }else{
+                        $this->db->insert('sales_person',$data);
+                        echo "true";
+                    }
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('id_sales',true);
-                    
-                    $this->db->where('id_sales', $id);
-                    $this->db->update('sales_person', $data);
+                    $user_sales1      = addslashes($this->input->post('user_sales1',true));
+                    if(count($this->Salespersonmodel->get_users_by_username($user_sales1))>0) {  
 
-                    echo "true";
+                        echo "This Username Is Already Exists !!!!"; 
+                                            
+                    }else{
+                        if($user_sales1 == '' || $user_sales1 == null){
+                            $data['user_sales'] = $user_sales;
+                        }else{
+                            $data['user_sales'] = $user_sales1;
+                        }
+
+                        $id=$this->input->post('id_sales',true);
+                        
+                        $this->db->where('id_sales', $id);
+                        $this->db->update('sales_person', $data);
+
+                        echo "true";
+                    }
 
                 }         
             }else{
@@ -112,9 +141,16 @@ class Salesperson extends CI_Controller {
     public function edit($id_sales,$action='')
     {
         $data=array();
-        $data['edit_salesperson']=$this->Salespersonmodel->get_salesperson_by_id($id_salesperson);
-        $data['pilihbranch']=$this->Branchmodel->get_all();  
-        $data['pilihid']=$this->usersmodel->get_all_tl();  
+        $data['edit_salesperson']=$this->Salespersonmodel->get_salesperson_by_id($id_sales);
+        $branch_id = $this->session->userdata('branch_id');
+        $level = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')!=4){
+            $data['pilihbranch']=$this->Branchmodel->get_branch_by_id($branch_id);  
+            $data['pilihid']=$this->usersmodel->get_all_tl_branch($branch_id, $level); 
+        }else{
+            $data['pilihbranch']=$this->Branchmodel->get_all();
+            $data['pilihid']=$this->usersmodel->get_all_tl();
+        }
         if($action=='asyn'){
             $this->load->view('content/sales_person/add',$data);
         }else if($action==''){

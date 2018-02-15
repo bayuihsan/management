@@ -14,31 +14,35 @@
     <div class="panel-body">
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
+                <th>No</th>
                 <th>User</th>
                 <th>Nama Sales</th>
                 <th>Branch</th>
-                <th>Status</th>
                 <th>No Telp</th>
                 <th>Nama Bank</th>
                 <th>Nomer Rekening</th>
                 <th>Atas nama</th>
+                <th>Status</th>
+                <th>Updated</th>
                 <th class="single-action">Action</th>
             </thead>
 
             <tbody>
-                <?php foreach($salesperson as $new) { ?>    
+                <?php $no=1; foreach($salesperson as $new) { ?>    
                 <tr>
-                <td>(<?php echo $new->id_sales ?>) <?php echo $new->user_sales ?></td>
-                <td><?php echo $new->nama_sales ?></td>
-                <td><?php echo $new->nama_branch ?></td>
-                <td><?php echo $new->status ?></td>
-                <td><?php echo $new->no_telp ?></td>
-                <td><?php echo $new->nama_bank ?></td>
-                <td><?php echo $new->no_rekening ?></td>
-                <td><?php echo $new->atas_nama ?></td>
-                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('salesperson/edit/'.$new->id_sales) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs salesperson-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('salesperson/add/remove/'.$new->id_sales) ?>">Remove</a></td>
+                    <td><?php echo $no++?></td>
+                    <td>(<?php echo $new->id_sales ?>) <?php echo $new->user_sales ?></td>
+                    <td><?php echo $new->nama_sales ?></td>
+                    <td><?php echo $new->nama_branch ?></td>
+                    <td><?php echo $new->no_telp ?></td>
+                    <td><?php echo $new->nama_bank ?></td>
+                    <td><?php echo $new->no_rekening ?></td>
+                    <td><?php echo $new->atas_nama ?></td>
+                    <td><?php echo $new->status ?></td>
+                    <td><?php echo $new->tanggal_update ?></td>
+                    <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                    title="Click For Edit" href="<?php echo site_url('salesperson/edit/'.$new->id_sales) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs salesperson-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('salesperson/add/remove/'.$new->id_sales) ?>">Remove</a></td>
                 </tr>
                <?php } ?>
             </tbody>       
