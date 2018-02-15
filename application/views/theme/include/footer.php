@@ -32,52 +32,52 @@
 <script type="text/javascript">
 $(document).on('ready',function() {
 
-$(".financial-bal").niceScroll({
-cursorwidth: "8px",cursorcolor:"#7f8c8d"
-});
+	$(".financial-bal").niceScroll({
+	cursorwidth: "8px",cursorcolor:"#7f8c8d"
+	});
 
-$(document).on('submit','#edit-profile',function(){
-var link=$(this).attr("action");
-$.ajax({method : "POST",url : link, data: $(this).serialize(),
-beforeSend : function(){
-$(".block-ui").css('display','block'); 
-},success : function(data){
-if(data=="true"){
-swal("Alert","Saved Sucessfully", "success");
-}else{
-swal("Alert",data, "info");
-}
-$(".block-ui").css("display","none");
-}
-});
+	$(document).on('submit','#edit-profile',function(){
+		var link=$(this).attr("action");
+		$.ajax({method : "POST",url : link, data: $(this).serialize(),
+		beforeSend : function(){
+			$(".block-ui").css('display','block'); 
+		},success : function(data){
+				if(data=="true"){
+				swal("Alert","Saved Sucessfully", "success");
+				}else{
+					swal("Alert",data, "info");
+				}
+				$(".block-ui").css("display","none");
+			}
+		});
 
-return false;
-});
+		return false;
+	});
 
-$(document).on('submit','#change-password',function(){
-var link=$(this).attr("action");
-$.ajax({method : "POST",url : link, data: $(this).serialize(),
-beforeSend : function(){
-$(".block-ui").css('display','block'); 
-},success : function(data){
-if(data=="true"){
-swal("Alert","Saved Sucessfully", "success");
-$("#change-password")[0].reset();
-}else{
-swal("Alert",data, "info");
-}
-$(".block-ui").css("display","none");
-}
-});
+	$(document).on('submit','#change-password',function(){
+		var link=$(this).attr("action");
+		$.ajax({method : "POST",url : link, data: $(this).serialize(),
+		beforeSend : function(){
+			$(".block-ui").css('display','block'); 
+		},success : function(data){
+				if(data=="true"){
+					swal("Alert","Saved Sucessfully", "success");
+				$("#change-password")[0].reset();
+				}else{
+					swal("Alert",data, "info");
+				}
+				$(".block-ui").css("display","none");
+			}
+		});
 
-return false;
-});
+		return false;
+	});
 
 
-loadpage(); 
-loadpage2();
+	loadpage(); 
+	loadpage2();
 
-$('#current-calendar').fullCalendar();
+	$('#current-calendar').fullCalendar();
 
 });
 

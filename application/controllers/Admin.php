@@ -182,6 +182,66 @@ class Admin extends CI_Controller {
 
     }
 
+    /** Method For update profile  **/
+    public function updateProfile(){
+        $data=array();
+        //-----Validation-----//   
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[3]');
+        $this->form_validation->set_rules('nama', 'Nama', 'trim|required|xss_clean|min_length[6]');
+        $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
+        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|xss_clean|min_length[8]|numeric');
+        $this->form_validation->set_rules('nama_bank', 'nama_bank', 'trim|required|xss_clean|min_length[3]');
+        
+        if (!$this->form_validation->run() == FALSE)
+        {    
+            $data['username']=$this->input->post('username',true);
+            $data['nama']=$this->input->post('nama',true);
+            $data['no_hp']=$this->input->post('no_hp',true);
+            $data['no_rekening']=$this->input->post('no_rekening',true);
+            $data['nama_bank']=$this->input->post('nama_bank',true);
+
+            $id=$this->session->userdata('id_users');     
+            $this->db->where('id_users', $id);
+            $this->db->update('app_users', $data);
+            //update session
+            $this->session->set_userdata('username',$data['username']);
+            $this->session->set_userdata('nama',$data['nama']);
+            $this->session->set_userdata('no_hp',$data['no_hp']);
+            $this->session->set_userdata('no_rekening',$data['no_rekening']);
+            $this->session->set_userdata('nama_bank',$data['nama_bank']);
+
+            echo "true";
+                
+        }else{
+            //echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');    
+            echo "All Field Must Required With Valid Information !";
+
+        }  
+    }
+
+    /** Method For change password  **/ 
+    public function changePassword(){
+        $this->form_validation->set_rules('new-password', 'Password', 'trim|required|min_length[5]');
+        if (!$this->form_validation->run() == FALSE)
+        {
+            $data=array();    
+            $data['password']=md5($this->input->post('new-password',true)); 
+            $cp=md5($this->input->post('confrim-password',true)); 
+            if($data['password']!=$cp){
+                echo "New Password And Confrim Password Has Not Match !";
+            }else{
+            //update Password
+                $id=$this->session->userdata('id_users');    
+                $this->db->where('id_users',$id);
+                $this->db->update('app_users',$data);
+                echo "true";
+            }   
+        }else{
+            echo "The Password field must be at least 5 characters in length";
+        }    
+
+    }
+
     //Date Wise Income Report
         public function datewiseIncomeReport($action='')
     {
@@ -1171,68 +1231,6 @@ class Admin extends CI_Controller {
 		$this->load->view('theme/add_language');
 		$this->load->view('theme/include/footer');
         }
-	}
-    
-
-    /** Method For update profile  **/
-    public function updateProfile(){
-    $data=array();
-    //-----Validation-----//   
-    $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|max_length[15]');
-    $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-    $this->form_validation->set_rules('fullname', 'FullName', 'trim|required|min_length[6]|max_length[30]');
-    
-    if (!$this->form_validation->run() == FALSE)
-    {    
-    $data['user_name']=$this->input->post('username',true);
-    $data['fullname']=$this->input->post('fullname',true);
-    $data['email']=$this->input->post('email',true);
-
-    $id=$this->session->userdata('user_id');
-    if(!value_exists("user","user_name",$data['user_name'],"user_id",$id)){
-    if(!value_exists("user","email",$data['email'],"user_id",$id)){       
-    $this->db->where('user_id', $id);
-    $this->db->update('user', $data);
-    //update session
-    $this->session->set_userdata('username',$data['user_name']);
-    $this->session->set_userdata('fullname',$data['fullname']);
-    $this->session->set_userdata('email',$data['email']);
-
-    echo "true";
-    }else{echo "Sorry, This Email Is Already Exists !"; }
-    }else{
-    echo "Sorry, Username Is Already Exists !"; 
-    } 
-    }else{
-    //echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');    
-    echo "All Field Must Required With Valid Information !";
-
-    }  
-
-    }
-
-	/** Method For change password  **/ 
-    public function changePassword(){
-     $this->form_validation->set_rules('new-password', 'Password', 'trim|required|min_length[5]');
-    if (!$this->form_validation->run() == FALSE)
-    {
-    $data=array();    
-    $data['password']=md5($this->input->post('new-password',true)); 
-    $cp=md5($this->input->post('confrim-password',true)); 
-    if($data['password']!=$cp){
-    echo "New Password And Confrim Password Has Not Match !";
-    }else{
-    //update Password
-    $id=$this->session->userdata('user_id');    
-    $this->db->where('user_id',$id);
-    $this->db->update('user',$data);
-    echo "true";
-    }   
-    }else{
-      echo "The Password field must be at least 5 characters in length";
-    }    
-
-    }
-    
+	}   
    
 }

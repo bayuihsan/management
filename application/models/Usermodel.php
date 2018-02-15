@@ -13,11 +13,12 @@ class Usermodel extends CI_Model{
 	
 	public function login($username,$password)
 	{
-		$this->db->select('*');
-		$this->db->from('app_users');
-		$this->db->where('username',$username);
-		$this->db->where('password',$password);
-		$this->db->where('keterangan','Aktif');
+		$this->db->select('a.*, b.nama_branch');
+		$this->db->from('app_users a');
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');
+		$this->db->where('a.username',$username);
+		$this->db->where('a.password',$password);
+		$this->db->where('a.keterangan','Aktif');
 		$query=$this->db->get();
 		$row_count=$query->num_rows();
 		if($row_count>0){
@@ -28,10 +29,13 @@ class Usermodel extends CI_Model{
 				'nama'  		=> $userdata->nama,
 				'no_hp'     	=> $userdata->no_hp,
 				'branch_id' 	=> $userdata->branch_id,
+				'nama_branch' 	=> $userdata->nama_branch,
 				'channel' 		=> $userdata->channel,
 				'level' 		=> $userdata->level,
 				'no_rekening' 	=> $userdata->no_rekening,
 				'nama_bank' 	=> $userdata->nama_bank,
+				'last_login' 	=> $userdata->last_login,
+				'keterangan' 	=> $userdata->keterangan,
 				'logged_in' => TRUE
 			);
 			$this->session->set_userdata($newdata);	

@@ -100,28 +100,73 @@
   <h4 class="modal-title">Profile</h4>
 </div>
 <div class="modal-body">
-  
+<?php 
+$level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
+$channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+?>
  <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Edit Profile</div>
-    <div class="panel-body add-client">
-    <form id="edit-profile" method="post" action="<?php echo site_url('Admin/updateProfile') ?>">
+  <div class="panel-heading">Edit Profile</div>
+  <div class="panel-body add-client">
+  <form id="edit-profile" method="post" action="<?php echo site_url('Admin/updateProfile') ?>">
+  <p>Profile User</p>
   <div class="form-group">
     <label for="profle-username">Username</label>
     <input type="text" value="<?php echo $this->session->userdata('username') ?>"
-    class="form-control" name="username" id="profle-username">
+    class="form-control" name="username" id="profle-username" readonly>
   </div>
   <div class="form-group">
-    <label for="profle-fullname">Fullname</label>
-    <input type="text" value="<?php echo $this->session->userdata('fullname') ?>"
-    class="form-control" name="fullname" id="profle-fullname">
+    <label for="profle-nama">Nama</label>
+    <input type="text" value="<?php echo $this->session->userdata('nama') ?>"
+    class="form-control" name="nama" id="nama">
   </div>
-   <div class="form-group">
-    <label for="profle-email">Email</label>
-    <input type="text" value="<?php echo $this->session->userdata('email') ?>"
-     class="form-control" name="email" id="profle-email">
-  </div>    
+  <div class="form-group">
+    <label for="profle-no_hp">No HP</label>
+    <input type="text" value="<?php echo $this->session->userdata('no_hp') ?>"
+     class="form-control" name="no_hp" id="no_hp">
+  </div>
+  <div class="form-group">
+    <label for="profle-no_rekening">No Rekening</label>
+    <input type="text" value="<?php echo $this->session->userdata('no_rekening') ?>"
+     class="form-control" name="no_rekening" id="no_rekening">
+  </div>
+  <div class="form-group">
+    <label for="profle-no_hp">Nama Bank</label>
+    <input type="text" value="<?php echo $this->session->userdata('nama_bank') ?>"
+     class="form-control" name="nama_bank" id="nama_bank">
+  </div>
+  <div class="form-group">
+    <label for="profle-no_hp">Keterangan</label>
+    <input type="text" value="<?php echo $this->session->userdata('keterangan') ?>"
+     class="form-control" name="keterangan" id="keterangan" readonly>
+  </div>
+  <hr>
+  <p>Data Mandatory</p>
+  <div class="form-group">
+    <label for="profle-branch">Branch</label>
+    <input type="text" value="<?php echo $this->session->userdata('nama_branch') ?>"
+     class="form-control" name="nama_branch" id="nama_branch" readonly>
+    <input type="hidden" name="branch_id" id="branch_id" value="<?php echo $this->session->userdata('branch_id')?>" readonly>
+  </div>
+  <div class="form-group">
+    <label for="profle-channel">Channel</label>
+    <input type="text" value="<?php echo $channel[$this->session->userdata('channel')]; ?>"
+     class="form-control" name="channel_x" id="channel_x" readonly>
+    <input type="hidden" name="channel" id="channel" value="<?php echo $this->session->userdata('channel')?>" readonly>
+  </div>
+  <div class="form-group">
+    <label for="profle-level">Level</label>
+    <input type="text" value="<?php echo $level[$this->session->userdata('level')]; ?>"
+     class="form-control" name="level_x" id="level_x" readonly>
+    <input type="hidden" name="level" id="level" value="<?php echo $this->session->userdata('level')?>" readonly>
+  </div>  
+  <div class="form-group">
+    <label for="profle-level">Last Login</label>
+    <input type="text" value="<?php echo $this->session->userdata('last_login'); ?>"
+     class="form-control" name="last_login_x" id="last_login_x" readonly>
+    <input type="hidden" name="last_login" id="last_login" value="<?php echo $this->session->userdata('last_login')?>" readonly>
+  </div>  
         
   <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Update</button>
 </form>
@@ -140,42 +185,40 @@
 <!-- Modal -->
 <div id="passwordModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
-<div class="modal-content">
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h4 class="modal-title">Change Password</h4>
-</div>
-<div class="modal-body">
-  
- <!--Start Panel-->
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Change Password</div>
-    <div class="panel-body add-client">
-    <form id="change-password" method="post" action="<?php echo site_url('Admin/changePassword') ?>">
-  <div class="form-group">
-    <label for="new-password">New Password</label>
-    <input type="password" 
-    class="form-control" name="new-password" id="new-password">
-  </div>
-  <div class="form-group">
-    <label for="confrim-change">Confrim Password</label>
-    <input type="password" 
-    class="form-control" name="confrim-password" id="confrim-password">
-  </div>
-  
+      <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change Password</h4>
+      </div>
+      <div class="modal-body">
         
-  <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Update</button>
-</form>
-    </div>
-    <!--End Panel Body-->
-</div>
-<!--End Panel--> 
-</div>
+       <!--Start Panel-->
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Change Password</div>
+          <div class="panel-body add-client">
+            <form id="change-password" method="post" action="<?php echo site_url('Admin/changePassword') ?>">
+            <div class="form-group">
+              <label for="new-password">New Password</label>
+              <input type="password" 
+              class="form-control" name="new-password" id="new-password">
+            </div>
+            <div class="form-group">
+              <label for="confrim-change">Confrim Password</label>
+              <input type="password" 
+              class="form-control" name="confrim-password" id="confrim-password">
+            </div> 
+            <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Update</button>
+            </form>
+          </div>
+          <!--End Panel Body-->
+        </div>
+      <!--End Panel--> 
+      </div>
 
-</div>
-</div>
+    </div>
+  </div>
 </div>
 <!--End Model-->
 
