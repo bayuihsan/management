@@ -32,21 +32,7 @@ class Salesperson extends CI_Controller {
         }
 	}
 
-    function tl()
-    {
-        $branch_id = $this->input->post('branch_id');
-        //$data['sales'] = $sales_channel;
-        $data['tl_branch'] = $this->input->post('tl');
-        if($branch_id=="ALL" || $branch_id=='17'){
-            $data['tl'] = $this->mcrud->kondisi("app_users",array('level'=>3,'keterangan'=>'Aktif'))->result();
-        }else{
-            $data['tl'] = $this->mcrud->kondisi("app_users",array('branch_id'=>$branch_id,'level'=>3,'keterangan'=>'Aktif'))->result();
-        }
-        
-        $this->load->view('sales_person/tl',$data);
-    }
-    
-    /** Method For Add New Account and Account Page View **/ 	
+    /** Method For Add New sales person and sales person Page View **/ 	
     public function add($action='',$param1='')
 	{
         $branch_id = $this->session->userdata('branch_id');
@@ -137,7 +123,7 @@ class Salesperson extends CI_Controller {
         }
 	}
 
-    /** Method For get paket information for Branch Edit **/ 
+    /** Method For get sales person information for sales person Edit **/ 
     public function edit($id_sales,$action='')
     {
         $data=array();
