@@ -15,7 +15,7 @@ class Feedbacksmodel extends CI_Model{
 	public function get_all(){
 		$this->db->select('*');
 		$this->db->from('feedback');  
-		$this->db->order_by("id_feedback", "desc");    
+		$this->db->order_by("nama_pelanggan", "asc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;

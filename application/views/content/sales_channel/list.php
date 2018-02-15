@@ -31,11 +31,11 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                 <td><?php echo $no++; ?></td>
                 <td class="date"><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
                 <td><?php echo strtoupper($new->nama_branch) ?></td>
-                <td><?php echo strtoupper($new->sub_channel) ?></td>
+                <td><?php echo $new->id_channel.' - '.strtoupper($new->sub_channel) ?></td>
                 <td><?php echo strtoupper($new->username) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('sales_channel/edit/'.$new->id_channel) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales_channel/add/remove/'.$new->id_channel) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales_channel/add/remove/'.$new->id_channel) ?>">Delete</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

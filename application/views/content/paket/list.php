@@ -14,27 +14,27 @@
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
-                <th>Paket ID</th>
-                <th>Nama Paket</th>
-                <th>Harga Paket</th>
-                <th>Kategori</th>
-                <th>Status</th>
-                <th>Time Update</th>
-                <th class="single-action">Action</th>
+                <th>NO</th>
+                <th>NAMA</th>
+                <th>HARGA</th>
+                <th>KATEGORI</th>
+                <th>STATUS</th>
+                <th>UPDATED</th>
+                <th class="single-action">ACTION</th>
             </thead>
 
             <tbody>
-                <?php foreach($paket as $new) { ?>    
+                <?php $no=1; foreach($paket as $new) { ?>    
                 <tr>
-                <td class="date"><?php echo $new->paket_id ?></td>
-                <td><?php echo $new->nama_paket ?></td>
+                <td class="date"><?php echo $no++; ?></td>
+                <td><?php echo $new->paket_id.' - '.strtoupper($new->nama_paket) ?></td>
                 <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_paket) ?></td>
-                <td><?php if ($new->id_kategori == "1") { echo "Paket > 100"; }else{ echo "Paket < 100"; } ?></td>
-                <td><?php if ($new->aktif == "y") { echo "Aktif"; }else{ echo "Tidak Aktif"; } ?></td>
+                <td><?php echo strtoupper($new->nama_kategori); ?></td>
+                <td><?php if ($new->aktif == "y") { echo "AKTIF"; }else{ echo "TIDAK AKTIF"; } ?></td>
                 <td><?php echo $new->time_update ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('paket/edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('paket/add/remove/'.$new->paket_id) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('paket/add/remove/'.$new->paket_id) ?>">Delete</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

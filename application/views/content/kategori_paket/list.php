@@ -14,23 +14,23 @@
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
-                <th>ID</th>
-                <th>Nama Kategori</th>
-                <th>Harga</th>
-                <th>Last Update</th>
-                <th class="single-action">Action</th>
+                <th>NO</th>
+                <th>NAMA</th>
+                <th>HARGA</th>
+                <th>UPDATED</th>
+                <th class="single-action">ACTION</th>
             </thead>
 
             <tbody>
-                <?php foreach($kategori_paket as $new) { ?>    
+                <?php $no=1; foreach($kategori_paket as $new) { ?>    
                 <tr>
-                <td><?php echo strtoupper ($new->id_kategori) ?></td>
-                <td><?php echo strtoupper ($new->nama_kategori) ?></td>
+                <td><?php echo $no++; ?></td>
+                <td><?php echo $new->id_kategori.' - '.strtoupper ($new->nama_kategori) ?></td>
                 <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_kategori) ?></td>
                 <td><?php echo strtoupper ($new->last_update) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('kategori_paket/edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('kategori_paket/add/remove/'.$new->id_kategori) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('kategori_paket/add/remove/'.$new->id_kategori) ?>">Delete</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

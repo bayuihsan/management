@@ -98,7 +98,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <input type="password" class="form-control" name="repassword" id="repassword">
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>users" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
+      <a href="<?php echo base_url()?>users/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -195,7 +195,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div>
       
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>users" class="mybtn btn-warning"><i class="fa fa-check"></i> Back</a>
+      <a href="<?php echo base_url()?>users/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -215,56 +215,78 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <script type="text/javascript">
 $(document).ready(function(){
 
-if($(".sidebar").width()=="0"){
-  $(".main-content").css("padding-left","0px");
-} 
-$("#branch").select2();
-$("#channel").select2();
-$("#level").select2();
+  if($(".sidebar").width()=="0"){
+    $(".main-content").css("padding-left","0px");
+  } 
+  $("#branch").select2();
+  $("#channel").select2();
+  $("#level").select2();
 
-//for number only
-$("#no_rekening").keypress(function (e) {
-  //if the letter is not digit then display error and don't type anything
-  if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
-    //display error message
-    return false;
-  }
-});
-
-//for number only
-$("#no_hp").keypress(function (e) {
-  //if the letter is not digit then display error and don't type anything
-  if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
-    //display error message
-    return false;
-  }
-});
-
-$('#add-users').on('submit',function(){    
-  $.ajax({
-    method : "POST",
-    url : "<?php echo site_url('users/add/insert') ?>",
-    data : $(this).serialize(),
-    beforeSend : function(){
-      $(".block-ui").css('display','block'); 
-    },success : function(data){ 
-    if(data=="true"){  
-      sucessAlert("Saved Sucessfully"); 
-      $(".block-ui").css('display','none'); 
-      if($("#action").val()!='update'){        
-        $('#nama_users').val("");
-        $("#ketua").val("");
-        $('#status').val("");      
-      }
-    }else{
-      failedAlert2(data);
-      $(".block-ui").css('display','none');
-    }   
+  //for number only
+  $("#no_rekening").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+    if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+      //display error message
+      return false;
     }
-  });    
-  return false;
+  });
 
-});
+  //for number only
+  $("#no_hp").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+    if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+      //display error message
+      return false;
+    }
+  });
+
+  $('#add-users').on('submit',function(){    
+    $.ajax({
+      method : "POST",
+      url : "<?php echo site_url('users/add/insert') ?>",
+      data : $(this).serialize(),
+      beforeSend : function(){
+        $(".block-ui").css('display','block'); 
+      },success : function(data){ 
+      if(data=="true"){  
+        sucessAlert("Saved Sucessfully"); 
+        $(".block-ui").css('display','none'); 
+        if($("#action").val()!='update'){        
+          $('#nama_users').val("");
+          $("#ketua").val("");
+          $('#status').val("");      
+        }
+      }else{
+        failedAlert2(data);
+        $(".block-ui").css('display','none');
+      }   
+      }
+    });    
+    return false;
+
+  });
+
+  $(document).on('click','.kembali',function(){
+
+      var link=$(this).attr("href"); 
+      // alert(link);
+      $.ajax({
+          method : "POST",
+          url : link,
+          beforeSend : function(){
+              $(".block-ui").css('display','block'); 
+          },success : function(data){ 
+              //var link = location.pathname.replace(/^.*[\\\/]/, ''); //get filename only  
+              history.pushState(null, null,link);  
+              $('.asyn-div').load(link+'/asyn',function() {
+                  $(".block-ui").css('display','none');     
+              });     
+             
+          }
+      });
+
+      return false;
+  });
 
 });
 </script>

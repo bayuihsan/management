@@ -14,23 +14,23 @@
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
-                <th>BRANCH ID</th><th>NAMA BRANCH</th><th>KETUA</th>
-                <th>STATUS</th><th>UPDATE BY</th><th>TIME UPDATE</th>
-                <th class="single-action">Action</th>
+                <th>NO</th><th>NAMA BRANCH</th><th>KETUA</th>
+                <th>STATUS</th><th>UPDATE BY</th><th>UPDATED</th>
+                <th class="single-action">ACTION</th>
             </thead>
 
             <tbody>
-                <?php foreach($branch as $new) { ?>    
+                <?php $no=1; foreach($branch as $new) { ?>    
                 <tr>
-                <td class="date"><?php echo $new->branch_id ?></td>
-                <td><?php echo strtoupper($new->nama_branch) ?></td>
+                <td class="date"><?php echo $no++; ?></td>
+                <td><?php echo $new->branch_id.' - '.strtoupper($new->nama_branch) ?></td>
                 <td><?php echo strtoupper($new->ketua) ?></td>
                 <td><?php if($new->status==1){ echo "AKTIF"; }else{ echo "TIDAK AKTIF"; }  ?></td>
                 <td><?php echo strtoupper($new->update_by) ?></td>
                 <td><?php echo strtoupper($new->time_update) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('branch/edit/'.$new->branch_id) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('branch/add/remove/'.$new->branch_id) ?>">Hapus</a></td>
+                <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('branch/add/remove/'.$new->branch_id) ?>">Delete</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

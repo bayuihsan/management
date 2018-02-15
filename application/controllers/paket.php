@@ -56,7 +56,7 @@ class Paket extends CI_Controller {
        
             //-----Validation-----//   
             $this->form_validation->set_rules('nama_paket', 'Nama Paket', 'trim|required|xss_clean|min_length[4]');
-            $this->form_validation->set_rules('harga_paket', 'Harga Paket', 'trim|required|xss_clean|min_length[4]|numeric');
+            $this->form_validation->set_rules('harga_paket', 'Harga Paket', 'trim|required|xss_clean|min_length[5]|numeric');
             $this->form_validation->set_rules('aktif', 'Status', 'trim|required|xss_clean');
             $this->form_validation->set_rules('id_kategori', 'Kategori', 'trim|required|xss_clean');
             $this->form_validation->set_rules('update_by', 'Input By', 'trim|required|xss_clean');

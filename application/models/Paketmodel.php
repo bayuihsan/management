@@ -13,9 +13,10 @@ class Paketmodel extends CI_Model{
 
 	//get all Branch  
 	public function get_all(){
-		$this->db->select('*');
-		$this->db->from('paket');  
-		$this->db->order_by("paket_id", "desc");    
+		$this->db->select('a.*, b.nama_kategori');
+		$this->db->from('paket a');  
+		$this->db->join('kategori_paket b', 'b.id_kategori = a.id_kategori');  
+		$this->db->order_by("a.nama_paket", "asc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;

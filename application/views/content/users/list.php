@@ -18,16 +18,16 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <div class="panel-body">
         <table id="users-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
-                <th>USERS ID</th><th>USERNAME</th><th>NAMA USER</th>
+                <th>NO</th><th>USERNAME</th><th>NAMA USER</th>
                 <th>BRANCH</th><th>CHANNEL</th><th>LEVEL</th><th>KETERANGAN</th><th>LAST LOGIN</th>
                 <th class="single-action">ACTION</th>
             </thead>
 
             <tbody>
-                <?php foreach($users as $new) { ?>    
+                <?php $no=1; foreach($users as $new) { ?>    
                 <tr>
-                <td class="date"><?php echo $new->id_users ?></td>
-                <td><?php echo strtoupper($new->username) ?></td>
+                <td class="date"><?php echo $no++; ?></td>
+                <td><?php echo $new->id_users.' - '.strtoupper($new->username) ?></td>
                 <td><?php echo strtoupper($new->nama) ?></td>
                 <td><?php echo strtoupper($new->nama_branch) ?></td>
                 <td><?php echo strtoupper($channel[$new->channel]) ?></td>

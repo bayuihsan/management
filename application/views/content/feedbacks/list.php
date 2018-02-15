@@ -15,11 +15,12 @@
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th>
-                <th>No HP</th>
-                <th>Nama Pelanggan</th>
-                <th>Kota</th>
-                <th>Saran</th>
-                <th>Action</th>
+                <th>NO HP</th>
+                <th>NAMA PELANGGAN</th>
+                <th>KOTA</th>
+                <th>UPDATED</th>
+                <th>SARAN</th>
+                <th>ACTION</th>
             </thead>
 
             <tbody>
@@ -27,12 +28,13 @@
                 <tr>
                     <td><?php echo $no++;?></td>
                     <td><?php echo $new->no_hp ?></td>
-                    <td><?php echo $new->nama_pelanggan ?></td>
-                    <td><?php echo $new->kota ?></td>
-                    <td><?php echo substr($new->saran, 0, 100).'...' ?></td>
+                    <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
+                    <td><?php echo strtoupper($new->kota) ?></td>
+                    <td><?php echo strtoupper($new->tgl_update) ?></td>
+                    <td><?php echo strtoupper(substr($new->saran, 0, 100)).'...' ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('feedbacks/edit/'.$new->id_feedback) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('feedbacks/add/remove/'.$new->id_feedback) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('feedbacks/add/remove/'.$new->id_feedback) ?>">Delete</a></td>
                 </tr>
                <?php } ?>
             </tbody>       
