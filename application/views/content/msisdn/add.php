@@ -10,7 +10,7 @@
 <div class="alert alert-success ajax-notify"></div>
 </div>
 <!--End Alert-->
-<div class="col-md-8 col-lg-8 col-sm-8 branch-div">
+<div class="col-md-5 col-lg-5 col-sm-5">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -42,26 +42,29 @@
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
     </form>
-
     </div>
-  <div class="row">  
-   <div class="col-md-6"> 
-   <div class="card">
-  <div class="card-body">
-      <ul class="list-group">
-<button type="button" class="list-group-item list-group-item-dark">
-    Masukan Data MSISDN Dari Excel
-  </button>
+</div>
+</div>
+
+<div class="col-md-7 col-lg-7 col-sm-7">
+<!--Start Panel-->
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Deposit</div>
+    <div class="panel-body">
+  <ul class="list-group">
   <li class="list-group-item">
 <?php echo form_open_multipart('upload/update');?>
 <input type="file" name="file" size="20" id='files'/>
 <br/><br/>
-<button type="submit" class="btn btn-primary">Save</button>
-</form></li>   
+<button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+</form>
+</li>
 </ul>
-</div></div>
+</div>
+    <!--End Panel Body-->
+</div>
 
- </div></div>
 </div>
     <?php }else{ ?>
 
