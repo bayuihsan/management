@@ -91,7 +91,7 @@ class Kategori_paket extends CI_Controller {
     {
         checkPermission(4);
         $data=array();
-        $data['edit_kategori']=$this->Kategoripaketmodel->get_kategori_paket_by_id($id_kategori); 
+        $data['edit_kategori']=getOld("id_kategori",$id_kategori,"kategori_paket"); 
         if($action=='asyn'){
             $this->load->view('content/kategori_paket/add',$data);
         }else if($action==''){

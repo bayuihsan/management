@@ -93,7 +93,7 @@ class Paket extends CI_Controller {
     public function edit($paket_id,$action='')
     {
         $data=array();
-        $data['edit_paket']=$this->Paketmodel->get_paket_by_id($paket_id);
+        $data['edit_paket']=getOld("paket_id",$paket_id,"paket");
         $data['kategori_paket']=$this->Kategoripaketmodel->get_all();  
         if($action=='asyn'){
             $this->load->view('content/paket/add',$data);

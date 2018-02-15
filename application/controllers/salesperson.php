@@ -81,7 +81,7 @@ class Salesperson extends CI_Controller {
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
-                    if(count($this->Salespersonmodel->get_users_by_username($data['user_sales']))>0) {  
+                    if(value_exists("sales_person","user_sales",$data['user_sales'])) {  
 
                         echo "This Username Is Already Exists !!!!"; 
                                             
@@ -92,7 +92,7 @@ class Salesperson extends CI_Controller {
                     
                 }else if($do=='update'){
                     $user_sales1      = addslashes($this->input->post('user_sales1',true));
-                    if(count($this->Salespersonmodel->get_users_by_username($user_sales1))>0) {  
+                    if(value_exists("sales_person","user_sales",$user_sales1)) {  
 
                         echo "This Username Is Already Exists !!!!"; 
                                             
@@ -127,7 +127,7 @@ class Salesperson extends CI_Controller {
     public function edit($id_sales,$action='')
     {
         $data=array();
-        $data['edit_salesperson']=$this->Salespersonmodel->get_salesperson_by_id($id_sales);
+        $data['edit_salesperson']=getOld("id_sales",$id_sales,"sales_person");
         $branch_id = $this->session->userdata('branch_id');
         $level = $this->session->userdata('branch_id');
         if($this->session->userdata('level')!=4){

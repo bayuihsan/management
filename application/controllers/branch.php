@@ -92,7 +92,7 @@ class Branch extends CI_Controller {
     public function edit($branch_id,$action='')
     {
         $data=array();
-        $data['edit_branch']=$this->Branchmodel->get_branch_by_id($branch_id); 
+        $data['edit_branch']=getOld("branch_id",$branch_id,"branch"); 
         if($action=='asyn'){
             $this->load->view('content/branch/add',$data);
         }else if($action==''){

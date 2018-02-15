@@ -81,7 +81,7 @@ class users extends CI_Controller {
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
-                    if(count($this->usersmodel->get_users_by_username($data['username']))>0) {  
+                    if(value_exists("app_users","username",$data['username'])) {  
 
                         echo "This Username Is Already Exists !!!!"; 
                                             
@@ -92,7 +92,7 @@ class users extends CI_Controller {
                      
                 }else if($do=='update'){
                     $username1      = addslashes($this->input->post('username1',true));
-                    if(count($this->usersmodel->get_users_by_username($username1))>0) {  
+                    if(value_exists("app_users","username",$username1)) {  
 
                         echo "This Username Is Already Exists !!!!"; 
                                             
@@ -121,6 +121,14 @@ class users extends CI_Controller {
         }
         else if($action=='remove'){    
             $this->db->delete('app_users', array('id_users' => $param1));       
+        }else if($action == 'reset'){
+            $new = "Tsel1234";
+            $datax['password']=md5($new);
+                        
+            $this->db->where(array('id_users' => $param1));
+            $this->db->update('app_users', $datax);
+
+            echo $new;
         }
 	}
 

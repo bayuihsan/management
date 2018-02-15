@@ -90,7 +90,7 @@ class sales_channel extends CI_Controller {
     public function edit($sales_channel_id,$action='')
     {
         $data=array();
-        $data['edit_sales_channel']=$this->sales_channelmodel->get_sales_channel_by_id($sales_channel_id);
+        $data['edit_sales_channel']=getOld("id_channel",$sales_channel_id,"sales_channel");
         $data['branch']=$this->Branchmodel->get_all();  
         if($action=='asyn'){
             $this->load->view('content/sales_channel/add',$data);

@@ -36,7 +36,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                 <td><?php echo strtoupper($new->last_login) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('users/edit/'.$new->id_users) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs users-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('users/add/remove/'.$new->id_users) ?>">Hapus</a></td>
+                <a class="mybtn btn-danger btn-xs users-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('users/add/remove/'.$new->id_users) ?>">Hapus</a> &nbsp; <a class="mybtn btn-warning btn-xs users-reset-btn" data-toggle="tooltip" title="Click For Reset Password" href="<?php echo site_url('users/add/reset/'.$new->id_users) ?>">Reset Password</a></td>
                 </tr>
                <?php } ?>
             </tbody>       
@@ -106,6 +106,29 @@ $(document).ready(function() {
                     $(".system-alert-box").empty();
                     document.location.href = '<?php echo base_url()?>/users';
                 swal("Deleted!", "Remove Sucessfully", "success"); 
+                    $(".block-ui").css('display','none');
+                }    
+            });
+        }); 
+        return false;       
+    }); 
+
+    $(document).on('click','.users-reset-btn',function(){  
+        var main=$(this);
+        swal({title: "Are you sure Want To Reset Password?",
+        text: "You will be able to change this Data Password!",
+        type: "warning",   showCancelButton: true,confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, Change it!",closeOnConfirm: false,
+        showLoaderOnConfirm: true }, function(){ 
+            ///////////////     
+            var link=$(main).attr("href");    
+            $.ajax({
+                url : link,
+                beforeSend : function(){
+                    $(".block-ui").css('display','block'); 
+                },success : function(data){
+                    $(".system-alert-box").empty();
+                    swal("Reset Sucessfully!", "New Password = "+data, "success"); 
                     $(".block-ui").css('display','none');
                 }    
             });

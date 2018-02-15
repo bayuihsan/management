@@ -93,7 +93,7 @@ class Feedbacks extends CI_Controller {
     public function edit($id_feedback,$action='')
     {
         $data=array();
-        $data['edit_feedbacks']=$this->Feedbacksmodel->get_feedback_by_id($id_feedback);
+        $data['edit_feedbacks']=getOld("id_feedback",$id_feedback,"feedback");
         if($action=='asyn'){
             $this->load->view('content/feedbacks/add',$data);
         }else if($action==''){

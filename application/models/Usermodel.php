@@ -52,10 +52,12 @@ public function logout(){
 		'nama'  		=> '',
 		'no_hp'     	=> '',
 		'branch_id' 	=> '',
+		'nama_branch' 	=> '',
 		'channel' 		=> '',
 		'level' 		=> '',
 		'no_rekening' 	=> '',
-		'nama_bank' 	=> '',
+		'last_login' 	=> '',
+		'keterangan' 	=> '',
 		'logged_in' => FALSE
 	);
 	$this->session->set_userdata($newdata);	

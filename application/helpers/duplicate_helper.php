@@ -32,7 +32,7 @@ if ( ! function_exists('value_exists'))
         
     }  
 
-        function value_exists2($table,$col,$value,$type,$type_value,$id='',$id_value='')
+    function value_exists2($table,$col,$value,$type,$type_value,$id='',$id_value='')
     {
         $CI =&  get_instance();
         $CI->load->database();
