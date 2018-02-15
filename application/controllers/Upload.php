@@ -50,14 +50,13 @@ public function update()
      "msisdn"=> trim(preg_replace("/[^a-zA-Z0-9]/", "", $rowData[0][0])), // opsional hapus spasi depan
      "tipe"=> $rowData[0][1],
      "id_users"=> $rowData[0][2],
-     "status"=> $rowData[0][3]);
+     "status"=> $rowData[0][3]); 
    $this->db->insert("msisdn",$data);
  } 
-   unlink($inputFileName); // hapus file temp
+   unlink($inputFileName); //hapus file temp
    $count = $highestRow;
    $this->session->set_flashdata('pesan','Upload berhasil, Total: <b>'.$count.'</b> data.'); 
    redirect('');
-
  }
 }
 }
