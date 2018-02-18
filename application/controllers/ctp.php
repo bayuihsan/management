@@ -49,25 +49,39 @@ class Ctp extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do                     =addslashes($this->input->post('action',true));     
-            $data['no_hp']          =addslashes($this->input->post('no_hp',true)); 
-            $data['nama_pelanggan'] =addslashes($this->input->post('nama_pelanggan',true)); 
-            $data['kota']           =addslashes($this->input->post('kota',true)); 
-            $data['saran']          =addslashes($this->input->post('saran',true));  
-            $data['id_users']       =addslashes($this->input->post('id_users',true));  
+            $do                             =addslashes($this->input->post('action',true));     
+            $data['order_id']               =addslashes($this->input->post('order_id',true)); 
+            $data['order_submit_date']      =addslashes($this->input->post('order_submit_date',true)); 
+            $data['order_completed_date']   =addslashes($this->input->post('order_completed_date',true)); 
+            $data['msisdn_ctp']             =addslashes($this->input->post('msisdn_ctp',true));  
+            $data['nama_pelanggan_ctp']     =addslashes($this->input->post('nama_pelanggan_ctp',true));  
+            $data['order_type_name']        =addslashes($this->input->post('order_type_name',true)); 
+            $data['user_id']                =addslashes($this->input->post('user_id',true)); 
+            $data['employee_name']          =addslashes($this->input->post('employee_name',true)); 
+            $data['paket_id']               =addslashes($this->input->post('paket_id',true)); 
+            $data['id_users']               =addslashes($this->input->post('id_users',true)); 
+            $data['branch_id']              =addslashes($this->input->post('branch_id',true)); 
+            $data['tgl_upload']             =addslashes($this->input->post('tgl_upload',true)); 
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
-            $this->form_validation->set_rules('nama_pelanggan', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('kota', 'Kota', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('saran', 'Saran', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('order_id', 'Order ID', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('order_submit_date', 'Order Submit Date', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('order_completed_date', 'Order Complete Date', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('msisdn_ctp', 'MSISDN', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('nama_pelanggan_ctp', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('order_type_name', 'Order Type', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('employee_name', 'Employee Name', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('paket_id', 'Paket', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('id_users', 'Admin CTP', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('tgl_upload', 'Tgl Upload', 'trim|required|xss_clean|min_length[3]');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
 
-                    $this->db->insert('feedback',$data); 
+                    $this->db->insert('ctp',$data); 
                     
                     echo "true";    
                     
@@ -87,7 +101,7 @@ class Ctp extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('feedback', array('id_feedback' => $param1));       
+            $this->db->delete('ctp', array('id_ctp' => $param1));       
         }
 	}
 

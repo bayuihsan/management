@@ -99,10 +99,11 @@
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>feedbacks/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
+
     <?php }else{ ?>
-    <form id="add-feedbacks">
+    <form id="add-ctp">
       <input type="hidden" name="action" id="action" value="update"/>  
-      <input type="hidden" name="id_feedback" id="id_feedback" value="<?php echo $edit_feedbacks->id_feedback ?>"/>    
+      <input type="hidden" name="id_ctp" id="id_ctp" value="<?php echo $edit_ctp->id_ctp ?>"/>    
       <div class="form-group">
         <label for="acc_name">No HP</label>
         <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?php echo $edit_feedbacks->no_hp ?>">
