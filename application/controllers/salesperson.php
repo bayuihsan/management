@@ -59,22 +59,22 @@ class Salesperson extends CI_Controller {
             $do                     =addslashes($this->input->post('action',true));  
             $data['user_sales']     = $user_sales = str_replace(" ", "_", addslashes($this->input->post('user_sales',true)));     
             $data['nama_sales']     =addslashes($this->input->post('nama_sales',true)); 
-            $data['branch_id']      =addslashes($this->input->post('branch_id',true)); 
+            $data['branch_id']      =addslashes($this->input->post('sbranch_id',true)); 
             $data['id_users']       =addslashes($this->input->post('id_users',true)); //ID TL 
             $data['no_telp']        =addslashes($this->input->post('no_telp',true));  
-            $data['nama_bank']      =addslashes($this->input->post('nama_bank',true));  
-            $data['no_rekening']    =addslashes($this->input->post('no_rekening',true));  
+            $data['nama_bank']      =addslashes($this->input->post('snama_bank',true));  
+            $data['no_rekening']    =addslashes($this->input->post('sno_rekening',true));  
             $data['atas_nama']      =addslashes($this->input->post('atas_nama',true));  
             $data['status']         =addslashes($this->input->post('status',true));  
        
             //-----Validation-----//   
             $this->form_validation->set_rules('user_sales', 'User Sales', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sbranch_id', 'Branch', 'trim|required|xss_clean');
             $this->form_validation->set_rules('id_users', 'TL', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('no_telp', 'No Telp', 'trim|required|xss_clean|min_length[10]|numeric');
-            $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|xss_clean|min_length[5]|numeric');
+            $this->form_validation->set_rules('no_telp', 'No Telp', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
+            $this->form_validation->set_rules('snama_bank', 'Nama Bank', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('sno_rekening', 'No Rekening', 'trim|required|xss_clean|min_length[8]|numeric');
             $this->form_validation->set_rules('atas_nama', 'Atas Nama', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
 

@@ -21,15 +21,30 @@ class sales extends CI_Controller {
     }
 
 	public function view($action='')
-	{   
+    {   
         $data=array();
         $tanggal = $this->Reportmodel->getMaxDate();
         $data['max_tanggal'] = $tanggal = $tanggal->tgl_max;
+        $data['sales'] = $this->salesmodel->get_all($tanggal);
         if($action=='asyn'){
             $this->load->view('content/sales/list',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
             $this->load->view('content/sales/list',$data);
+            $this->load->view('theme/include/footer');
+        }
+    }
+
+    public function view2($action='')
+	{   
+        $data=array();
+        $tanggal = $this->Reportmodel->getMaxDate();
+        $data['max_tanggal'] = $tanggal = $tanggal->tgl_max;
+        if($action=='asyn'){
+            $this->load->view('content/sales/list2',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/sales/list2',$data);
             $this->load->view('theme/include/footer');
         }
 	}

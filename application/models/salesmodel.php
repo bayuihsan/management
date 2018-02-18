@@ -15,6 +15,22 @@ class salesModel extends CI_Model{
 	    $this->search = '';
 	}
 
+	//get all users  
+	public function get_all($tgl = ""){
+		$date = $tgl;
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket 
+			FROM new_psb a
+			JOIN branch b ON b.branch_id = a.branch_id
+			JOIN app_users c ON c.username = a.TL
+			JOIN paket d ON d.paket_id = a.paket_id
+			where DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
+		INTERVAL 1 MONTH)), 1) AND '".$date."')
+			ORDER BY a.tanggal_update DESC");  
+		$result=$query_result->result();
+		return $result;
+
+	}
+
 	//get all sales  
 	public function _get_datatables_query(){
 		//Current Month PSB
