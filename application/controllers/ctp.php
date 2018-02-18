@@ -12,7 +12,7 @@ class Ctp extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Ctpmodel'));
+        $this->load->model(array('Ctpmodel','Paketmodel','Branchmodel','usersmodel'));
     }
     
     public function index(){
@@ -35,7 +35,9 @@ class Ctp extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['ctp']=$this->Ctpmodel->get_all(); 
+        $data['paket']=$this->Paketmodel->get_all(); 
+        $data['branch']=$this->Branchmodel->get_all(); 
+        $data['users']=$this->usersmodel->get_all_ctp(); 
         if($action=='asyn'){
             $this->load->view('content/ctp/add',$data);
         }else if($action==''){
@@ -70,10 +72,10 @@ class Ctp extends CI_Controller {
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=addslashes($this->input->post('id_feedback',true));
+                    $id=addslashes($this->input->post('id_ctp',true));
                     
-                    $this->db->where('id_feedback', $id);
-                    $this->db->update('feedback', $data);
+                    $this->db->where('id_ctp', $id);
+                    $this->db->update('ctp', $data);
 
                     echo "true";
 

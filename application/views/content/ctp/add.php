@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Sales Person</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Data CTP</h4></div>
 
 <!--Alert-->
 <div class="system-alert-box">
@@ -16,33 +16,86 @@
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Add Feedback</div>
+    <div class="panel-heading">Add CTP</div>
     <div class="panel-body add-client">
-    <?php if(!isset($edit_feedbacks)){ ?>  
+    <?php if(!isset($edit_ctp)){ ?>  
     <form id="add-feedbacks">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="id_feedback" id="id_feedback" value=""/>    
+      <input type="hidden" name="id_ctp" id="id_ctp" value=""/>    
       <div class="form-group">
-        <label for="acc_name">No HP</label>
-        <input type="text" class="form-control" name="no_hp" id="no_hp">
+        <label for="acc_name">Order ID</label>
+        <input type="text" class="form-control" name="order_id" id="order_id">
+      </div>
+      <div class="form-group">
+        <label for="balance">Order Submit Date</label>
+        <div class='input-group date' id='date'>
+        <input type='text' name="order_submit_date" id="order_submit_date" class="form-control" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
+     </div> 
+      <div class="form-group">
+        <label for="balance">Order Completed Date</label>
+        <div class='input-group date' id='date'>
+        <input type='text' name="order_completed_date" id="order_completed_date" class="form-control" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+      </div>
+      <div class="form-group">
+        <label for="balance">MSISDN</label>
+        <input type="text" class="form-control" name="msisdn" id="msisdn">
       </div>
       <div class="form-group">
         <label for="balance">Nama Pelanggan</label>
-        <input type="text" class="form-control" name="nama_pelanggan" id="nama_pelanggan">
+        <input type="text" class="form-control" name="nama_pelanggan_ctp" id="nama_pelanggan_ctp">
       </div>
       <div class="form-group">
-        <label for="balance">Kota</label>
-        <input type="text" class="form-control" name="kota" id="kota">
+        <label for="balance">Order Type Name</label>
+        <input type="text" class="form-control" name="order_type_name" id="order_type_name">
       </div>
       <div class="form-group">
-        <label for="balance">Saran</label>
-        <textarea id="saran" name="saran" class="form-control"></textarea>
+        <label for="balance">User ID</label>
+        <input type="text" class="form-control" name="user_id" id="user_id">
       </div>
       <div class="form-group">
-        <label for="balance">ID Users</label>
-        <input type="text" class="form-control" name="id_users" id="id_users" value="<?php echo $this->session->userdata('id_users')?>" readonly>
+        <label for="balance">Employee Name</label>
+        <input type="text" class="form-control" name="employee_name" id="employee_name">
       </div>
-            
+      <div class='form-group'>
+        <label>Paket</label>
+        <select name="paket_id" class="form-control" id="paket_id">
+          <option value="0">-- Pilih Paket --</option>  
+          <?php foreach ($paket as $p) {?>
+          <option value="<?php echo $p->paket_id?>"><?php echo $p->nama_paket ?></option>
+          <?php } ?>
+        </select>
+      </div>
+      <div class='form-group'>
+        <label>Admin CTP</label>
+        <select name="id_users" class="form-control" id="id_users">
+          <option value="0">-- Pilih Admin CTP --</option>  
+          <?php foreach ($users as $u) {?>
+          <option value="<?php echo $u->id_users?>"><?php echo $u->nama ?></option>
+          <?php } ?>
+        </select>
+      </div>
+      <div class='form-group'>
+        <label>Branch</label>
+        <select name="id_branch" class="form-control" id="id_branch">
+          <option value="0">-- Pilih Branch --</option>  
+          <?php foreach ($branch as $b) {?>
+          <option value="<?php echo $b->branch_id?>"><?php echo $b->nama_branch ?></option>
+          <?php } ?>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="balance">Tanggal Upload</label>
+        <input type="text" class="form-control" name="tgl_upload" id="tgl_upload" value="<?php echo date('Y-m-d')?>" readonly>
+      </div>
+
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>feedbacks/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
@@ -90,6 +143,7 @@
 </div><!--End Main-content DIV-->
 </section><!--End Main-content Section-->
 <script type="text/javascript">
+
 $(document).ready(function(){
 
   if($(".sidebar").width()=="0"){
@@ -130,6 +184,7 @@ $(document).ready(function(){
 
   });
 
+$("#date").datepicker(); 
   $(document).on('click','.kembali',function(){
 
       var link=$(this).attr("href"); 

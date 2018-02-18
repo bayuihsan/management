@@ -54,6 +54,18 @@ class usersModel extends CI_Model{
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
+	}
+
+	public function get_all_ctp(){
+		$this->db->select('a.*, b.nama_branch');
+		$this->db->from('app_users a');
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');  
+		$this->db->where('a.level','6');
+		$this->db->where('a.keterangan','Aktif');
+		$this->db->order_by("a.nama", "asc"); 
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
 	} 
 
 	public function get_all_tl_branch($branch_id, $level){  

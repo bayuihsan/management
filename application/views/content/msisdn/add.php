@@ -50,7 +50,7 @@
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Deposit</div>
+    <div class="panel-heading">Upload File MSISDN Dari Excel</div>
     <div class="panel-body">
   <ul class="list-group">
   <li class="list-group-item">
