@@ -13,7 +13,7 @@ class sales extends CI_Controller {
         }
         date_default_timezone_set(get_current_setting('timezone')); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('salesmodel','Branchmodel','Reportmodel'));
+        $this->load->model(array('salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel'));
     }
     
     public function index(){
@@ -101,6 +101,12 @@ class sales extends CI_Controller {
     public function add($action='',$param1='')
 	{
         $data['branch']=$this->Branchmodel->get_all();
+        $data['sub_channel']=$this->Sales_channelmodel->get_all();
+        $data['paket']=$this->Paketmodel->get_all();
+        $data['tl']=$this->usersmodel->get_all_tl();
+        $data['validasi']=$this->usersmodel->get_all_validasi();
+        $data['sales_person']=$this->Salespersonmodel->get_all();
+
         if($action=='asyn'){
             $this->load->view('content/sales/add',$data);
         }else if($action==''){

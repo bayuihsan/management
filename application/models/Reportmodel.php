@@ -24,39 +24,26 @@ class ReportModel extends CI_Model{
 		//Get Current Day PSB, Expense AND Current Month PSB
 		date_default_timezone_set(get_current_setting('timezone'));	
 		$date=$tgl;	
+		$date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		//Current Day PSB
-		$current_query=$this->db->query("SELECT count(psb_id) as amount 
-			FROM new_psb 
-			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d')='".$date."'");	
+		$current_query=$this->db->query("SELECT count(a.psb_id) as amount, sum(b.harga_paket) as revenue  
+			FROM new_psb a
+			JOIN paket b ON a.paket_id=b.paket_id
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d')='".$date."'");	
 		$current_result=$current_query->row();
 
 		//Current Month PSB
-		$curmonth_query=$this->db->query("SELECT count(psb_id) as amount 
-			FROM new_psb 
-			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-		INTERVAL 1 MONTH)), 1) AND '".$date."'");	
+		$curmonth_query=$this->db->query("SELECT count(a.psb_id) as amount, sum(b.harga_paket) as revenue 
+			FROM new_psb a 
+			JOIN paket b ON a.paket_id=b.paket_id
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between '".$date1."' AND '".$date."'");	
 		$curmonth_result=$curmonth_query->row();
-
-		//Current Day Revenue
-		$currev_query=$this->db->query("SELECT sum(b.harga_paket) as amount 
-			FROM new_psb a
-			JOIN paket b ON a.paket_id=b.paket_id 
-			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d')='".$date."'");	
-		$currev_result=$currev_query->row();
-
-		//Current Month PSB
-		$monthrev_query=$this->db->query("SELECT sum(b.harga_paket) as amount 
-			FROM new_psb a
-			JOIN paket b ON a.paket_id=b.paket_id 
-			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-		INTERVAL 1 MONTH)), 1) AND '".$date."'");	
-		$monthrev_result=$monthrev_query->row();
 
 		$transaction=array(
 			"current_day_psb"=>isset($current_result->amount) ? number_format($current_result->amount) : number_format(0),
+			"current_day_revenue"=> isset($current_result->revenue) ? number_format($current_result->revenue) : number_format(0),
 			"current_month_psb"=> isset($curmonth_result->amount) ? number_format($curmonth_result->amount) : number_format(0),
-			"current_day_revenue"=> isset($currev_result->amount) ? number_format($currev_result->amount) : number_format(0),
-			"current_month_revenue"=> isset($monthrev_result->amount) ? number_format($monthrev_result->amount) : number_format(0),
+			"current_month_revenue"=> isset($curmonth_result->revenue) ? number_format($curmonth_result->revenue) : number_format(0),
 
 		);	
 
@@ -130,17 +117,19 @@ class ReportModel extends CI_Model{
 	//get top branch information 
 	public function getTopBranch($limit=0, $lm='', $tgl='')
 	{
-
+		$date = $tgl;
+		$last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
+		$date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+					'".$last_date."' AND '".$lm."'),0) AS 'last_month',
 			COUNT(a.psb_id) AS amount 
 			FROM new_psb a 
 			JOIN branch b ON a.branch_id=b.branch_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' GROUP BY b.nama_branch ORDER BY amount DESC LIMIT ".$limit."
+				'".$date1."' AND '".$tgl."' GROUP BY b.nama_branch ORDER BY amount DESC LIMIT ".$limit."
 			")->result();
 
 		$result=$sukses_query;
@@ -151,17 +140,19 @@ class ReportModel extends CI_Model{
 	//get top paket information 
 	public function getTopPaket($limit=0, $lm='', $tgl='')
 	{
-
+		$date = $tgl;
+		$last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
+		$date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, 
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND paket_id=b.paket_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+					'".$last_date."' AND '".$lm."'),0) AS 'last_month',
 			count(a.psb_id) as amount 
 			FROM new_psb a 
 			JOIN paket b ON a.paket_id=b.paket_id
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
+				'".$date1."' AND
 				'".$tgl."' GROUP BY b.nama_paket order by amount desc limit ".$limit." ")->result();
 
 		$result=$paket_query;
@@ -192,18 +183,20 @@ class ReportModel extends CI_Model{
 	//get top TL information 
 	public function getTopTL($limit=0, $lm='', $tgl='')
 	{
-
+		$date = $tgl;
+		$last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
+		$date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		$tl_query=$this->db->query("SELECT b.id_users, b.username, b.nama, c.nama_branch, 
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND TL=b.username AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+					'".$last_date."' AND '".$lm."'),0) AS 'last_month',
 			count(a.psb_id) as amount 
 			FROM new_psb a
 			JOIN app_users b on a.TL=b.username
 			JOIN branch c on a.branch_id=c.branch_id
 			WHERE a.status='sukses' AND b.level='3' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
+				'".$date1."' AND
 				'".$tgl."' GROUP BY b.nama order by amount desc limit ".$limit." ")->result();
 
 		$result=$tl_query;
