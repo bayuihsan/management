@@ -57,7 +57,7 @@ class Ctp extends CI_Controller {
             $data['id_users']       =addslashes($this->input->post('id_users',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
+            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
             $this->form_validation->set_rules('nama_pelanggan', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('kota', 'Kota', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('saran', 'Saran', 'trim|required|xss_clean|min_length[3]');

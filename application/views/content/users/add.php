@@ -26,18 +26,18 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <p>Informasi Pribadi</p>  
     <form id="add-users">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="id_users" id="id_users" value=""/>    
+      <input type="hidden" name="uid_users" id="uid_users" value=""/>    
       <div class="form-group">
         <label for="nama">Nama</label>
-        <input type="text" class="form-control" name="nama" id="nama">
+        <input type="text" class="form-control" name="unama" id="unama">
       </div>
       <div class="form-group">
         <label for="no_hp">No HP</label>
-        <input type="text" class="form-control" name="no_hp" id="no_hp">
+        <input type="text" class="form-control" name="uno_hp" id="uno_hp">
       </div>
       <div class="form-group"> 
         <label for="branch">Branch</label>
-        <select name="branch_id" class="form-control" id="branch">  
+        <select name="ubranch_id" class="form-control" id="ubranch_id">  
           <option value="">Pilih Branch</option>
           <?php foreach ($branch as $new) {?>
           <option value="<?php echo $new->branch_id ?>"><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
@@ -46,7 +46,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div>
       <div class="form-group"> 
         <label for="channel">Channel</label>
-        <select name="channel" class="form-control" id="channel">  
+        <select name="uchannel" class="form-control" id="uchannel">  
           <option value="">Pilih Channel</option>
           <?php for($i=0; $i<count($channel); $i++) { ?>
           <option value="<?php echo $i; ?>"><?php echo "(".$i.") ".$channel[$i]; ?></option>
@@ -55,24 +55,24 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div>
       <div class="form-group"> 
         <label for="level">Level</label>
-        <select name="level" class="form-control" id="level">  
+        <select name="ulevel" class="form-control" id="ulevel">  
           <option value="">Pilih Level</option>
-          <?php for($i=1; $i<count($level); $i++) { ?>
-          <option value="<?php echo $i; ?>"><?php echo "(".$i.") ".$level[$i]; ?></option>
+          <?php for($j=1; $j<count($level); $j++) { ?>
+          <option value="<?php echo $j; ?>"><?php echo "(".$j.") ".$level[$j]; ?></option>
           <?php } ?>
         </select>      
       </div>
       <div class="form-group">
         <label for="no_rekening">No Rekening</label>
-        <input type="text" class="form-control" name="no_rekening" id="no_rekening">
+        <input type="text" class="form-control" name="uno_rekening" id="uno_rekening">
       </div>
       <div class="form-group">
         <label for="nama_bank">Nama Bank</label>
-        <input type="text" class="form-control" name="nama_bank" id="nama_bank">
+        <input type="text" class="form-control" name="unama_bank" id="unama_bank">
       </div>
       <div class="form-group">
         <label for="keterangan">Keterangan</label>
-        <select name="keterangan" class="form-control" id="keterangan">
+        <select name="uketerangan" class="form-control" id="uketerangan">
           <option value="">Pilih Status</option>
           <option value="Aktif">Aktif</option>
           <option value="nAktif">Tidak Aktif</option>
@@ -80,22 +80,22 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div> 
       <div class="form-group">
         <label for="Input By">Input By</label>
-        <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
+        <input type="text" class="form-control" name="uupdate_by" id="uupdate_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <hr>
       <p>Informasi Login</p>
       <div class="form-group">
         <label for="username">Username</label> *Jika menggunakan spasi, otomatis akan diganti menjadi Underscore (_)
-        <input type="text" class="form-control" name="username" id="username">
-        <input type="hidden" class="form-control" name="username1" id="username1">
+        <input type="text" class="form-control" name="uusername" id="uusername">
+        <input type="hidden" class="form-control" name="uusername1" id="uusername1">
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" id="password">
+        <input type="password" class="form-control" name="upassword" id="upassword">
       </div>
       <div class="form-group">
         <label for="password">Confirm Password</label>
-        <input type="password" class="form-control" name="repassword" id="repassword">
+        <input type="password" class="form-control" name="urepassword" id="urepassword">
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>users/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
@@ -104,18 +104,18 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 
     <form id="add-users">
       <input type="hidden" name="action" id="action" value="update"/>  
-      <input type="hidden" name="id_users" id="id_users" value="<?php echo $edit_users->id_users?>"/>    
+      <input type="hidden" name="uid_users" id="uid_users" value="<?php echo $edit_users->id_users?>"/>    
       <div class="form-group">
         <label for="nama">Nama</label>
-        <input type="text" class="form-control" name="nama" id="nama" value="<?php echo $edit_users->nama?>">
+        <input type="text" class="form-control" name="unama" id="unama" value="<?php echo $edit_users->nama?>">
       </div>
       <div class="form-group">
         <label for="no_rekening">No HP</label>
-        <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?php echo $edit_users->no_hp?>">
+        <input type="text" class="form-control" name="uno_hp" id="uno_hp" value="<?php echo $edit_users->no_hp?>">
       </div>
       <div class="form-group"> 
         <label for="branch">Branch</label>
-        <select name="branch_id" class="form-control" id="branch">  
+        <select name="ubranch_id" class="form-control" id="ubranch_id">  
           <option value="">Pilih Branch</option>
           <?php foreach ($branch as $new) {
             if($edit_users->branch_id == $new->branch_id){ 
@@ -133,8 +133,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         </select>      
       </div>
       <div class="form-group"> 
-        <label for="channel">Channel</label>
-        <select name="channel" class="form-control" id="channel">  
+        <label for="uchannel">Channel</label>
+        <select name="uchannel" class="form-control" id="uchannel">  
           <option value="">Pilih Channel</option>
           <?php for($i=0; $i<count($channel); $i++) { 
             if($edit_users->channel == $i){ $sel = "selected='selected'"; ?>
@@ -147,29 +147,29 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         </select>      
       </div>
       <div class="form-group"> 
-        <label for="level">Level</label>
-        <select name="level" class="form-control" id="level">  
+        <label for="ulevel">Level</label>
+        <select name="ulevel" class="form-control" id="ulevel">  
           <option value="">Pilih Level</option>
-          <?php for($i=1; $i<count($level); $i++) { 
-            if($edit_users->level == $i){ $sel = "selected='selected'"; ?>
-            <option value="<?php echo $i; ?>" <?php echo $sel?>><?php echo "(".$i.") ".$level[$i]; ?></option>
+          <?php for($j=1; $j<count($level); $j++) { 
+            if($edit_users->level == $j){ $sel = "selected='selected'"; ?>
+            <option value="<?php echo $j; ?>" <?php echo $sel?>><?php echo "(".$j.") ".$level[$j]; ?></option>
             <?php }else{ $sel = "";  ?>
-            <option value="<?php echo $i; ?>" <?php echo $sel?>><?php echo "(".$i.") ".$level[$i]; ?></option>
+            <option value="<?php echo $j; ?>" <?php echo $sel?>><?php echo "(".$j.") ".$level[$j]; ?></option>
           <?php   }
             } ?>
         </select>      
       </div>
       <div class="form-group">
         <label for="no_rekening">No Rekening</label>
-        <input type="text" class="form-control" name="no_rekening" id="no_rekening" value="<?php echo $edit_users->no_rekening ?>">
+        <input type="text" class="form-control" name="uno_rekening" id="uno_rekening" value="<?php echo $edit_users->no_rekening ?>">
       </div>
       <div class="form-group">
         <label for="nama_bank">Nama Bank</label>
-        <input type="text" class="form-control" name="nama_bank" id="nama_bank" value="<?php echo $edit_users->nama_bank ?>">
+        <input type="text" class="form-control" name="unama_bank" id="unama_bank" value="<?php echo $edit_users->nama_bank ?>">
       </div>
       <div class="form-group">
         <label for="keterangan">Keterangan</label>
-        <select name="keterangan" class="form-control" id="keterangan">
+        <select name="uketerangan" class="form-control" id="uketerangan">
           <option value="">Pilih Keterangan</option>
           <?php if($edit_users->keterangan=="Aktif"){ ?>
           <option value="Aktif" selected="selected">Aktif</option>
@@ -183,15 +183,15 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
       </div> 
       <div class="form-group">
         <label for="Input By">Input By</label>
-        <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
+        <input type="text" class="form-control" name="uupdate_by" id="uupdate_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <hr>
       <p>Informasi Login</p>
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" name="username" id="username" value="<?php echo $edit_users->username?>" readonly> 
+        <input type="text" class="form-control" name="uusername" id="uusername" value="<?php echo $edit_users->username?>" readonly> 
         change *Jika menggunakan spasi, otomatis akan diganti menjadi Underscore (_)
-        <input type="text" class="form-control" name="username1" id="username1" placeholder="Change Username">
+        <input type="text" class="form-control" name="uusername1" id="uusername1" placeholder="Change Username">
       </div>
       
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
@@ -218,12 +218,13 @@ $(document).ready(function(){
   if($(".sidebar").width()=="0"){
     $(".main-content").css("padding-left","0px");
   } 
-  $("#branch").select2();
-  $("#channel").select2();
-  $("#level").select2();
+
+  $("#ubranch_id").select2();
+  $("#uchannel").select2();
+  $("#ulevel").select2();
 
   //for number only
-  $("#no_rekening").keypress(function (e) {
+  $("#uno_rekening").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -232,7 +233,7 @@ $(document).ready(function(){
   });
 
   //for number only
-  $("#no_hp").keypress(function (e) {
+  $("#uno_hp").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -241,28 +242,43 @@ $(document).ready(function(){
   });
 
   $('#add-users').on('submit',function(){    
-    $.ajax({
-      method : "POST",
-      url : "<?php echo site_url('users/add/insert') ?>",
-      data : $(this).serialize(),
-      beforeSend : function(){
-        $(".block-ui").css('display','block'); 
-      },success : function(data){ 
-      if(data=="true"){  
-        sucessAlert("Saved Sucessfully"); 
-        $(".block-ui").css('display','none'); 
-        if($("#action").val()!='update'){        
-          $('#nama_users').val("");
-          $("#ketua").val("");
-          $('#status').val("");      
+    var hp = $("#uno_hp").val();
+    if(hp.substring(0,3)!=628){
+      alert("No HP harus diawali 628");
+      return false;
+    }else{
+      $.ajax({
+        method : "POST",
+        url : "<?php echo site_url('users/add/insert') ?>",
+        data : $(this).serialize(),
+        beforeSend : function(){
+          $(".block-ui").css('display','block'); 
+        },success : function(data){ 
+        if(data=="true"){  
+          sucessAlert("Saved Sucessfully"); 
+          $(".block-ui").css('display','none'); 
+          if($("#action").val()!='update'){        
+            $('#unama').val("");
+            $("#uno_hp").val("");
+            $('#ubranch_id').val("");      
+            $('#uchannel').val("");      
+            $('#ulevel').val("");      
+            $('#uno_rekening').val("");      
+            $('#unama_bank').val("");      
+            $('#uketerangan').val("");      
+            $('#uusername').val("");      
+            $('#upassword').val("");      
+            $('#urepassword').val("");      
+          }
+        }else{
+          failedAlert2(data);
+          $(".block-ui").css('display','none');
+        }   
         }
-      }else{
-        failedAlert2(data);
-        $(".block-ui").css('display','none');
-      }   
-      }
-    });    
-    return false;
+      });    
+      return false;
+    }
+    
 
   });
 

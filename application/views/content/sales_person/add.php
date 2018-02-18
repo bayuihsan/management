@@ -33,7 +33,7 @@
       </div>
       <div class="form-group">
         <label for="branch">Branch</label>
-        <select name="branch_id" class="form-control" id="branch_id" >
+        <select name="sbranch_id" class="form-control" id="sbranch_id" >
           <option value="">Pilih Branch</option>
           <?php foreach ($pilihbranch as $pb) {?>
           <option value="<?php echo $pb->branch_id?>"><?php echo $pb->nama_branch ?></option>
@@ -55,11 +55,11 @@
       </div>
       <div class="form-group">
         <label for="balance">Nama Bank</label>
-        <input type="text" class="form-control" name="nama_bank" id="nama_bank">
+        <input type="text" class="form-control" name="snama_bank" id="snama_bank">
       </div>
       <div class="form-group">
         <label for="balance">No. Rekening</label>
-        <input type="text" class="form-control" name="no_rekening" id="no_rekening">
+        <input type="text" class="form-control" name="sno_rekening" id="sno_rekening">
       </div>
       <div class="form-group">
         <label for="balance">Atas Nama</label>
@@ -93,7 +93,7 @@
       </div>
       <div class="form-group">
         <label for="branch">Branch</label>
-        <select name="branch_id" class="form-control" id="branch_id" >
+        <select name="sbranch_id" class="form-control" id="sbranch_id" >
           <option value="">Pilih Branch</option>
           <?php foreach ($pilihbranch as $pb) { 
             if($edit_salesperson->branch_id == $pb->branch_id){ ?>
@@ -123,11 +123,11 @@
       </div>
       <div class="form-group">
         <label for="balance">Nama Bank</label>
-        <input type="text" class="form-control" name="nama_bank" id="nama_bank" value="<?php echo $edit_salesperson->nama_bank;?>">
+        <input type="text" class="form-control" name="snama_bank" id="snama_bank" value="<?php echo $edit_salesperson->nama_bank;?>">
       </div>
       <div class="form-group">
         <label for="balance">No. Rekening</label>
-        <input type="text" class="form-control" name="no_rekening" id="no_rekening" value="<?php echo $edit_salesperson->no_rekening;?>">
+        <input type="text" class="form-control" name="sno_rekening" id="sno_rekening" value="<?php echo $edit_salesperson->no_rekening;?>">
       </div>
       <div class="form-group">
         <label for="balance">Atas Nama</label>
@@ -172,10 +172,10 @@ $(document).ready(function(){
     $(".main-content").css("padding-left","0px");
   } 
   //TL berdasarkan branch
-  $("#id_users").chained("#branch_id");
+  $("#id_users").chained("#sbranch_id");
 
   //for number only
-  $("#no_telp, #no_rekening").keypress(function (e) {
+  $("#no_telp, #sno_rekening").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -184,37 +184,43 @@ $(document).ready(function(){
   });
 
   $('#id_users').select2();
-  $('#branch_id').select2();
+  $('#sbranch_id').select2();
 
-  $('#add-salesperson').on('submit',function(){    
-    $.ajax({
-      method : "POST",
-      url : "<?php echo site_url('salesperson/add/insert') ?>",
-      data : $(this).serialize(),
-      beforeSend : function(){
-        $(".block-ui").css('display','block'); 
-      },success : function(data){ 
-      if(data=="true"){  
-        sucessAlert("Saved Sucessfully"); 
-        $(".block-ui").css('display','none'); 
-        if($("#action").val()!='update'){        
-          $('#user_sales').val("");
-          $('#nama_sales').val("");
-          $("#branch_id").val("");
-          $('#id_users').val("");      
-          $('#no_telp').val("");      
-          $('#status').val("");      
-          $('#nama_bank').val("");      
-          $('#no_rekening').val("");      
-          $('#atas_nama').val("");      
+  $('#add-salesperson').on('submit',function(){
+    var no_telp = $("#no_telp").val();
+    if(no_telp.substring(0,3)!=628){
+      alert("No Telp harus diawali 628");
+      return false;
+    }else{
+      $.ajax({
+        method : "POST",
+        url : "<?php echo site_url('salesperson/add/insert') ?>",
+        data : $(this).serialize(),
+        beforeSend : function(){
+          $(".block-ui").css('display','block'); 
+        },success : function(data){ 
+        if(data=="true"){  
+          sucessAlert("Saved Sucessfully"); 
+          $(".block-ui").css('display','none'); 
+          if($("#action").val()!='update'){        
+            $('#user_sales').val("");
+            $('#nama_sales').val("");
+            $("#sbranch_id").val("");
+            $('#id_users').val("");      
+            $('#no_telp').val("");      
+            $('#status').val("");      
+            $('#snama_bank').val("");      
+            $('#sno_rekening').val("");      
+            $('#atas_nama').val("");      
+          }
+        }else{
+          failedAlert2(data);
+          $(".block-ui").css('display','none');
+        }   
         }
-      }else{
-        failedAlert2(data);
-        $(".block-ui").css('display','none');
-      }   
-      }
-    });    
-    return false;
+      });    
+      return false;
+    }
 
   });
 

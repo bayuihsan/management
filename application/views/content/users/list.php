@@ -19,7 +19,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <table id="users-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>USERNAME</th><th>NAMA USER</th>
-                <th>BRANCH</th><th>CHANNEL</th><th>LEVEL</th><th>KETERANGAN</th><th>LAST LOGIN</th>
+                <th>BRANCH</th><th>NO HP</th><th>CHANNEL</th><th>LEVEL</th><th>KETERANGAN</th><th>LAST LOGIN</th>
                 <th class="single-action">ACTION</th>
             </thead>
 
@@ -30,6 +30,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                 <td><?php echo $new->id_users.' - '.strtoupper($new->username) ?></td>
                 <td><?php echo strtoupper($new->nama) ?></td>
                 <td><?php echo strtoupper($new->nama_branch) ?></td>
+                <td><?php echo strtoupper($new->no_hp) ?></td>
                 <td><?php echo strtoupper($channel[$new->channel]) ?></td>
                 <td><?php echo strtoupper($level[$new->level]) ?></td>
                 <td><?php echo strtoupper($new->keterangan) ?></td>

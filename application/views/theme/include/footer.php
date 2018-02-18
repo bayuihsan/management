@@ -36,6 +36,24 @@ $(document).on('ready',function() {
 		cursorwidth: "8px",cursorcolor:"#7f8c8d"
 	});
 
+	//for number only
+	$("#no_rekening").keypress(function (e) {
+		//if the letter is not digit then display error and don't type anything
+		if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+		  //display error message
+		  return false;
+		}
+	});
+
+	//for number only
+	$("#no_hp").keypress(function (e) {
+		//if the letter is not digit then display error and don't type anything
+		if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+		  //display error message
+		  return false;
+		}
+	});
+
 	$(document).on('submit','#edit-profile',function(){
 		var link=$(this).attr("action");
 		$.ajax({method : "POST",url : link, data: $(this).serialize(),
