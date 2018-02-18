@@ -33,7 +33,7 @@
 $(document).on('ready',function() {
 
 	$(".financial-bal").niceScroll({
-	cursorwidth: "8px",cursorcolor:"#7f8c8d"
+		cursorwidth: "8px",cursorcolor:"#7f8c8d"
 	});
 
 	$(document).on('submit','#edit-profile',function(){

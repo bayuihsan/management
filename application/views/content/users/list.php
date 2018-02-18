@@ -36,7 +36,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                 <td><?php echo strtoupper($new->last_login) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('users/edit/'.$new->id_users) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs users-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('users/add/remove/'.$new->id_users) ?>">Hapus</a> &nbsp; <a class="mybtn btn-warning btn-xs users-reset-btn" data-toggle="tooltip" title="Click For Reset Password" href="<?php echo site_url('users/add/reset/'.$new->id_users) ?>">Reset Password</a></td>
+                <a class="mybtn btn-danger btn-xs users-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('users/add/remove/'.$new->id_users) ?>">Delete</a> &nbsp; <a class="mybtn btn-warning btn-xs users-reset-btn" data-toggle="tooltip" title="Click For Reset Password" href="<?php echo site_url('users/add/reset/'.$new->id_users) ?>">Reset Password</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

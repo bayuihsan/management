@@ -312,7 +312,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <ul class="collapse">
     <li><a class="asyn-income" href="<?php echo site_url('Admin/addIncome') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>
     
-    <li><a href="<?php echo site_url('Admin/manageIncome') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
+    <li><a href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
 </ul>
 </li>
 
