@@ -34,7 +34,7 @@ class User extends CI_Controller {
         $username   =addslashes($this->input->post('username',true));
         $password   =addslashes($this->input->post('password',true));
         
-        $this->form_validation->set_rules('username','Username','trim|strip_tags|xss_clean|required');
+        $this->form_validation->set_rules('username','Username','trim|strip_tags|xss_clean|required|min_length[3]');
 		$this->form_validation->set_rules('password','Password','trim|xss_clean|required');
 
         if(!$this->form_validation->run() == FALSE){

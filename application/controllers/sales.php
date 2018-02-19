@@ -100,13 +100,25 @@ class sales extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['branch']=$this->Branchmodel->get_all();
-        $data['sub_channel']=$this->Sales_channelmodel->get_all();
-        $data['paket']=$this->Paketmodel->get_all();
-        $data['tl']=$this->usersmodel->get_all_tl();
-        $data['validasi']=$this->usersmodel->get_all_validasi();
-        $data['sales_person']=$this->Salespersonmodel->get_all();
+        $sess_level = $this->session->userdata('level');
+        $sess_branch = $this->session->userdata('branch_id');
+        if($sess_level==4){
+            $data['branch']=$this->Branchmodel->get_all();
+            $data['tl']=$this->usersmodel->get_all_tl();
+            $data['sub_channel']=$this->Sales_channelmodel->get_all();
+            $data['sales_person']=$this->Salespersonmodel->get_all();
+            $data['validasi']=$this->usersmodel->get_all_validasi();
 
+        }else{
+            $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $data['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
+            $data['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
+            $data['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
+            $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
+        }
+        
+        $data['paket']=$this->Paketmodel->get_all();
+        
         if($action=='asyn'){
             $this->load->view('content/sales/add',$data);
         }else if($action==''){
@@ -118,46 +130,75 @@ class sales extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do                     =addslashes($this->input->post('action',true));     
-            $data['nama']           =addslashes($this->input->post('nama',true)); 
-            $data['no_hp']          =addslashes($this->input->post('no_hp',true)); 
-            $data['branch_id']      =addslashes($this->input->post('branch_id',true)); 
-            $data['channel']        =addslashes($this->input->post('channel',true));  
-            $data['level']          =addslashes($this->input->post('level',true));  
-            $data['no_rekening']    =addslashes($this->input->post('no_rekening',true));  
-            $data['nama_bank']      =addslashes($this->input->post('nama_bank',true));
-            $data['keterangan']     =addslashes($this->input->post('keterangan',true));
+            $do                         =addslashes($this->input->post('action',true));     
+            $data['msisdn']             = $msisdn = addslashes($this->input->post('smsisdn',true)); 
+            $data['nama_pelanggan']     =addslashes($this->input->post('snama_pelanggan',true)); 
+            $data['alamat']             =addslashes($this->input->post('salamat',true)); 
+            $data['alamat2']            =addslashes($this->input->post('salamat2',true));  
+            $data['no_hp']              =addslashes($this->input->post('sno_hp',true));  
+            $data['ibu_kandung']        =addslashes($this->input->post('sibu_kandung',true));  
+            $data['tanggal_masuk']      =addslashes($this->input->post('stanggal_masuk',true));
+            $data['tanggal_validasi']   =addslashes($this->input->post('stanggal_validasi',true));
+            $data['tanggal_aktif']      =addslashes($this->input->post('stanggal_aktif',true));
+            $data['paket']              =addslashes($this->input->post('spaket',true));
+            $data['discount']           =addslashes($this->input->post('sdiscount',true));
+            $data['periode']            =addslashes($this->input->post('speriode',true));
+            $data['bill_cycle']         =addslashes($this->input->post('sbill_cycle',true));
+            $data['fa_id']              =addslashes($this->input->post('sfa_id',true));
+            $data['account_id']         =addslashes($this->input->post('saccount_id',true));
+            $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
+            $data['nama_event']         =addslashes($this->input->post('snama_event',true));
+            $data['status']             =addslashes($this->input->post('sstatus',true));
+            $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
+
+            $data['branch_id']          =addslashes($this->input->post('sbranch',true));
+            $data['sub_sales_channel']  =addslashes($this->input->post('ssub_channel',true));
+            $data['detail_sub']         =addslashes($this->input->post('sdetail_sub',true));
+            $data['TL']                 = $tl =addslashes($this->input->post('sTL',true));
+            $data['sales_person']       =addslashes($this->input->post('ssales_person',true));
+            $data['validasi_by']        =addslashes($this->input->post('svalidasi_by',true));
 
             $data['username'] = $username = str_replace(" ", "_", addslashes($this->input->post('username',true)));         
                  
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama', 'Nama', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
-            $this->form_validation->set_rules('branch_id', 'Branch ', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('channel', 'Channel', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('level', 'Level', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|xss_clean|numeric|min_length[5]');
-            $this->form_validation->set_rules('nama_bank', 'Nama Bank', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('keterangan', 'Status', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('smsisdn', 'MSISDN', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
+            $this->form_validation->set_rules('snama_pelanggan', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('salamat', 'Alamat ', 'trim|required|xss_clean|min_length[10]');
+            $this->form_validation->set_rules('salamat2', 'Alamat 2', 'trim|required|xss_clean|min_length[5]');
+            $this->form_validation->set_rules('sno_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
+            $this->form_validation->set_rules('sibu_kandung', 'Ibu Kandung', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('stanggal_masuk', 'Tanggal Masuk', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('stanggal_validasi', 'Tanggal Validasi', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('stanggal_aktif', 'Tanggal Aktif', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('spaket', 'Paket', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sdiscount', 'Discount', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('speriode', 'Periode', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sbill_cycle', 'Bill Cycle', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sfa_id', 'FA ID', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('saccount_id', 'Account ID', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sjenis_event', 'Jenis Event', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('snama_event', 'Nama Event', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('sstatus', 'Status', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sdekripsi', 'Keterangan', 'trim|required|xss_clean|min_length[5]');
 
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|alpa_numeric|min_length[5]');
+            $this->form_validation->set_rules('sbranch', 'Branch', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('ssub_channel', 'Sub Channel', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sdetail_sub', 'Detail Sub', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('sTL', 'TL', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('ssales_person', 'Sales Person', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('svalidasi_by', 'Validasi By', 'trim|required|xss_clean');
 
-            if($do == 'insert'){
-                $data['password']   =addslashes($this->input->post('password',true));
-                $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|matches[repassword]');
-                $this->form_validation->set_rules('repassword', 'Confirm Password', 'trim|required|xss_clean');
-            }
-
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
-                    if(value_exists("app_sales","username",$data['username'])) {  
+                    if(value_exists("new_psb","msisdn",$msisdn)) {  
 
-                        echo "This Username Is Already Exists !!!!"; 
+                        echo "This MSISDN Is Already Exists !!!!"; 
                                             
                     }else{
-                        $this->db->insert('app_sales',$data);
+                        $this->db->insert('new_psb',$data);
                         echo "true";
                     }
                      

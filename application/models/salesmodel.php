@@ -18,7 +18,7 @@ class salesModel extends CI_Model{
 	//get all users  
 	public function get_all($tgl = ""){
 		$date = $tgl;
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
 			FROM new_psb a
 			JOIN branch b ON b.branch_id = a.branch_id
 			JOIN app_users c ON c.username = a.TL

@@ -142,8 +142,7 @@ $(document).ready(function(){
         $(".block-ui").css('display','none'); 
         if($("#action").val()!='update'){        
           $('#sales_channel').val("");
-          $('#sub_channel').val("");
-          $("#username").val("");  
+          $('#sub_channel').val(""); 
         }
       }else{
         failedAlert2(data);

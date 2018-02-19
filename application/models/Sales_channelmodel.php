@@ -30,4 +30,14 @@ class Sales_channelmodel extends CI_Model{
 		$result=$query_result->row();
 		return $result;
 	} 
+
+	//get sales channel by id  
+	public function get_all_by($branch_id){
+		$this->db->select('*');
+		$this->db->from('sales_channel');
+		$this->db->where('branch_id',$branch_id);    
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
+	} 
 }

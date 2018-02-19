@@ -56,6 +56,34 @@ class usersModel extends CI_Model{
 		return $result;
 	}
 
+	//get users TL by branch
+	public function get_all_tl_by($branch_id){
+		$this->db->select('a.*, b.nama_branch');
+		$this->db->from('app_users a');
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');  
+		$this->db->where('a.level','3');
+		$this->db->where('a.branch_id',$branch_id);
+		$this->db->where('a.keterangan','Aktif');
+		$this->db->order_by("a.nama", "asc"); 
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
+	}
+
+	//get user validasi by branch
+	public function get_all_validasi_by($branch_id){
+		$this->db->select('a.*, b.nama_branch');
+		$this->db->from('app_users a');
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');  
+		$this->db->where('a.level','2');
+		$this->db->where('a.branch_id',$branch_id);
+		$this->db->where('a.keterangan','Aktif');
+		$this->db->order_by("a.nama", "asc"); 
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
+	}
+
 	//get users validasi
 	public function get_all_validasi(){
 		$this->db->select('a.*, b.nama_branch');

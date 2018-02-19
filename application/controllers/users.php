@@ -69,7 +69,7 @@ class users extends CI_Controller {
             $this->form_validation->set_rules('unama_bank', 'Nama Bank', 'trim|required|xss_clean');
             $this->form_validation->set_rules('uketerangan', 'Status', 'trim|required|xss_clean');
 
-            $this->form_validation->set_rules('uusername', 'Username', 'trim|required|xss_clean|min_length[5]');
+            $this->form_validation->set_rules('uusername', 'Username', 'trim|required|xss_clean|min_length[3]');
 
             if($do == 'insert'){
                 $data['password']   =addslashes($this->input->post('upassword',true));

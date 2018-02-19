@@ -23,6 +23,16 @@ class BranchModel extends CI_Model{
 	} 
 
 	//get branch by id  
+	public function get_all_by($branch_id){
+		$this->db->select('*');
+		$this->db->from('branch');
+		$this->db->where('branch_id',$branch_id);    
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
+	} 
+
+	//get branch by id  
 	public function get_branch_by_id($branch_id){
 		$this->db->select('*');
 		$this->db->from('branch');
