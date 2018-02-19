@@ -46,7 +46,7 @@
      </div>
       <div class="form-group">
         <label for="balance">MSISDN</label>
-        <input type="text" class="form-control" name="msisdn" id="msisdn">
+        <input type="text" class="form-control" name="msisdn_ctp" id="msisdn_ctp">
       </div>
       <div class="form-group">
         <label for="balance">Nama Pelanggan</label>
@@ -179,10 +179,10 @@ $('#cbranch_id').select2();
       return false;
     }
   });
-  $('#add-feedbacks').on('submit',function(){    
+  $('#add-ctp').on('submit',function(){    
     $.ajax({
       method : "POST",
-      url : "<?php echo site_url('feedbacks/add/insert') ?>",
+      url : "<?php echo site_url('ctp/add/insert') ?>",
       data : $(this).serialize(),
       beforeSend : function(){
         $(".block-ui").css('display','block'); 

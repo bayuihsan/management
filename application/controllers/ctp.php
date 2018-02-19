@@ -49,7 +49,7 @@ class Ctp extends CI_Controller {
         //----For Insert update and delete-----// 
         if($action=='insert'){  
             $data=array();
-            $do                             =addslashes($this->input->post('action',true));     
+            $do                             =addslashes($this->input->post('action',true));
             $data['order_id']               =addslashes($this->input->post('order_id',true)); 
             $data['order_submit_date']      =addslashes($this->input->post('order_submit_date',true)); 
             $data['order_completed_date']   =addslashes($this->input->post('order_completed_date',true)); 
@@ -72,9 +72,9 @@ class Ctp extends CI_Controller {
             $this->form_validation->set_rules('order_type_name', 'Order Type', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('employee_name', 'Employee Name', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('paket_id', 'Paket', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('paket_id', 'Paket', 'trim|required|xss_clean|min_length[1]');
             $this->form_validation->set_rules('id_users', 'Admin CTP', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('cbranch_id', 'Branch', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('cbranch_id', 'Branch', 'trim|required|xss_clean|min_length[1]');
             $this->form_validation->set_rules('tgl_upload', 'Tgl Upload', 'trim|required|xss_clean|min_length[3]');
 
             if (!$this->form_validation->run() == FALSE)
