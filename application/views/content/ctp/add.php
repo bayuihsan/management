@@ -84,7 +84,7 @@
       </div>
       <div class='form-group'>
         <label>Branch</label>
-        <select name="branch_id" class="form-control" id="branch_id">
+        <select name="cbranch_id" class="form-control" id="cbranch_id">
           <option value="0">-- Pilih Branch --</option>  
           <?php foreach ($branch as $b) {?>
           <option value="<?php echo $b->branch_id?>"><?php echo $b->nama_branch ?></option>
@@ -166,7 +166,7 @@ $("#date").datepicker();
 $("#date2").datepicker();
 $('#id_users').select2();
 $('#paket_id').select2();
-// $('#branch_id').select2();
+$('#cbranch_id').select2();
 
   if($(".sidebar").width()=="0"){
     $(".main-content").css("padding-left","0px");

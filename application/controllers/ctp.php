@@ -60,7 +60,7 @@ class Ctp extends CI_Controller {
             $data['employee_name']          =addslashes($this->input->post('employee_name',true)); 
             $data['paket_id']               =addslashes($this->input->post('paket_id',true)); 
             $data['id_users']               =addslashes($this->input->post('id_users',true)); 
-            $data['branch_id']              =addslashes($this->input->post('branch_id',true)); 
+            $data['cbranch_id']             =addslashes($this->input->post('branch_id',true)); 
             $data['tgl_upload']             =addslashes($this->input->post('tgl_upload',true)); 
        
             //-----Validation-----//   
@@ -74,7 +74,7 @@ class Ctp extends CI_Controller {
             $this->form_validation->set_rules('employee_name', 'Employee Name', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('paket_id', 'Paket', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('id_users', 'Admin CTP', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('branch_id', 'Branch', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('cbranch_id', 'Branch', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('tgl_upload', 'Tgl Upload', 'trim|required|xss_clean|min_length[3]');
 
             if (!$this->form_validation->run() == FALSE)
