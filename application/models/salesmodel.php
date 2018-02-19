@@ -20,12 +20,12 @@ class salesModel extends CI_Model{
 		$date = $tgl;
 		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
 			FROM new_psb a
-			JOIN branch b ON b.branch_id = a.branch_id
-			JOIN app_users c ON c.username = a.TL
-			JOIN paket d ON d.paket_id = a.paket_id
-			JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
-			JOIN app_users f ON f.username = a.username 
-			JOIN app_users g ON g.username = a.validasi_by 
+			LEFT JOIN branch b ON b.branch_id = a.branch_id
+			LEFT JOIN app_users c ON c.username = a.TL
+			LEFT JOIN paket d ON d.paket_id = a.paket_id
+			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+			LEFT JOIN app_users f ON f.username = a.username 
+			LEFT JOIN app_users g ON g.username = a.validasi_by 
 			where DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
 		INTERVAL 1 MONTH)), 1) AND '".$date."'
 			ORDER BY a.tanggal_update DESC");  
@@ -50,7 +50,30 @@ class salesModel extends CI_Model{
 			ORDER BY a.tanggal_update DESC");  
 		$result=$query_result->result();
 		return $result;
+	}
 
+	//get sales by id  
+	public function get_sales_by_id($sales_id){
+		$this->db->select('*');
+		$this->db->from('new_psb');
+		$this->db->where('psb_id',$sales_id);    
+		$query_result=$this->db->get();
+		$result=$query_result->row();
+		return $result;
+	} 
+
+	//get sales by account 
+	public function get_sales_by_account($account_id){
+		$query_result=$this->db->query("select count(psb_id) jumlah from new_psb where account_id='".$account_id."'");
+		$result=$query_result->row();
+		return $result;
+	}
+
+	//get sales by account 
+	public function get_sales_by_fa($fa_id){
+		$query_result=$this->db->query("select count(psb_id) jumlah from new_psb where fa_id='".$fa_id."'");
+		$result=$query_result->row();
+		return $result;
 	}
 
 	//get all sales  
@@ -106,16 +129,5 @@ class salesModel extends CI_Model{
 		$this->db->from($this->table);
 		return $this->db->count_all_results();
 	}
-
-	//get sales by id  
-	public function get_sales_by_id($sales_id){
-		$this->db->select('*');
-		$this->db->from('app_sales');
-		$this->db->where('id_sales',$sales_id);    
-		$query_result=$this->db->get();
-		$result=$query_result->row();
-		return $result;
-	} 
-
 	
 }

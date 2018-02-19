@@ -7,12 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="shortcut icon" href="<?php echo base_url() ?>theme/images/favicon.ico">
 <title>HVC Area 2</title>
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 
 <!-- Bootstrap -->
 <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
@@ -37,7 +31,7 @@
 <!--jquery-->   
 <script src="<?php echo base_url() ?>/theme/js/jquery.js"></script>
 <script src='<?php echo base_url() ?>/theme/js/modernizr.js'></script>
-    
+<script src="<?php echo base_url() ?>theme/js/jquery.chained.min.js"></script>
 
 
 </head>
@@ -310,9 +304,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-credit-card"></i>
 <span class="title">Sales</span></a>
 <ul class="collapse">
-    <li><a class="asyn-income" href="<?php echo site_url('Admin/addIncome') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>
+    <li><a class="asyn-sales" href="<?php echo site_url('sales/add') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>
     
-    <li><a href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
+    <li><a class="asyn-sales" href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
 </ul>
 </li>
 
@@ -320,8 +314,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-university"></i>
 <span class="title">MSISDN</span></a>
 <ul class="collapse">
-    <li><a class="asyn-income" href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
-    <li><a class="asyn-income" href="<?php echo site_url('') ?>"><i class="fa fa-book"></i> Kosong</a></li>
+    <li><a href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
+    <li><a href="<?php echo site_url('') ?>"><i class="fa fa-book"></i> Kosong</a></li>
 </ul>
 </li>
 <li class="has-sub">

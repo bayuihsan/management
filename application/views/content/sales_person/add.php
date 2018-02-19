@@ -1,5 +1,4 @@
 <!--Statt Main Content-->
-<script src="<?php echo base_url() ?>/theme/js/jquery.chained.min.js"></script>
 <section>
 <div class="main-content">
 <div class="row">

@@ -65,6 +65,9 @@ function jenis_event($id){
                 <th>MSISDN</th>
                 <th>NAMA PELANGGAN</th>
                 <th>BRANCH</th>
+                <th>PAKET</th>
+                <th>TL</th>
+                <th>SALES PERSON</th>
                 <th>TANGGAL MASUK</th>
                 <th>TANGGAL VALIDASI</th>
                 <th>TANGGAL AKTIF</th>
@@ -72,14 +75,11 @@ function jenis_event($id){
                 <th>ACCOUNT ID</th>
                 <th>ALAMAT</th>
                 <th>ALAMAT 2</th>
-                <th>PAKET</th>
                 <th>DISCOUNT (RB)</th>
                 <th>PERIODE (BULAN)</th>
                 <th>BILL CYCLE</th>
                 <th>CHANNEL</th>
                 <th>SUB SALES CHANNEL</th>
-                <th>SALES PERSON</th>
-                <th>TL</th>
                 <th>JENIS EVENT</th>
                 <th>NAMA EVENT</th>
                 <th>VALIDATOR</th>
@@ -96,6 +96,9 @@ function jenis_event($id){
                     <td><?php echo $new->psb_id.' - '.strtoupper($new->msisdn) ?></td>
                     <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
                     <td><?php echo strtoupper($new->nama_branch) ?></td>
+                    <td><?php echo strtoupper($new->nama_paket) ?></td>
+                    <td><?php echo strtoupper($new->nama_tl) ?></td>
+                    <td><?php echo strtoupper($new->sales_person) ?></td>
                     <td><?php echo strtoupper(date('Y-m-d', strtotime($new->tanggal_masuk))) ?></td>
                     <td><?php echo strtoupper(date('Y-m-d', strtotime($new->tanggal_validasi))) ?></td>
                     <td><?php echo strtoupper(date('Y-m-d', strtotime($new->tanggal_aktif))) ?></td>
@@ -103,14 +106,11 @@ function jenis_event($id){
                     <td><?php echo strtoupper($new->account_id) ?></td>
                     <td><?php echo strtoupper($new->alamat) ?></td>
                     <td><?php echo strtoupper($new->alamat2) ?></td>
-                    <td><?php echo strtoupper($new->nama_paket) ?></td>
                     <td><?php echo strtoupper(discount($new->discount)) ?></td>
                     <td><?php echo strtoupper(periode($new->periode)) ?></td>
                     <td><?php echo strtoupper($new->bill_cycle) ?></td>
                     <td><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
                     <td><?php echo strtoupper($new->sub_channel) ?></td>
-                    <td><?php echo strtoupper($new->sales_person) ?></td>
-                    <td><?php echo strtoupper($new->nama_tl) ?></td>
                     <td><?php echo strtoupper(jenis_event($new->jenis_event)) ?></td>
                     <td><?php echo strtoupper($new->nama_event) ?></td>
                     <td><?php echo strtoupper($new->validator) ?></td>
@@ -195,30 +195,6 @@ $(document).ready(function() {
         }); 
         return false;       
     }); 
-
-    $(document).on('click','.sales-reset-btn',function(){  
-        var main=$(this);
-        swal({title: "Are you sure Want To Reset Password?",
-        text: "You will be able to change this Data Password!",
-        type: "warning",   showCancelButton: true,confirmButtonColor: "#DD6B55",   
-        confirmButtonText: "Yes, Change it!",closeOnConfirm: false,
-        showLoaderOnConfirm: true }, function(){ 
-            ///////////////     
-            var link=$(main).attr("href");    
-            $.ajax({
-                url : link,
-                beforeSend : function(){
-                    $(".block-ui").css('display','block'); 
-                },success : function(data){
-                    $(".system-alert-box").empty();
-                    swal("Reset Sucessfully!", "New Password = "+data, "success"); 
-                    $(".block-ui").css('display','none');
-                }    
-            });
-        }); 
-        return false;       
-    }); 
-
 });
 
 </script>

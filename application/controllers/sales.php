@@ -137,15 +137,15 @@ class sales extends CI_Controller {
             $data['alamat2']            =addslashes($this->input->post('salamat2',true));  
             $data['no_hp']              =addslashes($this->input->post('sno_hp',true));  
             $data['ibu_kandung']        =addslashes($this->input->post('sibu_kandung',true));  
-            $data['tanggal_masuk']      =addslashes($this->input->post('stanggal_masuk',true));
-            $data['tanggal_validasi']   =addslashes($this->input->post('stanggal_validasi',true));
-            $data['tanggal_aktif']      =addslashes($this->input->post('stanggal_aktif',true));
-            $data['paket']              =addslashes($this->input->post('spaket',true));
+            $data['tanggal_masuk']      =$tanggal_masuk = addslashes($this->input->post('stanggal_masuk',true));
+            $data['tanggal_validasi']   =$tanggal_validasi = addslashes($this->input->post('stanggal_validasi',true));
+            $data['tanggal_aktif']      =$tanggal_aktif = addslashes($this->input->post('stanggal_aktif',true));
+            $data['paket_id']              =addslashes($this->input->post('spaket',true));
             $data['discount']           =addslashes($this->input->post('sdiscount',true));
             $data['periode']            =addslashes($this->input->post('speriode',true));
             $data['bill_cycle']         =addslashes($this->input->post('sbill_cycle',true));
-            $data['fa_id']              =addslashes($this->input->post('sfa_id',true));
-            $data['account_id']         =addslashes($this->input->post('saccount_id',true));
+            $data['fa_id']              = $fa_id = addslashes($this->input->post('sfa_id',true));
+            $data['account_id']         = $account_id =addslashes($this->input->post('saccount_id',true));
             $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
             $data['status']             =addslashes($this->input->post('sstatus',true));
@@ -158,7 +158,8 @@ class sales extends CI_Controller {
             $data['sales_person']       =addslashes($this->input->post('ssales_person',true));
             $data['validasi_by']        =addslashes($this->input->post('svalidasi_by',true));
 
-            $data['username'] = $username = str_replace(" ", "_", addslashes($this->input->post('username',true)));         
+            $data['tanggal_input']      = date('Y-m-d h:i:s');   
+            $data['username']           =addslashes($this->input->post('susername',true));   
                  
             //-----Validation-----//   
             $this->form_validation->set_rules('smsisdn', 'MSISDN', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
@@ -188,37 +189,88 @@ class sales extends CI_Controller {
             $this->form_validation->set_rules('ssales_person', 'Sales Person', 'trim|required|xss_clean');
             $this->form_validation->set_rules('svalidasi_by', 'Validasi By', 'trim|required|xss_clean');
 
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('susername', 'Username', 'trim|required|xss_clean');
+
+            if($do == "update"){
+                $msisdn1 = addslashes($this->input->post('smsisdn1',true)); 
+                $this->form_validation->set_rules('smsisdn1', 'MSISDN', 'trim|xss_clean|min_length[10]|max_length[14]|numeric');
+            }
 
             if (!$this->form_validation->run() == FALSE)
             {
-                if($do=='insert'){ 
-                    if(value_exists("new_psb","msisdn",$msisdn)) {  
+                $account = $this->salesmodel->get_sales_by_account($account_id); 
+                $fa = $this->salesmodel->get_sales_by_fa($fa_id); 
+                if($do=='insert'){
+                    
+                    if($tanggal_aktif > date('Y-m-d')){
+
+                        echo "Tanggal aktif tidak boleh lebih dari hari ini !!!!";
+
+                    }else if($tanggal_masuk > $tanggal_validasi || $tanggal_masuk > $tanggal_aktif || $tanggal_validasi > $tanggal_aktif){
+
+                        echo "Tanggal tidak sesuai. Periksa kembali !!!";
+
+                    }else if(value_exists("new_psb","msisdn",$msisdn)) {  
 
                         echo "This MSISDN Is Already Exists !!!!"; 
                                             
+                    }else if($account->jumlah>10){
+
+                        echo "Account ID sudah digunakan untuk 10 MSISDN";
+
+                    }else if($fa->jumlah>10){
+
+                        echo "FA ID sudah digunakan untuk 10 MSISDN";
+
                     }else{
+                        $user_tl = $this->usersmodel->get_users_by_id($tl);
+                        if(count($user_tl)>0) { 
+                            $data['TL'] = $user_tl->username;
+                        }
+
                         $this->db->insert('new_psb',$data);
                         echo "true";
                     }
                      
                 }else if($do=='update'){
-                    $username1      = addslashes($this->input->post('username1',true));
-                    if(value_exists("app_sales","username",$username1)) {  
-
-                        echo "This Username Is Already Exists !!!!"; 
-                                            
+                    
+                    if($msisdn1 == "" || $msisdn1 == null){
+                        $data['msisdn'] = $msisdn;
                     }else{
-                        if($username1 == '' || $username1 == null){
-                            $data['username'] = $username;
-                        }else{
-                            $data['username'] = $username1;
+                        $data['msisdn'] = $msisdn1;
+                    }
+
+                    if($tanggal_aktif > date('Y-m-d')){
+
+                        echo "Tanggal aktif tidak boleh lebih dari hari ini !!!!";
+
+                    }else if($tanggal_masuk > $tanggal_validasi || $tanggal_masuk > $tanggal_aktif || $tanggal_validasi > $tanggal_aktif){
+
+                        echo "Tanggal tidak sesuai. Periksa kembali !!!";
+
+                    }else if(value_exists("new_psb","msisdn",$msisdn1)) {  
+
+                        echo "This MSISDN Is Already Exists !!!!"; 
+                                            
+                    }else if($account->jumlah>10){
+
+                        echo "Account ID sudah digunakan untuk 10 MSISDN";
+
+                    }else if($fa->jumlah>10){
+
+                        echo "FA ID sudah digunakan untuk 10 MSISDN";
+
+                    }else{
+
+                        $user_tl = $this->usersmodel->get_users_by_id($tl);
+                        if(count($user_tl)>0) { 
+                            $data['TL'] = $user_tl->username;
                         }
 
-                        $id=$this->input->post('id_sales',true);
+                        $id=$this->input->post('psb_id',true);
                         
-                        $this->db->where('id_sales', $id);
-                        $this->db->update('app_sales', $data);
+                        $this->db->where('psb_id', $id);
+                        $this->db->update('new_psb', $data);
 
                         echo "true";
                     }
@@ -232,24 +284,33 @@ class sales extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('app_sales', array('id_sales' => $param1));       
-        }else if($action == 'reset'){
-            $new = "Tsel1234";
-            $datax['password']=md5($new);
-                        
-            $this->db->where(array('id_sales' => $param1));
-            $this->db->update('app_sales', $datax);
-
-            echo $new;
+            $this->db->delete('new_psb', array('psb_id' => $param1));       
         }
 	}
 
     /** Method For get sales information for sales Edit **/ 
-    public function edit($sales_id,$action='')
+    public function edit($psb_id,$action='')
     {
         $data=array();
-        $data['edit_sales']=$this->salesmodel->get_sales_by_id($sales_id); 
-        $data['branch']=$this->Branchmodel->get_all();
+        $sess_level = $this->session->userdata('level');
+        $sess_branch = $this->session->userdata('branch_id');
+        if($sess_level==4){
+            $data['branch']=$this->Branchmodel->get_all();
+            $data['tl']=$this->usersmodel->get_all_tl();
+            $data['sub_channel']=$this->Sales_channelmodel->get_all();
+            $data['sales_person']=$this->Salespersonmodel->get_all();
+            $data['validasi']=$this->usersmodel->get_all_validasi();
+
+        }else{
+            $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $data['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
+            $data['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
+            $data['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
+            $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
+        }
+        $data['edit_sales']=$this->salesmodel->get_sales_by_id($psb_id); 
+        $data['paket']=$this->Paketmodel->get_all();
+
         if($action=='asyn'){
             $this->load->view('content/sales/add',$data);
         }else if($action==''){
