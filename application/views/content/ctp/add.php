@@ -12,7 +12,7 @@
 <!--End Alert-->
 
 
-<div class="col-md-5 col-lg-5 col-sm-5 ctp-div">
+<div class="col-md-6 col-lg-6 col-sm-6 ctp-div">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -138,7 +138,7 @@
     
 </div>
 
-<div class="col-md-7 col-lg-7 col-sm-7">
+<div class="col-md-6 col-lg-6 col-sm-6">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->

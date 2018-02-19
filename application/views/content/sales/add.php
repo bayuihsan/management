@@ -31,7 +31,7 @@ $status=array('sukses'=>'sukses',
  ?>
 
  <?php if( !isset($edit_sales) ) { ?>
-<div class="col-md-7 col-lg-7 col-sm-7 sales-div">
+<div class="col-md-6 col-lg-6 col-sm-6 sales-div">
 <!--Start Panel-->
   <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -168,7 +168,7 @@ $status=array('sukses'=>'sukses',
 <!--End Panel-->    
     
 </div>
-<div class="col-md-5 col-lg-5 col-sm-5 sales-div">
+<div class="col-md-6 col-lg-6 col-sm-6 sales-div">
 <!--Start Panel-->
   <div class="panel panel-default">
     <!-- Default panel contents -->
