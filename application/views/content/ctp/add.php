@@ -12,14 +12,14 @@
 <!--End Alert-->
 
 
-<div class="col-md-8 col-lg-8 col-sm-8 branch-div">
+<div class="col-md-5 col-lg-5 col-sm-5 ctp-div">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Add CTP</div>
     <div class="panel-body add-client">
     <?php if(!isset($edit_ctp)){ ?>  
-    <form id="add-feedbacks">
+    <form id="add-ctp">
       <input type="hidden" name="action" id="action" value="insert"/>  
       <input type="hidden" name="id_ctp" id="id_ctp" value=""/>    
       <div class="form-group">
@@ -27,23 +27,23 @@
         <input type="text" class="form-control" name="order_id" id="order_id">
       </div>
       <div class="form-group">
-        <label for="balance">Order Submit Date</label>
+        <label>Order Submit Date</label>
         <div class='input-group date' id='date'>
         <input type='text' name="order_submit_date" id="order_submit_date" class="form-control" />
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
       </div>
-     </div> 
+     </div>
       <div class="form-group">
-        <label for="balance">Order Completed Date</label>
-        <div class='input-group date' id='date'>
+        <label>Order Completed Date</label>
+        <div class='input-group date' id='date2'>
         <input type='text' name="order_completed_date" id="order_completed_date" class="form-control" />
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
-    </div>
       </div>
+     </div>
       <div class="form-group">
         <label for="balance">MSISDN</label>
         <input type="text" class="form-control" name="msisdn" id="msisdn">
@@ -84,7 +84,7 @@
       </div>
       <div class='form-group'>
         <label>Branch</label>
-        <select name="id_branch" class="form-control" id="id_branch">
+        <select name="branch_id" class="form-control" id="branch_id">
           <option value="0">-- Pilih Branch --</option>  
           <?php foreach ($branch as $b) {?>
           <option value="<?php echo $b->branch_id?>"><?php echo $b->nama_branch ?></option>
@@ -97,7 +97,7 @@
       </div>
 
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>feedbacks/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>ctp/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
     <?php }else{ ?>
@@ -128,7 +128,7 @@
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>feedbacks/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
-    
+         
  <?php } ?>
 
     </div>
@@ -138,14 +138,35 @@
     
 </div>
 
+<div class="col-md-7 col-lg-7 col-sm-7">
+<!--Start Panel-->
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Upload File MSISDN Dari Excel</div>
+    <div class="panel-body">
+  <ul class="list-group">
+  <li class="list-group-item">
+<?php echo form_open_multipart('upload/update');?>
+<input type="file" name="file" size="20" id='files'/>
+<br/><br/>
+<button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+</form>
+</li>
+</ul>
+</div>
+
 
 </div><!--End Inner container-->
 </div><!--End Row-->
 </div><!--End Main-content DIV-->
 </section><!--End Main-content Section-->
 <script type="text/javascript">
-
 $(document).ready(function(){
+$("#date").datepicker();
+$("#date2").datepicker();
+$('#id_users').select2();
+$('#paket_id').select2();
+// $('#branch_id').select2();
 
   if($(".sidebar").width()=="0"){
     $(".main-content").css("padding-left","0px");
@@ -184,8 +205,6 @@ $(document).ready(function(){
     return false;
 
   });
-
-$("#date").datepicker(); 
   $(document).on('click','.kembali',function(){
 
       var link=$(this).attr("href"); 
