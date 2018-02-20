@@ -65,6 +65,15 @@ class Admin extends CI_Controller {
         }
 	}
 
+    function load_modal()
+    {
+        $tanggal    = $this->input->post('tanggal',true);
+        $date1      =$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$tanggal."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
+        $data['from_date'] = $date1;
+        $data['to_date'] = $tanggal;
+        $data['line_chart_branch']=$this->Reportmodel->dayByDaySalesBranch($date1, $tanggal);
+        $this->load->view('content/load_modal_branch',$data);
+    }
     /** Method For general settings page  **/
     public function generalSettings($action='')
     {

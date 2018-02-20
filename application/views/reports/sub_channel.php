@@ -20,10 +20,10 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Paket</div>
+    <div class="panel-heading">Sub Channel</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/paket/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Reports/sub_channel/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <select class="form-control" name="vtanggal" id="vtanggal">
@@ -83,13 +83,13 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                       background-color: #b8d1f3;
                 }
             </style>
-
             <div id="Table-div">
                 <table class="table table-bordered hoverTable">
                     <thead>
                         <th>No</th>
                         <th>Branch</th>
-                        <th>Paket</th>
+                        <th>Channel</th>
+                        <th>Sub Channel</th>
                         <th class="text-right" id="last_month">Last Month</th>
                         <th class="text-right" id="this_month">This Month</th>
                         <th class="text-right">Avg/hari</th>

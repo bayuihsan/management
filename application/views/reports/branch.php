@@ -77,13 +77,20 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
             <div class="report-heading">
                 <!-- <h4>Branch</h4> -->
             </div>
+            <style style="text/css">
+                /* Define the hover highlight color for the table row */
+                .hoverTable tr:hover {
+                      background-color: #b8d1f3;
+                }
+            </style>
             <div id="Table-div">
-                <table class="table table-bordered">
+                <table class="table table-bordered hoverTable">
                     <thead>
                         <th>No</th>
                         <th>Branch</th>
-                        <th class="text-right">Last Month</th>
-                        <th class="text-right">This Month</th>
+                        <th class="text-right" id="last_month">Last Month</th>
+                        <th class="text-right" id="this_month">This Month</th>
+                        <th class="text-right">Avg/hari</th>
                         <th class="text-right">% MOM</th>
                     </thead>
                     <tbody>
@@ -116,7 +123,12 @@ minimumResultsForSearch: Infinity
 
 $('#sales_cari').on('submit',function(){
     var link=$(this).attr("action");
-    if($("#vto-date").val()!=""){
+    var to_date = $("#vto-date").val();
+    var last_month = new Date(to_date).getMonth()-1;
+    var this_month = new Date(to_date).getMonth();
+    var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
+"Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+    if(to_date!=""){
         //query data
         $.ajax({
             method : "POST",    
@@ -128,10 +140,12 @@ $('#sales_cari').on('submit',function(){
                 $(".preloader").css("display","none"); 
                 if(data!="false"){
                     $("#Report-Table tbody").html(data);
-                    $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
+                    $("#last_month").html(NamaBulan[last_month]);
+                    $("#this_month").html(NamaBulan[this_month]);
+                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
                 }else{
                     $("#Report-Table tbody").html("");
-                    $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
+                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
                     swal("Alert","Sorry, No Data Found !", "info");    
                 }
             }

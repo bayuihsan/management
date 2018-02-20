@@ -120,6 +120,259 @@ class ReportModel extends CI_Model{
 		return array($sukses);
 	}
 
+	public function dayByDaySalesBranch($awal,$akhir){
+		$central_jakpusel =array();  // 5		
+		$cirebon =array(); //6
+		$bogor =array(); //8
+		$karawang =array(); //9
+		$banten =array(); //11
+		$tasikmalaya =array(); //12
+		$bandung =array(); //14
+		$jakarta_barat =array(); //16
+		$central_jakutim =array(); //18
+		$soreang =array(); //19
+
+		$central_jakpusel_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='5' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$cirebon_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='6' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$bogor_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='8' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$karawang_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='9' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$banten_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='11' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$tasikmalaya_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='12' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$bandung_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='14' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$jakarta_barat_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='16' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$central_jakutim_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='18' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		$soreang_query=$this->db->query("SELECT DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') as tanggal_aktif, count(psb_id) as amount, MONTHNAME('".$akhir."') as m_name FROM new_psb where
+		status='sukses' AND branch_id='19' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') between 
+		'".$awal."' AND '".$akhir."' 
+		GROUP BY tanggal_aktif")->result();
+
+		//For central_jakpusel
+		$maxcentral_jakpusel=count($central_jakpusel_query);
+		$i=0;
+		//For cirebon
+		$maxcirebon=count($cirebon_query);
+		$j=0;
+		//For bogor
+		$maxbogor=count($bogor_query);
+		$k=0;
+		//For karawang
+		$maxkarawang=count($karawang_query);
+		$l=0;
+		//For banten
+		$maxbanten=count($banten_query);
+		$m=0;
+		//For tasikmalaya
+		$maxtasikmalaya=count($tasikmalaya_query);
+		$n=0;
+		//For bandung
+		$maxbandung=count($bandung_query);
+		$o=0;
+		//For jakarta_barat
+		$maxjakarta_barat=count($jakarta_barat_query);
+		$p=0;
+		//For central_jakutim
+		$maxcentral_jakutim=count($central_jakutim_query);
+		$q=0;
+		//For soreang
+		$maxsoreang=count($soreang_query);
+		$r=0;
+
+		$day=1;
+		while (strtotime($awal) <= strtotime($akhir)) {
+			//For central_jakpusel
+			if($maxcentral_jakpusel>0){
+				if($awal==$central_jakpusel_query[$i]->tanggal_aktif){	
+					$central_jakpusel[$day]=array(
+					"amount"=>$central_jakpusel_query[$i]->amount,
+					"date"=>$awal,
+					"m_name"=>$central_jakpusel_query[$i]->m_name
+					);
+
+					if($i<($maxcentral_jakpusel-1)){$i++;}
+				}else{
+					$central_jakpusel[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$central_jakpusel_query[$i]->m_name);;	
+				}
+			}
+			//End central_jakpusel
+
+			//For cirebon
+			if($maxcirebon>0){
+				if($awal==$cirebon_query[$j]->tanggal_aktif){	
+					$cirebon[$day]=array(
+						"amount"=>$cirebon_query[$j]->amount,
+						"date"=>$awal,
+						"m_name"=>$cirebon_query[$j]->m_name
+						);
+					if($j<($maxcirebon-1)){$j++;}
+				}else{
+					$cirebon[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$cirebon_query[$j]->m_name);;	
+				}
+			}
+			//End cirebon
+
+			//For bogor
+			if($maxbogor>0){
+				if($awal==$bogor_query[$k]->tanggal_aktif){	
+					$bogor[$day]=array(
+						"amount"=>$bogor_query[$k]->amount,
+						"date"=>$awal,
+						"m_name"=>$bogor_query[$k]->m_name
+						);
+					if($k<($maxbogor-1)){$k++;}
+				}else{
+					$bogor[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$bogor_query[$k]->m_name);;	
+				}
+			}
+			//End bogor
+
+			//For karawang
+			if($maxkarawang>0){
+				if($awal==$karawang_query[$l]->tanggal_aktif){	
+					$karawang[$day]=array(
+						"amount"=>$karawang_query[$l]->amount,
+						"date"=>$awal,
+						"m_name"=>$karawang_query[$l]->m_name
+						);
+					if($l<($maxkarawang-1)){$l++;}
+				}else{
+					$karawang[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$karawang_query[$l]->m_name);;	
+				}
+			}
+			//End karawang
+
+			//For banten
+			if($maxbanten>0){
+				if($awal==$banten_query[$m]->tanggal_aktif){	
+					$banten[$day]=array(
+						"amount"=>$banten_query[$m]->amount,
+						"date"=>$awal,
+						"m_name"=>$banten_query[$m]->m_name
+						);
+					if($m<($maxbanten-1)){$m++;}
+				}else{
+					$banten[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$banten_query[$m]->m_name);;	
+				}
+			}
+			//End banten
+
+			//For tasikmalaya
+			if($maxtasikmalaya>0){
+				if($awal==$tasikmalaya_query[$n]->tanggal_aktif){	
+					$tasikmalaya[$day]=array(
+						"amount"=>$tasikmalaya_query[$n]->amount,
+						"date"=>$awal,
+						"m_name"=>$tasikmalaya_query[$n]->m_name
+						);
+					if($n<($maxtasikmalaya-1)){$n++;}
+				}else{
+					$tasikmalaya[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$tasikmalaya_query[$n]->m_name);;	
+				}
+			}
+			//End tasikmalaya
+
+			//For bandung
+			if($maxbandung>0){
+				if($awal==$bandung_query[$o]->tanggal_aktif){	
+					$bandung[$day]=array(
+						"amount"=>$bandung_query[$o]->amount,
+						"date"=>$awal,
+						"m_name"=>$bandung_query[$o]->m_name
+						);
+					if($o<($maxbandung-1)){$o++;}
+				}else{
+					$bandung[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$bandung_query[$o]->m_name);;	
+				}
+			}
+			//End bandung
+
+			//For jakarta_barat
+			if($maxjakarta_barat>0){
+				if($awal==$jakarta_barat_query[$p]->tanggal_aktif){	
+					$jakarta_barat[$day]=array(
+						"amount"=>$jakarta_barat_query[$p]->amount,
+						"date"=>$awal,
+						"m_name"=>$jakarta_barat_query[$p]->m_name
+						);
+					if($p<($maxjakarta_barat-1)){$p++;}
+				}else{
+					$jakarta_barat[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$jakarta_barat_query[$p]->m_name);;	
+				}
+			}
+			//End jakarta_barat
+
+			//For central_jakutim
+			if($maxcentral_jakutim>0){
+				if($awal==$central_jakutim_query[$q]->tanggal_aktif){	
+					$central_jakutim[$day]=array(
+						"amount"=>$central_jakutim_query[$q]->amount,
+						"date"=>$awal,
+						"m_name"=>$central_jakutim_query[$q]->m_name
+						);
+					if($q<($maxcentral_jakutim-1)){$q++;}
+				}else{
+					$central_jakutim[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$central_jakutim_query[$q]->m_name);;	
+				}
+			}
+			//End central_jakutim
+
+			//For soreang
+			if($maxsoreang>0){
+				if($awal==$soreang_query[$r]->tanggal_aktif){	
+					$soreang[$day]=array(
+						"amount"=>$soreang_query[$r]->amount,
+						"date"=>$awal,
+						"m_name"=>$soreang_query[$r]->m_name
+						);
+					if($r<($maxsoreang-1)){$r++;}
+				}else{
+					$soreang[$day]=array("amount"=>0,"date"=>$awal,"m_name"=>$soreang_query[$r]->m_name);;	
+				}
+			}
+			//End soreang
+
+			$day++;
+			$awal = date ("Y-m-d", strtotime("+1 day", strtotime($awal)));
+		}
+		// return array($sukses,$pending);
+		return array($central_jakpusel, $cirebon, $bogor, $karawang, $banten, $tasikmalaya, $bandung, $jakarta_barat, $central_jakutim, $soreang);
+	}
+
 	//get top branch information 
 	public function getTopBranch($limit=0, $lm='', $tgl='')
 	{
@@ -190,6 +443,26 @@ class ReportModel extends CI_Model{
 
 	}
 
+	//get top channel information 
+	public function getTopChannel($limit=0, $lm='', $tgl='')
+	{
+
+		$channel_query=$this->db->query("SELECT a.sales_channel, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.psb_id) as amount 
+			FROM new_psb a
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
+				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
+				'".$tgl."' GROUP BY a.sales_channel order by amount desc limit ".$limit." ")->result();
+
+		$result=$channel_query;
+		return $result;
+
+	}
+
 	//get report branch information 
 	public function getReportBranch($tanggal,$status,$to_date)
 	{
@@ -217,17 +490,18 @@ class ReportModel extends CI_Model{
 	{
 		$date = $to_date;
 		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
-		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, 
+		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, c.nama_branch,
 			IFNULL((SELECT COUNT(paket_id) 
 				FROM new_psb 
-				WHERE STATUS='".$status."' AND paket_id=b.paket_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+				WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
 			count(a.paket_id) as this_month 
 			FROM new_psb a 
 			right JOIN paket b ON a.paket_id=b.paket_id
+			JOIN branch c ON c.branch_id=a.branch_id
 			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') between 
 				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND
-				'".$date."' GROUP BY b.nama_paket order by this_month desc ")->result();
+				'".$date."' GROUP BY a.paket_id, c.branch_id order by this_month desc ")->result();
 
 		$result=$paket_query;
 		return $result;
@@ -240,16 +514,16 @@ class ReportModel extends CI_Model{
 		$date = $to_date;
 		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
 		$tl_query=$this->db->query("SELECT b.id_users, b.username, b.nama, c.nama_branch, 
-			IFNULL((SELECT COUNT(TL) 
+			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
-				WHERE STATUS='".$status."' AND TL=b.username AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+				WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-			count(a.TL) as this_month 
+			count(a.psb_id) as this_month 
 			FROM new_psb a 
 			right JOIN app_users b on a.TL=b.username
 			JOIN branch c on a.branch_id=c.branch_id
 			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.username, b.nama ORDER BY this_month DESC
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.username, c.branch_id ORDER BY this_month DESC
 			")->result();
 
 		$result=$tl_query;
@@ -257,22 +531,44 @@ class ReportModel extends CI_Model{
 
 	}
 
-	//get top channel information 
-	public function getTopChannel($limit=0, $lm='', $tgl='')
+	//get report sales person information 
+	public function getReportSalesPerson($tanggal,$status,$to_date)
 	{
+		$date = $to_date;
+		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
+		$tl_query=$this->db->query("SELECT b.nama_sales, c.nama_branch, 
+			count(a.psb_id) as this_month
+			FROM new_psb a 
+			right JOIN sales_person b on a.sales_person=b.nama_sales
+			JOIN branch c on a.branch_id=c.branch_id
+			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.nama_sales ORDER BY this_month DESC
+			")->result();
 
-		$channel_query=$this->db->query("SELECT a.sales_channel, 
+		$result=$tl_query;
+		return $result;
+
+	}
+
+	//get report Sub Channel information 
+	public function getReportSubChannel($tanggal,$status,$to_date)
+	{
+		$date = $to_date;
+		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
+		$tl_query=$this->db->query("SELECT a.sales_channel, b.sub_channel, c.nama_branch, 
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
-				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+				WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-			count(a.psb_id) as amount 
-			FROM new_psb a
-			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				'".$tgl."' GROUP BY a.sales_channel order by amount desc limit ".$limit." ")->result();
+			count(a.psb_id) as this_month 
+			FROM new_psb a 
+			left JOIN sales_channel b on a.sub_sales_channel=b.id_channel
+			JOIN branch c on a.branch_id=c.branch_id
+			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.sub_channel, a.sales_channel, c.nama_branch ORDER BY this_month DESC
+			")->result();
 
-		$result=$channel_query;
+		$result=$tl_query;
 		return $result;
 
 	}

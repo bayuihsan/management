@@ -366,11 +366,11 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-area-chart"></i>
 <span class="title">Reporting</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('Reports/paket') ?>"><i class="fa fa-angle-double-right"></i> Report by Paket</a></li>
-    <li><a href="<?php echo site_url('Reports/branch') ?>"><i class="fa fa-angle-double-right"></i> Report by Branch</a></li>
-    <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> Report by TL</a></li>
+    <li><a href="<?php echo site_url('Reports/paket') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Paket</a></li>
+    <li><a href="<?php echo site_url('Reports/branch') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Branch</a></li>
+    <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by TL</a></li>
+    <li><a href="<?php echo site_url('Reports/sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
     <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
-    <li><a href="<?php echo site_url('Reports/Sub Channel') ?>"><i class="fa fa-angle-double-right"></i> Report by Sub Channel</a></li>
     <?php /*<li><a href="<?php echo site_url('Reports/accountStatement') ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
     <li><a href="<?php echo site_url('Reports/datewiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Income Report By Date</a></li>
     <li><a href="<?php echo site_url('Reports/daywiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Day Wise Income Report</a></li>

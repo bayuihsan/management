@@ -20,10 +20,10 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Paket</div>
+    <div class="panel-heading">Sales Person</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/paket/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Reports/sales_person/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <select class="form-control" name="vtanggal" id="vtanggal">
@@ -83,17 +83,14 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                       background-color: #b8d1f3;
                 }
             </style>
-
             <div id="Table-div">
                 <table class="table table-bordered hoverTable">
                     <thead>
                         <th>No</th>
                         <th>Branch</th>
-                        <th>Paket</th>
-                        <th class="text-right" id="last_month">Last Month</th>
-                        <th class="text-right" id="this_month">This Month</th>
+                        <th>Nama Sales</th>
+                        <th class="text-right">Jumlah</th>
                         <th class="text-right">Avg/hari</th>
-                        <th class="text-right">% MOM</th>
                     </thead>
                     <tbody>
 
@@ -125,12 +122,7 @@ minimumResultsForSearch: Infinity
 
 $('#sales_cari').on('submit',function(){
     var link=$(this).attr("action");
-    var to_date = $("#vto-date").val();
-    var last_month = new Date(to_date).getMonth()-1;
-    var this_month = new Date(to_date).getMonth();
-    var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
-"Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-    if(to_date!=""){
+    if($("#vto-date").val()!=""){
         //query data
         $.ajax({
             method : "POST",    
@@ -142,8 +134,6 @@ $('#sales_cari').on('submit',function(){
                 $(".preloader").css("display","none"); 
                 if(data!="false"){
                     $("#Report-Table tbody").html(data);
-                    $("#last_month").html(NamaBulan[last_month]);
-                    $("#this_month").html(NamaBulan[this_month]);
                     // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
                 }else{
                     $("#Report-Table tbody").html("");

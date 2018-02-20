@@ -104,7 +104,8 @@
 <!--Start Panel-->
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
-    <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
+    
+    <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
     <div class="panel-body financial-bal" style="font-size: 11px;">
         <!--Branch Table-->
         <table class="table table-bordered" >
@@ -116,7 +117,7 @@
          <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
-                <td><a href="#branch_detail" data-toggle="modal" data-id="<?php echo $top->branch_id ?>"><b> <?php echo strtoupper($top->nama_branch) ?></b></td>
+                <td><b> <?php echo strtoupper($top->nama_branch) ?></b></td>
                 <td class="text-right"><b><?php $lm = $top->last_month; echo number_format($lm); ?></b></td>
                 <td class="text-right"><b><?php $tm = $top->amount; echo number_format($tm); ?></b></td>
                 <?php if($lm == 0){ 
@@ -145,71 +146,21 @@
 <!--End Panel-->
 </div>
 <!--End Branch Col-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        var from_date = $('#from-date').val();
+        var $modal = $('#load_popup_modal_show_branch');
+        $('#click_to_load_modal_popup_branch').on('click', function(){
+            $modal.load('<?php echo base_url()?>Admin/load_modal/',{'tanggal': from_date,'id2':'2'},
+            function(){
+                $modal.modal('show');
+            });
 
-<!-- Large modal -->
-<div class="modal fade bd-branch-modal-lg" id="branch_detail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div id="content_detail"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="overflow: auto;">
-                <div id="inc_vs_exp3"></div>
-                <script type="text/javascript">
-                $(document).ready(function() {
-                
-                    var chart;
-                    chart = c3.generate({
-                        bindto: '#inc_vs_exp3',
-                        data: {
-                            x: 'x',
-                    //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-                            columns: [
-                                ['x'
+        });
+    });
 
-                                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
-                                 echo ",";    
-                                 echo "'".$line_chart[0][$i]['date']."'"; 
-                                } ?>
-
-                                ],
-
-                                ['Aktif', 
-                                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
-                                echo  $line_chart[0][$i]['amount'].",";
-                                } ?>
-                                ],
-
-                                // ['Pending', 
-                                // <?php // for($i=1;$i<=count($line_chart[1]);$i++){ 
-                                // echo  $line_chart[1][$i]['amount'].",";
-                                // } ?>
-                                // ],
-
-                                
-                            ]
-                        },
-                        axis: {
-                            x: {
-                                type: 'timeseries',
-                                tick: {
-                                    format: '%Y-%m-%d'
-                                }
-                            }
-                        }
-                    });
-                });
-                </script>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end modal -->
-
+</script>
+<div id="load_popup_modal_show_branch" class="modal fade" tabindex="-1"></div>
 <!--Start Paket-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
