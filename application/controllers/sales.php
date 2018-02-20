@@ -27,7 +27,7 @@ class sales extends CI_Controller {
         $sess_branch = $this->session->userdata('branch_id');
         $tanggal = $this->Reportmodel->getMaxDate();
         $data['max_tanggal'] = $max_tanggal = $tanggal->tgl_max;
-        $data['bbranch_id'] = null;
+        $data['bbranch_id'] = 17;
         $data['btgl'] = null;
         $data['bstatus'] = null;
         $data['bfrom_date'] = null;

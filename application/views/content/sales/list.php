@@ -76,11 +76,11 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
                         <select class="form-control" name="vbranch_id" id="vbranch_id">
-                            <?php foreach($branch as $branch){ 
-                                if($branch_id = $branch->branch_id){ ?>
-                                <option value="<?php echo $branch->branch_id ?>" selected><?php echo $branch->nama_branch ?></option>
+                            <?php foreach($branch as $v){ 
+                                if($bbranch_id == $v->branch_id){ ?>
+                                <option value="<?php echo $v->branch_id ?>" selected><?php echo $v->nama_branch ?></option>
                                 <?php }else{ ?>
-                                <option value="<?php echo $branch->branch_id ?>"><?php echo $branch->nama_branch ?></option>
+                                <option value="<?php echo $v->branch_id ?>"><?php echo $v->nama_branch ?></option>
                                 <?php }
                                 } ?>
                         </select>  
@@ -115,7 +115,7 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
                         <div class='input-group date' id='date'>
-                            <input type="text" class="form-control" placeholder="<?php echo isset($bfrom_date) ? $bfrom_date : "Date From" ?>" name="vfrom-date" id="vfrom-date"/>   
+                            <input type="text" class="form-control" placeholder="Date From" name="vfrom-date" id="vfrom-date" value="<?php echo isset($bfrom_date) ? $bfrom_date : '' ?>" />   
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -126,7 +126,7 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
                         <div class='input-group'>
-                            <input type="text" class="form-control" placeholder="<?php echo isset($bto_date) ? $bto_date : "Date To" ?>" name="vto-date" id="vto-date"/> 
+                            <input type="text" class="form-control" placeholder="Date To" name="vto-date" id="vto-date" value="<?php echo isset($bto_date) ? $bto_date : '' ?>" /> 
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>  

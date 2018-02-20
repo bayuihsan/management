@@ -166,26 +166,6 @@ class ReportModel extends CI_Model{
 
 	}
 
-	//get top channel information 
-	public function getTopChannel($limit=0, $lm='', $tgl='')
-	{
-
-		$channel_query=$this->db->query("SELECT a.sales_channel, 
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-			count(a.psb_id) as amount 
-			FROM new_psb a
-			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
-				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
-				'".$tgl."' GROUP BY a.sales_channel order by amount desc limit ".$limit." ")->result();
-
-		$result=$channel_query;
-		return $result;
-
-	}
-
 	//get top TL information 
 	public function getTopTL($limit=0, $lm='', $tgl='')
 	{
@@ -206,6 +186,93 @@ class ReportModel extends CI_Model{
 				'".$tgl."' GROUP BY b.nama order by amount desc limit ".$limit." ")->result();
 
 		$result=$tl_query;
+		return $result;
+
+	}
+
+	//get report branch information 
+	public function getReportBranch($tanggal,$status,$to_date)
+	{
+		$date = $to_date;
+		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
+		$branch_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
+			IFNULL((SELECT COUNT(branch_id) 
+				FROM new_psb 
+				WHERE STATUS='".$status."' AND branch_id=b.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			COUNT(a.branch_id) AS this_month 
+			FROM new_psb a 
+			right JOIN branch b ON a.branch_id=b.branch_id
+			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.nama_branch ORDER BY this_month DESC
+			")->result();
+
+		$result=$branch_query;
+		return $result;
+
+	}
+
+	//get report paket information 
+	public function getReportPaket($tanggal,$status,$to_date)
+	{
+		$date = $to_date;
+		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
+		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, 
+			IFNULL((SELECT COUNT(paket_id) 
+				FROM new_psb 
+				WHERE STATUS='".$status."' AND paket_id=b.paket_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.paket_id) as this_month 
+			FROM new_psb a 
+			right JOIN paket b ON a.paket_id=b.paket_id
+			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') between 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND
+				'".$date."' GROUP BY b.nama_paket order by this_month desc ")->result();
+
+		$result=$paket_query;
+		return $result;
+
+	}
+
+	//get report TL information 
+	public function getReportTL($tanggal,$status,$to_date)
+	{
+		$date = $to_date;
+		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
+		$tl_query=$this->db->query("SELECT b.id_users, b.username, b.nama, c.nama_branch, 
+			IFNULL((SELECT COUNT(TL) 
+				FROM new_psb 
+				WHERE STATUS='".$status."' AND TL=b.username AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.TL) as this_month 
+			FROM new_psb a 
+			right JOIN app_users b on a.TL=b.username
+			JOIN branch c on a.branch_id=c.branch_id
+			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.username, b.nama ORDER BY this_month DESC
+			")->result();
+
+		$result=$tl_query;
+		return $result;
+
+	}
+
+	//get top channel information 
+	public function getTopChannel($limit=0, $lm='', $tgl='')
+	{
+
+		$channel_query=$this->db->query("SELECT a.sales_channel, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			count(a.psb_id) as amount 
+			FROM new_psb a
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') between 
+				ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND
+				'".$tgl."' GROUP BY a.sales_channel order by amount desc limit ".$limit." ")->result();
+
+		$result=$channel_query;
 		return $result;
 
 	}
