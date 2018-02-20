@@ -15,8 +15,58 @@ class salesModel extends CI_Model{
 	    $this->search = '';
 	}
 
-	//get all users  
+	//get all sales  
 	public function get_all($tgl = ""){
+		$date = $tgl;
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			FROM new_psb a
+			LEFT JOIN branch b ON b.branch_id = a.branch_id
+			LEFT JOIN app_users c ON c.username = a.TL
+			LEFT JOIN paket d ON d.paket_id = a.paket_id
+			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+			LEFT JOIN app_users f ON f.username = a.username 
+			LEFT JOIN app_users g ON g.username = a.validasi_by 
+			where DATE_FORMAT(a.tanggal_masuk,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
+		INTERVAL 1 MONTH)), 1) AND '".$date."'
+			ORDER BY a.tanggal_masuk DESC");  
+		$result=$query_result->result();
+		return $result;
+
+	}
+
+	//get all sales  
+	public function get_all_cari($branch_id,$tanggal,$status,$from_date,$to_date){
+		if($branch_id == 17){ //ALL
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+				FROM new_psb a
+				LEFT JOIN branch b ON b.branch_id = a.branch_id
+				LEFT JOIN app_users c ON c.username = a.TL
+				LEFT JOIN paket d ON d.paket_id = a.paket_id
+				LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+				LEFT JOIN app_users f ON f.username = a.username 
+				LEFT JOIN app_users g ON g.username = a.validasi_by 
+				where a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."'
+					ORDER BY a.$tanggal DESC");  
+		}else{
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+				FROM new_psb a
+				LEFT JOIN branch b ON b.branch_id = a.branch_id
+				LEFT JOIN app_users c ON c.username = a.TL
+				LEFT JOIN paket d ON d.paket_id = a.paket_id
+				LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+				LEFT JOIN app_users f ON f.username = a.username 
+				LEFT JOIN app_users g ON g.username = a.validasi_by 
+				where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."'
+					ORDER BY a.$tanggal DESC");  
+		}
+		
+		$result=$query_result->result();
+		return $result;
+
+	}
+
+	//get all sales per branch
+	public function get_all_branch($tgl = "", $branch_id = ""){
 		$date = $tgl;
 		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
 			FROM new_psb a
@@ -26,15 +76,15 @@ class salesModel extends CI_Model{
 			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
 			LEFT JOIN app_users f ON f.username = a.username 
 			LEFT JOIN app_users g ON g.username = a.validasi_by 
-			where DATE_FORMAT(a.tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-		INTERVAL 1 MONTH)), 1) AND '".$date."'
-			ORDER BY a.tanggal_update DESC");  
+			where DATE_FORMAT(a.tanggal_masuk,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
+		INTERVAL 1 MONTH)), 1) AND '".$date."' AND a.branch_id='".$branch_id."'
+			ORDER BY a.tanggal_masuk DESC");  
 		$result=$query_result->result();
 		return $result;
 
 	}
 
-	//get all users  
+	//get all sales by TL  
 	public function get_all_tl(){
 		$date = $tgl;
 		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
@@ -69,7 +119,7 @@ class salesModel extends CI_Model{
 		return $result;
 	}
 
-	//get sales by account 
+	//get sales by fa 
 	public function get_sales_by_fa($fa_id){
 		$query_result=$this->db->query("select count(psb_id) jumlah from new_psb where fa_id='".$fa_id."'");
 		$result=$query_result->row();

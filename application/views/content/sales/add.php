@@ -583,21 +583,14 @@ $(document).ready(function(){
   $(document).on('click','.kembali',function(){
 
       var link=$(this).attr("href"); 
-      // alert(link);
-      $.ajax({
-          method : "POST",
-          url : link,
-          beforeSend : function(){
-              $(".block-ui").css('display','block'); 
-          },success : function(data){ 
-              //var link = location.pathname.replace(/^.*[\\\/]/, ''); //get filename only  
-              history.pushState(null, null,link);  
-              $('.asyn-div').load(link+'/asyn',function() {
-                  $(".block-ui").css('display','none');     
-              });     
-             
-          }
-      });
+      
+      $(".block-ui").css('display','block'); 
+   
+      history.pushState(null, null,link);  
+      $('.asyn-div').load(link+'/asyn',function() {
+          $(".block-ui").css('display','none');     
+      });     
+            
 
       return false;
   });

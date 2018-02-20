@@ -13,25 +13,63 @@ class sales extends CI_Controller {
         }
         date_default_timezone_set(get_current_setting('timezone')); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel'));
+        $this->load->model(array('salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel'));
     }
     
     public function index(){
         redirect('sales/view');
     }
 
-	public function view($action='')
+	public function view($action='',$branch_id='',$tgl='',$status='',$from_date='',$to_date='')
     {   
         $data=array();
+        $sess_level = $this->session->userdata('level');
+        $sess_branch = $this->session->userdata('branch_id');
         $tanggal = $this->Reportmodel->getMaxDate();
-        $data['max_tanggal'] = $tanggal = $tanggal->tgl_max;
-        $data['sales'] = $this->salesmodel->get_all($tanggal);
+        $data['max_tanggal'] = $max_tanggal = $tanggal->tgl_max;
+        $data['bbranch_id'] = null;
+        $data['btgl'] = null;
+        $data['bstatus'] = null;
+        $data['bfrom_date'] = null;
+        $data['bto_date'] = null;
         if($action=='asyn'){
+            if($this->session->userdata('level')==4){
+                $data['sales'] = $this->salesmodel->get_all($max_tanggal);
+                $data['branch'] = $this->Branchmodel->get_all();
+            }else{
+                $data['sales'] = $this->salesmodel->get_all_branch($max_tanggal, $sess_branch);
+                $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
+
+            }
             $this->load->view('content/sales/list',$data);
         }else if($action==''){
+            if($this->session->userdata('level')==4){
+                $data['sales'] = $this->salesmodel->get_all($max_tanggal);
+                $data['branch'] = $this->Branchmodel->get_all();
+            }else{
+                $data['sales'] = $this->salesmodel->get_all_branch($max_tanggal, $sess_branch);
+                $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
+
+            }
             $this->load->view('theme/include/header');
             $this->load->view('content/sales/list',$data);
             $this->load->view('theme/include/footer');
+        }else if($action == 'cari'){        
+            // $reportData=$this->Reportmodel->getSalesCari($account,$from_date,$to_date,$trans_type);
+            $data['sales'] = $cari = $this->salesmodel->get_all_cari($branch_id,$tgl,$status,$from_date,$to_date);
+            $data['bbranch_id'] = $branch_id;
+            $data['btgl'] = $tgl;
+            $data['bstatus'] = $status;
+            $data['bfrom_date'] = $from_date;
+            $data['bto_date'] = $to_date;
+
+            if($this->session->userdata('level')==4){
+                $data['branch'] = $this->Branchmodel->get_all();
+            }else{
+                $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
+
+            }
+            $this->load->view('content/sales/list',$data);
         }
     }
 
@@ -152,7 +190,7 @@ class sales extends CI_Controller {
             $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
 
             $data['branch_id']          =addslashes($this->input->post('sbranch',true));
-            $data['sub_sales_channel']  =addslashes($this->input->post('ssub_channel',true));
+            $data['sub_sales_channel']  = $sub_channel = addslashes($this->input->post('ssub_channel',true));
             $data['detail_sub']         =addslashes($this->input->post('sdetail_sub',true));
             $data['TL']                 = $tl =addslashes($this->input->post('sTL',true));
             $data['sales_person']       =addslashes($this->input->post('ssales_person',true));
@@ -224,6 +262,9 @@ class sales extends CI_Controller {
 
                     }else{
                         $user_tl = $this->usersmodel->get_users_by_id($tl);
+                        $query_channel = $this->Sales_channelmodel->get_sales_channel_by_id($sub_channel);
+                        $data['sales_channel'] = $query_channel->sales_channel;
+
                         if(count($user_tl)>0) { 
                             $data['TL'] = $user_tl->username;
                         }
@@ -263,6 +304,9 @@ class sales extends CI_Controller {
                     }else{
 
                         $user_tl = $this->usersmodel->get_users_by_id($tl);
+                        $query_channel = $this->Sales_channelmodel->get_sales_channel_by_id($sub_channel);
+                        $data['sales_channel'] = $query_channel->sales_channel;
+
                         if(count($user_tl)>0) { 
                             $data['TL'] = $user_tl->username;
                         }

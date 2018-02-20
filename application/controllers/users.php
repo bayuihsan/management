@@ -13,6 +13,7 @@ class users extends CI_Controller {
         }
         $this->db2 = $this->load->database('hvc', TRUE);
         $this->load->model(array('usersmodel','Branchmodel'));
+        checkPermission(4);
     }
     
     public function index(){
@@ -21,6 +22,7 @@ class users extends CI_Controller {
 
 	public function view($action='')
 	{   
+
         $data=array();
         $data['users']=$this->usersmodel->get_all(); 
         if($action=='asyn'){

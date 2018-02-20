@@ -53,3 +53,23 @@ JOIN branch c ON a.branch_id=c.branch_id
 WHERE a.status='sukses' AND b.level='3' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
 	ADDDATE(LAST_DAY(SUBDATE('2017-08-07',INTERVAL 1 MONTH)), 1) AND
 	'2017-08-07' GROUP BY b.nama ORDER BY amount DESC LIMIT 10
+
+
+
+SELECT b.branch_id, b.nama_branch, 
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=1)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Januari`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=2)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Februari`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=3)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Maret`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=4)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `April`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=5)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Mei`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=6)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Juni`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=7)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Juli`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=8)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Agustus`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=9)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `September`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=10)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Oktober`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=11)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `November`,
+	ifnull((SELECT count(psb_id) FROM (new_psb)WHERE((Month(tanggal_aktif)=12)AND (YEAR(tanggal_aktif)=2017)) and branch_id=b.branch_id and status='sukses'),0) AS `Desember`
+FROM new_psb a
+JOIN branch b on a.branch_id=b.branch_id
+GROUP BY b.branch_id, b.nama_branch
+

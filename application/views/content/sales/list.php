@@ -3,12 +3,23 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>sales</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Sales</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
 <?php 
 $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
 $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+$status=array('sukses'=>'sukses',
+  'valid'=>'valid',
+  'cancel'=>'cancel',
+  'reject'=>'reject',
+  'pending'=>'pending',
+  'retur'=>'retur',
+  'blacklist'=>'blacklist',
+  'bentrok'=>'bentrok',
+  'masuk'=>'masuk');
+$tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_validasi", "tanggal_masuk"=>"tanggal_masuk");
+
 function discount($id){
     if($id=="1"){
         echo 0;
@@ -59,6 +70,119 @@ function jenis_event($id){
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales/add') ?>">Add Sales</a>
     </div></div>
     <div class="panel-body">
+        <div class="col-md-12 col-lg-12 col-sm-12 report-params">
+            <form id="sales_cari" action="<?php echo site_url('sales/view') ?>">
+
+                <div class="col-md-2 col-lg-2 col-sm-2"> 
+                    <div class="form-group"> 
+                        <select class="form-control" name="vbranch_id" id="vbranch_id">
+                            <?php foreach($branch as $branch){ 
+                                if($branch_id = $branch->branch_id){ ?>
+                                <option value="<?php echo $branch->branch_id ?>" selected><?php echo $branch->nama_branch ?></option>
+                                <?php }else{ ?>
+                                <option value="<?php echo $branch->branch_id ?>"><?php echo $branch->nama_branch ?></option>
+                                <?php }
+                                } ?>
+                        </select>  
+                    </div> 
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-sm-2"> 
+                    <select class="form-control" name="vtanggal" id="vtanggal">
+                        <?php foreach($tgl as $tgl){ 
+                            if($btgl == $tgl){ ?>
+                            <option value="<?php echo $tgl?>" selected><?php echo $tgl?></option>
+                        <?php }else{ ?>
+                            <option value="<?php echo $tgl?>"><?php echo $tgl?></option>
+                         <?php } 
+                        }?>
+                    </select> 
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-sm-2"> 
+                    <select class="form-control" name="vstatus" id="vstatus">
+                        <?php foreach($status as $status){ 
+                            if($bstatus == $status){ ?>
+                            <option value="<?php echo $status?>" selected><?php echo $status?></option>
+                            <?php }else{ ?>
+                            <option value="<?php echo $status?>"><?php echo $status?></option>
+                            <?php }
+                            } ?>
+                        
+                    </select> 
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-sm-2"> 
+                    <div class="form-group"> 
+                        <div class='input-group date' id='date'>
+                            <input type="text" class="form-control" placeholder="<?php echo isset($bfrom_date) ? $bfrom_date : "Date From" ?>" name="vfrom-date" id="vfrom-date"/>   
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-sm-2"> 
+                    <div class="form-group"> 
+                        <div class='input-group'>
+                            <input type="text" class="form-control" placeholder="<?php echo isset($bto_date) ? $bto_date : "Date To" ?>" name="vto-date" id="vto-date"/> 
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>  
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="col-md-1 col-lg-1 col-sm-1"> 
+                <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div class="report-heading">
+            <p>Date From - - - - To - - - -</p>
+        </div>
+        <?php $no=1; if(empty($sales)){ ?>
+         <table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
+            <thead>    
+                <th>NO</th>
+                <th>MSISDN</th>
+                <th>NAMA PELANGGAN</th>
+                <th>BRANCH</th>
+                <th>PAKET</th>
+                <th>TL</th>
+                <th>SALES PERSON</th>
+                <th>TANGGAL MASUK</th>
+                <th>TANGGAL VALIDASI</th>
+                <th>TANGGAL AKTIF</th>
+                <th>FA ID</th>
+                <th>ACCOUNT ID</th>
+                <th>ALAMAT</th>
+                <th>ALAMAT 2</th>
+                <th>DISCOUNT (RB)</th>
+                <th>PERIODE (BULAN)</th>
+                <th>BILL CYCLE</th>
+                <th>CHANNEL</th>
+                <th>SUB SALES CHANNEL</th>
+                <th>JENIS EVENT</th>
+                <th>NAMA EVENT</th>
+                <th>VALIDATOR</th>
+                <th>AKTIVATOR</th>
+                <th>STATUS</th>
+                <th>TANGGAL UPDATE (System)</th>
+                <th class="single-action">ACTION</th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td colspan="26">Data tidak ditemukan</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <?php }else{ ?>
+
         <table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th>
@@ -90,41 +214,50 @@ function jenis_event($id){
             </thead>
 
             <tbody>
-                <?php $no=1; foreach($sales as $new) { ?>    
-                <tr>
-                    <td class="date"><?php echo $no++; ?></td>
-                    <td><?php echo $new->psb_id.' - '.strtoupper($new->msisdn) ?></td>
-                    <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
-                    <td><?php echo strtoupper($new->nama_branch) ?></td>
-                    <td><?php echo strtoupper($new->nama_paket) ?></td>
-                    <td><?php echo strtoupper($new->nama_tl) ?></td>
-                    <td><?php echo strtoupper($new->sales_person) ?></td>
-                    <td><?php echo strtoupper(date('Y-m-d', strtotime($new->tanggal_masuk))) ?></td>
-                    <td><?php echo strtoupper(date('Y-m-d', strtotime($new->tanggal_validasi))) ?></td>
-                    <td><?php echo strtoupper(date('Y-m-d', strtotime($new->tanggal_aktif))) ?></td>
-                    <td><?php echo strtoupper($new->fa_id) ?></td>
-                    <td><?php echo strtoupper($new->account_id) ?></td>
-                    <td><?php echo strtoupper($new->alamat) ?></td>
-                    <td><?php echo strtoupper($new->alamat2) ?></td>
-                    <td><?php echo strtoupper(discount($new->discount)) ?></td>
-                    <td><?php echo strtoupper(periode($new->periode)) ?></td>
-                    <td><?php echo strtoupper($new->bill_cycle) ?></td>
-                    <td><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
-                    <td><?php echo strtoupper($new->sub_channel) ?></td>
-                    <td><?php echo strtoupper(jenis_event($new->jenis_event)) ?></td>
-                    <td><?php echo strtoupper($new->nama_event) ?></td>
-                    <td><?php echo strtoupper($new->validator) ?></td>
-                    <td><?php echo strtoupper($new->aktivator) ?></td>
-                    <td><?php echo strtoupper($new->status) ?></td>
-                    <td><?php echo strtoupper($new->tanggal_update) ?></td>
-                    <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales/add/remove/'.$new->psb_id) ?>">Delete</a> </td>
-                </tr>
-               <?php } ?>
+                <?php $no=1;
+                    foreach($sales as $new) { ?>    
+                        <tr>
+                            <td class="date"><?php echo $no++; ?></td>
+                            <td><?php echo $new->psb_id.' - '.strtoupper($new->msisdn) ?></td>
+                            <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
+                            <td><?php echo strtoupper($new->nama_branch) ?></td>
+                            <td><?php echo strtoupper($new->nama_paket) ?></td>
+                            <td><?php echo strtoupper($new->nama_tl) ?></td>
+                            <td><?php echo strtoupper($new->sales_person) ?></td>
+                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
+                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
+                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
+                            <td><?php echo strtoupper($new->fa_id) ?></td>
+                            <td><?php echo strtoupper($new->account_id) ?></td>
+                            <td><?php echo strtoupper($new->alamat) ?></td>
+                            <td><?php echo strtoupper($new->alamat2) ?></td>
+                            <td><?php echo strtoupper(discount($new->discount)) ?></td>
+                            <td><?php echo strtoupper(periode($new->periode)) ?></td>
+                            <td><?php echo strtoupper($new->bill_cycle) ?></td>
+                            <td><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
+                            <td><?php echo strtoupper($new->sub_channel) ?></td>
+                            <td><?php echo strtoupper(jenis_event($new->jenis_event)) ?></td>
+                            <td><?php echo strtoupper($new->nama_event) ?></td>
+                            <td><?php echo strtoupper($new->validator) ?></td>
+                            <td><?php echo strtoupper($new->aktivator) ?></td>
+                            <td><?php echo strtoupper($new->status) ?></td>
+                            <td><?php echo strtoupper($new->tanggal_update) ?></td>
+                            <?php if($this->session->userdata('level')==4){ ?>
+                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
+                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales/add/remove/'.$new->psb_id) ?>">Delete</a> </td>
+                            <?php }else{ ?>
+                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> </td>
+                            <?php } ?>
+                            
+                        </tr>
+                <?php } ?>
+                
             </tbody>       
 
         </table>
+        <?php }  ?>
     </div>
     <!--End Panel Body-->
 </div>
@@ -145,6 +278,10 @@ $(document).ready(function() {
         $(".manage-client").niceScroll({
         cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
+    $("#vfrom-date, #vto-date").datepicker(); 
+    $("#vbranch_id").select2();
+    $("#vtanggal").select2();
+    $("#vstatus").select2();
 
     $("#sales-table").DataTable();
     $(".dataTables_length select").addClass("show_entries");
@@ -195,6 +332,32 @@ $(document).ready(function() {
         }); 
         return false;       
     }); 
+
+    $('#sales_cari').on('submit',function(){
+        var link=$(this).attr("action");
+        var branch_id   = $("#vbranch_id").val();
+        var tanggal     = $("#vtanggal").val();
+        var status      = $("#vstatus").val();
+        var fromdate    = $("#vfrom-date").val();
+        var todate      = $("#vto-date").val();
+        
+        if(fromdate!="" && todate!=""){
+            $(".block-ui").css('display','block'); 
+            
+            history.pushState(null, null,link);  
+            $('.asyn-div').load(link+'/cari'+'/'+branch_id+'/'+tanggal+'/'+status+'/'+fromdate+'/'+todate,function() {
+                $(".block-ui").css('display','none');   
+                $(".report-heading p").html("Date From "+fromdate+" To "+todate);  
+            }); 
+                
+        }else if(fromdate > todate){
+            swal("Alert","Periksa kembali tanggal pencarian", "info");  
+        }else{
+            swal("Alert","Please Select Date Range.", "info");      
+        }
+
+        return false;
+    });
 });
 
 </script>

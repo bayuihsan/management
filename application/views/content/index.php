@@ -265,7 +265,7 @@
         <?php $data_cn = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom'); ?>
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
-            <th style="background-color: black; color: white">CHANNEL</th>
+            <th style="background-color: black; color: white">SUB CHANNEL</th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
             <th style="background-color: black; color: white" class="text-right">%MTD</th>
