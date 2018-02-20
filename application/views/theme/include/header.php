@@ -371,7 +371,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> Report by TL</a></li>
     <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
     <li><a href="<?php echo site_url('Reports/Sub Channel') ?>"><i class="fa fa-angle-double-right"></i> Report by Sub Channel</a></li>
-    <li><a href="<?php echo site_url('Reports/accountStatement') ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
+    <?php /*<li><a href="<?php echo site_url('Reports/accountStatement') ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
     <li><a href="<?php echo site_url('Reports/datewiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Income Report By Date</a></li>
     <li><a href="<?php echo site_url('Reports/daywiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Day Wise Income Report</a></li>
     <li><a href="<?php echo site_url('Reports/datewiseExpenseReport') ?>"><i class="fa fa-angle-double-right"></i> Expense Report By Date</a></li>
@@ -380,7 +380,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/incomeVsExpense') ?>"><i class="fa fa-angle-double-right"></i> Income Vs Expense Report</a></li>
     <li><a href="<?php echo site_url('Reports/incomeCategoryReport') ?>"><i class="fa fa-angle-double-right"></i> Report By Chart Of Accounts</a></li>
     <li><a href="<?php echo site_url('Reports/reportByPayer') ?>"><i class="fa fa-angle-double-right"></i> Report By Payer</a></li>
-    <li><a href="<?php echo site_url('Reports/reportByPayee') ?>"><i class="fa fa-angle-double-right"></i> Report By Payee</a></li>
+    <li><a href="<?php echo site_url('Reports/reportByPayee') ?>"><i class="fa fa-angle-double-right"></i> Report By Payee</a></li>*/?>
 </ul>
 </li>
 <?php if($this->session->userdata('level')=='4') {?>
