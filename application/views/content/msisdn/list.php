@@ -34,7 +34,7 @@
                 <td><?php echo $new->id_users ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('msisdn/edit/'.$new->id_haloinstan) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('msisdn/add/remove/'.$new->id_haloinstan) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs msisdn-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('msisdn/add/remove/'.$new->id_haloinstan) ?>">Remove</a></td>
                 </tr>
                <?php } ?>
             </tbody>       
@@ -85,7 +85,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click','.paket-remove-btn',function(){  
+    $(document).on('click','.msisdn-remove-btn',function(){  
         var main=$(this);
         swal({title: "Are you sure Want To Delete?",
         text: "You will not be able to recover this Data!",
