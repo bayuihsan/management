@@ -138,22 +138,36 @@
     
 </div>
 
-<div class="col-md-6 col-lg-6 col-sm-6">
-<!--Start Panel-->
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Upload File MSISDN Dari Excel</div>
-    <div class="panel-body">
-  <ul class="list-group">
-  <li class="list-group-item">
-<?php echo form_open_multipart('upload/update');?>
-<input type="file" name="file" size="20" id='files'/>
-<br/><br/>
-<button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+<div  class="col-lg-6">
+<p>Do you want to upload MSISDN File?</p>
+<form action="upload" method="post" enctype="multipart/form-data">  
+<table class="table table-bordered">
+  <tr>
+    <td width="150">MSISDN FILE</td>
+    <td>
+      <div class="col-md-10">  
+        <input type="file" name="msisdn_file" accept=".xls,.csv" style="margin-top:15px;" required="required" />  (Format .xls)
+        <input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
+        <input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>">
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <div class="col-md-5">  
+        <input type="submit" name="upload" value="Upload" style="margin-top:10px;" class="btn btn-info" />  
+      </div>  
+      <div class="col-md-6">  
+        <a href="<?php echo base_url()?>assets/ctp/template/file_upload.xls" download="file_upload.xls">Download Format File</a>
+        <a href="<?php echo base_url()?>assets/ctp/template/Kode_Paket.xls" download="Kode_Paket.xls"><p style="color:red;">Download Kode paket</p></a>
+      </div>
+      <div style="clear:both"></div>  
+    </td>
+  </tr>
+</table>
 </form>
-</li>
-</ul>
-</div>
+ </div>
 
 
 </div><!--End Inner container-->
