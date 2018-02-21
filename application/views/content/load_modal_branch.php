@@ -33,6 +33,9 @@
 	    var chart;
 	    chart = c3.generate({
 	        bindto: '#detail_branch',
+	        size: {
+		        height: 350,
+		    },
 	        data: {
 	            x: 'x',
 	    //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
@@ -58,37 +61,37 @@
 	                } ?>
 	                ],
 
-	                ['bogor', 
+	                ['Bogor', 
 	                <?php for($i=1;$i<=count($line_chart_branch[2]);$i++){ 
 	                echo  $line_chart_branch[2][$i]['amount'].",";
 	                } ?>
 	                ],
 
-	                ['karawang', 
+	                ['Karawang', 
 	                <?php for($i=1;$i<=count($line_chart_branch[3]);$i++){ 
 	                echo  $line_chart_branch[3][$i]['amount'].",";
 	                } ?>
 	                ],
 
-	                ['jakarta_barat', 
+	                ['Jakarta Barat', 
 	                <?php for($i=1;$i<=count($line_chart_branch[7]);$i++){ 
 	                echo  $line_chart_branch[7][$i]['amount'].",";
 	                } ?>
 	                ],
 
-	                ['banten', 
+	                ['Banten', 
 	                <?php for($i=1;$i<=count($line_chart_branch[4]);$i++){ 
 	                echo  $line_chart_branch[4][$i]['amount'].",";
 	                } ?>
 	                ],
 
-	                ['bandung', 
+	                ['Bandung', 
 	                <?php for($i=1;$i<=count($line_chart_branch[6]);$i++){ 
 	                echo  $line_chart_branch[6][$i]['amount'].",";
 	                } ?>
 	                ],
 
-	                ['soreang', 
+	                ['Soreang', 
 	                <?php for($i=1;$i<=count($line_chart_branch[9]);$i++){ 
 	                echo  $line_chart_branch[9][$i]['amount'].",";
 	                } ?>
@@ -100,7 +103,7 @@
 	                } ?>
 	                ],
 
-	                ['tasikmalaya', 
+	                ['Tasikmalaya', 
 	                <?php for($i=1;$i<=count($line_chart_branch[5]);$i++){ 
 	                echo  $line_chart_branch[5][$i]['amount'].",";
 	                } ?>
