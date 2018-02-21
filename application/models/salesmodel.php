@@ -126,6 +126,33 @@ class salesModel extends CI_Model{
 		return $result;
 	}
 
+	//get MSISDN   
+	public function getMSISDN($cek = ""){
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch
+			FROM new_psb a
+			LEFT JOIN branch b ON b.branch_id = a.branch_id
+			where a.msisdn like '%".$cek."%' ");  
+		$result=$query_result->result();
+		return $result;
+
+	}
+
+	//get all sales  
+	public function getMSISDNDetail($msisdn){
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			FROM new_psb a
+			LEFT JOIN branch b ON b.branch_id = a.branch_id
+			LEFT JOIN app_users c ON c.username = a.TL
+			LEFT JOIN paket d ON d.paket_id = a.paket_id
+			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+			LEFT JOIN app_users f ON f.username = a.username 
+			LEFT JOIN app_users g ON g.username = a.validasi_by 
+			where a.msisdn = '".$msisdn."' ");  
+		$result=$query_result->row();
+		return $result;
+
+	}
+
 	//get all sales  
 	public function _get_datatables_query(){
 		//Current Month PSB

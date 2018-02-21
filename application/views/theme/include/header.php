@@ -296,7 +296,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <span class="title">Dashboard</span></a></li>
 
 <li class="has-sub">
-<a href="<?php echo site_url('Admin/dashboard') ?>"><i class="fa fa-search"></i>
+<a href="<?php echo site_url('sales/cek_msisdn') ?>"><i class="fa fa-search"></i>
 <span class="title">Cek MSISDN</span></a>
 </li>
 

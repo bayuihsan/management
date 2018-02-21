@@ -73,6 +73,70 @@ class sales extends CI_Controller {
         }
     }
 
+    //Cek MSISDN// 
+    public function cek_msisdn($action='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('content/sales/cek_msisdn',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/sales/cek_msisdn',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $cek    =$this->input->post('cek',true); 
+            $this->form_validation->set_rules('cek', 'MSISDN', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
+            if (!$this->form_validation->run() == FALSE)
+            {
+                $msisdnData=$this->salesmodel->getMSISDN($cek);
+                if(empty($msisdnData)){
+                    echo "false";
+                }else{
+                    $no=1 ;
+                    foreach ($msisdnData as $row) { ?>
+                        <tr>
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo $row->msisdn ?></td>
+                            <td><?php echo $row->nama_pelanggan ?></td>
+                            <td><?php echo $row->nama_branch ?></td>
+                            <td><?php echo $row->tanggal_masuk ?></td>
+                            <td><?php echo $row->tanggal_validasi ?></td>
+                            <td><?php echo $row->tanggal_aktif ?></td>
+                            <td><?php echo $row->status ?></td>
+                            <td><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_msisdn_<?php echo $row->msisdn?>">View Detail</a></td>
+                        </tr>
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                var $modal = $('#load_popup_modal_show_msisdn');
+                                $('#click_to_load_modal_popup_msisdn_<?php echo $row->msisdn?>').on('click', function(){
+                                    $modal.load('<?php echo base_url()?>sales/load_modal/',{'msisdn': "<?php echo $row->msisdn ?>",'id2':'2'},
+                                    function(){
+                                        $modal.modal('show');
+                                    });
+
+                                });
+                            });
+
+                        </script>
+                    <?php 
+                    
+                    }  
+                }
+            }else{
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+            }
+        }
+
+    }
+
+    function load_modal()
+    {
+        $data['msisdn'] = $msisdn = $this->input->post('msisdn',true);
+
+        $data['detail_msisdn']=$this->salesmodel->getMSISDNDetail($msisdn);
+        $this->load->view('content/sales/load_modal_msisdn',$data);
+    }
+
     public function view2($action='')
 	{   
         $data=array();
