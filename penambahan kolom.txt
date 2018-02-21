@@ -100,3 +100,8 @@ WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN
 	'2017-06-30' GROUP BY a.paket_id, c.`branch_id` ORDER BY this_month DESC
 	
 
+SELECT branch_id, STATUS, SUM(DATEDIFF(tanggal_aktif, tanggal_masuk)) 
+FROM new_psb
+WHERE STATUS='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2017-07-30',
+		INTERVAL 1 MONTH)), 1) AND '2017-07-30'
+GROUP BY branch_id, STATUS
