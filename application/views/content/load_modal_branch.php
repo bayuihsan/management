@@ -108,6 +108,9 @@
 
 	            ]
 	        },
+	        zoom: {
+		        enabled: true
+		    },
 	        axis: {
 	            x: {
 	                type: 'timeseries',
