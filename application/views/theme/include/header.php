@@ -311,19 +311,21 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <span class="title">Sales</span></a>
 <ul class="collapse">
     <li><a class="asyn-sales" href="<?php echo site_url('sales/add') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>
-    
     <li><a class="asyn-sales" href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
+    <li><a href="<?php echo site_url('ctp/add') ?>"><i class="fa fa-plus-square"></i> Add Data CTP</a></li>
+    <li><a href="<?php echo site_url('ctp/view') ?>"><i class="fa fa-calendar-plus-o"></i> Data Sales CTP</a></li>
 </ul>
 </li>
-
+<?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-university"></i>
 <span class="title">MSISDN</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
-    <li><a href="<?php echo site_url('') ?>"><i class="fa fa-book"></i> Kosong</a></li>
+    <li><a href="<?php echo site_url('msisdn/add') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
+    <li><a href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-book"></i> Data MSISDN</a></li>
 </ul>
 </li>
+<?php } ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">widgets</span></a>
@@ -378,19 +380,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
     <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
     <li><a href="<?php echo site_url('Reports/service_level') ?>"><i class="fa fa-angle-double-right"></i> Report by Service Level</a></li>
-    <?php /*<li><a href="<?php echo site_url('Reports/accountStatement') ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
-    <li><a href="<?php echo site_url('Reports/datewiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Income Report By Date</a></li>
-    <li><a href="<?php echo site_url('Reports/daywiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Day Wise Income Report</a></li>
-    <li><a href="<?php echo site_url('Reports/datewiseExpenseReport') ?>"><i class="fa fa-angle-double-right"></i> Expense Report By Date</a></li>
-    <li><a href="<?php echo site_url('Reports/daywiseExpenseReport') ?>"><i class="fa fa-angle-double-right"></i> Day Wise Expense Report</a></li>
-    <li><a href="<?php echo site_url('Reports/transferReport') ?>"><i class="fa fa-angle-double-right"></i> Transfer Report</a></li>
-    <li><a href="<?php echo site_url('Reports/incomeVsExpense') ?>"><i class="fa fa-angle-double-right"></i> Income Vs Expense Report</a></li>
-    <li><a href="<?php echo site_url('Reports/incomeCategoryReport') ?>"><i class="fa fa-angle-double-right"></i> Report By Chart Of Accounts</a></li>
-    <li><a href="<?php echo site_url('Reports/reportByPayer') ?>"><i class="fa fa-angle-double-right"></i> Report By Payer</a></li>
-    <li><a href="<?php echo site_url('Reports/reportByPayee') ?>"><i class="fa fa-angle-double-right"></i> Report By Payee</a></li>*/?>
 </ul>
 </li>
-<?php if($this->session->userdata('level')=='4') {?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">Master</span></a>
@@ -401,9 +392,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
     <li><a href="<?php echo site_url('sales_channel/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Channel</a></li>
     <li><a href="<?php echo site_url('feedbacks/view') ?>"><i class="fa fa-calendar-plus-o"></i> Feedbacks</a></li>
-    <li><a href="<?php echo site_url('ctp/view') ?>"><i class="fa fa-calendar-plus-o"></i> Data CTP</a></li>
 </ul>
 </li>
+<?php if($this->session->userdata('level')=='4') {?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-cog"></i>
 <span class="title">Administration</span></a>
