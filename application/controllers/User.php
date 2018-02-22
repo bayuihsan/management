@@ -20,7 +20,7 @@ class User extends CI_Controller {
 	//Method for view login page 
 	public function index(){
 	    if($this->session->userdata('logged_in')==TRUE){
-        	redirect('Admin');    
+        	redirect('Admin/home');    
         }
         $data=array();
 		$this->load->view('theme/login');	

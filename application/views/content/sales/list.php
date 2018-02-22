@@ -144,42 +144,11 @@ function jenis_event($id){
             <p>Date From - - - - To - - - -</p>
         </div>
         <?php $no=1; if(empty($sales)){ ?>
-         <table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
-            <thead>    
-                <th>NO</th>
-                <th>MSISDN</th>
-                <th>NAMA PELANGGAN</th>
-                <th>BRANCH</th>
-                <th>PAKET</th>
-                <th>TL</th>
-                <th>SALES PERSON</th>
-                <th>TANGGAL MASUK</th>
-                <th>TANGGAL VALIDASI</th>
-                <th>TANGGAL AKTIF</th>
-                <th>FA ID</th>
-                <th>ACCOUNT ID</th>
-                <th>ALAMAT</th>
-                <th>ALAMAT 2</th>
-                <th>DISCOUNT (RB)</th>
-                <th>PERIODE (BULAN)</th>
-                <th>BILL CYCLE</th>
-                <th>CHANNEL</th>
-                <th>SUB SALES CHANNEL</th>
-                <th>JENIS EVENT</th>
-                <th>NAMA EVENT</th>
-                <th>VALIDATOR</th>
-                <th>AKTIVATOR</th>
-                <th>STATUS</th>
-                <th>TANGGAL UPDATE (System)</th>
-                <th class="single-action">ACTION</th>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td colspan="26">Data tidak ditemukan</td>
-                </tr>
-            </tbody>
-        </table>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                swal("Alert","Sorry, No Data Found !", "info");
+            }); 
+        </script>
         
         <?php }else{ ?>
 
@@ -195,6 +164,7 @@ function jenis_event($id){
                 <th>TANGGAL MASUK</th>
                 <th>TANGGAL VALIDASI</th>
                 <th>TANGGAL AKTIF</th>
+                <th>SERVICE LEVEL</th>
                 <th>FA ID</th>
                 <th>ACCOUNT ID</th>
                 <th>ALAMAT</th>
@@ -222,11 +192,18 @@ function jenis_event($id){
                             <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
                             <td><?php echo strtoupper($new->nama_branch) ?></td>
                             <td><?php echo strtoupper($new->nama_paket) ?></td>
-                            <td><?php echo strtoupper($new->nama_tl) ?></td>
+                            <td><?php echo strtoupper($new->TL) ?></td>
                             <td><?php echo strtoupper($new->sales_person) ?></td>
                             <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
-                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
-                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
+                            <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
+                            <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
+                            <td><?php if(!empty($new->tanggal_aktif)){
+                                    $tgl_aktif = new DateTime($new->tanggal_aktif);
+                                }else{
+                                    $tgl_aktif = new DateTime();
+                                }
+                                $tgl_masuk = new DateTime($new->tanggal_masuk);
+                                $diff = $tgl_aktif->diff($tgl_masuk); echo $diff->d." Hari"; ?></td>
                             <td><?php echo strtoupper($new->fa_id) ?></td>
                             <td><?php echo strtoupper($new->account_id) ?></td>
                             <td><?php echo strtoupper($new->alamat) ?></td>

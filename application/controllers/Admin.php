@@ -9,14 +9,28 @@ class Admin extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Adminmodel','Reportmodel'));
+        $this->load->model(array('Adminmodel','salesmodel','Reportmodel'));
     }
     
-	public function index()
+	public function home($action='')
 	{   
-        $this->load->view('theme/include/header');
-        $this->load->view('content/index_2');
-        $this->load->view('theme/include/footer');
+        $data=array();
+        $sess_level = $this->session->userdata('level');
+        $sess_branch = $this->session->userdata('branch_id');
+
+        $data['title'] = "Data belum diproses";
+        if($sess_level !=4){
+            $data['sales'] = $this->salesmodel->getAllSalesBy($sess_level, $sess_branch);
+        }
+
+        if($action=='asyn'){
+            $this->load->view('content/index_2', $data);
+        }else{
+            $this->load->view('theme/include/header');
+            $this->load->view('content/index_2', $data);
+            $this->load->view('theme/include/footer');
+        }
+        
 	}
 	
     /** Method For dashboard **/ 

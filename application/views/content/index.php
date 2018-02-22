@@ -80,7 +80,7 @@
     </div>
 </div>
 <div class="row">
-<!--Start Income Vs Expense Line Chart-->
+<!--Start Daily Report Line Chart-->
 <div class="col-md-12 col-sm-12 col-lg-12">
 <!--Start Panel-->
 <div class="panel panel-default custom-box">
@@ -97,7 +97,7 @@
 </div>
 <!--End Panel-->
 </div>
-<!--End Income Col-->
+<!--End Daily Report Col-->
 
 <!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">

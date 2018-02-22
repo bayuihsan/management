@@ -292,10 +292,16 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <div class="sidebar">
 
 <ul id="menu" class="menu-helper asyn-menu">
-<li><a class="active-menu" href="<?php echo site_url('Admin/dashboard') ?>"><i  class="fa fa-tachometer"></i>
-<span class="title">Dashboard</span></a></li>
+<li class="has-sub"><a class="active-menu" href="#"><i  class="fa fa-tachometer"></i>
+<span class="title">Dashboard</span></a>
+<ul class="collapse">
+    <li><a href="<?php echo site_url('Admin/home') ?>"><i class="fa fa-angle-double-right"></i>Home</a></li>
+    <li><a href="<?php echo site_url('Admin/dashboard') ?>"><i class="fa fa-tachometer"></i> Dashboard HVC</a></li>
+    <li><a href="<?php echo site_url('Admin/dashboard_ctp') ?>"><i class="fa fa-tachometer"></i> Dashboard CTP</a></li>
+</ul>
+</li>
 
-<li class="has-sub">
+<li>
 <a href="<?php echo site_url('sales/cek_msisdn') ?>"><i class="fa fa-search"></i>
 <span class="title">Cek MSISDN</span></a>
 </li>
@@ -371,6 +377,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by TL</a></li>
     <li><a href="<?php echo site_url('Reports/sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
     <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
+    <li><a href="<?php echo site_url('Reports/service_level') ?>"><i class="fa fa-angle-double-right"></i> Report by Service Level</a></li>
     <?php /*<li><a href="<?php echo site_url('Reports/accountStatement') ?>"><i class="fa fa-angle-double-right"></i> Account Statement</a></li>
     <li><a href="<?php echo site_url('Reports/datewiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Income Report By Date</a></li>
     <li><a href="<?php echo site_url('Reports/daywiseIncomeReport') ?>"><i class="fa fa-angle-double-right"></i> Day Wise Income Report</a></li>

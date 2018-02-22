@@ -6,4 +6,71 @@
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Selamat Datang <?php echo $this->session->userdata('nama').' ('.$level[$this->session->userdata('level')].') di Aplikasi HVCare System Management V2'?></h4></div>
 
 
+
+<?php if($this->session->userdata('level')!=4){ ?>
+<!--Start Daily Report Line Chart-->
+<div class="col-md-12 col-sm-12 col-lg-12">
+<!--Start Panel-->
+<div class="panel panel-default">
+    
+    <!-- Default panel contents -->
+    <div class="panel-heading"><?php echo $title?></div>
+    <div class="panel-body">
+    	
+    	<table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
+            <thead>    
+                <th>NO</th>
+                <th>MSISDN</th>
+                <th>NAMA PELANGGAN</th>
+                <th>BRANCH</th>
+                <th>TL</th>
+                <th>TANGGAL MASUK</th>
+                <th>SERVICE</th>
+                <th>STATUS</th>
+                <th class="single-action">ACTION</th>
+            </thead>
+
+            <tbody>
+                <?php $no=1;
+                    foreach($sales as $new) { ?>    
+                        <tr>
+                            <td class="date"><?php echo $no++; ?></td>
+                            <td><?php echo $new->psb_id.' - '.strtoupper($new->msisdn) ?></td>
+                            <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
+                            <td><?php echo strtoupper($new->nama_branch) ?></td>
+                            <td><?php echo strtoupper($new->nama_tl) ?></td>
+                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
+                            <td><?php echo strtoupper($new->selisih). " Hari"; ?></td>
+                            <td><?php echo strtoupper($new->status) ?></td>
+                            <?php if($this->session->userdata('level')==4){ ?>
+                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
+                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales/add/remove/'.$new->psb_id) ?>">Delete</a> </td>
+                            <?php }else{ ?>
+                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> </td>
+                            <?php } ?>
+                            
+                        </tr>
+                <?php } ?>
+                
+            </tbody>       
+
+        </table>
+    	
+    </div>
+    <!--End Panel Body-->
+
 </div>
+<!--End Panel-->
+</div>
+<!--End Daily Report Col-->
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#sales-table").DataTable();
+	    $(".dataTables_length select").addClass("show_entries");
+	});
+</script>
+<?php }?>
+</section>
