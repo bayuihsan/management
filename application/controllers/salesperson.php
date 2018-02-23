@@ -145,4 +145,55 @@ class Salesperson extends CI_Controller {
             $this->load->view('theme/include/footer');
         }    
     }   
+
+    public function export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "USER", "NAMA_SALES", "BRANCH", "USERS", "NO_HP", "NAMA_BANK", "NO_REKENING", "ATAS_NAMA", "STATUS", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $salesperson = $this->Salespersonmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($salesperson as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_sales));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->user_sales));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_sales));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, strtoupper($row->no_telp));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, strtoupper($row->nama_bank));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, strtoupper($row->no_rekening));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, strtoupper($row->atas_nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, strtoupper($row->status));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, strtoupper($row->tanggal_update));
+                $excel_row++;
+            }
+
+            $filename = "SalesPerson-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
 }

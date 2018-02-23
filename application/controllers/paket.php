@@ -102,5 +102,52 @@ class Paket extends CI_Controller {
             $this->load->view('content/paket/add',$data);
             $this->load->view('theme/include/footer');
         }    
-    }   
+    }  
+
+    public function export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "NAMA", "HARGA", "KATEGORI", "STATUS", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $paket = $this->Paketmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($paket as $row)
+            {
+                if ($row->aktif == "y") { $status = "AKTIF"; }else{ $status="TIDAK AKTIF"; }
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->paket_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_paket));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, get_current_setting('currency_code')." ".number_format($row->harga_paket));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nama_kategori));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($status));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, strtoupper($row->time_update));
+                $excel_row++;
+            }
+
+            $filename = "Paket-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
 }

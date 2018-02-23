@@ -13,9 +13,10 @@ class Feedbacksmodel extends CI_Model{
 
 	//get all Branch  
 	public function get_all(){
-		$this->db->select('*');
-		$this->db->from('feedback');  
-		$this->db->order_by("nama_pelanggan", "asc");    
+		$this->db->select('a.*, b.nama');
+		$this->db->from('feedback a');  
+		$this->db->join('app_users b', 'b.id_users = a.id_users');
+		$this->db->order_by("a.nama_pelanggan", "asc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;

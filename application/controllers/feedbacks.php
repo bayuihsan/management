@@ -102,4 +102,51 @@ class Feedbacks extends CI_Controller {
             $this->load->view('theme/include/footer');
         }    
     }   
+
+    public function export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "NO_HP", "NAMA_PELANGGAN", "KOTA", "SARAN", "USERS", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $feedbacks = $this->Feedbacksmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($feedbacks as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_feedback));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->no_hp));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_pelanggan));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->kota));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->saran));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, strtoupper($row->nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, strtoupper($row->tgl_update));
+                $excel_row++;
+            }
+
+            $filename = "Feedback-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
 }

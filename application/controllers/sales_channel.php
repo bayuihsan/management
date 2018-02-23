@@ -99,5 +99,51 @@ class sales_channel extends CI_Controller {
             $this->load->view('content/sales_channel/add',$data);
             $this->load->view('theme/include/footer');
         }    
-    }   
+    }
+
+    public function export($action=""){
+        if($action=="asyn"){
+            $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "CHANNEL", "BRANCH", "SUB_CHANNEL");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $sub_channel = $this->sales_channelmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($sub_channel as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_channel));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($channel[$row->sales_channel]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->sub_channel));
+                $excel_row++;
+            }
+
+            $filename = "SubChannel-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    } 
 }

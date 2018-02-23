@@ -10,6 +10,7 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage paket <div class="add-button">
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('paket/add') ?>">Add Paket</a>
+    <a class="mybtn btn-default export-btn" href="<?php echo site_url('paket/export') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -110,6 +111,24 @@ $(document).ready(function() {
         }); 
         return false;       
     }); 
+
+    $(document).on('click','.export-btn',function(){
+
+        var link=$(this).attr("href"); 
+        // alert(link);
+        $.ajax({
+            method : "POST",
+            url : link,
+            beforeSend : function(){
+                $(".block-ui").css('display','block'); 
+            },success : function(data){ 
+                window.open(link+'/asyn','_blank');
+                $(".block-ui").css('display','none');               
+            }
+        });
+
+        return false;
+    });
 
 });
 

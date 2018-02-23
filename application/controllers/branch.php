@@ -101,6 +101,56 @@ class Branch extends CI_Controller {
             $this->load->view('theme/include/footer');
         }    
     }
+
+    public function export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "NAMA_BRANCH", "KETUA", "STATUS", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $branch = $this->Branchmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($branch as $row)
+            {
+                if($row->status == 1){
+                    $status = "Aktif";
+                }else{
+                    $status = "Tidak Aktif";
+                }
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->branch_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->ketua));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($status));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->time_update));
+                $excel_row++;
+            }
+
+            $filename = "Branch-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
     
    
 }

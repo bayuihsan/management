@@ -13,6 +13,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales Channel <div class="add-button">
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales_channel/add') ?>">Add Sales Channel</a>
+    <a class="mybtn btn-default export-btn" href="<?php echo site_url('sales_channel/export') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="sales_channel-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -111,6 +112,24 @@ $(document).ready(function() {
         }); 
         return false;       
     }); 
+
+    $(document).on('click','.export-btn',function(){
+
+        var link=$(this).attr("href"); 
+        // alert(link);
+        $.ajax({
+            method : "POST",
+            url : link,
+            beforeSend : function(){
+                $(".block-ui").css('display','block'); 
+            },success : function(data){ 
+                window.open(link+'/asyn','_blank');
+                $(".block-ui").css('display','none');               
+            }
+        });
+
+        return false;
+    });
 
 });
 

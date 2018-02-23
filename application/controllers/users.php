@@ -149,5 +149,54 @@ class users extends CI_Controller {
         }    
     }
     
-   
+    public function export($action=""){
+        if($action=="asyn"){
+            $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
+            $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "USERNAME", "NAMA_USER", "BRANCH", "NO_HP", "CHANNEL", "LEVEL", "KETERANGAN", "LAST_LOGIN");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $users = $this->usersmodel->get_all(); 
+
+            $excel_row = 2;
+
+            foreach($users as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_users));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->username));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->no_hp));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, strtoupper($channel[$row->channel]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, strtoupper($level[$row->level]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, strtoupper($row->keterangan));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, strtoupper($row->last_login));
+                $excel_row++;
+            }
+
+            $filename = "Users-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
 }
