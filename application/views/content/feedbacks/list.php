@@ -3,12 +3,12 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Sales</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Feedbacks</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Feedbacks <div class="add-button">
+    <div class="panel-heading">Manage Feedbacks <div class="add-button">
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('feedbacks/add') ?>">Add Feedbacks</a>
     <a class="mybtn btn-default export-btn" href="<?php echo site_url('feedbacks/export') ?>">Export to Excel</a>
     </div></div>
@@ -35,7 +35,10 @@
                     <td><?php echo strtoupper(substr($new->saran, 0, 100)).'...' ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('feedbacks/edit/'.$new->id_feedback) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('feedbacks/add/remove/'.$new->id_feedback) ?>">Delete</a></td>
+                <?php if($this->session->userdata('level')==4){ ?>
+                        <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('feedbacks/add/remove/'.$new->id_feedback) ?>">Delete</a>
+                    <?php } ?>
+                    </td>
                 </tr>
                <?php } ?>
             </tbody>       

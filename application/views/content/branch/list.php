@@ -9,7 +9,10 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Branch <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('branch/add') ?>">Add Branch</a>
+        <?php if($this->session->userdata('level')==4){ ?>
+        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('branch/add') ?>">Add Branch</a>
+        <?php } ?>
+    
     <a class="mybtn btn-default export-btn" href="<?php echo site_url('branch/export') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
@@ -23,15 +26,19 @@
             <tbody>
                 <?php $no=1; foreach($branch as $new) { ?>    
                 <tr>
-                <td class="date"><?php echo $no++; ?></td>
-                <td><?php echo $new->branch_id.' - '.strtoupper($new->nama_branch) ?></td>
-                <td><?php echo strtoupper($new->ketua) ?></td>
-                <td><?php if($new->status==1){ echo "AKTIF"; }else{ echo "TIDAK AKTIF"; }  ?></td>
-                <td><?php echo strtoupper($new->update_by) ?></td>
-                <td><?php echo strtoupper($new->time_update) ?></td>
-                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('branch/edit/'.$new->branch_id) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('branch/add/remove/'.$new->branch_id) ?>">Delete</a></td>
+                    <td class="date"><?php echo $no++; ?></td>
+                    <td><?php echo $new->branch_id.' - '.strtoupper($new->nama_branch) ?></td>
+                    <td><?php echo strtoupper($new->ketua) ?></td>
+                    <td><?php if($new->status==1){ echo "AKTIF"; }else{ echo "TIDAK AKTIF"; }  ?></td>
+                    <td><?php echo strtoupper($new->update_by) ?></td>
+                    <td><?php echo strtoupper($new->time_update) ?></td>
+                    <td>
+                        <?php if($this->session->userdata('level')==4){ ?>
+                        <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                    title="Click For Edit" href="<?php echo site_url('branch/edit/'.$new->branch_id) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('branch/add/remove/'.$new->branch_id) ?>">Delete</a>
+                        <?php } ?>
+                    </td>
                 </tr>
                <?php } ?>
             </tbody>       

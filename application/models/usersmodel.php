@@ -109,8 +109,8 @@ class usersModel extends CI_Model{
 		return $result;
 	} 
 
-	public function get_all_tl_branch($branch_id, $level){  
-		$query_result=$this->db->query("Select * from app_users where level='".$level."' and branch_id='".$branch_id."' and keterangan='Aktif'");
+	public function get_all_tl_branch($branch_id){  
+		$query_result=$this->db->query("Select * from app_users where level='3' and branch_id='".$branch_id."' and keterangan='Aktif'");
 		$result=$query_result->result();
 		return $result;
 

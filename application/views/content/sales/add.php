@@ -566,9 +566,32 @@ $(document).ready(function(){
           sucessAlert("Saved Sucessfully"); 
           $(".block-ui").css('display','none'); 
           if($("#action").val()!='update'){        
-            $('#nama_sales').val("");
-            $("#ketua").val("");
-            $('#status').val("");      
+            $('#smsisdn').val("");
+            $("#snama_pelanggan").val("");
+            $('#salamat').val("");      
+            $('#salamat2').val("");      
+            $('#sno_hp').val("");  
+            $('#sibu_kandung').val("");  
+            $('#stanggal_masuk').val("");  
+            $('#stanggal_validasi').val("");  
+            $('#stanggal_aktif').val("");  
+            $('#spaket').val("");
+            $('#sdiscount').val("");
+            $('#speriode').val("");
+            $('#sbill_cycle').val("");
+            $('#sfa_id').val("");
+            $('#saccount_id').val("");
+            $('#sjenis_event').val("");
+            $('#snama_event').val("");
+            $('#sstatus').val("");
+            $('#sdekripsi').val("");
+            $('#sbranch').val("");
+            $('#ssub_channel').val("");
+            $('#sdetail_sub').val("");
+            $('#sTL').val("");
+            $('#ssales_person').val("");
+            $('#svalidasi_by').val("");
+            $('#susername').val("");
           }
         }else{
           failedAlert2(data);

@@ -9,7 +9,9 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage paket <div class="add-button">
+        <?php if($this->session->userdata('level')==4){ ?>
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('paket/add') ?>">Add Paket</a>
+        <?php } ?>
     <a class="mybtn btn-default export-btn" href="<?php echo site_url('paket/export') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
@@ -27,15 +29,20 @@
             <tbody>
                 <?php $no=1; foreach($paket as $new) { ?>    
                 <tr>
-                <td class="date"><?php echo $no++; ?></td>
-                <td><?php echo $new->paket_id.' - '.strtoupper($new->nama_paket) ?></td>
-                <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_paket) ?></td>
-                <td><?php echo strtoupper($new->nama_kategori); ?></td>
-                <td><?php if ($new->aktif == "y") { echo "AKTIF"; }else{ echo "TIDAK AKTIF"; } ?></td>
-                <td><?php echo $new->time_update ?></td>
-                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('paket/edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('paket/add/remove/'.$new->paket_id) ?>">Delete</a></td>
+                    <td class="date"><?php echo $no++; ?></td>
+                    <td><?php echo $new->paket_id.' - '.strtoupper($new->nama_paket) ?></td>
+                    <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_paket) ?></td>
+                    <td><?php echo strtoupper($new->nama_kategori); ?></td>
+                    <td><?php if ($new->aktif == "y") { echo "AKTIF"; }else{ echo "TIDAK AKTIF"; } ?></td>
+                    <td><?php echo $new->time_update ?></td>
+                    <td>
+                        <?php if($this->session->userdata('level')==4){ ?>
+                        <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                    title="Click For Edit" href="<?php echo site_url('paket/edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('paket/add/remove/'.$new->paket_id) ?>">Delete</a>
+                        <?php } ?>
+
+                    </td>
                 </tr>
                <?php } ?>
             </tbody>       

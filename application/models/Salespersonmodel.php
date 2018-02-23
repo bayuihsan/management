@@ -25,9 +25,11 @@ class Salespersonmodel extends CI_Model{
 
 	//get sales person by branch  
 	public function get_all_by($branch_id){
-		$this->db->select('*');
-		$this->db->from('sales_person');
-		$this->db->where('branch_id',$branch_id);    
+		$this->db->select('a.*, b.nama_branch, c.nama');
+		$this->db->from('sales_person a');
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');
+		$this->db->join('app_users c', 'c.id_users = a.id_users');
+		$this->db->where('a.branch_id',$branch_id);    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;

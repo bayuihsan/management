@@ -39,7 +39,7 @@ class salesModel extends CI_Model{
 		$sess_level = $this->session->userdata('level');
 		$user_tl = $this->session->userdata('username');
 		if($branch_id == 17){ //ALL
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
@@ -51,7 +51,7 @@ class salesModel extends CI_Model{
 					ORDER BY a.$tanggal DESC");  
 		}else{
 			if($sess_level == 3){ //data for TL
-				$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+				$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
 					FROM new_psb a
 					LEFT JOIN branch b ON b.branch_id = a.branch_id
 					LEFT JOIN app_users c ON c.username = a.TL
@@ -62,7 +62,7 @@ class salesModel extends CI_Model{
 					where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."' and a.TL='".$user_tl."'
 						ORDER BY a.$tanggal DESC");  
 			}else{
-				$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+				$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
 					FROM new_psb a
 					LEFT JOIN branch b ON b.branch_id = a.branch_id
 					LEFT JOIN app_users c ON c.username = a.TL
@@ -86,7 +86,7 @@ class salesModel extends CI_Model{
 		$date = $tgl;
 		$user_tl = $this->session->userdata('username');
 		if($this->session->userdata('level')==3){
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
@@ -98,7 +98,7 @@ class salesModel extends CI_Model{
 			INTERVAL 1 MONTH)), 1) AND '".$date."' AND a.branch_id='".$branch_id."' and a.TL='".$user_tl."'
 				ORDER BY a.tanggal_masuk DESC");  
 		}else{
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', e.sales_channel
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL

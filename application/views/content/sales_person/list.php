@@ -19,6 +19,7 @@
                 <th>USER</th>
                 <th>NAMA SALES</th>
                 <th>BRANCH</th>
+                <th>TL</th>
                 <th>NO HP</th>
                 <th>NAMA BANK</th>
                 <th>NO REKENING</th>
@@ -35,6 +36,7 @@
                     <td><?php echo $new->id_sales.' - '.strtoupper($new->user_sales) ?></td>
                     <td><?php echo strtoupper($new->nama_sales) ?></td>
                     <td><?php echo strtoupper($new->nama_branch) ?></td>
+                    <td><?php echo strtoupper($new->nama) ?></td>
                     <td><?php echo strtoupper($new->no_telp) ?></td>
                     <td><?php echo strtoupper($new->nama_bank) ?></td>
                     <td><?php echo strtoupper($new->no_rekening) ?></td>
@@ -43,7 +45,10 @@
                     <td><?php echo strtoupper($new->tanggal_update) ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                     title="Click For Edit" href="<?php echo site_url('salesperson/edit/'.$new->id_sales) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs salesperson-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('salesperson/add/remove/'.$new->id_sales) ?>">Delete</a></td>
+                    <?php if($this->session->userdata('level')==4){ ?>
+                    <a class="mybtn btn-danger btn-xs salesperson-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('salesperson/add/remove/'.$new->id_sales) ?>">Delete</a>
+                    <?php } ?>
+                    </td>
                 </tr>
                <?php } ?>
             </tbody>       
@@ -136,7 +141,7 @@ $(document).ready(function() {
 
         return false;
     });
-    
+
 });
 
 </script>

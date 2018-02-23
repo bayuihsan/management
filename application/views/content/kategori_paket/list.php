@@ -9,7 +9,9 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Kategori Paket <div class="add-button">
+        <?php if($this->session->userdata('level')==4){ ?>
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('kategori_paket/add') ?>">Add Kategori</a>
+        <?php } ?>
     <a class="mybtn btn-default export-btn" href="<?php echo site_url('kategori_paket/export') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
@@ -25,13 +27,18 @@
             <tbody>
                 <?php $no=1; foreach($kategori_paket as $new) { ?>    
                 <tr>
-                <td><?php echo $no++; ?></td>
-                <td><?php echo $new->id_kategori.' - '.strtoupper ($new->nama_kategori) ?></td>
-                <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_kategori) ?></td>
-                <td><?php echo strtoupper ($new->last_update) ?></td>
-                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('kategori_paket/edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('kategori_paket/add/remove/'.$new->id_kategori) ?>">Delete</a></td>
+                    <td><?php echo $no++; ?></td>
+                    <td><?php echo $new->id_kategori.' - '.strtoupper ($new->nama_kategori) ?></td>
+                    <td><?php echo get_current_setting('currency_code')." ".number_format($new->harga_kategori) ?></td>
+                    <td><?php echo strtoupper ($new->last_update) ?></td>
+                    <td>
+                        <?php if($this->session->userdata('level')==4){ ?>
+                        <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                    title="Click For Edit" href="<?php echo site_url('kategori_paket/edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('kategori_paket/add/remove/'.$new->id_kategori) ?>">Delete</a>
+                    <?php } ?>
+                    
+                    </td>
                 </tr>
                <?php } ?>
             </tbody>       

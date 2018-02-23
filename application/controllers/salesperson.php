@@ -22,7 +22,12 @@ class Salesperson extends CI_Controller {
 	public function view($action='')
 	{   
         $data=array();
-        $data['salesperson']=$this->Salespersonmodel->get_all();    
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['salesperson']=$this->Salespersonmodel->get_all();    
+        }else{
+            $data['salesperson']=$this->Salespersonmodel->get_all_by($sess_branch);    
+        }
         if($action=='asyn'){
             $this->load->view('content/sales_person/list',$data);
         }else if($action==''){
@@ -38,8 +43,8 @@ class Salesperson extends CI_Controller {
         $branch_id = $this->session->userdata('branch_id');
         $level = $this->session->userdata('branch_id');
         if($this->session->userdata('level')!=4){
-            $data['pilihbranch']=$this->Branchmodel->get_branch_by_id($branch_id);  
-            $data['pilihid']=$this->usersmodel->get_all_tl_branch($branch_id, $level); 
+            $data['pilihbranch']=$this->Branchmodel->get_all_by($branch_id);  
+            $data['pilihid']=$this->usersmodel->get_all_tl_branch($branch_id); 
         }else{
             $data['pilihbranch']=$this->Branchmodel->get_all();
             $data['pilihid']=$this->usersmodel->get_all_tl();
@@ -131,8 +136,8 @@ class Salesperson extends CI_Controller {
         $branch_id = $this->session->userdata('branch_id');
         $level = $this->session->userdata('branch_id');
         if($this->session->userdata('level')!=4){
-            $data['pilihbranch']=$this->Branchmodel->get_branch_by_id($branch_id);  
-            $data['pilihid']=$this->usersmodel->get_all_tl_branch($branch_id, $level); 
+            $data['pilihbranch']=$this->Branchmodel->get_all_by($branch_id);  
+            $data['pilihid']=$this->usersmodel->get_all_tl_branch($branch_id); 
         }else{
             $data['pilihbranch']=$this->Branchmodel->get_all();
             $data['pilihid']=$this->usersmodel->get_all_tl();

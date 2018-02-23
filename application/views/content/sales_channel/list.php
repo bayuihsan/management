@@ -12,7 +12,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales Channel <div class="add-button">
+        <?php if($this->session->userdata('level')==4){ ?>
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales_channel/add') ?>">Add Sales Channel</a>
+        <?php } ?>
     <a class="mybtn btn-default export-btn" href="<?php echo site_url('sales_channel/export') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
@@ -29,14 +31,18 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
             <tbody>
                 <?php $no=1; foreach($sales_channel as $new) { ?>    
                 <tr>
-                <td><?php echo $no++; ?></td>
-                <td class="date"><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
-                <td><?php echo strtoupper($new->nama_branch) ?></td>
-                <td><?php echo $new->id_channel.' - '.strtoupper($new->sub_channel) ?></td>
-                <td><?php echo strtoupper($new->username) ?></td>
-                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('sales_channel/edit/'.$new->id_channel) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales_channel/add/remove/'.$new->id_channel) ?>">Delete</a></td>
+                    <td><?php echo $no++; ?></td>
+                    <td class="date"><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
+                    <td><?php echo strtoupper($new->nama_branch) ?></td>
+                    <td><?php echo $new->id_channel.' - '.strtoupper($new->sub_channel) ?></td>
+                    <td><?php echo strtoupper($new->username) ?></td>
+                    <td>
+                    <?php if($this->session->userdata('level')==4){ ?>
+                    <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                    title="Click For Edit" href="<?php echo site_url('sales_channel/edit/'.$new->id_channel) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales_channel/add/remove/'.$new->id_channel) ?>">Delete</a>
+                    <?php } ?>
+                    </td>
                 </tr>
                <?php } ?>
             </tbody>       
