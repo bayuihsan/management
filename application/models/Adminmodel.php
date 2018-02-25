@@ -29,7 +29,7 @@ class AdminModel extends CI_Model{
 			JOIN branch b ON a.branch_id=b.branch_id 
 			WHERE DATE_FORMAT(a.last_login,'%Y-%m-%d')='".$date."'
 			ORDER BY last_login desc
-			LIMIT ".$limit." ");	
+			LIMIT ".$limit." ");
 		$last_result = $last_query->result();
 
 		return $last_result;
