@@ -308,6 +308,15 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 
 <li class="has-sub">
 <a href="#"><i class="fa fa-credit-card"></i>
+<span class="title">BAST</span></a>
+<ul class="collapse">
+    <li><a class="asyn-bast" href="<?php date_default_timezone_set(get_current_setting('timezone'));  echo site_url('bast/create') ?>"><i class="fa fa-plus-square"></i> Add Bast</a></li>
+    <li><a class="asyn-bast" href="<?php echo site_url('bast/view') ?>"><i class="fa fa-book"></i> Manage Bast</a></li>
+</ul>
+</li>
+
+<li class="has-sub">
+<a href="#"><i class="fa fa-credit-card"></i>
 <span class="title">Sales</span></a>
 <ul class="collapse">
     <li><a class="asyn-sales" href="<?php echo site_url('sales/add') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>

@@ -14,6 +14,11 @@ ALTER TABLE `new_psb` ADD `sales_channel` INT NULL AFTER `account_id`;
 
 ALTER TABLE `new_psb` DROP `sales_channel`;
 
+create TABLE bast_temp as select * from new_psb where psb_id=-1
+
+ALTER TABLE `new_psb` CHANGE `tipe_msisdn` `id_header` INT(11) NULL;
+
+ALTER TABLE `bast_header` ADD `branch_id` INT NOT NULL AFTER `no_bast`;
 
 
 SELECT b.branch_id, b.nama_branch, 
