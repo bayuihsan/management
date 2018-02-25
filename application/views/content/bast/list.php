@@ -32,11 +32,13 @@
                     <td><?php echo strtoupper($new->nama) ?></td>
                     <td><?php echo strtoupper($new->jumlah)." MSISDN" ?></td>
                     <td>
-                        <?php if($this->session->userdata('level')==4){ ?>
+                        <a class="mybtn btn-warning btn-xs" style="cursor: pointer;" id="click_to_load_modal_popup_bast">Detail</a>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                     title="Click For Edit" href="<?php echo site_url('bast/edit/'.$new->id_header) ?>">Edit</a> &nbsp; 
+                    <?php if($new->jumlah == 0){ ?>
                     <a class="mybtn btn-danger btn-xs bast-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('bast/create/remove/'.$new->id_header) ?>">Delete</a>
-                        <?php } ?>
+                    <?php } ?>
+                    
                     </td>
                 </tr>
                <?php } ?>

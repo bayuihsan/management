@@ -30,14 +30,14 @@ $status=array('sukses'=>'sukses',
   'masuk'=>'masuk');
  ?>
 
-<div class="col-md-6 col-lg-6 col-sm-6 sales-div">
+<div class="col-md-6 col-lg-6 col-sm-6 bast-div">
 <!--Start Panel-->
   <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Add sales</div>
     <div class="panel-body add-client">
     
-    <form id="add-sales">
+    <form id="add-bast">
       <input type="hidden" name="action" id="action" value="insert"/>  
       <input type="hidden" name="psb_id" id="psb_id" value=""/>    
       <div class="form-group">
@@ -200,8 +200,6 @@ $(document).ready(function(){
   $("#sstatus").select2();
 
   $("#date").datepicker();
-  $("#date2").datepicker();
-  $("#date3").datepicker();
   
   //sub channel berdasarkan branch
   $("#ssub_channel").chained("#sbranch");
@@ -210,7 +208,7 @@ $(document).ready(function(){
   $("#svalidasi_by").chained("#sbranch");
 
   //for number only
-  $("#smsisdn, #sno_hp, #sfa_id, #saccount_id, #smsisdn1").keypress(function (e) {
+  $("#smsisdn, #sno_hp, #smsisdn1").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -218,7 +216,7 @@ $(document).ready(function(){
     }
   });
 
-  $('#add-sales').on('submit',function(){    
+  $('#add-bast').on('submit',function(){    
     var msisdn = $("#smsisdn").val();
     var msisdn1 = $("#smsisdn1").val();
     var no_hp = $("#sno_hp").val();
@@ -228,13 +226,10 @@ $(document).ready(function(){
     }else if(no_hp.substring(0,3)!=628){
       alert("No HP harus diawali 628");
       return false;
-    }else if(msisdn == msisdn1){
-      alert("Pengubahan MSISDN tidak boleh sama");
-      return false;
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('sales/add/insert') ?>",
+        url : "<?php echo site_url('bast/add/insert') ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 

@@ -24,7 +24,13 @@ class bast extends CI_Controller {
     public function view($action='')
     {   
         $data=array();
-        $data['bast']=$this->bastmodel->get_all(); 
+        $sess_branch = $this->session->userdata('branch_id');
+        $sess_level = $this->session->userdata('level');
+        if($sess_level == 4){
+            $data['bast']=$this->bastmodel->get_all_by('');
+        }else{
+            $data['bast']=$this->bastmodel->get_all_by($sess_branch);
+        } 
         if($action=='asyn'){
             $this->load->view('content/bast/list',$data);
         }else if($action==''){
