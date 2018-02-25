@@ -316,10 +316,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 </li>
 
 <li class="has-sub">
-<a href="#"><i class="fa fa-credit-card"></i>
+<a href="#"><i class="fa fa-language"></i>
 <span class="title">Sales</span></a>
 <ul class="collapse">
-    <li><a class="asyn-sales" href="<?php echo site_url('sales/add') ?>"><i class="fa fa-plus-square"></i> Add Sales</a></li>
     <li><a class="asyn-sales" href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
     <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')!=5){ ?>
     <li><a href="<?php echo site_url('ctp/add') ?>"><i class="fa fa-plus-square"></i> Add Data CTP</a></li>

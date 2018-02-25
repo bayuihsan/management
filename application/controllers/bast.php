@@ -20,6 +20,20 @@ class bast extends CI_Controller {
         redirect('bast/view');
         
     }
+
+    public function view($action='')
+    {   
+        $data=array();
+        $data['bast']=$this->bastmodel->get_all(); 
+        if($action=='asyn'){
+            $this->load->view('content/bast/list',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/bast/list',$data);
+            $this->load->view('theme/include/footer');
+        }
+    }
+
     /** Method For View,insert, update and delete Bast Header  **/
     public function create($action='', $param1='')
     {
@@ -27,10 +41,10 @@ class bast extends CI_Controller {
         $sess_branch = $this->session->userdata('branch_id');
         $sess_level = $this->session->userdata('level');
         if($sess_level == 4){
-            $data['bast_list']=$this->bastmodel->get_all();
+            $data['bast_list']=$this->bastmodel->get_all_bydate('');
             $data['branch']=$this->Branchmodel->get_all();
         }else{
-            $data['bast_list']=$this->bastmodel->get_all_by($sess_branch);
+            $data['bast_list']=$this->bastmodel->get_all_bydate($sess_branch);
             $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
         }
         
@@ -51,6 +65,7 @@ class bast extends CI_Controller {
             $data['no_bast']=$no_bast=$this->input->post('bno_bast',true); 
             $data['branch_id']=$this->input->post('bbranch',true); 
             $data['tanggal_masuk']=$this->input->post('btanggal_masuk',true);  
+            $data['id_users']=$this->session->userdata('id_users');  
             //-----Validation-----//    
             if($data['no_bast']!="" && $data['branch_id']!="" && $data['tanggal_masuk']!=""){
                 if($do=='insert'){
@@ -89,269 +104,36 @@ class bast extends CI_Controller {
             $this->db->delete('bast_header', array('id_header' => $param1));        
         }  
     }
-    /** Method For View,insert, update and delete Bast Header  **/
-    public function detail($no_bast='', $action='', $param1='')
+    /** Method For Add New Account and Account Page View **/    
+    public function add($no_bast='',$action='',$param1='')
     {
-        $data=array();  
-        $data['no_bast'] = $no_bast;
-        $data['bast_list']=$this->bastmodel->get_all($no_bast);
-        //----For ajax load-----//
-        if($action=='asyn'){
-            $this->load->view('content/bast/add',$data);
-        }else if($action==''){  
-            $this->load->view('theme/include/header');
-            $this->load->view('content/bast/add',$data);
-            $this->load->view('theme/include/footer');
-        }
-        //----End Page Load------//
-        //----For Insert update and delete-----//
-        if($action=='insert'){
-            $data=array();
-            $do=$this->input->post('action',true);     
-            $data['accounts_name']=$this->input->post('account',true); 
-            $data['accounts_type']=$this->input->post('account-type',true); 
-            //-----Validation-----//    
-            if($data['accounts_name']!="" && $data['accounts_type']!="" && 
-            strlen($data['accounts_name'])<=30 && strlen($data['accounts_type'])<=7){
-                if($do=='insert'){
-                    //Check Duplicate Entry    
-                    if(!value_exists2("chart_of_accounts","accounts_name",$data['accounts_name'],"accounts_type",$data['accounts_type'])){    
-                        if($this->db->insert('chart_of_accounts',$data)){
-                            $last_id=$this->db->insert_id();    
-                            echo '{"result":"true", "action":"insert", "last_id":"'.$last_id.'"}';
-                        }
-                    }else{
-                        echo '{"result":"false", "message":"This Name Is Already Exists !"}';;
-                    }
-                }else if($do=='update'){
-                    $id=$this->input->post('chart_id',true); 
-                    //Check Duplicate Entry  
-                    if(!value_exists2("chart_of_accounts","accounts_name",$data['accounts_name'],"accounts_type",$data['accounts_type'],"chart_id",$id)){  
-                        $this->db->where('chart_id', $id);
-                        $this->db->update('chart_of_accounts', $data);
-                        echo '{"result":"true","action":"update"}'; 
-                    }else{
-                        echo '{"result":"false", "message":"This Name Is Already Exists !"}';;
-                    }      
-                }    
-            }else{
-                echo '{"result":"false", "message":"All Field Must Required With Valid Length !"}';
-            }
-            //----End validation----//
-                
-        }else if($action=='remove'){    
-            $this->db->delete('chart_of_accounts', array('chart_id' => $param1));        
-        }  
-          
-    }
-
-	public function sales($no_bast='', $action='')
-    {   
-        $data=array();
-        $sess_level = $this->session->userdata('level');
-        $sess_branch = $this->session->userdata('branch_id');
-        $tanggal = $this->Reportmodel->getMaxDate();
-        $data['max_tanggal'] = $max_tanggal = $tanggal->tgl_max;
-        $data['bbranch_id'] = 17;
-        $data['btgl'] = null;
-        $data['bstatus'] = null;
-        $data['bfrom_date'] = null;
-        $data['bto_date'] = null;
-        if($action=='asyn'){
-            if($this->session->userdata('level')==4){
-                $data['sales'] = $this->salesmodel->get_all($max_tanggal);
-                $data['branch'] = $this->Branchmodel->get_all();
-            }else{
-                $data['sales'] = $this->salesmodel->get_all_branch($max_tanggal, $sess_branch);
-                $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
-
-            }
-            $this->load->view('content/sales/list',$data);
-        }else if($action==''){
-            if($this->session->userdata('level')==4){
-                $data['sales'] = $this->salesmodel->get_all($max_tanggal);
-                $data['branch'] = $this->Branchmodel->get_all();
-            }else{
-                $data['sales'] = $this->salesmodel->get_all_branch($max_tanggal, $sess_branch);
-                $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
-
-            }
-            $this->load->view('theme/include/header');
-            $this->load->view('content/sales/list',$data);
-            $this->load->view('theme/include/footer');
-        }else if($action == 'cari'){        
-            // $reportData=$this->Reportmodel->getSalesCari($account,$from_date,$to_date,$trans_type);
-            $data['sales'] = $cari = $this->salesmodel->get_all_cari($branch_id,$tgl,$status,$from_date,$to_date);
-            $data['bbranch_id'] = $branch_id;
-            $data['btgl'] = $tgl;
-            $data['bstatus'] = $status;
-            $data['bfrom_date'] = $from_date;
-            $data['bto_date'] = $to_date;
-
-            if($this->session->userdata('level')==4){
-                $data['branch'] = $this->Branchmodel->get_all();
-            }else{
-                $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
-
-            }
-            $this->load->view('content/sales/list',$data);
-        }
-    }
-
-    //Cek MSISDN// 
-    public function cek_msisdn($action='')
-    {
-        $data=array();
-        if($action=='asyn'){
-            $this->load->view('content/sales/cek_msisdn',$data);
-        }else if($action==''){
-            $this->load->view('theme/include/header');
-            $this->load->view('content/sales/cek_msisdn',$data);
-            $this->load->view('theme/include/footer');
-        }else if($action=='view'){
-            $cek    =$this->input->post('cek',true); 
-            $this->form_validation->set_rules('cek', 'MSISDN', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
-            if (!$this->form_validation->run() == FALSE)
-            {
-                $msisdnData=$this->salesmodel->getMSISDN($cek);
-                if(empty($msisdnData)){
-                    echo "false";
-                }else{
-                    $no=1 ;
-                    foreach ($msisdnData as $row) { ?>
-                        <tr>
-                            <td><?php echo $no++; ?></td>
-                            <td><?php echo $row->msisdn ?></td>
-                            <td><?php echo $row->nama_pelanggan ?></td>
-                            <td><?php echo $row->nama_branch ?></td>
-                            <td><?php echo $row->tanggal_masuk ?></td>
-                            <td><?php echo $row->tanggal_validasi ?></td>
-                            <td><?php echo $row->tanggal_aktif ?></td>
-                            <td><?php echo $row->status ?></td>
-                            <td><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_msisdn_<?php echo $row->msisdn?>">View Detail</a></td>
-                        </tr>
-                        <script type="text/javascript">
-                            $(document).ready(function(){
-                                var $modal = $('#load_popup_modal_show_msisdn');
-                                $('#click_to_load_modal_popup_msisdn_<?php echo $row->msisdn?>').on('click', function(){
-                                    $modal.load('<?php echo base_url()?>sales/load_modal/',{'msisdn': "<?php echo $row->msisdn ?>",'id2':'2'},
-                                    function(){
-                                        $modal.modal('show');
-                                    });
-
-                                });
-                            });
-
-                        </script>
-                    <?php 
-                    
-                    }  
-                }
-            }else{
-                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
-            }
-        }
-
-    }
-
-    function load_modal()
-    {
-        $data['msisdn'] = $msisdn = $this->input->post('msisdn',true);
-
-        $data['detail_msisdn']=$this->salesmodel->getMSISDNDetail($msisdn);
-        $this->load->view('content/sales/load_modal_msisdn',$data);
-    }
-
-    public function view2($action='')
-	{   
-        $data=array();
-        $tanggal = $this->Reportmodel->getMaxDate();
-        $data['max_tanggal'] = $tanggal = $tanggal->tgl_max;
-        if($action=='asyn'){
-            $this->load->view('content/sales/list2',$data);
-        }else if($action==''){
-            $this->load->view('theme/include/header');
-            $this->load->view('content/sales/list2',$data);
-            $this->load->view('theme/include/footer');
-        }
-	}
-
-    public function ajax_list()
-    {
-        $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
-        $tanggal = $this->Reportmodel->getMaxDate();
-        $data['max_tanggal'] = $tanggal = $tanggal->tgl_max;
-        $list = $this->salesmodel->get_datatables();
-        $data = array();
-        $no = $_POST['start'];
-        foreach ($list as $new) {
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $new->msisdn;
-            $row[] = strtoupper($new->nama_pelanggan);
-            $row[] = strtoupper($new->nama_branch);
-            $row[] = isset($new->tanggal_masuk)? date('Y-m-d', strtotime($new->tanggal_masuk)) : '';
-            $row[] = isset($new->tanggal_validasi)? date('Y-m-d', strtotime($new->tanggal_validasi)) : '';
-            $row[] = isset($new->tanggal_aktif)? date('Y-m-d', strtotime($new->tanggal_aktif)) : '';
-            $row[] = strtoupper($new->fa_id);
-            $row[] = strtoupper($new->account_id);
-            $row[] = strtoupper($new->alamat);
-            $row[] = strtoupper($new->nama_paket);
-            $row[] = strtoupper($channel[$new->sales_channel]);
-            $row[] = strtoupper($new->sub_channel);
-            $row[] = strtoupper($new->sales_person);
-            $row[] = strtoupper($new->nama);
-            $row[] = strtoupper($new->username);
-            $row[] = strtoupper($new->status);
-            $row[] = strtoupper($new->tanggal_update);
-            
-            //add html for action
-            $row[] = '<a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="'.site_url('sales/edit/'.$new->psb_id).'">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="'.site_url('add/remove/'.$new->psb_id).'">Delete</a>';
-        
-            $data[] = $row;
-        }
-
-        $output = array(
-                        "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->salesmodel->count_all(),
-                        "recordsFiltered" => $this->salesmodel->count_filtered(),
-                        "data" => $data,
-                );
-        //output to json format
-        echo json_encode($output);
-    }
-    
-    /** Method For Add New Account and Account Page View **/ 	
-    public function add($action='',$param1='')
-	{
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
         if($sess_level==4){
-            $data['branch']=$this->Branchmodel->get_all();
-            $data['tl']=$this->usersmodel->get_all_tl();
-            $data['sub_channel']=$this->Sales_channelmodel->get_all();
-            $data['sales_person']=$this->Salespersonmodel->get_all();
-            $data['validasi']=$this->usersmodel->get_all_validasi();
+            $datax['branch']=$this->Branchmodel->get_all();
+            $datax['tl']=$this->usersmodel->get_all_tl();
+            $datax['sub_channel']=$this->Sales_channelmodel->get_all();
+            $datax['sales_person']=$this->Salespersonmodel->get_all();
+            $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
-            $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
-            $data['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
-            $data['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
-            $data['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
-            $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
+            $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
+            $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
+            $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
+            $datax['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
         }
         
-        $data['paket']=$this->Paketmodel->get_all();
-        
+        $datax['paket']=$this->Paketmodel->get_all();
+        $qbast = $this->bastmodel->get_all_by_no_bast($no_bast);
+        $datax['no_bast'] = $qbast->no_bast;
+        $datax['tanggal_masuk'] = $qbast->tanggal_masuk;
         if($action=='asyn'){
-            $this->load->view('content/sales/add',$data);
+            $this->load->view('content/bast/add_sales',$datax);
         }else if($action==''){
             $this->load->view('theme/include/header');
-    		$this->load->view('content/sales/add',$data);
-    		$this->load->view('theme/include/footer');
+            $this->load->view('content/bast/add_sales',$datax);
+            $this->load->view('theme/include/footer');
         }
         //----End Page Load------//
         //----For Insert update and delete-----// 
@@ -519,7 +301,71 @@ class bast extends CI_Controller {
         else if($action=='remove'){    
             $this->db->delete('new_psb', array('psb_id' => $param1));       
         }
-	}
+    }
+
+    //Cek MSISDN// 
+    public function cek_msisdn($action='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('content/sales/cek_msisdn',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/sales/cek_msisdn',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $cek    =$this->input->post('cek',true); 
+            $this->form_validation->set_rules('cek', 'MSISDN', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
+            if (!$this->form_validation->run() == FALSE)
+            {
+                $msisdnData=$this->salesmodel->getMSISDN($cek);
+                if(empty($msisdnData)){
+                    echo "false";
+                }else{
+                    $no=1 ;
+                    foreach ($msisdnData as $row) { ?>
+                        <tr>
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo $row->msisdn ?></td>
+                            <td><?php echo $row->nama_pelanggan ?></td>
+                            <td><?php echo $row->nama_branch ?></td>
+                            <td><?php echo $row->tanggal_masuk ?></td>
+                            <td><?php echo $row->tanggal_validasi ?></td>
+                            <td><?php echo $row->tanggal_aktif ?></td>
+                            <td><?php echo $row->status ?></td>
+                            <td><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_msisdn_<?php echo $row->msisdn?>">View Detail</a></td>
+                        </tr>
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                var $modal = $('#load_popup_modal_show_msisdn');
+                                $('#click_to_load_modal_popup_msisdn_<?php echo $row->msisdn?>').on('click', function(){
+                                    $modal.load('<?php echo base_url()?>sales/load_modal/',{'msisdn': "<?php echo $row->msisdn ?>",'id2':'2'},
+                                    function(){
+                                        $modal.modal('show');
+                                    });
+
+                                });
+                            });
+
+                        </script>
+                    <?php 
+                    
+                    }  
+                }
+            }else{
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+            }
+        }
+
+    }
+
+    function load_modal()
+    {
+        $data['msisdn'] = $msisdn = $this->input->post('msisdn',true);
+
+        $data['detail_msisdn']=$this->salesmodel->getMSISDNDetail($msisdn);
+        $this->load->view('content/sales/load_modal_msisdn',$data);
+    }
 
     /** Method For get sales information for sales Edit **/ 
     public function edit($psb_id,$action='')

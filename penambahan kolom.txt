@@ -20,6 +20,8 @@ ALTER TABLE `new_psb` CHANGE `tipe_msisdn` `id_header` INT(11) NULL;
 
 ALTER TABLE `bast_header` ADD `branch_id` INT NOT NULL AFTER `no_bast`;
 
+ALTER TABLE `new_psb` CHANGE `tipe_msisdn` `no_bast` VARCHAR(50) NULL DEFAULT NULL;
+
 
 SELECT b.branch_id, b.nama_branch, 
 IFNULL((SELECT COUNT(psb_id) 

@@ -42,6 +42,10 @@ $status=array('sukses'=>'sukses',
       <input type="hidden" name="action" id="action" value="insert"/>  
       <input type="hidden" name="psb_id" id="psb_id" value=""/>    
       <div class="form-group">
+        <label for="MSISDN">NO BAST</label>
+        <input type="text" class="form-control" name="sno_bast" id="sno_bast" value="<?php echo $no_bast?>" readonly>
+      </div>
+      <div class="form-group">
         <label for="MSISDN">MSISDN</label>
         <input type="text" class="form-control" name="smsisdn" id="smsisdn">
       </div>
@@ -67,31 +71,13 @@ $status=array('sukses'=>'sukses',
       </div>
       <div class="form-group"> 
           <label for="spaket">Tanggal Masuk</label>
-          <div class='input-group date' id='date'>
-              <input type="text" class="form-control" placeholder="Tanggal Masuk" name="stanggal_masuk" id="stanggal_masuk"/>   
+          <div class='input-group date' >
+              <input type="text" class="form-control" placeholder="Tanggal Masuk" name="stanggal_masuk" id="stanggal_masuk" value="<?php echo $tanggal_masuk?>" readonly />   
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
               </span>
           </div>
       </div> 
-      <div class="form-group"> 
-          <label for="spaket">Tanggal Validasi</label>
-          <div class='input-group date' id='date2'>
-              <input type="text" class="form-control" placeholder="Tanggal Validasi" name="stanggal_validasi" id="stanggal_validasi"/>   
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-          </div>
-      </div>
-      <div class="form-group"> 
-          <label for="spaket">Tanggal Aktif</label>
-          <div class='input-group date' id='date3'>
-              <input type="text" class="form-control" placeholder="Tanggal Aktif" name="stanggal_aktif" id="stanggal_aktif"/>   
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-          </div>
-      </div>
       <div class="form-group"> 
         <label for="spaket">Paket</label>
         <select name="spaket" class="form-control" id="spaket">  

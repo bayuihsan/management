@@ -67,7 +67,7 @@ function jenis_event($id){
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales/add') ?>">Add Sales</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('bast/create') ?>">Add Sales</a>
     </div></div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">

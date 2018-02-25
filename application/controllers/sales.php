@@ -13,7 +13,7 @@ class sales extends CI_Controller {
         }
         date_default_timezone_set(get_current_setting('timezone')); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel'));
+        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel'));
     }
     
     public function index(){
@@ -200,32 +200,34 @@ class sales extends CI_Controller {
     }
     
     /** Method For Add New Account and Account Page View **/ 	
-    public function add($action='',$param1='')
+    public function add($no_bast='',$action='',$param1='')
 	{
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
         if($sess_level==4){
-            $data['branch']=$this->Branchmodel->get_all();
-            $data['tl']=$this->usersmodel->get_all_tl();
-            $data['sub_channel']=$this->Sales_channelmodel->get_all();
-            $data['sales_person']=$this->Salespersonmodel->get_all();
-            $data['validasi']=$this->usersmodel->get_all_validasi();
+            $datax['branch']=$this->Branchmodel->get_all();
+            $datax['tl']=$this->usersmodel->get_all_tl();
+            $datax['sub_channel']=$this->Sales_channelmodel->get_all();
+            $datax['sales_person']=$this->Salespersonmodel->get_all();
+            $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
-            $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
-            $data['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
-            $data['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
-            $data['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
-            $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
+            $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
+            $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
+            $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
+            $datax['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
         }
         
-        $data['paket']=$this->Paketmodel->get_all();
-        
+        $datax['paket']=$this->Paketmodel->get_all();
+        $qbast = $this->bastmodel->get_all_by_no_bast($no_bast);
+        $datax['no_bast'] = $qbast->no_bast;
+        $datax['tanggal_masuk'] = $qbast->tanggal_masuk;
         if($action=='asyn'){
-            $this->load->view('content/sales/add',$data);
+            $this->load->view('content/sales/add',$datax);
         }else if($action==''){
             $this->load->view('theme/include/header');
-    		$this->load->view('content/sales/add',$data);
+    		$this->load->view('content/sales/add',$datax);
     		$this->load->view('theme/include/footer');
         }
         //----End Page Load------//

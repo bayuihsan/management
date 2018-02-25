@@ -39,6 +39,7 @@
           <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo date('Y-m-d h:i:s')?>" readonly/>   
         </div> 
         <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+        <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
       </form>
     </div>
     <!--End Panel Body-->
@@ -58,22 +59,19 @@
         <div class="scroll-div"> 
           <table id="accounts-table" class="table table-striped table-bordered">
             <th class="sc-col-4">NO BAST</th><th class="sc-col-2">BRANCH</th><th class="sc-col-3">TANGGAL</th><th class="sc-col-3">Action</th>
-            <?php  if(empty($bast_list)){
-              echo "<tr><td class='sc-col-4 t_no_bast'></td><td class='sc-col-2 t_branch'></td><td class='sc-col-3 t_type'></td>";
-              echo "<td class='sc-col-3'></td></tr>";
-            }else{ ?>    
+                
            <?php foreach($bast_list as $list){ ?>
            
             <tr>
-              <td class="a_no_bast sc-col-4"><?php echo $list->no_bast ?></td>
+              <td class="a_no_bast sc-col-4"><?php echo $list->no_bast ?></a></td>
               <td class="a_nama_branch sc-col-2"><?php echo $list->branch_id ?></td> 
               <td class="a_tanggal_masuk sc-col-3"><?php echo $list->tanggal_masuk ?></td> 
               <td class="sc-col-3"><a class="mybtn btn-info btn-xs bast-edit-btn"  href="<?php echo $list->id_header ?>">Edit</a>
-              <a class="mybtn btn-danger btn-xs bast-remove-btn"  href="<?php echo site_url('bast/create/remove/'.$list->id_header) ?>">Remove</a></td>     
+              </td>     
             </tr>
             
             <?php } 
-            }?>
+            ?>
     
           </table>
         </div>
@@ -124,6 +122,20 @@ $(document).ready(function() {
         }   
       }
     });    
+    return false;
+  });
+
+  $(document).on('click','#lihat_bast',function(){
+
+    var link=$(this).attr("href"); 
+    
+    $(".block-ui").css('display','block'); 
+ 
+    history.pushState(null, null,link);  
+    $('.asyn-div').load(link+'/asyn',function() {
+        $(".block-ui").css('display','none');     
+    });     
+    
     return false;
   });
 
