@@ -64,7 +64,7 @@ class bastmodel extends CI_Model{
 	public function get_all_by_no_bast($no_bast){
 		$query_result = $this->db->query("SELECT *
 			FROM bast_header
-			where id_header='".$no_bast."'
+			where no_bast='".$no_bast."'
 			ORDER BY tanggal_masuk DESC");  
 		$result=$query_result->row();
 		return $result;
