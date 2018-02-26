@@ -149,8 +149,8 @@
 <input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
 <input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>">
 <br /><br />  
-  <a href="<?php echo base_url()?>assets/ctp/template/upload_file.xlsx" download="upload_file.xls">Download Format File</a>
-  <a href="<?php echo base_url()?>assets/ctp/template/kode_paket.xlsx" download="kode_paket.xls"><p style="color:red;">Download Kode paket</p></a> 
+  <a href="<?php echo base_url()?>assets/ctp/template/upload_file.xls" download="upload_file.xls">Download Format File</a>
+  <a href="<?php echo base_url()?>assets/ctp/template/kode_paket.xls" download="kode_paket.xls"><p style="color:red;">Download Kode paket</p></a> 
 <button type="submit" class="mybtn btn-submit">Save</button>
 </form></li>   
 </ul>

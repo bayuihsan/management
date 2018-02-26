@@ -9,7 +9,6 @@ class Upload extends CI_Controller {
   }
  public function index()
  { $data['title']='<title> Upload axcel -> mysql</title>';
- $this->template->load('role','isi','update',$data);
 }
 public function update()
 {
@@ -71,7 +70,7 @@ public function update()
    unlink($inputFileName); // hapus file temp
    $count = $highestRow;
    $this->session->set_flashdata('pesan','Upload berhasil, Total: <b>'.$count.'</b> data.'); 
-   redirect('');
+   redirect('ctp/view');
 
  }
 }
