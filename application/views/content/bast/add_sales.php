@@ -403,6 +403,7 @@ $(document).ready(function(){
   if($(".sidebar").width()=="0"){
     $(".main-content").css("padding-left","0px");
   } 
+  $("#smsisdn").select2();
   $("#smsisdn1").select2();
   $("#sbranch").select2();
   $("#ssub_channel").select2();
@@ -421,6 +422,7 @@ $(document).ready(function(){
   $("#ssub_channel").chained("#sbranch");
   $("#sTL").chained("#sbranch");
   $("#ssales_person").chained("#sTL");
+  $("#smsisdn").chained("#sTL");
   $("#smsisdn1").chained("#sTL");
 
   //for number only
