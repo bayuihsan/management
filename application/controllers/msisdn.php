@@ -12,7 +12,7 @@ class Msisdn extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('usersmodel','Msisdnmodel'));
+        $this->load->model(array('usersmodel','Msisdnmodel','Branchmodel'));
     }
     
     public function index(){
@@ -22,8 +22,13 @@ class Msisdn extends CI_Controller {
 	public function view($action='')
 	{   
         $data=array();
-        
-        $data['msisdn']=$this->Msisdnmodel->get_all(); 
+        $sess_level = $this->session->userdata('level');
+        $sess_branch = $this->session->userdata('branch_id');
+        if($sess_level == 4){
+            $data['msisdn']=$this->Msisdnmodel->get_all(); 
+        }else{
+            $data['msisdn']=$this->Msisdnmodel->get_all_by($sess_branch); 
+        }
         if($action=='asyn'){
             $this->load->view('content/msisdn/list',$data);
         }else if($action==''){
@@ -40,8 +45,10 @@ class Msisdn extends CI_Controller {
         $sess_branch = $this->session->userdata('branch_id');
         if($this->session->userdata('level')==4){
             $data['TL'] = $this->usersmodel->get_all_tl();
+            $data['branch'] = $this->Branchmodel->get_all();
         }else{
             $data['TL']=$this->usersmodel->get_all_tl_by($sess_branch);
+            $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
         }
         if($action=='asyn'){
             $this->load->view('content/msisdn/add',$data);
@@ -56,13 +63,15 @@ class Msisdn extends CI_Controller {
             $data=array();
             $do=$this->input->post('action',true);     
             $msisdn_all = $this->input->post('msisdn',true); 
+            $data['branch_id'] =$branch_id=$this->input->post('mbranch_id',true); 
             $data['tipe'] =$tipe=$this->input->post('tipe',true); 
-            $data['id_users']=$id_tl=$this->input->post('id_users',true); 
+            $data['id_users']=$id_tl=$this->input->post('mid_users',true); 
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('msisdn', 'MSISDN', 'trim|required|numeric|min_length[10]');
+            $this->form_validation->set_rules('msisdn', 'MSISDN', 'trim|required|min_length[10]');
+            $this->form_validation->set_rules('mbranch_id', 'Branch', 'trim|required');
             $this->form_validation->set_rules('tipe', 'Tipe', 'trim|required');
-            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required');
+            $this->form_validation->set_rules('mid_users', 'ID Users', 'trim|required');
 
             if (!$this->form_validation->run() == FALSE)
             {
@@ -76,6 +85,7 @@ class Msisdn extends CI_Controller {
                                 if($new != "" || $new != null){
                                     $data = array(
                                         'msisdn' => $new,
+                                        'branch_id' => $branch_id,
                                         'tipe' => $tipe,
                                         'id_users' => $id_tl
                                     );

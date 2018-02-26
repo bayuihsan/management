@@ -24,6 +24,15 @@
         <label for="acc_name">MSISDN</label>
         <input type="text" class="form-control" name="msisdn" id="msisdn">
       </div>
+      <div class='form-group'>
+        <label>Branch</label>
+        <select name="mbranch_id" id="mbranch_id" class="form-control">
+          <option value="">Pilih Branch</option>
+          <?php foreach($branch as $row) { ?>
+          <option value="<?php echo $row->branch_id?>"><?php echo $row->nama_branch?></option>
+          <?php } ?>
+        </select>
+      </div>
       <div class="form-group">
         <label for="note">Tipe</label>
         <select name="tipe" class="form-control">
@@ -34,7 +43,7 @@
       </div>
       <div class='form-group'>
         <label>ID TL</label>
-        <select name="id_users" id="id_users" class="form-control">
+        <select name="mid_users" id="mid_users" class="form-control">
           <option value="">Pilih TL</option>
           <?php foreach($TL as $row) { ?>
           <option value="<?php echo $row->id_users?>"><?php echo $row->nama?></option>
@@ -79,9 +88,24 @@
         <label for="nama_paket">MSISDN</label>
         <input type="text" class="form-control" name="msisdn" id="msisdn" value="<?php echo $edit_msisdn->msisdn ?>">
       </div>
+      <div class='form-group'>
+        <label>Branch</label>
+        <select name="mbranch_id" id="mbranch_id" class="form-control">
+          <option value="">Pilih Branch</option>
+          <?php foreach($branch as $row) { 
+            if($edit_msisdn->branch_id == $row->branch_id){ ?>
+            <option value="<?php echo $row->branch_id?>" selected><?php echo $row->nama_branch?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $row->branch_id?>"><?php echo $row->nama_branch?></option>
+            <?php }
+            ?>
+          
+          <?php } ?>
+        </select>
+      </div>
       <div class="form-group">
         <label for="tipe">Tipe</label>
-        <select name="aktif" class="form-control">
+        <select name="tipe" class="form-control">
           <option value="0">Pilih Tipe</option>
           <?php if($edit_msisdn->tipe == "Halo Instan"){ ?>
           <option value="Halo Instan" selected="selected">Halo Instan</option>
@@ -92,9 +116,10 @@
           <?php } ?>
         </select>
       </div>
+
       <div class='form-group'>
         <label>TL</label>
-        <select name="id_users" class="form-control" id="id_users">
+        <select name="mid_users" class="form-control" id="mid_users">
           <option value="0">Pilih TL</option>  
           <?php foreach ($TL as $row) {
             if($edit_msisdn->id_users == $row->id_users){
@@ -139,7 +164,8 @@ $(document).ready(function(){
       return false;
     }
   });
-  $('#id_kategori').select2();
+  $('#mbranch_id').select2();
+  $('#mid_users').select2();
 
   $('#add-msisdn').on('submit',function(){    
     var msisdn = $("#msisdn").val();
@@ -158,7 +184,9 @@ $(document).ready(function(){
           sucessAlert("Saved Sucessfully"); 
           $(".block-ui").css('display','none'); 
           if($("#action").val()!='update'){        
-                  
+            $('#msisdn').val('');
+            $('#tipe').select('val','');
+            $('#mid_users').select2('val','');
           }
         }else{
           failedAlert2(data);

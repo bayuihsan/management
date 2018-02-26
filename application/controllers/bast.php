@@ -13,7 +13,7 @@ class bast extends CI_Controller {
         }
         date_default_timezone_set(get_current_setting('timezone')); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel'));
+        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel'));
     }
     
     public function index(){
@@ -108,7 +108,11 @@ class bast extends CI_Controller {
                 
         }else if($action=='remove'){    
             $this->db->delete('bast_header', array('id_header' => $param1));        
-        }  
+        }else if($action=='receive'){    
+            $datareceive['tanggal_terima'] = date('Y-m-d h:i:s');
+            $this->db->where('id_header', $param1);
+            $this->db->update('bast_header', $datareceive);     
+        } 
     }
     /** Method For Add New Account and Account Page View **/    
     public function add($no_bast='',$action='',$param1='')
@@ -116,6 +120,7 @@ class bast extends CI_Controller {
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
         if($sess_level==4){
+            $datax['msisdn']=$this->Msisdnmodel->get_all();
             $datax['branch']=$this->Branchmodel->get_all();
             $datax['tl']=$this->usersmodel->get_all_tl();
             $datax['sub_channel']=$this->Sales_channelmodel->get_all();
@@ -123,6 +128,7 @@ class bast extends CI_Controller {
             $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
+            $datax['msisdn']=$this->Msisdnmodel->get_all_by($sess_branch);
             $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
             $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
             $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
@@ -146,6 +152,7 @@ class bast extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do                         =addslashes($this->input->post('action',true));     
+            $data['no_bast']            = $no_bast = addslashes($this->input->post('sno_bast',true)); 
             $data['msisdn']             = $msisdn = addslashes($this->input->post('smsisdn',true)); 
             $data['nama_pelanggan']     =addslashes($this->input->post('snama_pelanggan',true)); 
             $data['alamat']             =addslashes($this->input->post('salamat',true)); 
@@ -153,28 +160,20 @@ class bast extends CI_Controller {
             $data['no_hp']              =addslashes($this->input->post('sno_hp',true));  
             $data['ibu_kandung']        =addslashes($this->input->post('sibu_kandung',true));  
             $data['tanggal_masuk']      =$tanggal_masuk = addslashes($this->input->post('stanggal_masuk',true));
-            $data['tanggal_validasi']   =$tanggal_validasi = addslashes($this->input->post('stanggal_validasi',true));
-            $data['tanggal_aktif']      =$tanggal_aktif = addslashes($this->input->post('stanggal_aktif',true));
             $data['paket_id']              =addslashes($this->input->post('spaket',true));
             $data['discount']           =addslashes($this->input->post('sdiscount',true));
             $data['periode']            =addslashes($this->input->post('speriode',true));
-            $data['bill_cycle']         =addslashes($this->input->post('sbill_cycle',true));
-            $data['fa_id']              = $fa_id = addslashes($this->input->post('sfa_id',true));
-            $data['account_id']         = $account_id =addslashes($this->input->post('saccount_id',true));
             $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
-            $data['status']             =addslashes($this->input->post('sstatus',true));
-            $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
-
+            $data['status']             ="masuk";
+        
             $data['branch_id']          =addslashes($this->input->post('sbranch',true));
             $data['sub_sales_channel']  = $sub_channel = addslashes($this->input->post('ssub_channel',true));
             $data['detail_sub']         =addslashes($this->input->post('sdetail_sub',true));
             $data['TL']                 = $tl =addslashes($this->input->post('sTL',true));
             $data['sales_person']       =addslashes($this->input->post('ssales_person',true));
-            $data['validasi_by']        =addslashes($this->input->post('svalidasi_by',true));
 
             $data['tanggal_input']      = date('Y-m-d h:i:s');   
-            $data['username']           =addslashes($this->input->post('susername',true));   
                  
             //-----Validation-----//   
             $this->form_validation->set_rules('smsisdn', 'MSISDN', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
@@ -184,27 +183,17 @@ class bast extends CI_Controller {
             $this->form_validation->set_rules('sno_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|max_length[14]|numeric');
             $this->form_validation->set_rules('sibu_kandung', 'Ibu Kandung', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('stanggal_masuk', 'Tanggal Masuk', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('stanggal_validasi', 'Tanggal Validasi', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('stanggal_aktif', 'Tanggal Aktif', 'trim|required|xss_clean');
             $this->form_validation->set_rules('spaket', 'Paket', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sdiscount', 'Discount', 'trim|required|xss_clean');
             $this->form_validation->set_rules('speriode', 'Periode', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('sbill_cycle', 'Bill Cycle', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('sfa_id', 'FA ID', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('saccount_id', 'Account ID', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sjenis_event', 'Jenis Event', 'trim|required|xss_clean');
             $this->form_validation->set_rules('snama_event', 'Nama Event', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('sstatus', 'Status', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('sdekripsi', 'Keterangan', 'trim|required|xss_clean|min_length[5]');
 
             $this->form_validation->set_rules('sbranch', 'Branch', 'trim|required|xss_clean');
             $this->form_validation->set_rules('ssub_channel', 'Sub Channel', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sdetail_sub', 'Detail Sub', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('sTL', 'TL', 'trim|required|xss_clean');
             $this->form_validation->set_rules('ssales_person', 'Sales Person', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('svalidasi_by', 'Validasi By', 'trim|required|xss_clean');
-
-            $this->form_validation->set_rules('susername', 'Username', 'trim|required|xss_clean');
 
             if($do == "update"){
                 $msisdn1 = addslashes($this->input->post('smsisdn1',true)); 
@@ -212,31 +201,13 @@ class bast extends CI_Controller {
             }
 
             if (!$this->form_validation->run() == FALSE)
-            {
-                $account = $this->salesmodel->get_sales_by_account($account_id); 
-                $fa = $this->salesmodel->get_sales_by_fa($fa_id); 
+            { 
                 if($do=='insert'){
                     
-                    if($tanggal_aktif > date('Y-m-d')){
-
-                        echo "Tanggal aktif tidak boleh lebih dari hari ini !!!!";
-
-                    }else if($tanggal_masuk > $tanggal_validasi || $tanggal_masuk > $tanggal_aktif || $tanggal_validasi > $tanggal_aktif){
-
-                        echo "Tanggal tidak sesuai. Periksa kembali !!!";
-
-                    }else if(value_exists("new_psb","msisdn",$msisdn)) {  
+                    if(value_exists("new_psb","msisdn",$msisdn)) {  
 
                         echo "This MSISDN Is Already Exists !!!!"; 
                                             
-                    }else if($account->jumlah>10){
-
-                        echo "Account ID sudah digunakan untuk 10 MSISDN";
-
-                    }else if($fa->jumlah>10){
-
-                        echo "FA ID sudah digunakan untuk 10 MSISDN";
-
                     }else{
                         $user_tl = $this->usersmodel->get_users_by_id($tl);
                         $query_channel = $this->Sales_channelmodel->get_sales_channel_by_id($sub_channel);
@@ -247,6 +218,11 @@ class bast extends CI_Controller {
                         }
 
                         $this->db->insert('new_psb',$data);
+
+                        $datastatus['status']             ="masuk";
+                        $this->db->where('msisdn', $msisdn);
+                        $this->db->update('msisdn', $datastatus);
+
                         echo "true";
                     }
                      
@@ -258,26 +234,10 @@ class bast extends CI_Controller {
                         $data['msisdn'] = $msisdn1;
                     }
 
-                    if($tanggal_aktif > date('Y-m-d')){
-
-                        echo "Tanggal aktif tidak boleh lebih dari hari ini !!!!";
-
-                    }else if($tanggal_masuk > $tanggal_validasi || $tanggal_masuk > $tanggal_aktif || $tanggal_validasi > $tanggal_aktif){
-
-                        echo "Tanggal tidak sesuai. Periksa kembali !!!";
-
-                    }else if(value_exists("new_psb","msisdn",$msisdn1)) {  
+                    if(value_exists("new_psb","msisdn",$msisdn1)) {  
 
                         echo "This MSISDN Is Already Exists !!!!"; 
                                             
-                    }else if($account->jumlah>10){
-
-                        echo "Account ID sudah digunakan untuk 10 MSISDN";
-
-                    }else if($fa->jumlah>10){
-
-                        echo "FA ID sudah digunakan untuk 10 MSISDN";
-
                     }else{
 
                         $user_tl = $this->usersmodel->get_users_by_id($tl);
@@ -367,40 +327,68 @@ class bast extends CI_Controller {
 
     function load_modal()
     {
-        $data['msisdn'] = $msisdn = $this->input->post('msisdn',true);
+        $data['no_bast'] = $no_bast = $this->input->post('no_bast',true);
 
-        $data['detail_msisdn']=$this->salesmodel->getMSISDNDetail($msisdn);
-        $this->load->view('content/sales/load_modal_msisdn',$data);
+        $data['detail_bast']=$this->salesmodel->getBASTDetail($no_bast);
+        $this->load->view('content/bast/load_modal_bast',$data);
     }
 
     /** Method For get sales information for sales Edit **/ 
-    public function edit($psb_id,$action='')
+    public function edit($no_bast,$psb_id,$action='')
     {
         $data=array();
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
         if($sess_level==4){
-            $data['branch']=$this->Branchmodel->get_all();
-            $data['tl']=$this->usersmodel->get_all_tl();
-            $data['sub_channel']=$this->Sales_channelmodel->get_all();
-            $data['sales_person']=$this->Salespersonmodel->get_all();
-            $data['validasi']=$this->usersmodel->get_all_validasi();
+            $datax['msisdn']=$this->Msisdnmodel->get_all();
+            $datax['branch']=$this->Branchmodel->get_all();
+            $datax['tl']=$this->usersmodel->get_all_tl();
+            $datax['sub_channel']=$this->Sales_channelmodel->get_all();
+            $datax['sales_person']=$this->Salespersonmodel->get_all();
+            $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
-            $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
-            $data['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
-            $data['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
-            $data['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
-            $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
+            $datax['msisdn']=$this->Msisdnmodel->get_all_by($sess_branch);
+            $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
+            $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
+            $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
+            $datax['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
         }
-        $data['edit_sales']=$this->salesmodel->get_sales_by_id($psb_id); 
-        $data['paket']=$this->Paketmodel->get_all();
 
+        $datax['edit_sales']=$this->salesmodel->get_sales_by_id($psb_id); 
+        $datax['paket']=$this->Paketmodel->get_all();
+        $datax['no_bast'] = $no_bast;
         if($action=='asyn'){
-            $this->load->view('content/sales/add',$data);
+            $this->load->view('content/bast/add_sales',$datax);
         }else if($action==''){
             $this->load->view('theme/include/header');
-            $this->load->view('content/sales/add',$data);
+            $this->load->view('content/bast/add_sales',$datax);
+            $this->load->view('theme/include/footer');
+        }    
+    }
+
+    /** Method For get sales information for sales Edit **/ 
+    public function edits($id_header,$action='')
+    {
+        $data=array();
+        $sess_branch = $this->session->userdata('branch_id');
+        $sess_level = $this->session->userdata('level');
+        if($sess_level == 4){
+            $data['bast_list']=$this->bastmodel->get_all_bydate('');
+            $data['branch']=$this->Branchmodel->get_all();
+        }else{
+            $data['bast_list']=$this->bastmodel->get_all_bydate($sess_branch);
+            $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
+        }
+
+        $data['edit_bast']=$this->bastmodel->get_all_by_id($id_header); 
+
+        if($action=='asyn'){
+            $this->load->view('content/bast/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/bast/add',$data);
             $this->load->view('theme/include/footer');
         }    
     }

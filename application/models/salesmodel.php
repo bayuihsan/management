@@ -185,6 +185,21 @@ class salesModel extends CI_Model{
 
 	}
 
+	public function getBASTDetail($no_bast){
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			FROM new_psb a
+			LEFT JOIN branch b ON b.branch_id = a.branch_id
+			LEFT JOIN app_users c ON c.username = a.TL
+			LEFT JOIN paket d ON d.paket_id = a.paket_id
+			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+			LEFT JOIN app_users f ON f.username = a.username 
+			LEFT JOIN app_users g ON g.username = a.validasi_by 
+			where a.no_bast = '".$no_bast."' ");  
+		$result=$query_result->result();
+		return $result;
+
+	}
+
 	//get all sales belum di proses $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
 	public function getAllSalesBy($sess_level, $sess_branch){
 		if($sess_level == 2){ //validasi

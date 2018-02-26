@@ -12,6 +12,7 @@
 <!--End Alert-->
 
 <?php date_default_timezone_set(get_current_setting('timezone')); ?>
+<?php if(!isset($edit_bast)){ ?>
 <div class="col-md-5 col-lg-5 col-sm-5">
 <!--Start Panel-->
   <div class="panel panel-default">
@@ -46,7 +47,48 @@
   </div>
 <!--End Panel-->       
 </div>
-    
+<?php }else{ ?>
+<div class="col-md-5 col-lg-5 col-sm-5">
+<!--Start Panel-->
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+    <div class="panel-heading">Add BAST</div>
+    <div class="panel-body add-client">
+      <form id="add-bast-account">
+        <input type="hidden" name="action" id="action" value="update"/>  
+        <input type="hidden" name="id_header" id="id_header" value="<?php echo $edit_bast->id_header?>"/>    
+        <div class="form-group"> 
+          <label for="account">NO BAST</label>
+          <input type="text" maxlength="30" class="form-control" name="bno_bast" id="bno_bast" value="<?php echo $edit_bast->no_bast?>" readonly/>   
+        </div> 
+        <div class="form-group"> 
+          <label for="bbranch">Branch</label>
+          <select name="bbranch" class="form-control" id="bbranch">  
+            <option value="">Pilih Branch</option>
+            <?php foreach ($branch as $new) { 
+              if($edit_bast->branch_id == $new->branch_id){ ?>
+              <option value="<?php echo $new->branch_id ?>" selected><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+              <?php }else{ ?>
+              <option value="<?php echo $new->branch_id ?>"><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+              <?php }
+              ?>
+            
+            <?php } ?>
+          </select>      
+        </div>
+        <div class="form-group"> 
+          <label for="account">Tanggal Masuk</label>
+          <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo $edit_bast->tanggal_masuk?>" readonly/>   
+        </div> 
+        <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+        <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      </form>
+    </div>
+    <!--End Panel Body-->
+  </div>
+<!--End Panel-->       
+</div>
+<?php } ?>
   
     
 <div class="col-md-7 col-lg-7 col-sm-7">

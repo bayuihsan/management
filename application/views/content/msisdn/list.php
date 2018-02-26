@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Paket</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>MSISDN</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
 <div class="panel panel-default">
@@ -15,8 +15,8 @@
         <table id="repeat-msisdn-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO.</th>
-                <th>ID Haloinstan</th>
                 <th>MSISDN</th>
+                <th>Branch</th>
                 <th>Tipe</th>
                 <th>Status</th>
                 <th>ID Users</th>
@@ -27,11 +27,11 @@
                 <?php $no=1; foreach($msisdn as $new) { ?>    
                 <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $new->id_haloinstan ?></td>
                 <td><?php echo $new->msisdn ?></td>
+                <td><?php echo $new->nama_branch ?></td>
                 <td><?php echo $new->tipe ?></td>
                 <td><?php echo $new->status ?></td>
-                <td><?php echo $new->id_users ?></td>
+                <td><?php echo $new->nama ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('msisdn/edit/'.$new->id_haloinstan) ?>">Edit</a> &nbsp; 
                 <a class="mybtn btn-danger btn-xs msisdn-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('msisdn/add/remove/'.$new->id_haloinstan) ?>">Remove</a></td>
