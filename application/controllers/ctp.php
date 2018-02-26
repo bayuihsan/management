@@ -8,6 +8,7 @@ class Ctp extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library(array('PHPExcel','excel'));
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
@@ -60,14 +61,14 @@ class Ctp extends CI_Controller {
             $data['employee_name']          =addslashes($this->input->post('employee_name',true)); 
             $data['paket_id']               =addslashes($this->input->post('paket_id',true)); 
             $data['id_users']               =addslashes($this->input->post('id_users',true)); 
-            $data['cbranch_id']             =addslashes($this->input->post('branch_id',true)); 
+            $data['branch_id']             =addslashes($this->input->post('cbranch_id',true)); 
             $data['tgl_upload']             =addslashes($this->input->post('tgl_upload',true)); 
        
             //-----Validation-----//   
             $this->form_validation->set_rules('order_id', 'Order ID', 'trim|required|xss_clean');
             $this->form_validation->set_rules('order_submit_date', 'Order Submit Date', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('order_completed_date', 'Order Complete Date', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('msisdn_ctp', 'MSISDN', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('msisdn_ctp', 'MSISDN', 'trim|required|xss_clean|min_length[10]');
             $this->form_validation->set_rules('nama_pelanggan_ctp', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('order_type_name', 'Order Type', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|xss_clean|min_length[3]');

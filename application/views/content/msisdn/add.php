@@ -17,7 +17,7 @@
     <div class="panel-heading">Add MSISDN</div>
     <div class="panel-body add-client">
     <?php if(!isset($edit_msisdn)){ ?>  
-    <form id="add-paket">
+    <form id="add-msisdn">
       <input type="hidden" name="action" id="action" value="insert"/>  
       <input type="hidden" name="id_haloinstan" id="id_haloinstan" value=""/>    
       <div class="form-group">
@@ -25,93 +25,89 @@
         <input type="text" class="form-control" name="msisdn" id="msisdn">
       </div>
       <div class="form-group">
-        <label for="balance">Tipe</label>
-        <input type="text" class="form-control" name="tipe" id="tipe">
-      </div>
-      <div class="form-group">
-        <label for="note">Status</label>
-        <select name="aktif" class="form-control">
-          <option value="">Pilih Status</option>
-          <option value="Aktif">Aktif</option>
-          <option value="Tidak Aktif">Tidak Aktif</option>
+        <label for="note">Tipe</label>
+        <select name="tipe" class="form-control">
+          <option value="">Pilih Tipe</option>
+          <option value="HaloInstan">Halo Instan</option>
+          <option value="HaloReguler">Halo Reguler</option>
         </select>
       </div>
       <div class='form-group'>
-        <label>ID Users</label>
-        <input type="text" class="form-control" name="id_users" id="id_users" value="<?php echo $this->session->userdata('id_users');?>" readonly>
+        <label>ID TL</label>
+        <select name="id_users" id="id_users" class="form-control">
+          <option value="">Pilih TL</option>
+          <?php foreach($TL as $row) { ?>
+          <option value="<?php echo $row->id_users?>"><?php echo $row->nama?></option>
+          <?php } ?>
+        </select>
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>msisdn/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+    <br>*Note : Input MSISDN Harus menggunakan format 628<br> 
+    <br>*Note : Jika ingin menginputkan MSISDN lebih dari 1, gunakan (,) dan (spasi).<br> 
+     Contoh : 62811123124, 628112234467
     </form>
     </div>
 </div>
 </div>
+</div>
 
-<div class="col-md-7 col-lg-7 col-sm-7">
-<!--Start Panel-->
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Upload File MSISDN Dari Excel</div>
-    <div class="panel-body">
-  <ul class="list-group">
+<div  class="col-lg-6">
+<ul class="list-group">
+<button type="button" class="list-group-item list-group-item-dark">
+    MSISDN Upload From Excel
+  </button>
   <li class="list-group-item">
+<form>
 <?php echo form_open_multipart('upload/update');?>
 <input type="file" name="file" size="20" id='files'/>
-<br/><br/>
-<button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-</form>
-</li>
+<br /><br />
+<button type="submit" class="mybtn btn-submit">Update</button>
+</form></li>   
 </ul>
+</div></div>
+ </div></div>
 </div>
-    <!--End Panel Body-->
-</div>
+ </div>
 
-</div>
     <?php }else{ ?>
 
-    <form id="add-paket">
+    <form id="add-msisdn">
       <input type="hidden" name="action" id="action" value="update"/>  
-      <input type="hidden" name="paket_id" id="paket_id" value="<?php echo $edit_paket->paket_id ?>"/>   
+      <input type="hidden" name="id_haloinstan" id="id_haloinstan" value="<?php echo $edit_msisdn->id_haloinstan ?>"/>   
       <div class="form-group">
-        <label for="nama_paket">Nama Paket</label>
-        <input type="text" class="form-control" name="nama_paket" id="nama_paket" value="<?php echo $edit_paket->nama_paket ?>">
+        <label for="nama_paket">MSISDN</label>
+        <input type="text" class="form-control" name="msisdn" id="msisdn" value="<?php echo $edit_msisdn->msisdn ?>">
       </div>
       <div class="form-group">
-        <label for="ketua">Harga Paket</label>
-        <input type="text" class="form-control" name="harga_paket" id="harga_paket" value="<?php echo $edit_paket->harga_paket ?>">
-      </div>
-      <div class="form-group">
-        <label for="status">Status</label>
+        <label for="tipe">Tipe</label>
         <select name="aktif" class="form-control">
-          <option value="">Pilih Status</option>
-          <?php if($edit_paket->aktif == "y"){ ?>
-          <option value="y" selected="selected">Aktif</option>
-          <option value="n">Tidak Aktif</option>
+          <option value="0">Pilih Tipe</option>
+          <?php if($edit_msisdn->tipe == "Halo Instan"){ ?>
+          <option value="Halo Instan" selected="selected">Halo Instan</option>
+          <option value="Halo Reguler">Halo Reguler</option>
           <?php }else{ ?>
-          <option value="y">Aktif</option>
-          <option value="n" selected="selected">Tidak Aktif</option>
+          <option value="Halo Instan">Halo Instan</option>
+          <option value="Halo Reguler" selected="selected">Halo Reguler</option>
           <?php } ?>
         </select>
       </div>
       <div class='form-group'>
-        <label>Kategori</label>
-        <select name="id_kategori" class="form-control" id="id_kategori">
-          <option value="0">-- Pilih Kategori --</option>  
-          <?php foreach ($kategori_paket as $kp) {
-            if($edit_paket->id_kategori == $kp->id_kategori){
+        <label>TL</label>
+        <select name="id_users" class="form-control" id="id_users">
+          <option value="0">Pilih TL</option>  
+          <?php foreach ($TL as $row) {
+            if($edit_msisdn->id_users == $row->id_users){
             ?>
-          <option value="<?php echo $kp->id_kategori?>" selected><?php echo $kp->nama_kategori ?></option>
+          <option value="<?php echo $row->id_users?>" selected><?php echo $row->nama ?></option>
           <?php } else { ?>
-          <option value="<?php echo $kp->id_kategori?>"><?php echo $kp->nama_kategori ?></option>  
+          <option value="<?php echo $row->id_users?>"><?php echo $row->nama ?></option>  
           <?php }
           }?>
         </select>
-      </div> 
-      <div class="form-group">
-        <label for="update_by">Update By</label>
-        <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
-          
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <a href="<?php echo base_url()?>msisdn/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -131,50 +127,67 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-if($(".sidebar").width()=="0"){
-  $(".main-content").css("padding-left","0px");
-} 
+  if($(".sidebar").width()=="0"){
+    $(".main-content").css("padding-left","0px");
+  } 
 
-//for number only
-$("#harga_paket").keypress(function (e) {
-  //if the letter is not digit then display error and don't type anything
-  if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
-    //display error message
-    return false;
-  }
-});
-$('#id_kategori').select2();
-
-$('#add-paket').on('submit',function(){    
-  $.ajax({
-    method : "POST",
-    url : "<?php echo site_url('msisdn/add/insert') ?>",
-    data : $(this).serialize(),
-    beforeSend : function(){
-      $(".block-ui").css('display','block'); 
-    },success : function(data){ 
-    if(data=="true"){  
-      sucessAlert("Saved Sucessfully"); 
-      $(".block-ui").css('display','none'); 
-      if($("#action").val()!='update'){        
-        $('#msisdn').val("");
-        $('#tipe').val("");
-        $("#status").val("");
-        $('#id_users').val("");      
-      }
-    }else{
-      failedAlert2(data);
-      $(".block-ui").css('display','none');
-    }   
+  //for number only
+  $("#harga_paket").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+    if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
+      //display error message
+      return false;
     }
-  });    
-  return false;
+  });
+  $('#id_kategori').select2();
 
-});
+  $('#add-msisdn').on('submit',function(){    
+    var msisdn = $("#msisdn").val();
+    if(msisdn.substring(0,3)!=628){
+      alert("MSISDN harus diawali 628");
+      return false;
+    }else{
+      $.ajax({
+        method : "POST",
+        url : "<?php echo site_url('msisdn/add/insert') ?>",
+        data : $(this).serialize(),
+        beforeSend : function(){
+          $(".block-ui").css('display','block'); 
+        },success : function(data){ 
+        if(data=="true"){  
+          sucessAlert("Saved Sucessfully"); 
+          $(".block-ui").css('display','none'); 
+          if($("#action").val()!='update'){        
+                  
+          }
+        }else{
+          failedAlert2(data);
+          $(".block-ui").css('display','none');
+        }   
+        }
+      });    
+      return false;
+    }
+  });
+
+  $(document).on('click','.kembali',function(){
+
+      var link=$(this).attr("href"); 
+      
+      $(".block-ui").css('display','block'); 
+   
+      history.pushState(null, null,link);  
+      $('.asyn-div').load(link+'/asyn',function() {
+          $(".block-ui").css('display','none');     
+      });     
+            
+
+      return false;
+  });
 
 });
 </script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
       var file = document.getElementById('files');
          file.onchange = function(e){
             var ext = this.value.match(/\.([^\.]+)$/)[1];
@@ -188,4 +201,4 @@ $('#add-paket').on('submit',function(){
                     this.value='';
             }
     };
-</script>
+</script> -->

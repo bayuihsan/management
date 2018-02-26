@@ -12,7 +12,7 @@ class Msisdn extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Msisdnmodel'));
+        $this->load->model(array('usersmodel','Msisdnmodel'));
     }
     
     public function index(){
@@ -22,6 +22,7 @@ class Msisdn extends CI_Controller {
 	public function view($action='')
 	{   
         $data=array();
+        
         $data['msisdn']=$this->Msisdnmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('content/msisdn/list',$data);
@@ -35,7 +36,13 @@ class Msisdn extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
-        $data['msisdn']=$this->Msisdnmodel->get_all(); 
+        
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['TL'] = $this->usersmodel->get_all_tl();
+        }else{
+            $data['TL']=$this->usersmodel->get_all_tl_by($sess_branch);
+        }
         if($action=='asyn'){
             $this->load->view('content/msisdn/add',$data);
         }else if($action==''){
@@ -48,30 +55,44 @@ class Msisdn extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do=$this->input->post('action',true);     
-            $data['msisdn']=$this->input->post('msisdn',true); 
-            $data['tipe']=$this->input->post('tipe',true); 
-            $data['id_users']=$this->input->post('id_users',true); 
-            $data['status']=$this->input->post('status',true);  
+            $msisdn_all = $this->input->post('msisdn',true); 
+            $data['tipe'] =$tipe=$this->input->post('tipe',true); 
+            $data['id_users']=$id_tl=$this->input->post('id_users',true); 
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('msisdn', 'MSISDN', 'trim|required|min_length[9]|numeric');
-            $this->form_validation->set_rules('tipe', 'Tipe', 'trim|required|min_length[4]');
+            $this->form_validation->set_rules('msisdn', 'MSISDN', 'trim|required|numeric|min_length[10]');
+            $this->form_validation->set_rules('tipe', 'Tipe', 'trim|required');
             $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
+                    $msisdn_all = str_replace(" ", "", $msisdn_all);
+                    $msisdn_pecah = explode(',',$msisdn_all);
+                    //print_r($msisdn_pecah);die();
+                    foreach($msisdn_pecah as $new) {
+                        if(substr($new, 0,3) == 628){
+                            if(!value_exists("msisdn","msisdn",$new)) {
+                                if($new != "" || $new != null){
+                                    $data = array(
+                                        'msisdn' => $new,
+                                        'tipe' => $tipe,
+                                        'id_users' => $id_tl
+                                    );
+                                    $this->db->insert("msisdn", $data);
+                                }
+            
+                            }    
+                        }
 
-                    $this->db->insert('msisdn',$data); 
-                    
-                    echo "true";    
-                    
+                        
+                    }
+                    echo "true";
                 }else if($do=='update'){
                     $id=$this->input->post('id_haloinstan',true);
                     
                     $this->db->where('id_haloinstan', $id);
                     $this->db->update('msisdn', $data);
-
                     echo "true";
 
                 }         
@@ -82,21 +103,20 @@ class Msisdn extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('paket', array('paket_id' => $param1));       
+            $this->db->delete('msisdn', array('id_haloinstan' => $param1));       
         }
 	}
-
     /** Method For get paket information for Branch Edit **/ 
-    public function edit($paket_id,$action='')
+    public function edit($id_haloinstan,$action='')
     {
         $data=array();
-        $data['edit_paket']=$this->Paketmodel->get_paket_by_id($paket_id);
-        $data['kategori_paket']=$this->Kategoripaketmodel->get_all();  
+        $data['edit_msisdn']=$this->Msisdnmodel->get_msisdn_by_id($id_haloinstan);
+        $data['TL']=$this->usersmodel->get_all();  
         if($action=='asyn'){
-            $this->load->view('content/paket/add',$data);
+            $this->load->view('content/msisdn/add',$data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-            $this->load->view('content/paket/add',$data);
+            $this->load->view('content/msisdn/add',$data);
             $this->load->view('theme/include/footer');
         }    
     }   

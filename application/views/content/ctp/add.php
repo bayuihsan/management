@@ -139,35 +139,27 @@
 </div>
 
 <div  class="col-lg-6">
-<p>Do you want to upload MSISDN File?</p>
-<form action="upload" method="post" enctype="multipart/form-data">  
-<table class="table table-bordered">
-  <tr>
-    <td width="150">MSISDN FILE</td>
-    <td>
-      <div class="col-md-10">  
-        <input type="file" name="msisdn_file" accept=".xls,.csv" style="margin-top:15px;" required="required" />  (Format .xls)
-        <input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
-        <input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>">
-      </div>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>
-      <div class="col-md-5">  
-        <input type="submit" name="upload" value="Upload" style="margin-top:10px;" class="btn btn-info" />  
-      </div>  
-      <div class="col-md-6">  
-        <a href="<?php echo base_url()?>assets/ctp/template/file_upload.xls" download="file_upload.xls">Download Format File</a>
-        <a href="<?php echo base_url()?>assets/ctp/template/Kode_Paket.xls" download="Kode_Paket.xls"><p style="color:red;">Download Kode paket</p></a>
-      </div>
-      <div style="clear:both"></div>  
-    </td>
-  </tr>
-</table>
-</form>
- </div>
+ <ul class="list-group">
+<button type="button" class="list-group-item list-group-item-dark">
+    Upload MSISDN From Excel
+  </button>
+  <li class="list-group-item">
+<?php echo form_open_multipart('upload/update');?>
+<input type="file" name="file" size="20" id='files'/>
+<input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
+<input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>">
+<br /><br />  
+  <a href="<?php echo base_url()?>assets/ctp/template/upload_file.xlsx" download="upload_file.xls">Download Format File</a>
+  <a href="<?php echo base_url()?>assets/ctp/template/kode_paket.xlsx" download="kode_paket.xls"><p style="color:red;">Download Kode paket</p></a> 
+<button type="submit" class="mybtn btn-submit">Save</button>
+</form></li>   
+</ul>
+</div></div>
+ </div></div>
+</div>
+ </div>>
+
+ 
 
 
 </div><!--End Inner container-->
@@ -186,7 +178,7 @@ $('#cbranch_id').select2();
     $(".main-content").css("padding-left","0px");
   } 
   //for number only
-  $("#no_hp").keypress(function (e) {
+  $("#msisdn_ctp").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -194,30 +186,55 @@ $('#cbranch_id').select2();
     }
   });
   $('#add-ctp').on('submit',function(){    
-    $.ajax({
-      method : "POST",
-      url : "<?php echo site_url('ctp/add/insert') ?>",
-      data : $(this).serialize(),
-      beforeSend : function(){
-        $(".block-ui").css('display','block'); 
-      },success : function(data){ 
-      if(data=="true"){  
-        sucessAlert("Saved Sucessfully"); 
-        $(".block-ui").css('display','none'); 
-        if($("#action").val()!='update'){        
-          $('#no_telp').val("");
-          $('#nama_pelanggan').val("");
-          $("#kota").val("");
-          $('#saran').val("");      
+    var msisdn = $("#msisdn_ctp").val();
+    if(msisdn.substring(0,3)!=628){
+      alert("MSISDN harus diawali 628");
+      return false;
+    }else{
+      $.ajax({
+        method : "POST",
+        url : "<?php echo site_url('ctp/add/insert') ?>",
+        data : $(this).serialize(),
+        beforeSend : function(){
+          $(".block-ui").css('display','block'); 
+        },success : function(data){ 
+        if(data=="true"){  
+          sucessAlert("Saved Sucessfully"); 
+          $(".block-ui").css('display','none'); 
+          if($("#action").val()!='update'){        
+          }
+        }else{
+          failedAlert2(data);
+          $(".block-ui").css('display','none');
+        }   
         }
-      }else{
-        failedAlert2(data);
-        $(".block-ui").css('display','none');
-      }   
-      }
-    });    
-    return false;
+      });    
+      return false;
+    }
+  });
 
+  $('#upload_file').submit(function(e) {
+    e.preventDefault();
+    $.ajaxFileUpload({
+      url       :'./upload/upload_file/', 
+      secureuri   :false,
+      fileElementId :'userfile',
+      dataType    : 'json',
+      data      : {
+        'title'       : $('#title').val()
+      },
+      success : function (data, status)
+      {
+        if(data.status != 'error')
+        {
+          $('#files').html('<p>Reloading files...</p>');
+          refresh_files();
+          $('#title').val('');
+        }
+        alert(data.msg);
+      }
+    });
+    return false;
   });
   $(document).on('click','.kembali',function(){
 
