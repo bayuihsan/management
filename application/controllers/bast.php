@@ -265,9 +265,9 @@ class bast extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $datastatus['status']             ="masuk";
-            $this->db->where('msisdn', $msisdn);
-            $this->db->update('msisdn', $datastatus);
+            // $datastatus['status']             ="masuk";
+            // $this->db->where('msisdn', $msisdn);
+            // $this->db->update('msisdn', $datastatus);
 
             $this->db->delete('new_psb', array('psb_id' => $param1));       
         }
