@@ -15,7 +15,7 @@ class Sales_channelmodel extends CI_Model{
 	public function get_all(){
 		$this->db->select('a.*, b.nama_branch');
 		$this->db->join('branch b', 'b.branch_id = a.branch_id');
-		$this->db->order_by("sub_channel", "asc");    
+		$this->db->order_by("a.sub_channel", "asc");    
 		$query_result=$this->db->get('sales_channel a');
 		$result=$query_result->result();
 		return $result;
@@ -33,9 +33,10 @@ class Sales_channelmodel extends CI_Model{
 
 	//get sales channel by id  
 	public function get_all_by($branch_id){
-		$this->db->select('*');
-		$this->db->from('sales_channel');
-		$this->db->where('branch_id',$branch_id);    
+		$this->db->select('a.*, b.nama_branch');
+		$this->db->from('sales_channel a');
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');
+		$this->db->where('a.branch_id',$branch_id);    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;

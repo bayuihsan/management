@@ -167,7 +167,13 @@ class Salesperson extends CI_Controller {
                 $column++;
             }
 
-            $salesperson = $this->Salespersonmodel->get_all();
+            $sess_branch = $this->session->userdata('branch_id');
+            if($this->session->userdata('level')==4){
+                $salesperson = $this->Salespersonmodel->get_all();    
+            }else{
+                $salesperson = $this->Salespersonmodel->get_all_by($sess_branch);
+            }
+            
 
             $excel_row = 2;
 

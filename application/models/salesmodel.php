@@ -202,7 +202,7 @@ class salesModel extends CI_Model{
 
 	//get all sales belum di proses $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
 	public function getAllSalesBy($sess_level, $sess_branch){
-		if($sess_level == 2){ //validasi
+		if($sess_level == 2 || $sess_level>5){ //validasi
 			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', DATEDIFF(current_date(), a.tanggal_masuk) as selisih
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id

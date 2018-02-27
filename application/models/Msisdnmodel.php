@@ -38,6 +38,20 @@ class Msisdnmodel extends CI_Model{
 		return $result;
 	}
 
+	//get all Branch  
+	public function get_all_by_status($branch_id){
+		$query = $this->db->query("select a.*, b.nama_branch, c.nama
+			FROM msisdn a 
+			LEFT JOIN branch b ON a.branch_id=b.branch_id
+			LEFT JOIN app_users c ON a.id_users=c.id_users
+			WHERE  a.branch_id='".$branch_id."' and a.status not in('masuk')
+			ORDER BY a.tanggal desc
+			");
+		$query_result=$query;
+		$result=$query_result->result();
+		return $result;
+	}
+
 	//get branch by id  
 	public function get_msisdn_by_id($id_haloinstan){
 		$this->db->select('*');

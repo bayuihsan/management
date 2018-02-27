@@ -61,12 +61,27 @@ class bastmodel extends CI_Model{
 		return $result;
 	}
 
-	public function get_all_by_no_bast($no_bast){
-		$query_result = $this->db->query("SELECT *
-			FROM bast_header
-			where no_bast='".$no_bast."'
-			ORDER BY tanggal_masuk DESC");  
+	public function get_all_by_no_bast_row($no_bast){
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama
+			FROM bast_header a
+			LEFT JOIN branch b ON a.branch_id=b.branch_id
+			LEFT JOIN app_users c ON a.id_users=c.id_users
+			where a.no_bast='".$no_bast."'
+			ORDER BY a.tanggal_masuk DESC");  
 		$result=$query_result->row();
+		return $result;
+	}
+
+	public function get_all_by_no_bast($no_bast){
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, d.nama, count(c.psb_id) jumlah
+			FROM bast_header a 
+			JOIN branch b ON a.branch_id=b.branch_id
+			LEFT JOIN new_psb c ON a.no_bast=c.no_bast
+			LEFT JOIN app_users d ON a.id_users=d.id_users
+			WHERE a.no_bast='".$no_bast."'
+			GROUP BY a.no_bast
+			ORDER BY a.tanggal_masuk DESC");  
+		$result=$query_result->result();
 		return $result;
 	}
 

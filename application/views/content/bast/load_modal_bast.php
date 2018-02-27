@@ -1,7 +1,7 @@
 
 <div id="load_popup_modal_contant" class="" role="dialog">
 
-	<div class="modal-dialog modal-lg" style="width: 90%">
+	<div class="modal-dialog modal-lg" style="width: 90%;">
 	<?php
 	//$id1 = $_POST["id1"];
 	//$id2 = $_POST["id2"];
@@ -14,7 +14,7 @@
 			</div>
 			<div id="validation-error"></div>
 			<div class="cl"></div>
-			<div class="modal-body">
+			<div class="modal-body" style="overflow: auto;">
 				<style style="text/css">
 	                /* Define the hover highlight color for the table row */
 	                .hoverTable tr:hover {

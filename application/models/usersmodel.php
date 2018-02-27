@@ -58,13 +58,25 @@ class usersModel extends CI_Model{
 
 	//get users TL by branch
 	public function get_all_tl_by($branch_id){
-		$this->db->select('a.*, b.nama_branch');
-		$this->db->from('app_users a');
-		$this->db->join('branch b', 'b.branch_id = a.branch_id');  
-		$this->db->where('a.level','3');
-		$this->db->where('a.branch_id',$branch_id);
-		$this->db->where('a.keterangan','Aktif');
-		$this->db->order_by("a.nama", "asc"); 
+		if($this->session->userdata('level')==3){
+			$this->db->select('a.*, b.nama_branch');
+			$this->db->from('app_users a');
+			$this->db->join('branch b', 'b.branch_id = a.branch_id');  
+			$this->db->where('a.level','3');
+			$this->db->where('a.id_users',$this->session->userdata('id_users'));
+			$this->db->where('a.branch_id',$branch_id);
+			$this->db->where('a.keterangan','Aktif');
+			$this->db->order_by("a.nama", "asc"); 
+		}else{
+			$this->db->select('a.*, b.nama_branch');
+			$this->db->from('app_users a');
+			$this->db->join('branch b', 'b.branch_id = a.branch_id');  
+			$this->db->where('a.level','3');
+			$this->db->where('a.branch_id',$branch_id);
+			$this->db->where('a.keterangan','Aktif');
+			$this->db->order_by("a.nama", "asc"); 
+		}
+		
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
@@ -110,7 +122,12 @@ class usersModel extends CI_Model{
 	} 
 
 	public function get_all_tl_branch($branch_id){  
-		$query_result=$this->db->query("Select * from app_users where level='3' and branch_id='".$branch_id."' and keterangan='Aktif'");
+		if($this->session->userdata('level')==3){
+			$query_result=$this->db->query("Select * from app_users where level='3' and branch_id='".$branch_id."' and keterangan='Aktif' and id_users='".$this->session->userdata('id_users')."'");
+		}else{
+			$query_result=$this->db->query("Select * from app_users where level='3' and branch_id='".$branch_id."' and keterangan='Aktif'");
+		}
+		
 		$result=$query_result->result();
 		return $result;
 

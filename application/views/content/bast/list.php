@@ -23,22 +23,30 @@
                 <?php $no=1; foreach($bast as $new) { ?>    
                 <tr>
                     <td class="date"><?php echo $no++; ?></td>
-                    <td><a href="<?php echo site_url('bast/add').'/'.$new->no_bast; ?>" id="lihat_bast"><?php echo strtoupper($new->no_bast) ?></a></td>
+                    <td>
+                    <?php if($this->session->userdata('level')==5 || $this->session->userdata('level')==4) { ?>
+                        <a href="<?php echo site_url('bast/add').'/'.$new->no_bast; ?>" id="lihat_bast"><?php echo strtoupper($new->no_bast) ?></a>
+                    <?php }else{ 
+                        echo strtoupper($new->no_bast);
+                    }?>
+                    </td>
                     <td><?php echo strtoupper($new->nama_branch) ?></td>
                     <td><?php echo strtoupper($new->tanggal_masuk) ?></td>
                     <td><?php echo strtoupper($new->tanggal_terima) ?></td>
                     <td><?php echo strtoupper($new->nama) ?></td>
                     <td><?php echo strtoupper($new->jumlah)." MSISDN" ?></td>
                     <td>
-                        <?php if($new->jumlah > 0){ ?>
+                        <?php if($new->jumlah > 0){ 
+                            if($this->session->userdata('level')==5 || $this->session->userdata('level')==4) {?>
+                        <a href="<?php echo site_url('bast/add').'/'.$new->no_bast; ?>" class="mybtn btn-success btn-xs">Tambah</a> <?php } ?>
                         <a class="mybtn btn-warning btn-xs" style="cursor: pointer;" id="click_to_load_modal_popup_bast_<?php echo $new->no_bast?>">Detail</a>
                         <?php if(empty($new->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
                         <a class="mybtn btn-success btn-xs bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('bast/create/receive/'.$new->id_header) ?>">Terima</a>
                         <?php } ?>
-                        <?php } ?>
+                        <?php } if($this->session->userdata('level')==5 || $this->session->userdata('level')==4) {?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                     title="Click For Edit" href="<?php echo site_url('bast/edits/'.$new->id_header) ?>">Edit</a>
-                    <?php if($new->jumlah == 0){ ?>
+                    <?php } if($new->jumlah == 0){ ?>
                     <a class="mybtn btn-danger btn-xs bast-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('bast/create/remove/'.$new->id_header) ?>">Delete</a>
                     <?php } ?>
                     

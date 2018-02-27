@@ -100,15 +100,15 @@
        
         <div class="scroll-div"> 
           <table id="accounts-table" class="table table-striped table-bordered">
-            <th class="sc-col-4">NO BAST</th><th class="sc-col-2">BRANCH</th><th class="sc-col-3">TANGGAL</th><th class="sc-col-3">Action</th>
+            <th class="sc-col-3">NO BAST</th><th class="sc-col-1">BRANCH</th><th class="sc-col-3">TANGGAL</th><th class="sc-col-4">Action</th>
                 
            <?php foreach($bast_list as $list){ ?>
            
             <tr>
-              <td class="a_no_bast sc-col-4"><?php echo $list->no_bast ?></a></td>
-              <td class="a_nama_branch sc-col-2"><?php echo $list->branch_id ?></td> 
+              <td class="a_no_bast sc-col-3"><?php echo $list->no_bast ?></a></td>
+              <td class="a_nama_branch sc-col-1"><?php echo $list->branch_id ?></td> 
               <td class="a_tanggal_masuk sc-col-3"><?php echo $list->tanggal_masuk ?></td> 
-              <td class="sc-col-3"><a class="mybtn btn-info btn-xs bast-edit-btn"  href="<?php echo $list->id_header ?>">Edit</a>
+              <td class="sc-col-4"><a href="<?php echo site_url('bast/add').'/'.$list->no_bast; ?>" class="mybtn btn-success btn-xs">Tambah</a> <a class="mybtn btn-info btn-xs bast-edit-btn"  href="<?php echo $list->id_header ?>">Edit</a>
               </td>     
             </tr>
             
@@ -157,7 +157,8 @@ $(document).ready(function() {
           sucessAlert("Saved Sucessfully"); 
           $(".block-ui").css('display','none');     
           $('#add-bast-account')[0].reset(); 
-          $("#bbranch").select2("val","");     
+          $("#bbranch").select2("val","");  
+          document.location.href = '<?php echo base_url()?>bast/create';   
         }else{
           failedAlert(json['message']);
           $(".block-ui").css('display','none');

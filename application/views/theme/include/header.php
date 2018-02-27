@@ -62,8 +62,8 @@
 
 <div class="header-nav-profile">
   <a id="profile" href=""><img src="<?php echo base_url() ?>/theme/images/avatar.jpg" alt="" />
-    <span class="profile-info"><?php echo $this->session->userdata('username'); ?>
-      <small><?php $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP'); echo $level[$this->session->userdata('level')]; ?></small>
+    <span class="profile-info"><?php date_default_timezone_set(get_current_setting('timezone'));  echo $this->session->userdata('username'); ?>
+      <small><?php $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'FOS ALR', 6=>'Validasi GraPARI', 7=>'FOS GraPARI', 8=>'Admin CTP'); echo $level[$this->session->userdata('level')]; ?></small>
     </span>
     <span class="caret"></span>
     </a>
@@ -95,7 +95,6 @@
 </div>
 <div class="modal-body">
 <?php 
-$level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
 $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
 ?>
  <!--Start Panel-->
@@ -297,15 +296,18 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <ul class="collapse">
     <li><a href="<?php echo site_url('Admin/home') ?>"><i class="fa fa-angle-double-right"></i>Home</a></li>
     <li><a href="<?php echo site_url('Admin/dashboard') ?>"><i class="fa fa-tachometer"></i> Dashboard HVC</a></li>
-    <li><a href="<?php echo site_url('Admin/dashboard_ctp') ?>"><i class="fa fa-tachometer"></i> Dashboard CTP</a></li>
 </ul>
 </li>
 
-<li>
-<a href="<?php echo site_url('sales/cek_msisdn') ?>"><i class="fa fa-search"></i>
-<span class="title">Cek MSISDN</span></a>
+<li class="has-sub">
+<a href="#"><i class="fa fa-search"></i>
+<span class="title">Pencarian</span></a>
+<ul class="collapse">
+    <li><a class="asyn-bast" href="<?php echo site_url('sales/cek_msisdn') ?>""><i class="fa fa-search"></i> MSISDN</a></li>
+    <li><a class="asyn-bast" href="<?php echo site_url('bast/cek_bast') ?>""><i class="fa fa-search"></i> NO BAST</a></li>
+</ul>
 </li>
-
+<?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-credit-card"></i>
 <span class="title">BAST</span></a>
@@ -314,7 +316,6 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a class="asyn-bast" href="<?php echo site_url('bast/view') ?>"><i class="fa fa-book"></i> Manage Bast</a></li>
 </ul>
 </li>
-
 <li class="has-sub">
 <a href="#"><i class="fa fa-language"></i>
 <span class="title">Sales</span></a>
@@ -327,7 +328,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     
 </ul>
 </li>
-<?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
+<?php } if($this->session->userdata('level')==3 || $this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-university"></i>
 <span class="title">MSISDN</span></a>
@@ -337,6 +338,17 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 </ul>
 </li>
 <?php } ?>
+<?php if($this->session->userdata('level')==3){ ?>
+<li class="has-sub">
+<a href="#"><i class="fa fa-suitcase"></i>
+<span class="title">Sales Person</span></a>
+<ul class="collapse">
+    <li><a href="<?php echo site_url('salesperson/add') ?>"><i class="fa fa-calendar-plus-o"></i> Add Sales Person</a></li>
+    <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Manage Sales Person</a></li>
+</ul>
+</li>
+<?php } ?>
+
 <li class="has-sub">
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">widgets</span></a>

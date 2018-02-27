@@ -63,14 +63,6 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         </select>      
       </div>
       <div class="form-group">
-        <label for="no_rekening">No Rekening</label>
-        <input type="text" class="form-control" name="uno_rekening" id="uno_rekening">
-      </div>
-      <div class="form-group">
-        <label for="nama_bank">Nama Bank</label>
-        <input type="text" class="form-control" name="unama_bank" id="unama_bank">
-      </div>
-      <div class="form-group">
         <label for="keterangan">Keterangan</label>
         <select name="uketerangan" class="form-control" id="uketerangan">
           <option value="">Pilih Status</option>
@@ -158,14 +150,6 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
           <?php   }
             } ?>
         </select>      
-      </div>
-      <div class="form-group">
-        <label for="no_rekening">No Rekening</label>
-        <input type="text" class="form-control" name="uno_rekening" id="uno_rekening" value="<?php echo $edit_users->no_rekening ?>">
-      </div>
-      <div class="form-group">
-        <label for="nama_bank">Nama Bank</label>
-        <input type="text" class="form-control" name="unama_bank" id="unama_bank" value="<?php echo $edit_users->nama_bank ?>">
       </div>
       <div class="form-group">
         <label for="keterangan">Keterangan</label>

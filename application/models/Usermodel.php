@@ -32,8 +32,6 @@ class Usermodel extends CI_Model{
 				'nama_branch' 	=> $userdata->nama_branch,
 				'channel' 		=> $userdata->channel,
 				'level' 		=> $userdata->level,
-				'no_rekening' 	=> $userdata->no_rekening,
-				'nama_bank' 	=> $userdata->nama_bank,
 				'last_login' 	=> $userdata->last_login,
 				'keterangan' 	=> $userdata->keterangan,
 				'logged_in' => TRUE

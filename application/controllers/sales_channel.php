@@ -21,7 +21,13 @@ class sales_channel extends CI_Controller {
 	public function view($action='')
 	{   
         $data=array();
-        $data['sales_channel']=$this->sales_channelmodel->get_all(); 
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['sales_channel']=$this->sales_channelmodel->get_all(); 
+        }else{
+            $data['sales_channel']=$this->sales_channelmodel->get_all_by($sess_branch); 
+        }
+        
         if($action=='asyn'){
             $this->load->view('content/sales_channel/list',$data);
         }else if($action==''){
@@ -119,8 +125,14 @@ class sales_channel extends CI_Controller {
                 $column++;
             }
 
-            $sub_channel = $this->sales_channelmodel->get_all();
+            $sess_branch = $this->session->userdata('branch_id');
+            if($this->session->userdata('level')==4){
+                $sub_channel = $this->sales_channelmodel->get_all();
 
+            }else{
+                $sub_channel = $this->sales_channelmodel->get_all_by($sess_branch);
+            }
+            
             $excel_row = 2;
 
             foreach($sub_channel as $row)
