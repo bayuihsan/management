@@ -107,12 +107,12 @@
         <label for="tipe">Tipe</label>
         <select name="tipe" class="form-control">
           <option value="0">Pilih Tipe</option>
-          <?php if($edit_msisdn->tipe == "Halo Instan"){ ?>
-          <option value="Halo Instan" selected="selected">Halo Instan</option>
-          <option value="Halo Reguler">Halo Reguler</option>
+          <?php if($edit_msisdn->tipe == "HaloInstan"){ ?>
+          <option value="HaloInstan" selected="selected">Halo Instan</option>
+          <option value="HaloReguler">Halo Reguler</option>
           <?php }else{ ?>
-          <option value="Halo Instan">Halo Instan</option>
-          <option value="Halo Reguler" selected="selected">Halo Reguler</option>
+          <option value="HaloInstan">Halo Instan</option>
+          <option value="HaloReguler" selected="selected">Halo Reguler</option>
           <?php } ?>
         </select>
       </div>

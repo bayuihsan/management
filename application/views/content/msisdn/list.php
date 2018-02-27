@@ -32,9 +32,10 @@
                 <td><?php echo strtoupper($new->tipe) ?></td>
                 <td><?php echo strtoupper($new->status) ?></td>
                 <td><?php echo strtoupper($new->nama) ?></td>
-                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                <td><?php if($new->status==""){ ?><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('msisdn/edit/'.$new->id_haloinstan) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs msisdn-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('msisdn/add/remove/'.$new->id_haloinstan) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs msisdn-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('msisdn/add/remove/'.$new->id_haloinstan) ?>">Remove</a>
+                <?php } ?></td>
                 </tr>
                <?php } ?>
             </tbody>       

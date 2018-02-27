@@ -15,7 +15,7 @@
         <table id="repeat-bast-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>NO BAST</th><th>BRANCH</th>
-                <th>TANGGAL MASUK</th><th>TANGGAL TERIMA</th><th>FOS ALR</th><th>JUMLAH</th>
+                <th>TANGGAL MASUK</th><th>TANGGAL TERIMA</th><th>FOS ALR</th><th>FOS GRAPARI</th><th>JUMLAH</th>
                 <th class="single-action">ACTION</th>
             </thead>
 
@@ -34,6 +34,7 @@
                     <td><?php echo strtoupper($new->tanggal_masuk) ?></td>
                     <td><?php echo strtoupper($new->tanggal_terima) ?></td>
                     <td><?php echo strtoupper($new->nama) ?></td>
+                    <td><?php echo strtoupper($new->nama_penerima) ?></td>
                     <td><?php echo strtoupper($new->jumlah)." MSISDN" ?></td>
                     <td>
                         <?php if($new->jumlah > 0){ 
@@ -133,7 +134,7 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    document.location.href = '<?php echo base_url()?>/bast';
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast'; }, 2000);
                 swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    
@@ -158,7 +159,7 @@ $(document).ready(function() {
                 },success : function(data){ 
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    document.location.href = '<?php echo base_url()?>/bast';
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast'; }, 2000);
                 swal("Received!", "Receive Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    

@@ -50,6 +50,7 @@
                         <th>TANGGAL MASUK</th>
                         <th>TANGGAL TERIMA</th>
                         <th>FOS ALR</th>
+                        <th>FOS GRAPARI</th>
                         <th>JUMLAH</th>
                         <th class="text-right">ACTION</th>
                     </thead>
@@ -128,7 +129,7 @@ $(document).ready(function() {
                     $(".system-alert-box").empty();
                     swal("Received!", "Receive Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
-                    document.location.href = '<?php echo base_url()?>bast/detail/'+xno_bast;
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/detail/'+xno_bast; }, 2000);
                 }    
             });
         }); 

@@ -121,7 +121,14 @@ class Msisdn extends CI_Controller {
     {
         $data=array();
         $data['edit_msisdn']=$this->Msisdnmodel->get_msisdn_by_id($id_haloinstan);
-        $data['TL']=$this->usersmodel->get_all();  
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['TL'] = $this->usersmodel->get_all_tl();
+            $data['branch'] = $this->Branchmodel->get_all();
+        }else{
+            $data['TL']=$this->usersmodel->get_all_tl_by($sess_branch);
+            $data['branch'] = $this->Branchmodel->get_all_by($sess_branch);
+        }
         if($action=='asyn'){
             $this->load->view('content/msisdn/add',$data);
         }else if($action==''){

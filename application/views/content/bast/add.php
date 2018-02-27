@@ -154,11 +154,11 @@ $(document).ready(function() {
           }else if(json['action']=="update"){     
             updateRow();
           }
-          sucessAlert("Saved Sucessfully"); 
+          swal("Saved!", "Saved Sucessfully", "success");
           $(".block-ui").css('display','none');     
           $('#add-bast-account')[0].reset(); 
           $("#bbranch").select2("val","");  
-          document.location.href = '<?php echo base_url()?>bast/create';   
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/create'; }, 2000); 
         }else{
           failedAlert(json['message']);
           $(".block-ui").css('display','none');

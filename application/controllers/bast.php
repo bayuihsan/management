@@ -265,6 +265,10 @@ class bast extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
+            $datastatus['status']             ="masuk";
+            $this->db->where('msisdn', $msisdn);
+            $this->db->update('msisdn', $datastatus);
+
             $this->db->delete('new_psb', array('psb_id' => $param1));       
         }
     }
@@ -281,6 +285,7 @@ class bast extends CI_Controller {
             $this->load->view('theme/include/footer');
         }else if($action=='receive'){    
             $datareceive['tanggal_terima'] = date('Y-m-d h:i:s');
+            $datareceive['id_penerima'] = $this->session->userdata('id_users');
             $this->db->where('id_header', $param1);
             $this->db->update('bast_header', $datareceive);    
             echo "terima"; 
@@ -302,6 +307,7 @@ class bast extends CI_Controller {
                             <td><?php echo $row->tanggal_masuk ?></td>
                             <td><?php echo $row->tanggal_terima ?></td>
                             <td><?php echo $row->nama ?></td>
+                            <td><?php echo $row->nama_penerima ?></td>
                             <td><?php echo $row->jumlah." MSISDN" ?></td>
                             <td>
                             <?php if(empty($row->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
@@ -375,7 +381,6 @@ class bast extends CI_Controller {
             $datax['tl']=$this->usersmodel->get_all_tl();
             $datax['sub_channel']=$this->Sales_channelmodel->get_all();
             $datax['sales_person']=$this->Salespersonmodel->get_all();
-            $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
             $datax['msisdn']=$this->Msisdnmodel->get_all_by_status($sess_branch);
@@ -423,6 +428,7 @@ class bast extends CI_Controller {
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
             $data['status']             =$status = addslashes($this->input->post('sstatus',true));
             $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
+            $data['validasi_by']          =addslashes($this->session->userdata('username'));
         
                  
             //-----Validation-----//   

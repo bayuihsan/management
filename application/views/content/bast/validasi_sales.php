@@ -295,6 +295,8 @@ $(document).ready(function(){
   });
 
   $('#add-bast').on('submit',function(){    
+    var no_bast = $("#sno_bast").val();
+    var psb_id = $("#psb_id").val();
     var msisdn = $("#smsisdn").val();
     var msisdn1 = $("#smsisdn1").val();
     var no_hp = $("#sno_hp").val();
@@ -333,6 +335,8 @@ $(document).ready(function(){
             $('#sTL').select2("val","");
             $('#ssales_person').select2("val","");
           }
+          swal("Saved!", "Saved Sucessfully", "success");
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/validasi/'+no_bast+'/'+psb_id; }, 2000);
         }else{
           failedAlert2(data);
           $(".block-ui").css('display','none');

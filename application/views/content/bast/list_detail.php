@@ -21,7 +21,7 @@
         </div> 
         <div class="form-group"> 
           <label for="account">FOS ALR</label>
-          <input type="text" maxlength="30" class="form-control" name="bid_users" id="bid_users" value="<?php echo $edit_bast->nama?>" readonly/>   
+          <input type="text" maxlength="30" class="form-control" name="bid_users" id="bid_users" value="<?php echo strtoupper($edit_bast->nama)?>" readonly/>   
         </div> 
         
     </div>
@@ -33,18 +33,22 @@
 <!--Start Panel-->
   <div class="panel panel-default">
   <!-- Default panel contents -->
-    <div class="panel-heading">-</div>
+    <div class="panel-heading">-<a style="float: right; margin-top: -7px;" href="<?php echo base_url()?>bast/cek_bast" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a></div>
     <div class="panel-body add-client">
         
         <div class="form-group"> 
-          <label for="account">Tanggal Masuk</label>
+          <label for="account">TANGGAL MASUK</label>
           <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo $edit_bast->tanggal_masuk?>" readonly/>   
         </div> 
         <div class="form-group"> 
-          <label for="account">Tanggal Terima</label>
+          <label for="account">TANGGAL TERIMA</label>
           <input type="text" maxlength="30" class="form-control" name="btanggal_terima" id="btanggal_terima" value="<?php echo $edit_bast->tanggal_terima?>" readonly/>   
         </div> 
-        <a href="<?php echo base_url()?>bast/cek_bast" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+        <div class="form-group"> 
+          <label for="account">FOS GRAPARI</label>
+          <input type="text" maxlength="30" class="form-control" name="bid_users" id="bid_users" value="<?php echo strtoupper($edit_bast->nama_penerima)?>" readonly/>   
+        </div>
+        
     </div>
     <!--End Panel Body-->
   </div>

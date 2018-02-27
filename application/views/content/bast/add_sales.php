@@ -441,7 +441,8 @@ $(document).ready(function(){
     }
   });
 
-  $('#add-bast').on('submit',function(){    
+  $('#add-bast').on('submit',function(){   
+    var no_bast = $("#sno_bast").val(); 
     var msisdn = $("#smsisdn").val();
     var msisdn1 = $("#smsisdn1").val();
     var no_hp = $("#sno_hp").val();
@@ -460,8 +461,7 @@ $(document).ready(function(){
           $(".block-ui").css('display','block'); 
         },success : function(data){ 
         if(data=="true"){  
-          sucessAlert("Saved Sucessfully"); 
-          $(".block-ui").css('display','none'); 
+          $(".block-ui").css('display','none');
           if($("#action").val()!='update'){        
             $('#smsisdn').select2("val","");
             $("#snama_pelanggan").val("");
@@ -481,6 +481,9 @@ $(document).ready(function(){
             $('#sTL').select2("val","");
             $('#ssales_person').select2("val","");
           }
+          swal("Saved!", "Saved Sucessfully", "success");
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/add/'+no_bast; }, 2000);
+          
         }else{
           failedAlert2(data);
           $(".block-ui").css('display','none');
