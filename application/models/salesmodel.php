@@ -202,14 +202,14 @@ class salesModel extends CI_Model{
 
 	//get all sales belum di proses $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
 	public function getAllSalesBy($sess_level, $sess_branch){
-		if($sess_level == 2 || $sess_level>5){ //validasi
+		if($sess_level == 2 || $sess_level==6){ //validasi
 			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', DATEDIFF(current_date(), a.tanggal_masuk) as selisih
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
 				WHERE a.status = 'masuk' and a.branch_id='".$sess_branch."' 
 				ORDER BY selisih, a.tanggal_masuk DESC");  
-		}else if($sess_level == 3){
+		}else if($sess_level == 3){ // TL
 			$user_tl = $this->session->userdata('username');
 			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', DATEDIFF(current_date(), a.tanggal_masuk) as selisih
 				FROM new_psb a
@@ -217,7 +217,7 @@ class salesModel extends CI_Model{
 				LEFT JOIN app_users c ON c.username = a.TL
 				WHERE a.status = 'masuk' and a.branch_id='".$sess_branch."' and a.TL='".$user_tl."' 
 				ORDER BY selisih, a.tanggal_masuk DESC");  
-		}else if($sess_level == 5){
+		}else if($sess_level == 5 || $sess_level == 7){ //FOS
 			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', DATEDIFF(current_date(), a.tanggal_validasi) as selisih
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id

@@ -46,7 +46,7 @@
         </div> 
         <div class="form-group"> 
           <label for="account">FOS GRAPARI</label>
-          <input type="text" maxlength="30" class="form-control" name="bid_users" id="bid_users" value="<?php echo strtoupper($edit_bast->nama_penerima)?>" readonly/>   
+          <input type="text" maxlength="30" class="form-control" name="bid_penerima" id="bid_penerima" value="<?php echo strtoupper($edit_bast->nama_penerima)?>" readonly/>   
         </div>
         
     </div>
@@ -73,6 +73,8 @@
                     <th>TL</th>
                     <th>SALES PERSON</th>
                     <th>TANGGAL MASUK</th>
+                    <th>TANGGAL VALIDASI</th>
+                    <th>TANGGAL AKTIVASI</th>
                     <th>STATUS</th>
                     <th class="single-action">ACTION</th>
                 </thead>
@@ -89,9 +91,18 @@
                                 <td><?php echo strtoupper($new->TL) ?></td>
                                 <td><?php echo strtoupper($new->sales_person) ?></td>
                                 <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
+                                <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
+                                <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
                                 <td><?php echo strtoupper($new->status) ?></td>
-                                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                                title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/validasi/'.$new->no_bast.'/'.$new->psb_id) ?>">validasi</a> </td>
+                                <td>
+                                  <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')>5){  
+                                    if($new->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
+                                  <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 
+                                title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/aktivasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Aktivasi</a>
+                                  <?php }else{ 
+                                        if($new->status!="sukses" && $this->session->userdata('level')==6){  ?>
+                                  <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                                title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/validasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Validasi</a> <?php }}}?> </td>
                                 
                             </tr>
                     <?php } ?>

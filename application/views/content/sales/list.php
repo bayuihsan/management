@@ -168,7 +168,7 @@ function jenis_event($id){
                 <th>TANGGAL MASUK</th>
                 <th>TANGGAL VALIDASI</th>
                 <th>TANGGAL AKTIF</th>
-                <th>SERVICE LEVEL</th>
+                <th>SLA</th>
                 <th>FA ID</th>
                 <th>ACCOUNT ID</th>
                 <th>ALAMAT</th>

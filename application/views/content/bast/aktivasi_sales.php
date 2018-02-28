@@ -20,11 +20,9 @@ $discount=array(''=>'', 1=>'0',2=>'25',3=>'50',4=>'100',5=>'FreeMF');
 $periode=array(''=>'', 1=>'0',2=>'1',3=>'3',4=>'6',5=>'12');
 $bc=array('BC 01'=>'BC 01', 'BC 06'=>'BC 06', 'BC 11'=>'BC 11', 'BC 16'=>'BC 16', 'BC 20'=>'BC 20');
 $status=array(
-  'valid'=>'valid',
-  'cancel'=>'cancel',
-  'reject'=>'reject',
-  'pending'=>'pending',
-  'retur'=>'retur');
+  'sukses'=>'sukses',
+  'blacklist'=>'blacklist',
+  'bentrok'=>'bentrok');
  ?>
 
 <form id="add-bast">
@@ -114,12 +112,21 @@ $status=array(
       <div class="form-group"> 
           <label for="spaket">Tanggal Validasi</label>
           <div class='input-group date' >
-              <input type="text" class="form-control" placeholder="Tanggal Validasi" name="stanggal_validasi" id="stanggal_validasi" value="<?php echo date('Y-m-d h:i:s')?>" readonly />   
+              <input type="text" class="form-control" placeholder="Tanggal Validasi" name="stanggal_validasi" id="stanggal_validasi" value="<?php echo $edit_sales->tanggal_validasi?>" readonly />   
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
               </span>
           </div>
       </div> 
+      <div class="form-group"> 
+          <label for="spaket">Tanggal Aktivasi</label>
+          <div class='input-group date' >
+              <input type="text" class="form-control" placeholder="Tanggal Aktivasi" name="stanggal_aktivasi" id="stanggal_aktivasi" value="<?php echo date('Y-m-d h:i:s')?>" readonly />   
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+          </div>
+      </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>bast/detail/<?php echo $edit_sales->no_bast?>" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
@@ -133,7 +140,7 @@ $status=array(
     <div class="panel-heading">Data Pelanggan</div>
     <div class="panel-body add-client">
     
-      <input type="hidden" name="action" id="action" value="validasi"/>  
+      <input type="hidden" name="action" id="action" value="aktivasi"/>  
       <input type="hidden" name="psb_id" id="psb_id" value="<?php echo $edit_sales->psb_id ?>"/>    
       
       <div class="form-group">
@@ -218,6 +225,27 @@ $status=array(
         </select>      
       </div>
       <div class="form-group"> 
+        <label for="bill_cycle">Bill Cycle</label>
+        <select name="sbill_cycle" class="form-control" id="sbill_cycle">  
+          <option value="">Pilih Bill Cycle</option>
+          <?php foreach($bc as $bc){ 
+          if($edit_sales->bill_cycle == $bc){ ?>
+            <option value="<?php echo $bc; ?>" selected><?php echo $bc; ?></option>
+          <?php }else{ ?>
+            <option value="<?php echo $bc; ?>"><?php echo $bc; ?></option>
+          <?php } 
+        } ?>
+        </select>      
+      </div>
+      <div class="form-group">
+        <label for="fa_id">FA ID</label>
+        <input type="text" class="form-control" name="sfa_id" id="sfa_id" value="<?php echo $edit_sales->fa_id?>">
+      </div>
+      <div class="form-group">
+        <label for="Account ID">Account ID</label>
+        <input type="text" class="form-control" name="saccount_id" id="saccount_id" value="<?php echo $edit_sales->account_id?>">
+      </div>
+      <div class="form-group"> 
         <label for="jenis_event">Jenis Event</label>
         <select name="sjenis_event" class="form-control" id="sjenis_event">  
           <option value="">Pilih Jenis Event</option>
@@ -235,6 +263,23 @@ $status=array(
       <div class="form-group">
         <label for="nama event">Nama Event</label>
         <input type="text" class="form-control" name="snama_event" id="snama_event" value="<?php echo $edit_sales->nama_event?>">
+      </div>
+      <div class="form-group"> 
+        <label for="sTL">Validasi By</label>
+        <select name="svalidasi_by" class="form-control" id="svalidasi_by">  
+          <option value="">Pilih Validasi</option>
+          <?php foreach ($validasi as $new) {
+            if($edit_sales->validasi_by == $new->username){ ?>
+            <option value="<?php echo $new->username ?>" class="<?php echo $new->branch_id?>" selected><?php echo "(".$new->id_users.") ".$new->nama ?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $new->username ?>" class="<?php echo $new->branch_id?>"><?php echo "(".$new->id_users.") ".$new->nama ?></option>
+            <?php }
+          } ?>
+        </select>      
+      </div>
+      <div class="form-group">
+        <label for="nama event">Username</label>
+        <input type="text" class="form-control" name="susername" id="susername" value="<?php echo $this->session->userdata('username')?>" readonly>
       </div>
       <div class="form-group"> 
         <label for="status">Status</label>
@@ -273,26 +318,30 @@ $(document).ready(function(){
     $(".main-content").css("padding-left","0px");
   } 
   
+  $("#smsisdn1").select2();
   $("#sbranch").select2();
   $("#ssub_channel").select2();
   $("#schannel").select2();
   $("#spaket").select2();
   $("#sdiscount").select2();
   $("#speriode").select2();
+  $("#sbill_cycle").select2();
   $("#sjenis_event").select2();
   $("#sTL").select2();
   $("#ssales_person").select2();
   $("#sstatus").select2();
+  $("#svalidasi_by").select2();
 
   $("#date").datepicker();
   
   //sub channel berdasarkan branch
   $("#ssub_channel").chained("#sbranch");
+  $("#svalidasi_by").chained("#sbranch");
   $("#sTL").chained("#sbranch");
   $("#ssales_person").chained("#sTL");
   $("#smsisdn1").chained("#sTL");
   //for number only
-  $("#smsisdn, #sno_hp, #smsisdn1").keypress(function (e) {
+  $("#smsisdn, #sno_hp, #sfa_id, #saccount_id").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -306,11 +355,16 @@ $(document).ready(function(){
     var msisdn = $("#smsisdn").val();
     var msisdn1 = $("#smsisdn1").val();
     var no_hp = $("#sno_hp").val();
+    var fa_id = $("#sfa_id").val();
+    var account_id = $("#saccount_id").val();
     if(msisdn.substring(0,3)!=628){
       alert("MSISDN harus diawali 628");
       return false;
     }else if(no_hp.substring(0,3)!=628){
       alert("No HP harus diawali 628");
+      return false;
+    }else if(account_id == fa_id){
+      alert("account_id tidak boleh sama dengan FA ID");
       return false;
     }else if(msisdn == msisdn1){
       alert("Pengubahan MSISDN tidak boleh sama");
@@ -318,7 +372,7 @@ $(document).ready(function(){
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('bast/validasi').'/'.$no_bast.'/'.$psb_id.'/insert' ?>",
+        url : "<?php echo site_url('bast/aktivasi').'/'.$no_bast.'/'.$psb_id.'/insert' ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
@@ -345,7 +399,7 @@ $(document).ready(function(){
             $('#ssales_person').select2("val","");
           }
           swal("Saved!", "Saved Sucessfully", "success");
-          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/validasi/'+no_bast+'/'+psb_id; }, 2000);
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/aktivasi/'+no_bast+'/'+psb_id; }, 2000);
         }else{
           failedAlert2(data);
           $(".block-ui").css('display','none');

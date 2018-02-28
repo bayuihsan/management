@@ -26,9 +26,10 @@
                 <th>BRANCH</th>
                 <th>TL</th>
                 <th>TANGGAL MASUK</th>
-                <th>SERVICE</th>
+                <th>TANGGAL VALIDASI</th>
+                <th>TANGGAL AKTIF</th>
+                <th>SLA</th>
                 <th>STATUS</th>
-                <th class="single-action">ACTION</th>
             </thead>
 
             <tbody>
@@ -41,30 +42,12 @@
                             <td><?php echo strtoupper($new->nama_branch) ?></td>
                             <td><?php echo strtoupper($new->nama_tl) ?></td>
                             <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
+                            <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
+                            <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
                             <td><?php echo strtoupper($new->selisih). " Hari"; ?></td>
                             <td><?php echo strtoupper($new->status) ?></td>
-                            <?php if($this->session->userdata('level')==4){ ?>
-                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
-                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales/add/remove/'.$new->psb_id) ?>">Delete</a> </td>
-                            <?php }else{ ?>
-                            <td><a style="cursor: pointer;" class="mybtn btn-info btn-xs" id="click_to_load_modal_popup_msisdn_<?php echo $new->msisdn?>"> Detail</a></td>
-                            <?php } ?>
                             
                         </tr>
-                        <script type="text/javascript">
-                            $(document).ready(function(){
-                                var $modal = $('#load_popup_modal_show_msisdn');
-                                $('#click_to_load_modal_popup_msisdn_<?php echo $new->msisdn?>').on('click', function(){
-                                    $modal.load('<?php echo base_url()?>sales/load_modal/',{'msisdn': "<?php echo $new->msisdn ?>",'id2':'2'},
-                                    function(){
-                                        $modal.modal('show');
-                                    });
-
-                                });
-                            });
-
-                        </script>
                 <?php } ?>
                 
             </tbody>       

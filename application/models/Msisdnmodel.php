@@ -44,7 +44,7 @@ class Msisdnmodel extends CI_Model{
 			FROM msisdn a 
 			LEFT JOIN branch b ON a.branch_id=b.branch_id
 			LEFT JOIN app_users c ON a.id_users=c.id_users
-			WHERE  a.branch_id='".$branch_id."' and a.status not in('masuk')
+			WHERE  a.branch_id='".$branch_id."' and a.status in('')
 			ORDER BY a.tanggal desc
 			");
 		$query_result=$query;
