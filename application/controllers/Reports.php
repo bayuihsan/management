@@ -98,7 +98,7 @@ class Reports extends CI_Controller {
             $status    =$this->input->post('vstatus',true); 
             $to_date    =$this->input->post('vto-date',true);  
             $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportBranch($tanggal,$status,$to_date);
+            $reportData=$this->Reportmodel->getTopBranch($tanggal,$status,$to_date);
             if(empty($reportData)){
                 echo "false";
             }else{
@@ -152,7 +152,6 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
         }
-
     }
 
     //View Paket Report// 
