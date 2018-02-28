@@ -9,7 +9,7 @@ class Reports extends CI_Controller {
         redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Reportmodel','Adminmodel'));
+        $this->load->model(array('Reportmodel','Adminmodel','Branchmodel'));
     }
 
     //View Branch Report// 
@@ -159,6 +159,7 @@ class Reports extends CI_Controller {
     public function paket($action='')
     {
         $data=array();
+        $data['branch']=$this->Branchmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('reports/paket',$data);
         }else if($action==''){
@@ -166,11 +167,12 @@ class Reports extends CI_Controller {
             $this->load->view('reports/paket',$data);
             $this->load->view('theme/include/footer');
         }else if($action=='view'){
+            $branch_id    =$this->input->post('vbranch',true); 
             $tanggal    =$this->input->post('vtanggal',true); 
             $status    =$this->input->post('vstatus',true); 
             $to_date    =$this->input->post('vto-date',true);  
             $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportPaket($tanggal,$status,$to_date);
+            $reportData=$this->Reportmodel->getReportPaket($branch_id,$tanggal,$status,$to_date);
             if(empty($reportData)){
                 echo "false";
             }else{
@@ -232,6 +234,7 @@ class Reports extends CI_Controller {
     public function tl($action='')
     {
         $data=array();
+        $data['branch']=$this->Branchmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('reports/tl',$data);
         }else if($action==''){
@@ -239,11 +242,12 @@ class Reports extends CI_Controller {
             $this->load->view('reports/tl',$data);
             $this->load->view('theme/include/footer');
         }else if($action=='view'){
+            $branch_id    =$this->input->post('vbranch',true); 
             $tanggal    =$this->input->post('vtanggal',true); 
             $status    =$this->input->post('vstatus',true); 
             $to_date    =$this->input->post('vto-date',true);  
             $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportTL($tanggal,$status,$to_date);
+            $reportData=$this->Reportmodel->getReportTL($branch_id,$tanggal,$status,$to_date);
             if(empty($reportData)){
                 echo "false";
             }else{
@@ -305,6 +309,7 @@ class Reports extends CI_Controller {
     public function sales_person($action='')
     {
         $data=array();
+        $data['branch']=$this->Branchmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('reports/sales_person',$data);
         }else if($action==''){
@@ -312,11 +317,12 @@ class Reports extends CI_Controller {
             $this->load->view('reports/sales_person',$data);
             $this->load->view('theme/include/footer');
         }else if($action=='view'){
+            $branch_id    =$this->input->post('vbranch',true); 
             $tanggal    =$this->input->post('vtanggal',true); 
             $status     =$this->input->post('vstatus',true); 
             $to_date    =$this->input->post('vto-date',true);  
             $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportSalesPerson($tanggal,$status,$to_date);
+            $reportData=$this->Reportmodel->getReportSalesPerson($branch_id,$tanggal,$status,$to_date);
             if(empty($reportData)){
                 echo "false";
             }else{
@@ -395,6 +401,7 @@ class Reports extends CI_Controller {
     public function sub_channel($action='')
     {
         $data=array();
+        $data['branch']=$this->Branchmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('reports/sub_channel',$data);
         }else if($action==''){
@@ -402,11 +409,12 @@ class Reports extends CI_Controller {
             $this->load->view('reports/sub_channel',$data);
             $this->load->view('theme/include/footer');
         }else if($action=='view'){
+            $branch_id    =$this->input->post('vbranch',true); 
             $tanggal    =$this->input->post('vtanggal',true); 
             $status    =$this->input->post('vstatus',true); 
             $to_date    =$this->input->post('vto-date',true);  
             $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportSubChannel($tanggal,$status,$to_date);
+            $reportData=$this->Reportmodel->getReportSubChannel($branch_id,$tanggal,$status,$to_date);
             if(empty($reportData)){
                 echo "false";
             }else{

@@ -24,7 +24,17 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
             <form id="sales_cari" action="<?php echo site_url('Reports/sales_person/view') ?>">
-
+                <div class="col-md-3 col-lg-3 col-sm-3"> 
+                    <select class="form-control" name="vbranch" id="vbranch">
+                        <?php foreach($branch as $row){ 
+                            if($vbranch == $row->branch_id){ ?>
+                            <option value="<?php echo $row->branch_id?>" selected><?php echo $row->branch_id.' - '.$row->nama_branch?></option>
+                        <?php }else{ ?>
+                            <option value="<?php echo $row->branch_id?>"><?php echo $row->branch_id.' - '.$row->nama_branch?></option>
+                         <?php } 
+                        }?>
+                    </select> 
+                </div>
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <select class="form-control" name="vtanggal" id="vtanggal">
                         <?php foreach($tgl as $tgl){ 
@@ -116,6 +126,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 <script type="text/javascript">
 $(document).ready(function() {
 $("#vto-date").datepicker(); 
+$("#vbranch").select2();
 $("#vtanggal, #vstatus").select2({
 minimumResultsForSearch: Infinity    
 });
