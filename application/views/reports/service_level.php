@@ -88,7 +88,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                     <thead>
                         <th>No</th>
                         <th>Branch</th>
-                        <th class="text-right">Service</th>
+                        <th class="text-right">SLA</th>
                     </thead>
                     <tbody>
 

@@ -55,8 +55,6 @@ class users extends CI_Controller {
             $data['branch_id']      =addslashes($this->input->post('ubranch_id',true)); 
             $data['channel']        =addslashes($this->input->post('uchannel',true));  
             $data['level']          =addslashes($this->input->post('ulevel',true));  
-            $data['no_rekening']    =addslashes($this->input->post('uno_rekening',true));  
-            $data['nama_bank']      =addslashes($this->input->post('unama_bank',true));
             $data['keterangan']     =addslashes($this->input->post('uketerangan',true));
 
             $data['username'] = $username = str_replace(" ", "_", addslashes($this->input->post('uusername',true)));         
@@ -67,8 +65,6 @@ class users extends CI_Controller {
             $this->form_validation->set_rules('ubranch_id', 'Branch ', 'trim|required|xss_clean');
             $this->form_validation->set_rules('uchannel', 'Channel', 'trim|required|xss_clean');
             $this->form_validation->set_rules('ulevel', 'Level', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('uno_rekening', 'No Rekening', 'trim|required|xss_clean|numeric|min_length[8]');
-            $this->form_validation->set_rules('unama_bank', 'Nama Bank', 'trim|required|xss_clean');
             $this->form_validation->set_rules('uketerangan', 'Status', 'trim|required|xss_clean');
 
             $this->form_validation->set_rules('uusername', 'Username', 'trim|required|xss_clean|min_length[3]');
@@ -151,7 +147,7 @@ class users extends CI_Controller {
     
     public function export($action=""){
         if($action=="asyn"){
-            $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'Aktivasi / FOS', 6=>'FOS CTP', 7=>'Admin CTP');
+            $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'FOS ALR', 6=>'Validasi GraPARI', 7=>'FOS GraPARI', 8=>'Admin CTP');
             $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
             $object = new PHPExcel();
 

@@ -137,7 +137,7 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                 <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
                 <?php if(!empty($bfrom_date) && !empty($bto_date)) { ?>
-                <a href="<?php echo site_url('sales/export') ?>" title="Export to Excel" class="mybtn btn-warning export-btn"><i class="fa fa-download"></i></a>
+                <a href="<?php echo site_url('sales/export/asyn').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
                 <?php } ?>
                 </div>
                                 
@@ -168,7 +168,7 @@ function jenis_event($id){
                 <th>TANGGAL MASUK</th>
                 <th>TANGGAL VALIDASI</th>
                 <th>TANGGAL AKTIF</th>
-                <th>SERVICE LEVEL</th>
+                <th>SLA</th>
                 <th>FA ID</th>
                 <th>ACCOUNT ID</th>
                 <th>ALAMAT</th>
@@ -340,28 +340,6 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click','.export-btn',function(){
-
-        var link=$(this).attr("href"); 
-        var branch_id   = $("#vbranch_id").val();
-        var tanggal     = $("#vtanggal").val();
-        var status      = $("#vstatus").val();
-        var fromdate    = $("#vfrom-date").val();
-        var todate      = $("#vto-date").val();
-        // alert(link);
-        $.ajax({
-            method : "POST",
-            url : link,
-            beforeSend : function(){
-                $(".block-ui").css('display','block'); 
-            },success : function(data){ 
-                window.open(link+'/asyn/'+branch_id+'/'+tanggal+'/'+status+'/'+fromdate+'/'+todate,'_blank');
-                $(".block-ui").css('display','none');               
-            }
-        });
-
-        return false;
-    });
 });
 
 </script>

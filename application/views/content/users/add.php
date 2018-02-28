@@ -142,7 +142,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <label for="ulevel">Level</label>
         <select name="ulevel" class="form-control" id="ulevel">  
           <option value="">Pilih Level</option>
-          <?php for($j=1; $j<count($level); $j++) { 
+          <?php for($j=1; $j<=count($level); $j++) { 
             if($edit_users->level == $j){ $sel = "selected='selected'"; ?>
             <option value="<?php echo $j; ?>" <?php echo $sel?>><?php echo "(".$j.") ".$level[$j]; ?></option>
             <?php }else{ $sel = "";  ?>
@@ -254,6 +254,8 @@ $(document).ready(function(){
             $('#upassword').val("");      
             $('#urepassword').val("");      
           }
+          swal("Saved!", "Saved Sucessfully", "success");
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>users'; }, 2000);
         }else{
           failedAlert2(data);
           $(".block-ui").css('display','none');

@@ -87,7 +87,7 @@ class usersModel extends CI_Model{
 		$this->db->select('a.*, b.nama_branch');
 		$this->db->from('app_users a');
 		$this->db->join('branch b', 'b.branch_id = a.branch_id');  
-		$this->db->where('a.level','2');
+		$this->db->where('a.level','6'); // validasi grapari
 		$this->db->where('a.branch_id',$branch_id);
 		$this->db->where('a.keterangan','Aktif');
 		$this->db->order_by("a.nama", "asc"); 
@@ -101,7 +101,7 @@ class usersModel extends CI_Model{
 		$this->db->select('a.*, b.nama_branch');
 		$this->db->from('app_users a');
 		$this->db->join('branch b', 'b.branch_id = a.branch_id');  
-		$this->db->where('a.level','2');
+		$this->db->where('a.level','6'); //validasi grapari
 		$this->db->where('a.keterangan','Aktif');
 		$this->db->order_by("a.nama", "asc"); 
 		$query_result=$this->db->get();

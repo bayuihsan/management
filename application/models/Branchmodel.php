@@ -15,6 +15,7 @@ class BranchModel extends CI_Model{
 	public function get_all(){
 		$this->db->select('*');
 		$this->db->from('branch');  
+		$this->db->where('status','1');  
 		$this->db->order_by("nama_branch", "asc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
@@ -26,6 +27,7 @@ class BranchModel extends CI_Model{
 	public function get_all_by($branch_id){
 		$this->db->select('*');
 		$this->db->from('branch');
+		$this->db->where('status','1'); 
 		$this->db->where('branch_id',$branch_id);    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
@@ -36,6 +38,7 @@ class BranchModel extends CI_Model{
 	public function get_branch_by_id($branch_id){
 		$this->db->select('*');
 		$this->db->from('branch');
+		$this->db->where('status','1'); 
 		$this->db->where('branch_id',$branch_id);    
 		$query_result=$this->db->get();
 		$result=$query_result->row();
