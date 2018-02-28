@@ -402,6 +402,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by TL</a></li>
     <li><a href="<?php echo site_url('Reports/sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
     <li><a href="<?php echo site_url('Reports/allbranch') ?>"><i class="fa fa-angle-double-right"></i> All Branch Report</a></li>
+    <li><a href="<?php echo site_url('Reports/status_daily') ?>"><i class="fa fa-angle-double-right"></i> Report Daily by Status</a></li>
     <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
     <li><a href="<?php echo site_url('Reports/service_level') ?>"><i class="fa fa-angle-double-right"></i> Report by Service Level</a></li>
 </ul>

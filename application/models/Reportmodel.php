@@ -26,6 +26,11 @@ class ReportModel extends CI_Model{
 		return $max_result;
 	}
 
+	public function get_tanggal(){
+		$q_tanggal = $this->db->query("select * from t_tanggal")->result();
+		return $q_tanggal;
+	}
+
 	public function getCurMont($tgl=""){
 		//Get Current Day PSB, Expense AND Current Month PSB
 		date_default_timezone_set(get_current_setting('timezone'));	
