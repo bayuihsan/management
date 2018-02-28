@@ -38,7 +38,8 @@ class salesModel extends CI_Model{
 	public function get_all_cari($branch_id,$tanggal,$status,$from_date,$to_date){
 		$sess_level = $this->session->userdata('level');
 		$user_tl = $this->session->userdata('username');
-		if($branch_id == 17){ //ALL
+		
+		if($sess_level == 3){ //data for TL
 			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
@@ -47,34 +48,39 @@ class salesModel extends CI_Model{
 				LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
 				LEFT JOIN app_users f ON f.username = a.username 
 				LEFT JOIN app_users g ON g.username = a.validasi_by 
-				where a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."'
+				where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."' and a.TL='".$user_tl."'
 					ORDER BY a.$tanggal DESC");  
 		}else{
-			if($sess_level == 3){ //data for TL
-				$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
-					FROM new_psb a
-					LEFT JOIN branch b ON b.branch_id = a.branch_id
-					LEFT JOIN app_users c ON c.username = a.TL
-					LEFT JOIN paket d ON d.paket_id = a.paket_id
-					LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
-					LEFT JOIN app_users f ON f.username = a.username 
-					LEFT JOIN app_users g ON g.username = a.validasi_by 
-					where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."' and a.TL='".$user_tl."'
-						ORDER BY a.$tanggal DESC");  
-			}else{
-				$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
-					FROM new_psb a
-					LEFT JOIN branch b ON b.branch_id = a.branch_id
-					LEFT JOIN app_users c ON c.username = a.TL
-					LEFT JOIN paket d ON d.paket_id = a.paket_id
-					LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
-					LEFT JOIN app_users f ON f.username = a.username 
-					LEFT JOIN app_users g ON g.username = a.validasi_by 
-					where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."'
-						ORDER BY a.$tanggal DESC"); 
-			}
-			 
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+				FROM new_psb a
+				LEFT JOIN branch b ON b.branch_id = a.branch_id
+				LEFT JOIN app_users c ON c.username = a.TL
+				LEFT JOIN paket d ON d.paket_id = a.paket_id
+				LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+				LEFT JOIN app_users f ON f.username = a.username 
+				LEFT JOIN app_users g ON g.username = a.validasi_by 
+				where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."'
+					ORDER BY a.$tanggal DESC"); 
 		}
+			 
+		$result=$query_result->result();
+		return $result;
+
+	}
+
+	public function get_all_cari_all($branch_id,$tanggal,$status,$from_date,$to_date){
+		$sess_level = $this->session->userdata('level');
+		$user_tl = $this->session->userdata('username');
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			FROM new_psb a
+			LEFT JOIN branch b ON b.branch_id = a.branch_id
+			LEFT JOIN app_users c ON c.username = a.TL
+			LEFT JOIN paket d ON d.paket_id = a.paket_id
+			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
+			LEFT JOIN app_users f ON f.username = a.username 
+			LEFT JOIN app_users g ON g.username = a.validasi_by 
+			where a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."'
+				ORDER BY a.$tanggal DESC");  
 		
 		$result=$query_result->result();
 		return $result;
