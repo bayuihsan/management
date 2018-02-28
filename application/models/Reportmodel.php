@@ -393,7 +393,6 @@ class ReportModel extends CI_Model{
 
 		$result=$sukses_query;
 		return $result;
-
 	}
 
 	//get top paket information 
