@@ -321,6 +321,11 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <span class="title">Sales</span></a>
 <ul class="collapse">
     <li><a class="asyn-sales" href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
+    <?php $qgenerate = $this->db->query("select * from new_psb_temp order by nama_table")->result();
+    foreach($qgenerate as $row){ ?>
+    <li><a class="asyn-sales" href="<?php echo site_url('generate_table/load_table/'.$row->id_temp) ?>"><i class="fa fa-book"></i> <?php echo $row->nama_table?></a></li>
+    <?php }
+    ?>
     <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')!=5){ ?>
     <li><a href="<?php echo site_url('ctp/add') ?>"><i class="fa fa-plus-square"></i> Add Data CTP</a></li>
     <li><a href="<?php echo site_url('ctp/view') ?>"><i class="fa fa-calendar-plus-o"></i> Data Sales CTP</a></li>
@@ -357,42 +362,6 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="#" data-toggle="modal" data-target="#calendarModal"><i class="fa fa-calendar"></i> Calendar</a></li>
 </ul>
 </li>
-
-<?php /*<li class="has-sub">
-<a href="#"><i class="fa fa-money"></i>
-<span class="title">Transactions</span></a>
-<ul class="collapse">
-    <li><a class="asyn-income" href="<?php echo site_url('Admin/addIncome') ?>"><i class="fa fa-plus-square"></i> Add Income</a></li>
-    <li><a class="asyn-expense" href="<?php echo site_url('Admin/addExpense') ?>"><i class="fa fa-minus-square"></i> Add Expense</a></li>
-    <li><a href="<?php echo site_url('Admin/transfer') ?>"><i class="fa fa-retweet"></i> Transfer</a></li>
-    <li><a href="<?php echo site_url('Admin/manageIncome') ?>"><i class="fa fa-calculator"></i> Manage Income</a></li>
-    <li><a href="<?php echo site_url('Admin/manageExpense') ?>"><i class="fa fa-calculator"></i> Manage Expense</a></li>
-   
-</ul>
-</li>
-
-<li class="has-sub">
-<a href="#"><i class="fa fa-repeat"></i>
-<span class="title">Recurring Transaction</span></a>
-<ul class="collapse">
-    <li><a class="asyn-repeat-income" href="<?php echo site_url('Admin/repeatIncome') ?>"><i class="fa fa-plus-circle"></i> Repeating Income</a></li>
-    <li><a class="asyn-repeat-expense" href="<?php echo site_url('Admin/repeatExpense') ?>"><i class="fa fa-minus-circle"></i> Repeating Expense</a></li>
-	<li><a href="<?php echo site_url('Admin/processIncome') ?>"><i class="fa fa-calendar-plus-o"></i> Manage Repeating Income</a></li>
-	<li><a href="<?php echo site_url('Admin/processExpense') ?>"><i class="fa fa-calendar-minus-o"></i> Manage Repeating Expense</a></li>
-    <li><a href="<?php echo site_url('Admin/incomeCalender') ?>"><i class="fa fa-calendar"></i> Income Calendar</a></li>
-    <li><a href="<?php echo site_url('Admin/expenseCalender') ?>"><i class="fa fa-calendar"></i> Expense Calendar</a></li>
-</ul>
-</li>
-
-<li class="has-sub">
-<a href="#"><i class="fa fa-university"></i>
-<span class="title">Accounts</span></a>
-<ul class="collapse">
-    <li><a href="<?php echo site_url('Admin/manageAccount') ?>"><i class="fa fa-table"></i> Manage Accounts</a></li>
-    <li><a href="<?php echo site_url('Admin/addAccount') ?>"><i class="fa fa-user-plus"></i> Add Accounts</a></li>
-</ul>
-</li>*/?>
-
 <li class="has-sub">
 <a href="#"><i class="fa fa-area-chart"></i>
 <span class="title">Reporting</span></a>
@@ -419,7 +388,18 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('feedbacks/view') ?>"><i class="fa fa-calendar-plus-o"></i> Feedbacks</a></li>
 </ul>
 </li>
-<?php if($this->session->userdata('level')=='4') {?>
+<?php if($this->session->userdata('level')==4){ ?>
+<li class="has-sub">
+<a href="#"><i class="fa fa-book"></i>
+<span class="title">Table Generate</span></a>
+<ul class="collapse">
+  
+    <li><a href="<?php echo site_url('generate_table/add') ?>"><i class="fa fa-calendar-plus-o"></i> Add Generate</a></li>
+  
+    <li><a href="<?php echo site_url('generate_table/view') ?>"><i class="fa fa-book"></i> View Table</a></li>
+</ul>
+</li>
+
 <li class="has-sub">
 <a href="#"><i class="fa fa-cog"></i>
 <span class="title">Administration</span></a>
