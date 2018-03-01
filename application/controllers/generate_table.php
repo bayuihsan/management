@@ -65,7 +65,7 @@ class generate_table extends CI_Controller {
                 if($do=='insert'){ 
                     $qgenerate = $this->db->query("select * from new_psb_temp where bulan='".$bulan."' and tahun='".$tahun."'")->result();
                     if(count($qgenerate) > 0){
-                        echo "Tabel has been generated.!!";
+                        echo "This Tabel Is Already Exists.!!";
                     }else{
                         if($bulan < 10){
                             $bulan = '0'.$bulan;

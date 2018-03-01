@@ -103,6 +103,8 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                         <th class="text-right" id="last_month">Last Month</th>
                         <th class="text-right" id="this_month">This Month</th>
                         <th class="text-right">Avg/hari</th>
+                        <th class="text-right">SLA</th>
+                        <th class="text-right">Rata2 SLA</th>
                         <th class="text-right">% MOM</th>
                     </thead>
                     <tbody>

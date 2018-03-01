@@ -125,6 +125,10 @@
 	                    	<td>: <?php echo isset($detail_msisdn->tanggal_aktif) ? strtoupper(date('Y-m-d', strtotime($detail_msisdn->tanggal_aktif))) : ""; ?></td>
 	                    </tr>
 	                    <tr>
+	                    	<td>SLA</td>
+	                    	<td>: <?php echo isset($detail_msisdn->sla) ? strtoupper($detail_msisdn->sla).' Hari' : ""; ?></td>
+	                    </tr>
+	                    <tr>
 	                    	<td>PAKET</td>
 	                    	<td>: <?php echo isset($detail_msisdn->nama_paket) ? strtoupper($detail_msisdn->nama_paket) : ""; ?></td>
 	                    </tr>

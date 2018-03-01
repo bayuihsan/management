@@ -100,6 +100,8 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                         <th>Nama Sales</th>
                         <th class="text-right">Jumlah</th>
                         <th class="text-right">Avg/hari</th>
+                        <th class="text-right">SLA</th>
+                        <th class="text-right">Rata2 SLA</th>
                     </thead>
                     <tbody>
 

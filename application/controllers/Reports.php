@@ -34,10 +34,13 @@ class Reports extends CI_Controller {
                 $no=1 ;
                 $tlm = 0;
                 $ttm = 0;
+                $tsla = 0;
                 foreach ($reportData as $report) { 
                     $lm = $report->last_month;
                     $tm = $report->this_month;
                     $avg = $tm/$tgl;
+                    $sla = $report->sla;
+                    $avgsla = $sla/$tm;
                     if($lm == 0){ 
                         $mom = 'Infinity'; 
                         $style = "style='background-color:#D3D3D3'";
@@ -58,14 +61,19 @@ class Reports extends CI_Controller {
                         <td class="text-right"><?php echo number_format($lm);?></td>
                         <td class="text-right"><?php echo number_format($tm);?></td>
                         <td class="text-right"><?php echo round($avg);?></td>
+                        <td class="text-right"><?php echo number_format($sla)." Hari";?></td>
+                        <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td>
                         <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
                     </tr>
                 <?php 
                     $tlm = $tlm + $lm;
-                    $ttm = $ttm + $tm; 
+                    $ttm = $ttm + $tm;
+                    $tsla = $tsla + $sla; 
+                     
                   }  
                  //Summery value
                     $tavg = $ttm/$tgl;
+                    $tavgsla = $tsla/$ttm; 
                     $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
                     if($tmom > 0){
                         $tstyle = "style='background-color:#7CFC00'";
@@ -78,6 +86,8 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
                  echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
                  echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
         }
@@ -178,10 +188,13 @@ class Reports extends CI_Controller {
                 $no=1 ;
                 $tlm = 0;
                 $ttm = 0;
+                $tsla = 0;
                 foreach ($reportData as $report) { 
                     $lm = $report->last_month;
                     $tm = $report->this_month;
                     $avg = $tm/$tgl;
+                    $sla = $report->sla;
+                    $avgsla = $sla/$tm;
                     if($lm == 0){ 
                         $mom = 'Infinity'; 
                         $style = "style='background-color:#D3D3D3'";
@@ -203,14 +216,19 @@ class Reports extends CI_Controller {
                         <td class="text-right"><?php echo number_format($lm);?></td>
                         <td class="text-right"><?php echo number_format($tm);?></td>
                         <td class="text-right"><?php echo round($avg);?></td>
+                        <td class="text-right"><?php echo number_format($sla)." Hari";?></td>
+                        <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td>
                         <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
                     </tr>
                 <?php 
                     $tlm = $tlm + $lm;
                     $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                    
                   }  
                  //Summery value
                     $tavg = $ttm/$tgl;
+                    $tavgsla = $tsla/$ttm; 
                     $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
                     if($tmom > 0){
                         $tstyle = "style='background-color:#7CFC00'";
@@ -223,6 +241,8 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
                  echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
                  echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
         }
@@ -253,10 +273,13 @@ class Reports extends CI_Controller {
                 $no=1 ;
                 $tlm = 0;
                 $ttm = 0;
+                $tsla = 0;
                 foreach ($reportData as $report) { 
                     $lm = $report->last_month;
                     $tm = $report->this_month;
                     $avg = $tm/$tgl;
+                    $sla = $report->sla;
+                    $avgsla = $sla/$tm;
                     if($lm == 0){ 
                         $mom = 'Infinity'; 
                         $style = "style='background-color:#D3D3D3'";
@@ -278,14 +301,19 @@ class Reports extends CI_Controller {
                         <td class="text-right"><?php echo number_format($lm);?></td>
                         <td class="text-right"><?php echo number_format($tm);?></td>
                         <td class="text-right"><?php echo round($avg);?></td>
+                        <td class="text-right"><?php echo number_format($sla)." Hari";?></td>
+                        <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td>
                         <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
                     </tr>
                 <?php 
                     $tlm = $tlm + $lm;
                     $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                    
                   }  
                  //Summery value
                     $tavg = $ttm/$tgl;
+                    $tavgsla = $tsla/$ttm; 
                     $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
                     if($tmom > 0){
                         $tstyle = "style='background-color:#7CFC00'";
@@ -298,99 +326,9 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
                  echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
                  echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
-            }
-        }
-
-    }
-
-    //View Sales Person Report// 
-    public function sales_person($action='')
-    {
-        $data=array();
-        $data['branch']=$this->Branchmodel->get_all(); 
-        if($action=='asyn'){
-            $this->load->view('reports/sales_person',$data);
-        }else if($action==''){
-            $this->load->view('theme/include/header');
-            $this->load->view('reports/sales_person',$data);
-            $this->load->view('theme/include/footer');
-        }else if($action=='view'){
-            $branch_id    =$this->input->post('vbranch',true); 
-            $tanggal    =$this->input->post('vtanggal',true); 
-            $status     =$this->input->post('vstatus',true); 
-            $to_date    =$this->input->post('vto-date',true);  
-            $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportSalesPerson($branch_id,$tanggal,$status,$to_date);
-            if(empty($reportData)){
-                echo "false";
-            }else{
-                $no=1 ;
-                $tlm = 0;
-                $ttm = 0;
-                foreach ($reportData as $report) { 
-                    $tm = $report->this_month;
-                    $avg = $tm/$tgl;
-                    ?>
-
-                    <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo $report->nama_branch ?></td>
-                        <td><?php echo $report->nama_sales ?></td>
-                        <td class="text-right"><?php echo number_format($tm);?></td>
-                        <td class="text-right"><?php echo round($avg);?></td>
-                    </tr>
-                <?php 
-                    $ttm = $ttm + $tm; 
-                  }  
-                 //Summery value
-                  $tavg = $ttm/$tgl;
-                 echo "<tr><td colspan='3'><b>Total</b></td>";
-                 echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
-                 echo "<td class='text-right'><b>".round($tavg)."</b></td>";
-            }
-        }
-
-    }
-
-    //View Sales Person Report// 
-    public function service_level($action='')
-    {
-        $data=array();
-        if($action=='asyn'){
-            $this->load->view('reports/service_level',$data);
-        }else if($action==''){
-            $this->load->view('theme/include/header');
-            $this->load->view('reports/service_level',$data);
-            $this->load->view('theme/include/footer');
-        }else if($action=='view'){
-            $tanggal    =$this->input->post('vtanggal',true); 
-            $status     =$this->input->post('vstatus',true); 
-            $to_date    =$this->input->post('vto-date',true);  
-            $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportServiceLevel($tanggal,$status,$to_date);
-            if(empty($reportData)){
-                echo "false";
-            }else{
-                $no=1 ;
-                $tlm = 0;
-                $ttm = 0;
-                foreach ($reportData as $report) { 
-                    $tm = $report->this_month;
-                    // $avg = $tm/$tgl;
-                    ?>
-
-                    <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo $report->nama_branch ?></td>
-                        <td class="text-right"><?php echo number_format($tm)." Hari";?></td>
-                    </tr>
-                <?php 
-                    $ttm = $ttm + $tm; 
-                  }  
-                 //Summery value
-                 echo "<tr><td colspan='2'><b>Total</b></td>";
-                 echo "<td class='text-right'><b>".number_format($ttm)." Hari</b></td>";
             }
         }
 
@@ -421,10 +359,13 @@ class Reports extends CI_Controller {
                 $no=1 ;
                 $tlm = 0;
                 $ttm = 0;
+                $tsla = 0;
                 foreach ($reportData as $report) { 
                     $lm = $report->last_month;
                     $tm = $report->this_month;
                     $avg = $tm/$tgl;
+                    $sla = $report->sla;
+                    $avgsla = $sla/$tm;
                     if($lm == 0){ 
                         $mom = 'Infinity'; 
                         $style = "style='background-color:#D3D3D3'";
@@ -447,14 +388,19 @@ class Reports extends CI_Controller {
                         <td class="text-right"><?php echo number_format($lm);?></td>
                         <td class="text-right"><?php echo number_format($tm);?></td>
                         <td class="text-right"><?php echo round($avg);?></td>
+                        <td class="text-right"><?php echo number_format($sla)." Hari";?></td>
+                        <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td>
                         <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
                     </tr>
                 <?php 
                     $tlm = $tlm + $lm;
                     $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                    
                   }  
                  //Summery value
                     $tavg = $ttm/$tgl;
+                    $tavgsla = $tsla/$ttm;
                     $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
                     if($tmom > 0){
                         $tstyle = "style='background-color:#7CFC00'";
@@ -467,13 +413,125 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
                  echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
                  echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
         }
 
     }
 
-    //View Sub Channel Report// 
+    //View Sales Person Report// 
+    public function sales_person($action='')
+    {
+        $data=array();
+        $data['branch']=$this->Branchmodel->get_all(); 
+        if($action=='asyn'){
+            $this->load->view('reports/sales_person',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/sales_person',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $branch_id    =$this->input->post('vbranch',true); 
+            $tanggal    =$this->input->post('vtanggal',true); 
+            $status     =$this->input->post('vstatus',true); 
+            $to_date    =$this->input->post('vto-date',true);  
+            $tgl        = date('d', strtotime($to_date));
+            $reportData=$this->Reportmodel->getReportSalesPerson($branch_id,$tanggal,$status,$to_date);
+            if(empty($reportData)){
+                echo "false";
+            }else{
+                $no=1 ;
+                $tlm = 0;
+                $ttm = 0;
+                $tsla = 0;
+                foreach ($reportData as $report) { 
+                    $tm = $report->this_month;
+                    $avg = $tm/$tgl;
+                    $sla = $report->sla;
+                    $avgsla = $sla/$tm;
+                    ?>
+
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo $report->nama_branch ?></td>
+                        <td><?php echo $report->nama_sales ?></td>
+                        <td class="text-right"><?php echo number_format($tm);?></td>
+                        <td class="text-right"><?php echo round($avg);?></td>
+                        <td class="text-right"><?php echo number_format($sla)." Hari";?></td>
+                        <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td>
+                    </tr>
+                <?php 
+                    $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                    
+                  }  
+                 //Summery value
+                  $tavgsla = $tsla/$ttm;
+                  $tavg = $ttm/$tgl;
+                 echo "<tr><td colspan='3'><b>Total</b></td>";
+                 echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
+                 echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
+            }
+        }
+
+    }
+
+    //View Sales Person Report// 
+    public function service_level($action='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('reports/service_level',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/service_level',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $tanggal    =$this->input->post('vtanggal',true); 
+            $status     =$this->input->post('vstatus',true); 
+            $to_date    =$this->input->post('vto-date',true);  
+            $tgl        = date('d', strtotime($to_date));
+            $reportData=$this->Reportmodel->getReportServiceLevel($tanggal,$status,$to_date);
+            if(empty($reportData)){
+                echo "false";
+            }else{
+                $no=1 ;
+                $tjml = 0;
+                $ttm = 0;
+                $tavg = 0;
+                foreach ($reportData as $report) { 
+                    $jumlah = $report->jumlah;
+                    $tm = $report->this_month;
+                    $avg = $tm/$jumlah;
+                    ?>
+
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo $report->nama_branch ?></td>
+                        <td class="text-right"><?php echo number_format($jumlah);?></td>
+                        <td class="text-right"><?php echo number_format($tm)." Hari";?></td>
+                        <td class="text-right"><?php echo number_format($avg)." Hari";?></td>
+                    </tr>
+                <?php 
+                    $tjml = $tjml + $jumlah; 
+                    $ttm = $ttm + $tm; 
+                    $tavg = $ttm/$tjml; 
+                  }  
+                 //Summery value
+                 echo "<tr><td colspan='2'><b>Total</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tjml)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($ttm)." Hari</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tavg)." Hari</b></td>";
+            }
+        }
+
+    }
+
+    //View Status Daily Report// 
     public function status_daily($action='')
     {
         $data=array();

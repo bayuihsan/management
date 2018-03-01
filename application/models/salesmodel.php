@@ -18,7 +18,7 @@ class salesModel extends CI_Model{
 	//get all sales  
 	public function get_all($tgl = ""){
 		$date = $tgl;
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 			FROM new_psb a
 			LEFT JOIN branch b ON b.branch_id = a.branch_id
 			LEFT JOIN app_users c ON c.username = a.TL
@@ -40,7 +40,7 @@ class salesModel extends CI_Model{
 		$user_tl = $this->session->userdata('username');
 		
 		if($sess_level == 3){ //data for TL
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.$tanggal, a.tanggal_masuk) as sla
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
@@ -51,7 +51,7 @@ class salesModel extends CI_Model{
 				where a.branch_id='".$branch_id."' AND a.status='".$status."' AND DATE_FORMAT(a.$tanggal,'%Y-%m-%d') between '".$from_date."' AND '".$to_date."' and a.TL='".$user_tl."'
 					ORDER BY a.$tanggal DESC");  
 		}else{
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.$tanggal, a.tanggal_masuk) as sla
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
@@ -71,7 +71,7 @@ class salesModel extends CI_Model{
 	public function get_all_cari_all($branch_id,$tanggal,$status,$from_date,$to_date){
 		$sess_level = $this->session->userdata('level');
 		$user_tl = $this->session->userdata('username');
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.$tanggal, a.tanggal_masuk) as sla
 			FROM new_psb a
 			LEFT JOIN branch b ON b.branch_id = a.branch_id
 			LEFT JOIN app_users c ON c.username = a.TL
@@ -92,7 +92,7 @@ class salesModel extends CI_Model{
 		$date = $tgl;
 		$user_tl = $this->session->userdata('username');
 		if($this->session->userdata('level')==3){
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
@@ -104,7 +104,7 @@ class salesModel extends CI_Model{
 			INTERVAL 1 MONTH)), 1) AND '".$date."' AND a.branch_id='".$branch_id."' and a.TL='".$user_tl."'
 				ORDER BY a.tanggal_masuk DESC");  
 		}else{
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL
@@ -125,7 +125,7 @@ class salesModel extends CI_Model{
 	//get all sales by TL  
 	public function get_all_tl(){
 		$date = $tgl;
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 			FROM new_psb a
 			JOIN branch b ON b.branch_id = a.branch_id
 			JOIN app_users c ON c.username = a.TL
@@ -166,7 +166,7 @@ class salesModel extends CI_Model{
 
 	//get MSISDN   
 	public function getMSISDN($cek = ""){
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 			FROM new_psb a
 			LEFT JOIN branch b ON b.branch_id = a.branch_id
 			where a.msisdn like '%".$cek."%' ");  
@@ -177,7 +177,7 @@ class salesModel extends CI_Model{
 
 	//get all sales  
 	public function getMSISDNDetail($msisdn){
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 			FROM new_psb a
 			LEFT JOIN branch b ON b.branch_id = a.branch_id
 			LEFT JOIN app_users c ON c.username = a.TL
@@ -192,7 +192,7 @@ class salesModel extends CI_Model{
 	}
 
 	public function getBASTDetail($no_bast){
-		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator'
+		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 			FROM new_psb a
 			LEFT JOIN branch b ON b.branch_id = a.branch_id
 			LEFT JOIN app_users c ON c.username = a.TL

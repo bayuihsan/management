@@ -201,13 +201,7 @@ function jenis_event($id){
                             <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
                             <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
                             <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
-                            <td><?php if(!empty($new->tanggal_aktif)){
-                                    $tgl_aktif = new DateTime($new->tanggal_aktif);
-                                }else{
-                                    $tgl_aktif = new DateTime();
-                                }
-                                $tgl_masuk = new DateTime($new->tanggal_masuk);
-                                $diff = $tgl_aktif->diff($tgl_masuk); echo $diff->d." Hari"; ?></td>
+                            <td><?php echo strtoupper($new->sla)." Hari"; ?></td>
                             <td><?php echo strtoupper($new->fa_id) ?></td>
                             <td><?php echo strtoupper($new->account_id) ?></td>
                             <td><?php echo strtoupper($new->alamat) ?></td>
