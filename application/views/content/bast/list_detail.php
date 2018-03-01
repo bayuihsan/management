@@ -4,7 +4,8 @@
 <div class="row">
 <div class="inner-contatier">    
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Detail BAST : <?php echo $cno_bast?></h4></div>
-<div class="col-md-5 col-lg-5 col-sm-5">
+
+<div class="col-md-4 col-lg-4 col-sm-4">
 <!--Start Panel-->
   <div class="panel panel-default">
   <!-- Default panel contents -->
@@ -29,11 +30,12 @@
   </div>
 <!--End Panel-->       
 </div>
-<div class="col-md-5 col-lg-5 col-sm-5">
+
+<div class="col-md-4 col-lg-4 col-sm-4">
 <!--Start Panel-->
   <div class="panel panel-default">
   <!-- Default panel contents -->
-    <div class="panel-heading">-<a style="float: right; margin-top: -7px;" href="<?php echo base_url()?>bast/cek_bast" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a></div>
+    <div class="panel-heading">-</div>
     <div class="panel-body add-client">
         
         <div class="form-group"> 
@@ -54,6 +56,25 @@
   </div>
 <!--End Panel-->       
 </div>
+
+<div class="col-md-4 col-lg-4 col-sm-4">
+<!--Start Panel-->
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+    <div class="panel-heading">-</div>
+    <div class="panel-body add-client">
+        
+        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
+        <button type="button" class="btn btn-info pdf-btn"><i class="fa fa-file-pdf-o"></i> PDF Export</button>
+        <a href="<?php echo base_url()?>bast/cek_bast" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+        
+    </div>
+    <!--End Panel Body-->
+  </div>
+<!--End Panel-->       
+</div>
+
+
 
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
@@ -115,7 +136,7 @@
     <!--End Panel Body-->
 </div>
 <!--End Panel-->    
-    
+
 </div>
 
 
@@ -135,6 +156,25 @@ $(document).ready(function() {
     $("#sales-table").DataTable();
     $(".dataTables_length select").addClass("show_entries");
 });
+function Print(data) 
+{
+    var w = (screen.width);
+    var h = (screen.height);
+    var mywindow = window.open('', 'Print-Report', 'width='+w+',height='+h);
+    mywindow.document.write('<html><head><title>Print-Report</title>');
+    mywindow.document.write('<link href="<?php echo base_url() ?>/theme/css/bootstrap.css" rel="stylesheet">');
+    mywindow.document.write('<link href="<?php echo base_url() ?>/theme/css/my-style.css" rel="stylesheet">');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write(data);
+    mywindow.document.write('</body></html>');
 
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+}
 </script>
 

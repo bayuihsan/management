@@ -79,8 +79,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <?php /*<button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
-        <button type="button" class="btn btn-info pdf-btn"><i class="fa fa-file-pdf-o"></i> PDF Export</button>*/?>
+        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
         </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
