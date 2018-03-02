@@ -321,7 +321,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <span class="title">Sales</span></a>
 <ul class="collapse">
     <li><a class="asyn-sales" href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
-    <?php $qgenerate = $this->db->query("select * from new_psb_temp order by nama_table")->result();
+    <?php $qgenerate = $this->db->query("select * from new_psb_temp order by nama_table desc")->result();
     foreach($qgenerate as $row){ ?>
     <li><a class="asyn-sales" href="<?php echo site_url('generate_table/load_table/'.$row->id_temp) ?>"><i class="fa fa-book"></i> <?php echo $row->nama_table?></a></li>
     <?php }
