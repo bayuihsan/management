@@ -19,10 +19,10 @@ $status=array('sukses'=>'sukses',
 ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Paket</div>
+    <div class="panel-heading">Daily Status</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/paket/view') ?>">
+            <form id="status_cari" action="<?php echo site_url('Reports/status_daily/view') ?>">
 
                 <div class="col-md-3 col-lg-3 col-sm-3"> 
                     <select class="form-control" name="vbranch" id="vbranch">
@@ -37,13 +37,29 @@ $status=array('sukses'=>'sukses',
                 </div>
                 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
-                    <div class="form-group"> 
-                        <div class='input-group'>
-                            <input type="text" class="form-control" placeholder="<?php echo isset($bto_date) ? $bto_date : "Date To" ?>" name="vto-date" id="vto-date"/> 
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>  
-                        </div> 
+                    <div class="form-group">
+                        <select name="bulan" id="bulan" class="form-control">
+                          <?php
+                          $xbulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                          $jlh_bln=count($xbulan);
+                          for($c=1; $c<$jlh_bln; $c++){
+                              echo"<option value=$c> $xbulan[$c] </option>";
+                          }
+                          ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-2"> 
+                    <div class="form-group">
+                        <select name="tahun" id="tahun" class="form-control">
+                          <?php
+                          $now=date('Y');
+                          for ($a=$now;$a>=2016;$a--)
+                          {
+                               echo "<option value='$a'>$a</option>";
+                          }
+                          ?>
+                        </select>
                     </div>
                 </div>
 
@@ -70,10 +86,10 @@ $status=array('sukses'=>'sukses',
                 }
             </style>
 
-            <div id="Table-div" style="overflow: auto;">
+            <div id="status-table-div" style="overflow: auto;">
                 <table class="table table-bordered hoverTable">
                     <thead>
-                        <th>Status</th>
+                        <th style="background-color: whitesmoke">STATUS</th>
                         <?php 
                         $status=array('sukses'=>'sukses',
                           'valid'=>'valid',
@@ -84,41 +100,11 @@ $status=array('sukses'=>'sukses',
                           'blacklist'=>'blacklist',
                           'bentrok'=>'bentrok',
                           'masuk'=>'masuk');
-                        $tahun = '2017'; //Mengambil tahun saat ini
-                        $bulan = '07'; //Mengambil bulan saat ini
-                        $tanggal = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
-
-                        for ($i=1; $i < $tanggal+1; $i++) { ?>
-                        <th><?php echo $i?></th>
-                        <?php }
                         ?>
+                            <th style="background-color: whitesmoke" class="text-center">Tanggal</th>
+                        
                     </thead>
                     <tbody>
-                        <?php foreach($status as $st){ ?>
-                        <tr>
-                            <td><?php echo $st?></td>
-                            <?php for ($i=1; $i < $tanggal+1; $i++) { ?>
-                            <td>
-                                <?php 
-                                if($st == "sukses" || $st == "bentrok" || $st == "blacklist"){
-                                    $tgl = "tanggal_aktif";
-                                }else if($st == "valid" || $st == "cancel" || $st == "reject" || $st == "pending" || $st == "retur"){
-                                    $tgl = "tanggal_validasi";
-                                }else if($st == "masuk"){
-                                    $tgl = "tanggal_masuk";
-                                }
-                                $q_jumlah = $this->db->query("select count(psb_id) jumlah 
-                                        from new_psb 
-                                        where status = '".$st."' and branch_id='5'
-                                        and DATE_FORMAT(".$tgl.",'%Y')='".$tahun."'
-                                        and DATE_FORMAT(".$tgl.", '%m')='".$bulan."'
-                                        and DATE_FORMAT(".$tgl.", '%d')='".$i."' ")->row(); echo $q_jumlah->jumlah;?>
-                                    
-                            </td>
-                            <?php } ?>
-                        </tr>
-                        <?php } ?>
-                        
                     </tbody>
                 </table>
             </div>
@@ -146,39 +132,28 @@ $("#vtanggal, #vstatus").select2({
 minimumResultsForSearch: Infinity    
 });
 
-$('#sales_cari').on('submit',function(){
+$('#status_cari').on('submit',function(){
     var link=$(this).attr("action");
-    var to_date = $("#vto-date").val();
-    var last_month = new Date(to_date).getMonth()-1;
-    var this_month = new Date(to_date).getMonth();
-    var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
-"Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-    if(to_date!=""){
-        //query data
-        $.ajax({
-            method : "POST",    
-            url : link,
-            data : $(this).serialize(),
-            beforeSend : function(){
-                $(".preloader").css("display","block");
-            },success : function(data){
-                $(".preloader").css("display","none"); 
-                if(data!="false"){
-                    $("#Report-Table tbody").html(data);
-                    $("#last_month").html(NamaBulan[last_month]);
-                    $("#this_month").html(NamaBulan[this_month]);
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
-                }else{
-                    $("#Report-Table tbody").html("");
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
-                    swal("Alert","Sorry, No Data Found !", "info");    
-                }
+    //query data
+    $.ajax({
+        method : "POST",    
+        url : link,
+        data : $(this).serialize(),
+        beforeSend : function(){
+            $(".preloader").css("display","block");
+        },success : function(data){
+            $(".preloader").css("display","none"); 
+            if(data!="false"){
+                $("#Report-Table #status-table-div").html(data);
+                // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
+            }else{
+                $("#Report-Table #status-table-div").html("");
+                // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
+                swal("Alert","Sorry, No Data Found !", "info");    
             }
+        }
 
-        });
-    }else{
-        swal("Alert","Please Select Date Range.", "info");      
-    }
+    });
 
     return false;
 });

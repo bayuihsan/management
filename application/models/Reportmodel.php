@@ -649,6 +649,42 @@ class ReportModel extends CI_Model{
 
 	}
 
+	//get report status daily branch information 
+	public function getStatusDaily($branch_id, $st, $tgl, $tahun, $bulan, $i)
+	{
+		if($bulan<10){
+			$bulan = '0'.$bulan;
+		}else{
+			$bulan = $bulan;
+		}
+		$status_query = $this->db->query("select count(psb_id) jumlah 
+                            from new_psb 
+                            where status = '".$st."' and branch_id='".$branch_id."'
+                            and DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-".$i."'
+                            ")->row();
+		$result=$status_query;
+		return $result;
+
+	}
+
+	//get report status daily branch information 
+	public function getStatusDailyAll($st, $tgl, $tahun, $bulan, $i)
+	{
+		if($bulan<10){
+			$bulan = '0'.$bulan;
+		}else{
+			$bulan = $bulan;
+		}
+		$status_query = $this->db->query("select count(psb_id) jumlah 
+                            from new_psb 
+                            where status = '".$st."'
+                            and DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-".$i."'
+                            ")->row();
+		$result=$status_query;
+		return $result;
+
+	}
+
 	public function getContrStatus($tgl = ''){
 		$date=$tgl;		
 		$sukses=$this->db->query("SELECT count(psb_id) as amount 
