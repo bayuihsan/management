@@ -165,7 +165,7 @@ $status=array(
       </div>
       <div class="form-group">
         <label for="No HP">No HP</label>
-        <input type="text" class="form-control" name="sno_hp" id="sno_hp" value="<?php echo $edit_sales->no_hp?>">
+        <input type="text" class="form-control" name="sno_hp" id="sno_hp" value="<?php echo $edit_sales->no_hp?>" maxlength="14">
       </div>
       <div class="form-group">
         <label for="Ibu Kandung">Ibu Kandung</label>
@@ -273,6 +273,7 @@ $(document).ready(function(){
     $(".main-content").css("padding-left","0px");
   } 
   
+  $("#smsisdn1").select2();
   $("#sbranch").select2();
   $("#ssub_channel").select2();
   $("#schannel").select2();

@@ -22,7 +22,7 @@
       <input type="hidden" name="id_haloinstan" id="id_haloinstan" value=""/>    
       <div class="form-group">
         <label for="acc_name">MSISDN</label>
-        <input type="text" class="form-control" name="msisdn" id="msisdn">
+        <input type="text" class="form-control" name="msisdn" id="msisdn" maxlength="14">
       </div>
       <div class='form-group'>
         <label>Branch</label>
@@ -86,7 +86,7 @@
       <input type="hidden" name="id_haloinstan" id="id_haloinstan" value="<?php echo $edit_msisdn->id_haloinstan ?>"/>   
       <div class="form-group">
         <label for="nama_paket">MSISDN</label>
-        <input type="text" class="form-control" name="msisdn" id="msisdn" value="<?php echo $edit_msisdn->msisdn ?>">
+        <input type="text" class="form-control" name="msisdn" id="msisdn" value="<?php echo $edit_msisdn->msisdn ?>" maxlength="14">
       </div>
       <div class='form-group'>
         <label>Branch</label>

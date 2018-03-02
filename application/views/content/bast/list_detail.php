@@ -116,7 +116,7 @@
                                 <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
                                 <td><?php echo strtoupper($new->status) ?></td>
                                 <td>
-                                  <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')>5){  
+                                  <?php if(($this->session->userdata('level')==4 || $this->session->userdata('level')>5) && $this->session->userdata('branch_id')==$new->branch_id && $edit_bast->tanggal_terima!=''){  
                                     if($new->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
                                   <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 
                                 title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/aktivasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Aktivasi</a>

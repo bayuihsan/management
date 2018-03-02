@@ -47,7 +47,7 @@ $status=array('sukses'=>'sukses',
       </div>
       <div class="form-group">
         <label for="MSISDN">MSISDN</label>
-        <input type="text" class="form-control" name="smsisdn" id="smsisdn">
+        <input type="text" class="form-control" name="smsisdn" id="smsisdn" maxlength="14">
       </div>
       <div class="form-group">
         <label for=" Nama Pelanggan">Nama Pelanggan</label>

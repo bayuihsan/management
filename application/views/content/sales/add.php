@@ -47,7 +47,7 @@ $status=array('sukses'=>'sukses',
       </div>
       <div class="form-group">
         <label for="MSISDN">MSISDN</label>
-        <input type="text" class="form-control" name="smsisdn" id="smsisdn">
+        <input type="text" class="form-control" name="smsisdn" id="smsisdn" maxlength="14">
       </div>
       <div class="form-group">
         <label for=" Nama Pelanggan">Nama Pelanggan</label>
@@ -63,7 +63,7 @@ $status=array('sukses'=>'sukses',
       </div>
       <div class="form-group">
         <label for="No HP">No HP</label>
-        <input type="text" class="form-control" name="sno_hp" id="sno_hp">
+        <input type="text" class="form-control" name="sno_hp" id="sno_hp" maxlength="14">
       </div>
       <div class="form-group">
         <label for="Ibu Kandung">Ibu Kandung</label>
@@ -234,7 +234,7 @@ $status=array('sukses'=>'sukses',
         <label for="MSISDN">MSISDN</label>
         <input type="text" class="form-control" name="smsisdn" id="smsisdn" value="<?php echo $edit_sales->msisdn?>" readonly>
         Change *Abaikan jika tidak ingin mengubah
-        <input type="text" class="form-control" name="smsisdn1" id="smsisdn1" placeholder="Ubah MSISDN">
+        <input type="text" class="form-control" name="smsisdn1" id="smsisdn1" placeholder="Ubah MSISDN" maxlength="14">
       </div>
       <div class="form-group">
         <label for=" Nama Pelanggan">Nama Pelanggan</label>
@@ -250,7 +250,7 @@ $status=array('sukses'=>'sukses',
       </div>
       <div class="form-group">
         <label for="No HP">No HP</label>
-        <input type="text" class="form-control" name="sno_hp" id="sno_hp" value="<?php echo $edit_sales->no_hp?>">
+        <input type="text" class="form-control" name="sno_hp" id="sno_hp" value="<?php echo $edit_sales->no_hp?>" maxlength="14">
       </div>
       <div class="form-group">
         <label for="Ibu Kandung">Ibu Kandung</label>
