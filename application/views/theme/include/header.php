@@ -120,16 +120,6 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
      class="form-control" name="no_hp" id="no_hp">
   </div>
   <div class="form-group">
-    <label for="profle-no_rekening">No Rekening</label>
-    <input type="text" value="<?php echo $this->session->userdata('no_rekening') ?>"
-     class="form-control" name="no_rekening" id="no_rekening">
-  </div>
-  <div class="form-group">
-    <label for="profle-no_hp">Nama Bank</label>
-    <input type="text" value="<?php echo $this->session->userdata('nama_bank') ?>"
-     class="form-control" name="nama_bank" id="nama_bank">
-  </div>
-  <div class="form-group">
     <label for="profle-no_hp">Keterangan</label>
     <input type="text" value="<?php echo $this->session->userdata('keterangan') ?>"
      class="form-control" name="keterangan" id="keterangan" readonly>
@@ -371,7 +361,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by TL</a></li>
     <li><a href="<?php echo site_url('Reports/sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
     <li><a href="<?php echo site_url('Reports/allbranch') ?>"><i class="fa fa-angle-double-right"></i> All Branch Report</a></li>
-    <li><a href="<?php echo site_url('Reports/status_daily') ?>"><i class="fa fa-angle-double-right"></i> Report Daily by Status</a></li>
+    <li><a href="<?php echo site_url('Reports/status_daily') ?>" target="_BLANK"><i class="fa fa-angle-double-right"></i> Report Daily by Status</a></li>
     <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
     <li><a href="<?php echo site_url('Reports/service_level') ?>"><i class="fa fa-angle-double-right"></i> Report by Service Level</a></li>
 </ul>
