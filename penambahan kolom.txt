@@ -24,6 +24,10 @@ ALTER TABLE `new_psb` CHANGE `tipe_msisdn` `no_bast` VARCHAR(50) NULL DEFAULT NU
 
 ALTER TABLE `bast_header` ADD `id_penerima` INT NULL AFTER `id_users`;
 
+ALTER TABLE `msisdn` CHANGE `status` `status` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE `app_users` CHANGE `no_hp` `no_hp` VARCHAR(20) NULL DEFAULT NULL;
+
 ALTER TABLE `app_users`
   DROP `no_rekening`,
   DROP `nama_bank`;
