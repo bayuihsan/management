@@ -20,19 +20,23 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Summary by branch</div>
+    <div class="panel-heading">Fee Sales</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/allbranch/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Reports/fee_sales_tsa/view') ?>">
 
-                <div class="col-md-2 col-lg-2 col-sm-2"> 
-                    <select class="form-control" name="opsi" id="opsi">
-                        <option value="">Pilih Opsi</option>
-                        <option value="opsi1">Opsi 1</option>
-                        <option value="opsi2">Opsi 2</option>
-                        <option value="opsi3">Opsi 3</option>
+                <div class="col-md-3 col-lg-3 col-sm-3"> 
+                    <select class="form-control" name="vbranch" id="vbranch">
+                        <?php foreach($branch as $row){ 
+                            if($vbranch == $row->branch_id){ ?>
+                            <option value="<?php echo $row->branch_id?>" selected><?php echo $row->branch_id.' - '.$row->nama_branch?></option>
+                        <?php }else{ ?>
+                            <option value="<?php echo $row->branch_id?>"><?php echo $row->branch_id.' - '.$row->nama_branch?></option>
+                         <?php } 
+                        }?>
                     </select> 
                 </div>
+
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
                         <div class='input-group'>
@@ -65,34 +69,38 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                       background-color: #b8d1f3;
                 }
             </style>
-            <div id="Table-div">
+            <div id="Table-div" style="overflow: auto;">
                 <table class="table table-bordered hoverTable">
-                    <thead style="background-color: whitesmoke;">
-                        <th>NO</th>
-                        <th>BRANCH</th>
-                        <th class="text-right">AKTIF</th>
-                        <th class="text-right">VALID</th>
-                        <th class="text-right">CANCEL</th>
-                        <th class="text-right">REJECT</th>
-                        <th class="text-right">PENDING</th>
-                        <th class="text-right">RETUR</th>
-                        <th class="text-right">BENTROK</th>
-                        <th class="text-right">BLACKLIST</th>
-                        <th class="text-right">ON PROCESS</th>
-                        <th class="text-right"><span id="total">DATA MASUK</span></th>
-                        <th class="text-right">% SUKSES</th>
+                    <thead>
+                        <tr>    
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>NO</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>BRANCH</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>TL</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>NAMA SALES</b></th>
+                            <th colspan="3" style="background-color: purple; color: white;" class="text-center"><b>KATEGORI PAKET</b></th>
+                            <th colspan="2" style="background-color: purple; color: white;" class="text-center"><b>KATEGORI TRANSPORT</b></th>
+                            <th colspan="4" style="background-color: purple; color: white;" class="text-center"><b>FEE</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>NAMA BANK</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>NO REKENING</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>ATAS NAMA</b></th>
+                        </tr>
+                        <tr>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>PAKET < 100</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>PAKET > 100</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>JUMLAH</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>KATEGORI</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>TRANSPORT</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>PAKET < 100</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>PAKET > 100</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>TRANSPORT</th>
+                            <th style="background-color: orange; color: white;" nowrap=""><b>GRAND TOTAL</th>
+                        </tr>
                     </thead>
                     <tbody>
 
                     </tbody>
                 </table>
-                <p>Keterangan : <br> 
-                    <ol>
-                        <li>OPSI 1 : Semua nilai berdasarkan dari tanggal masuk</li>
-                        <li>OPSI 2 : Semua nilai dari tanggal masuk tapi Nilai data sukses berdasarkan tanggal aktif</li>
-                        <li>OPSI 3 : Semua nilai berdasarkan tanggal terakhir transaksi per status</li>
-                    </ol>
-                </p>
+                <p id="informasi">Information : <br> Selama proses berlangsung, diharapkan menunggu +- 4-8 menit. Silahkan untuk melakukan aktifitas yang lain.</p>
             </div>
 
         </div> 
@@ -112,28 +120,26 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 <script type="text/javascript">
 $(document).ready(function() {
+    $("#informasi").css("display","none");
 $("#vto-date").datepicker(); 
-$("#opsi").select2({
+$("#vtanggal, #vstatus").select2({
 minimumResultsForSearch: Infinity    
 });
 
 $('#sales_cari').on('submit',function(){
     var link=$(this).attr("action");
-    if($("#vto-date").val()!="" && $("#opsi").val()!=""){
+    if($("#vto-date").val()!=""){
         //query data
-        if($("#opsi").val()=="opsi3"){
-            $("#total").html("TOTAL DATA");
-        }else{
-            $("#total").html("DATA MASUK");
-        }
         $.ajax({
             method : "POST",    
             url : link,
             data : $(this).serialize(),
             beforeSend : function(){
                 $(".preloader").css("display","block");
+                $("#informasi").css("display","block");
             },success : function(data){
                 $(".preloader").css("display","none"); 
+                $("#informasi").css("display","none");
                 if(data!="false"){
                     $("#Report-Table tbody").html(data);
                     // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
@@ -143,9 +149,10 @@ $('#sales_cari').on('submit',function(){
                     swal("Alert","Sorry, No Data Found !", "info");    
                 }
             }
+
         });
     }else{
-        swal("Alert","Please Select Opsi & Date Range.", "info");      
+        swal("Alert","Please Select Date Range.", "info");      
     }
 
     return false;

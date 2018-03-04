@@ -467,6 +467,53 @@ class ReportModel extends CI_Model{
 
 	}
 
+	//get report fee sales person information 
+	public function getFeeSales($branch_id, $to_date)
+	{
+		$date = $to_date;
+		// $lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));	
+		if($branch_id=='17'){ //ALL
+			$fee_query=$this->db->query("SELECT a.*, b.nama_branch, c.nama,
+				IFNULL((SELECT COUNT(x.psb_id) 
+					FROM new_psb x 
+					LEFT JOIN paket y ON x.paket_id=y.paket_id 
+					WHERE x.STATUS='sukses' AND x.sales_person=a.nama_sales AND y.id_kategori='2' AND DATE_FORMAT(x.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketkurang',
+				IFNULL((SELECT COUNT(p.psb_id) 
+					FROM new_psb p 
+					LEFT JOIN paket q ON p.paket_id=q.paket_id 
+					WHERE p.STATUS='sukses' AND p.sales_person=a.nama_sales AND q.id_kategori='1' AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketlebih'
+				FROM sales_person a
+				LEFT JOIN branch b on b.branch_id=a.branch_id
+				LEFT JOIN app_users c ON a.id_users=c.id_users
+				WHERE a.status='Aktif'
+				ORDER BY b.nama_branch, c.nama, a.nama_sales
+				")->result();
+		}else{
+			$fee_query=$this->db->query("SELECT a.*, b.nama_branch, c.nama,
+				IFNULL((SELECT COUNT(x.psb_id) 
+					FROM new_psb x 
+					LEFT JOIN paket y ON x.paket_id=y.paket_id 
+					WHERE x.STATUS='sukses' AND x.sales_person=a.nama_sales AND y.id_kategori='2' AND DATE_FORMAT(x.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketkurang',
+				IFNULL((SELECT COUNT(p.psb_id) 
+					FROM new_psb p 
+					LEFT JOIN paket q ON p.paket_id=q.paket_id 
+					WHERE p.STATUS='sukses' AND p.sales_person=a.nama_sales AND q.id_kategori='1' AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketlebih'
+				FROM sales_person a
+				LEFT JOIN branch b on b.branch_id=a.branch_id
+				LEFT JOIN app_users c ON a.id_users=c.id_users
+				WHERE a.status='Aktif' and b.branch_id='".$branch_id."'
+				ORDER BY b.nama_branch, c.nama, a.nama_sales
+				")->result();
+		}
+		$result=$fee_query;
+		return $result;
+
+	}
+
 	//get report branch information 
 	public function getReportBranch($tanggal,$status,$to_date)
 	{
@@ -650,36 +697,95 @@ class ReportModel extends CI_Model{
 	}
 
 	//get report status daily branch information 
-	public function getStatusDaily($branch_id, $st, $tgl, $tahun, $bulan, $i)
+	public function getStatusDaily($branch_id, $st, $tgl, $tahun, $bulan)
 	{
 		if($bulan<10){
 			$bulan = '0'.$bulan;
 		}else{
 			$bulan = $bulan;
 		}
-		$status_query = $this->db->query("select count(psb_id) jumlah 
-                            from new_psb 
-                            where status = '".$st."' and branch_id='".$branch_id."'
-                            and DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-".$i."'
-                            ")->row();
+		$status_query = $this->db->query("select 
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-01'),0) AS 'satu', 
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-02'),0) AS 'dua',
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-03'),0) AS 'tiga',
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-04'),0) AS 'empat',
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-05'),0) AS 'lima',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-06'),0) AS 'enam',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-07'),0) AS 'tujuh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-08'),0) AS 'delapan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-09'),0) AS 'sembilan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-10'),0) AS 'sepuluh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-11'),0) AS 'sebelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-12'),0) AS 'duabelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-13'),0) AS 'tigabelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-14'),0) AS 'empatbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-15'),0) AS 'limabelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-16'),0) AS 'enambelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-17'),0) AS 'tujuhbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-18'),0) AS 'delapanbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-19'),0) AS 'sembilanbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-20'),0) AS 'duapuluh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-21'),0) AS 'duasatu',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-22'),0) AS 'duadua',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-23'),0) AS 'duatiga',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-24'),0) AS 'duaempat',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-25'),0) AS 'dualima',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-26'),0) AS 'duaenam',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-27'),0) AS 'duatujuh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-28'),0) AS 'duadelapan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-29'),0) AS 'duasembilan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-30'),0) AS 'tigapuluh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND branch_id=a.branch_id AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-31'),0) AS 'tigasatu'    
+                from branch a
+                where branch_id='".$branch_id."'
+            ")->row();
 		$result=$status_query;
 		return $result;
 
 	}
 
 	//get report status daily branch information 
-	public function getStatusDailyAll($st, $tgl, $tahun, $bulan, $i)
+	public function getStatusDailyAll($st, $tgl, $tahun, $bulan)
 	{
 		if($bulan<10){
 			$bulan = '0'.$bulan;
 		}else{
 			$bulan = $bulan;
 		}
-		$status_query = $this->db->query("select count(psb_id) jumlah 
-                            from new_psb 
-                            where status = '".$st."'
-                            and DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-".$i."'
-                            ")->row();
+		$status_query = $this->db->query("select 
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-01'),0) AS 'satu', 
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-02'),0) AS 'dua',
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-03'),0) AS 'tiga',
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-04'),0) AS 'empat',
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-05'),0) AS 'lima',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-06'),0) AS 'enam',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-07'),0) AS 'tujuh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-08'),0) AS 'delapan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-09'),0) AS 'sembilan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-10'),0) AS 'sepuluh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-11'),0) AS 'sebelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-12'),0) AS 'duabelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-13'),0) AS 'tigabelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-14'),0) AS 'empatbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-15'),0) AS 'limabelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-16'),0) AS 'enambelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-17'),0) AS 'tujuhbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-18'),0) AS 'delapanbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-19'),0) AS 'sembilanbelas',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-20'),0) AS 'duapuluh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-21'),0) AS 'duasatu',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-22'),0) AS 'duadua',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-23'),0) AS 'duatiga',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-24'),0) AS 'duaempat',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-25'),0) AS 'dualima',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-26'),0) AS 'duaenam',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-27'),0) AS 'duatujuh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-28'),0) AS 'duadelapan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-29'),0) AS 'duasembilan',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-30'),0) AS 'tigapuluh',    
+			IFNULL((SELECT COUNT(psb_id) FROM new_psb WHERE STATUS='".$st."' AND DATE_FORMAT($tgl,'%Y-%m-%d')='".$tahun."-".$bulan."-31'),0) AS 'tigasatu'    
+                from branch limit 1
+            ")->row();
 		$result=$status_query;
 		return $result;
 
@@ -747,49 +853,139 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top branch information 
-	public function getStatusBranch($tgl='')
+	public function getStatusBranch($opsi='', $tgl='')
 	{
 		$date = $tgl;
 		// $last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		// $date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
-		$sukses_query=$this->db->query("SELECT a.branch_id, a.nama_branch, 
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='sukses' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'sukses',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='valid' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'valid',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='cancel' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'cancel',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='reject' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'reject',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='pending' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'pending',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='retur' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'retur',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='bentrok' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'bentrok',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='blacklist' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'blacklist',
-			IFNULL((SELECT COUNT(psb_id) 
-				FROM new_psb 
-				WHERE STATUS='masuk' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'masuk'
-			FROM branch a")->result();
+		if($opsi == "opsi1"){
+			$sukses_query=$this->db->query("SELECT a.branch_id, a.nama_branch, 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='sukses' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'sukses',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='valid' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'valid',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='cancel' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'cancel',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='reject' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'reject',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='pending' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'pending',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='retur' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'retur',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='bentrok' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'bentrok',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='blacklist' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'blacklist',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='masuk' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'masuk'
+				FROM branch a 
+				where branch_id not in('17')
+				ORDER BY sukses desc")->result();
+		}else if($opsi == "opsi2"){
+			$sukses_query=$this->db->query("SELECT a.branch_id, a.nama_branch, 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='sukses' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'sukses',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='sukses' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'sukses_masuk',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='valid' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'valid',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='cancel' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'cancel',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='reject' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'reject',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='pending' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'pending',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='retur' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'retur',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='bentrok' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'bentrok',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='blacklist' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'blacklist',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='masuk' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'masuk'
+				FROM branch a 
+				where branch_id not in('17')
+				ORDER BY sukses desc")->result();
+		}else{
+			$sukses_query=$this->db->query("SELECT a.branch_id, a.nama_branch, 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='sukses' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'sukses',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='valid' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'valid',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='cancel' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'cancel',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='reject' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'reject',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='pending' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'pending',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='retur' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_validasi, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'retur',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='bentrok' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'bentrok',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='blacklist' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'blacklist',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='masuk' AND branch_id=a.branch_id AND DATE_FORMAT(tanggal_masuk, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'masuk'
+				FROM branch a 
+				where branch_id not in('17')
+				ORDER BY sukses desc")->result();
+		}
 
 		$result=$sukses_query;
 		return $result;
