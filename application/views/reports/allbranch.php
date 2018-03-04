@@ -23,32 +23,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
     <div class="panel-heading">Rank All Branch</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/sales_person/view') ?>">
-
-                <div class="col-md-2 col-lg-2 col-sm-2"> 
-                    <select class="form-control" name="vtanggal" id="vtanggal">
-                        <?php foreach($tgl as $tgl){ 
-                            if($btgl == $tgl){ ?>
-                            <option value="<?php echo $tgl?>" selected><?php echo $tgl?></option>
-                        <?php }else{ ?>
-                            <option value="<?php echo $tgl?>"><?php echo $tgl?></option>
-                         <?php } 
-                        }?>
-                    </select> 
-                </div>
-
-                <div class="col-md-2 col-lg-2 col-sm-2"> 
-                    <select class="form-control" name="vstatus" id="vstatus">
-                        <?php foreach($status as $status){ 
-                            if($bstatus == $status){ ?>
-                            <option value="<?php echo $status?>" selected><?php echo $status?></option>
-                            <?php }else{ ?>
-                            <option value="<?php echo $status?>"><?php echo $status?></option>
-                            <?php }
-                            } ?>
-                        
-                    </select> 
-                </div>
+            <form id="sales_cari" action="<?php echo site_url('Reports/allbranch/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
@@ -69,8 +44,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <?php /*<button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
-        <button type="button" class="btn btn-info pdf-btn"><i class="fa fa-file-pdf-o"></i> PDF Export</button>*/?>
+        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
         </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
@@ -85,21 +59,20 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
             </style>
             <div id="Table-div">
                 <table class="table table-bordered hoverTable">
-                    <thead>
-                        <th>No</th>
-                        <th>Branch</th>
-                        <th>Total</th>
-                        <th>Sukses</th>
-                        <th>Valid</th>
-                        <th>Cancel</th>
-                        <th>Reject</th>
-                        <th>Pending</th>
-                        <th>Retur</th>
-                        <th>Bentrok</th>
-                        <th>Blacklist</th>
-                        <th>Masuk</th>
-                        <th class="text-right">Jumlah</th>
-                        <th class="text-right">Avg/hari</th>
+                    <thead style="background-color: whitesmoke;">
+                        <th>NO</th>
+                        <th>BRANCH</th>
+                        <th class="text-right">SUKSES</th>
+                        <th class="text-right">VALID</th>
+                        <th class="text-right">CANCEL</th>
+                        <th class="text-right">REJECT</th>
+                        <th class="text-right">PENDING</th>
+                        <th class="text-right">RETUR</th>
+                        <th class="text-right">BENTROK</th>
+                        <th class="text-right">BLACKLIST</th>
+                        <th class="text-right">MASUK</th>
+                        <th class="text-right">JUMLAH</th>
+                        <th class="text-right">% SUKSES</th>
                     </thead>
                     <tbody>
 

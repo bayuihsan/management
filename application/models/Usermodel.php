@@ -53,7 +53,6 @@ public function logout(){
 		'nama_branch' 	=> '',
 		'channel' 		=> '',
 		'level' 		=> '',
-		'no_rekening' 	=> '',
 		'last_login' 	=> '',
 		'keterangan' 	=> '',
 		'logged_in' => FALSE

@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+ini_set('max_execution_time', 0); 
+ini_set('memory_limit','2048M');
 class Admin extends CI_Controller {
 
     public function __construct() {
@@ -212,16 +213,12 @@ class Admin extends CI_Controller {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[3]');
         $this->form_validation->set_rules('nama', 'Nama', 'trim|required|xss_clean|min_length[6]');
         $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
-        $this->form_validation->set_rules('no_rekening', 'No Rekening', 'trim|required|xss_clean|min_length[8]|numeric');
-        $this->form_validation->set_rules('nama_bank', 'nama_bank', 'trim|required|xss_clean|min_length[3]');
         
         if (!$this->form_validation->run() == FALSE)
         {    
             $data['username']=$this->input->post('username',true);
             $data['nama']=$this->input->post('nama',true);
             $data['no_hp']=$this->input->post('no_hp',true);
-            $data['no_rekening']=$this->input->post('no_rekening',true);
-            $data['nama_bank']=$this->input->post('nama_bank',true);
 
             $id=$this->session->userdata('id_users');     
             $this->db->where('id_users', $id);
@@ -230,8 +227,6 @@ class Admin extends CI_Controller {
             $this->session->set_userdata('username',$data['username']);
             $this->session->set_userdata('nama',$data['nama']);
             $this->session->set_userdata('no_hp',$data['no_hp']);
-            $this->session->set_userdata('no_rekening',$data['no_rekening']);
-            $this->session->set_userdata('nama_bank',$data['nama_bank']);
 
             echo "true";
                 
