@@ -536,7 +536,7 @@ class Reports extends CI_Controller {
     {
         $data=array();
         $data['branch']=$this->Branchmodel->get_all(); 
-        $data['data_tanggal']=$this->Reportmodel->get_tanggal(); 
+        // $data['data_tanggal']=$this->Reportmodel->get_tanggal(); 
         if($action=='asyn'){
             $this->load->view('reports/status_daily',$data);
         }else if($action==''){
