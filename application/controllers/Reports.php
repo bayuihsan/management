@@ -15,7 +15,7 @@ class Reports extends CI_Controller {
         $this->load->model(array('Reportmodel','Adminmodel','Branchmodel'));
     }
 
-    //View Branch Report// 
+    //View Fee Sales TSA Report// 
     public function fee_sales_tsa($action='')
     {
         $data=array();
@@ -35,9 +35,12 @@ class Reports extends CI_Controller {
                 echo "false";
             }else{
                 $no=1 ;
-                $tlm = 0;
-                $ttm = 0;
-                $tsla = 0;
+                $tpaketkurang = 0;
+                $tpaketlebih = 0;
+                $tfeepaketkurang = 0;
+                $tfeepaketlebih = 0;
+                $ttransport = 0;
+                $ttfeepaket = 0;
                 foreach ($reportData as $report) { 
                     $paketkurang = $report->jml_paketkurang;
                     if($paketkurang>0){
@@ -64,7 +67,7 @@ class Reports extends CI_Controller {
                         $kategori_trans = "20 KH - 30 KH";
                         $transport = 450000;
                     }else{
-                        $kategori_trans = "1 KH - 19 KH";
+                        $kategori_trans = "< 20 KH";
                         $transport = 0;
                     }
                     $tfeepaket = $feepaketkurang + $feepaketlebih + $transport;
@@ -93,17 +96,141 @@ class Reports extends CI_Controller {
                         <td><?php echo strtoupper($report->atas_nama) ?></td>
                     </tr>
                 <?php 
-                    
+                    $tpaketkurang = $tpaketkurang + $paketkurang;
+                    $tpaketlebih = $tpaketlebih +$paketlebih;
+                    $ttpaket = $tpaketlebih + $tpaketkurang;
+
+                    $tfeepaketlebih = $tfeepaketlebih + $feepaketlebih;
+                    $tfeepaketkurang = $tfeepaketkurang + $feepaketkurang;
+                    $ttransport = $ttransport + $transport;
+                    $ttfeepaket = $tfeepaketlebih + $tfeepaketkurang + $ttransport;
                 }  
                  // //Summery value
                    
-                 // echo "<tr><td colspan='2'><b>Total</b></td>";
-                 // echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
-                 // echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
-                 // echo "<td class='text-right'><b>".round($tavg)."</b></td>";
-                 // // echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
-                 // echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
-                 // echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
+                 echo "<tr><td colspan='4'><b>GRAND TOTAL</b></td>";
+                 echo "<td class='text-right' nowrap=''><b>".number_format($tpaketkurang)."</b></td>";
+                 echo "<td class='text-right' nowrap=''><b>".number_format($tpaketlebih)."</b></td>";
+                 echo "<td class='text-right' nowrap='' style='background-color: whitesmoke'><b>".number_format($ttpaket)."</b></td>";
+                 // echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td colspan='2' class='text-right'></td>";
+                 echo "<td class='text-right' nowrap=''><b>Rp ".number_format($tfeepaketkurang)."</b></td>";
+                 echo "<td class='text-right' nowrap=''><b>Rp ".number_format($tfeepaketlebih)."</b></td>";
+                 echo "<td class='text-right' nowrap='' style='background-color: whitesmoke'><b>Rp ".number_format($ttransport)."</b></td>";
+                 echo "<td class='text-right' nowrap='' style='background-color: whitesmoke'><b>Rp ".number_format($ttfeepaket)."</b></td>";
+                 echo "<td class='text-right' nowrap='' colspan='3' ></td>";
+                 echo "</tr>"; 
+            }
+        }
+
+    }
+
+    //View Fee Sales TSA Report// 
+    public function fee_sales_tl($action='')
+    {
+        $data=array();
+        $data['branch']=$this->Branchmodel->get_all();
+        $channel_x = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+        if($action=='asyn'){
+            $this->load->view('reports/fee_sales_tl',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/fee_sales_tl',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $branch_id    =$this->input->post('vbranch',true);  
+            $to_date    =$this->input->post('vto-date',true);  
+            $tgl        = date('d', strtotime($to_date));
+            
+            $reportData=$this->Reportmodel->getFeeSalesTL($branch_id, $to_date);
+            if(empty($reportData)){
+                echo "false";
+            }else{
+                $no=1 ;
+                $tpaketkurang = 0;
+                $tpaketlebih = 0;
+                $tfeepaketkurang = 0;
+                $tfeepaketlebih = 0;
+                $ttransport = 0;
+                $ttfeepaket = 0;
+                foreach ($reportData as $report) { 
+                    $paketkurang = $report->jml_paketkurang;
+                    if($paketkurang>0){
+                        $feepaketkurang = $paketkurang*10000;
+                    }else{
+                        $feepaketkurang = $paketkurang*0;
+                    }
+                    
+                    $paketlebih = $report->jml_paketlebih;
+                    if($paketlebih > 600){
+                        $feepaketlebih = $paketlebih*13000;
+                    }else if($paketlebih <= 600 && $paketlebih > 400 ){
+                        $feepaketlebih = $paketlebih*12000;
+                    }else if($paketlebih <= 400 && $paketlebih > 200){
+                        $feepaketlebih = $paketlebih*11000;
+                    }else if($paketlebih <=200 && $paketlebih >0){
+                        $feepaketlebih = $paketlebih*10000;
+                    }else{
+                        $feepaketlebih = $paketlebih*0;
+                    }
+                    
+                    $tpaket = $paketkurang + $paketlebih;
+                    if($tpaket > 400){
+                        $kategori_trans = "> 400 KH";
+                        $transport = 1500000;
+                    }else if($tpaket <= 400 && $tpaket > 200){
+                        $kategori_trans = "201 KH - 400 KH";
+                        $transport = 1200000;
+                    }else if($tpaket <= 200 && $tpaket > 0){
+                        $kategori_trans = "<= 200 KH";
+                        $transport = 600000;
+                    }else{
+                        $kategori_trans = "<= 200 KH";
+                        $transport = 0;
+                    }
+                    $tfeepaket = $feepaketkurang + $feepaketlebih + $transport;
+                    ?>
+
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo strtoupper($report->nama_branch) ?></td>
+                        <td><?php echo strtoupper($channel_x[$report->channel]) ?></td>
+                        <td><?php echo strtoupper($report->nama) ?></td>
+                        <?php // Kategori Paket ?>
+                        <td class="text-right" nowrap=""><?php echo strtoupper(number_format($paketkurang)) ?></td>
+                        <td class="text-right" nowrap=""><?php echo strtoupper(number_format($paketlebih)) ?></td>
+                        <td class="text-right" nowrap="" style="background-color: whitesmoke"><b><?php echo strtoupper(number_format($tpaket)) ?></b></td>
+                        <?php // Kategori Transport ?>
+                        <td nowrap="" style="background-color: whitesmoke"><?php echo strtoupper($kategori_trans) ?></td>
+                        <td class="text-right" nowrap=""><?php echo strtoupper("Rp ".number_format($transport)) ?></td>
+                        <?php // FEE ?>
+                        <td class="text-right" nowrap=""><?php echo strtoupper("Rp ".number_format($feepaketkurang)) ?></td>
+                        <td class="text-right" nowrap=""><?php echo strtoupper("Rp ".number_format($feepaketlebih)) ?></td>
+                        <td class="text-right" nowrap="" style="background-color: whitesmoke"><b><?php echo strtoupper("Rp ".number_format($transport)) ?></b></td>
+                        <td class="text-right" nowrap="" style="background-color: whitesmoke"><b><?php echo strtoupper("Rp ".number_format($tfeepaket)) ?></b></td>
+                    </tr>
+                <?php 
+                    $tpaketkurang = $tpaketkurang + $paketkurang;
+                    $tpaketlebih = $tpaketlebih +$paketlebih;
+                    $ttpaket = $tpaketlebih + $tpaketkurang;
+
+                    $tfeepaketlebih = $tfeepaketlebih + $feepaketlebih;
+                    $tfeepaketkurang = $tfeepaketkurang + $feepaketkurang;
+                    $ttransport = $ttransport + $transport;
+                    $ttfeepaket = $tfeepaketlebih + $tfeepaketkurang + $ttransport;
+                }  
+                 // //Summery value
+                   
+                 echo "<tr><td colspan='4'><b>GRAND TOTAL</b></td>";
+                 echo "<td class='text-right' nowrap=''><b>".number_format($tpaketkurang)."</b></td>";
+                 echo "<td class='text-right' nowrap=''><b>".number_format($tpaketlebih)."</b></td>";
+                 echo "<td class='text-right' nowrap='' style='background-color: whitesmoke'><b>".number_format($ttpaket)."</b></td>";
+                 // echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                 echo "<td colspan='2' class='text-right'></td>";
+                 echo "<td class='text-right' nowrap=''><b>Rp ".number_format($tfeepaketkurang)."</b></td>";
+                 echo "<td class='text-right' nowrap=''><b>Rp ".number_format($tfeepaketlebih)."</b></td>";
+                 echo "<td class='text-right' nowrap='' style='background-color: whitesmoke'><b>Rp ".number_format($ttransport)."</b></td>";
+                 echo "<td class='text-right' nowrap='' style='background-color: whitesmoke'><b>Rp ".number_format($ttfeepaket)."</b></td>";
+                 echo "</tr>"; 
             }
         }
 

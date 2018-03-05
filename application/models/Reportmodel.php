@@ -467,7 +467,7 @@ class ReportModel extends CI_Model{
 
 	}
 
-	//get report fee sales person information 
+	//get report fee sales TSAinformation 
 	public function getFeeSales($branch_id, $to_date)
 	{
 		$date = $to_date;
@@ -507,6 +507,51 @@ class ReportModel extends CI_Model{
 				LEFT JOIN app_users c ON a.id_users=c.id_users
 				WHERE a.status='Aktif' and b.branch_id='".$branch_id."'
 				ORDER BY b.nama_branch, c.nama, a.nama_sales
+				")->result();
+		}
+		$result=$fee_query;
+		return $result;
+
+	}
+
+	//get report fee sales TL information 
+	public function getFeeSalesTL($branch_id, $to_date)
+	{
+		$date = $to_date;
+		// $lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));	
+		if($branch_id=='17'){ //ALL
+			$fee_query=$this->db->query("SELECT a.id_users, a.channel, a.nama, b.nama_branch,
+				IFNULL((SELECT COUNT(x.psb_id) 
+					FROM new_psb x 
+					LEFT JOIN paket y ON x.paket_id=y.paket_id 
+					WHERE x.STATUS='sukses' AND x.TL=a.username AND y.id_kategori='2' AND DATE_FORMAT(x.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketkurang',
+				IFNULL((SELECT COUNT(p.psb_id) 
+					FROM new_psb p 
+					LEFT JOIN paket q ON p.paket_id=q.paket_id 
+					WHERE p.STATUS='sukses' AND p.TL=a.username AND q.id_kategori='1' AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketlebih'
+				FROM app_users a
+				LEFT JOIN branch b on b.branch_id=a.branch_id
+				WHERE a.keterangan='Aktif' and a.level='3'
+				ORDER BY b.nama_branch, a.channel, a.nama
+				")->result();
+		}else{
+			$fee_query=$this->db->query("SELECT a.id_users, a.channel, a.nama, b.nama_branch,
+				IFNULL((SELECT COUNT(x.psb_id) 
+					FROM new_psb x 
+					LEFT JOIN paket y ON x.paket_id=y.paket_id 
+					WHERE x.STATUS='sukses' AND x.TL=a.username AND y.id_kategori='2' AND DATE_FORMAT(x.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketkurang',
+				IFNULL((SELECT COUNT(p.psb_id) 
+					FROM new_psb p 
+					LEFT JOIN paket q ON p.paket_id=q.paket_id 
+					WHERE p.STATUS='sukses' AND p.TL=a.username AND q.id_kategori='1' AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'jml_paketlebih'
+				FROM app_users a
+				LEFT JOIN branch b on b.branch_id=a.branch_id
+				WHERE a.keterangan='Aktif' and a.level='3' AND b.branch_id='".$branch_id."'
+				ORDER BY b.nama_branch, a.channel, a.nama
 				")->result();
 		}
 		$result=$fee_query;

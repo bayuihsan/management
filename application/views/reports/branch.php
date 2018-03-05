@@ -116,48 +116,74 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 <script type="text/javascript">
 $(document).ready(function() {
-$("#vto-date").datepicker(); 
-$("#vtanggal, #vstatus").select2({
-minimumResultsForSearch: Infinity    
-});
+    $("#vto-date").datepicker(); 
+    $("#vtanggal, #vstatus").select2({
+    minimumResultsForSearch: Infinity    
+    });
 
-$('#sales_cari').on('submit',function(){
-    var link=$(this).attr("action");
-    var to_date = $("#vto-date").val();
-    var last_month = new Date(to_date).getMonth()-1;
-    var this_month = new Date(to_date).getMonth();
-    var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
-"Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-    if(to_date!=""){
-        //query data
-        $.ajax({
-            method : "POST",    
-            url : link,
-            data : $(this).serialize(),
-            beforeSend : function(){
-                $(".preloader").css("display","block");
-            },success : function(data){
-                $(".preloader").css("display","none"); 
-                if(data!="false"){
-                    $("#Report-Table tbody").html(data);
-                    $("#last_month").html(NamaBulan[last_month]);
-                    $("#this_month").html(NamaBulan[this_month]);
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
-                }else{
-                    $("#Report-Table tbody").html("");
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
-                    swal("Alert","Sorry, No Data Found !", "info");    
+    $('#sales_cari').on('submit',function(){
+        var link=$(this).attr("action");
+        var to_date = $("#vto-date").val();
+        var last_month = new Date(to_date).getMonth()-1;
+        var this_month = new Date(to_date).getMonth();
+        var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
+    "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+        if(to_date!=""){
+            //query data
+            $.ajax({
+                method : "POST",    
+                url : link,
+                data : $(this).serialize(),
+                beforeSend : function(){
+                    $(".preloader").css("display","block");
+                },success : function(data){
+                    $(".preloader").css("display","none"); 
+                    if(data!="false"){
+                        $("#Report-Table tbody").html(data);
+                        $("#last_month").html(NamaBulan[last_month]);
+                        $("#this_month").html(NamaBulan[this_month]);
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
+                    }else{
+                        $("#Report-Table tbody").html("");
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
+                        swal("Alert","Sorry, No Data Found !", "info");    
+                    }
                 }
+
+            });
+        }else{
+            swal("Alert","Please Select Date Range.", "info");      
+        }
+
+        return false;
+    });
+
+    $(document).on('click','.print-btn-excel',function(){
+
+        var link=$(this).attr("href"); 
+        var vtanggal = $("#vtanggal").val();
+        var vstatus = $("#vstatus").val();
+        var to_date = $("#vto-date").val();
+
+        var last_month = new Date(to_date).getMonth()-1;
+        var this_month = new Date(to_date).getMonth();
+
+        var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
+    "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+        // alert(link);
+        $.ajax({
+            method : "POST",
+            url : link,
+            beforeSend : function(){
+                $(".block-ui").css('display','block'); 
+            },success : function(data){ 
+                window.open(link+'/asyn/'+vtanggal+'/'+vstatus+'/'+NamaBulan[last_month]+'/'+to_date);
+                $(".block-ui").css('display','none');               
             }
-
         });
-    }else{
-        swal("Alert","Please Select Date Range.", "info");      
-    }
 
-    return false;
-});
-
+        return false;
+    });
 
 });
 

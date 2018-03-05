@@ -20,10 +20,10 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Fee Sales TSA</div>
+    <div class="panel-heading">Fee Sales TL</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/fee_sales_tsa/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Reports/fee_sales_tl/view') ?>">
 
                 <div class="col-md-3 col-lg-3 col-sm-3"> 
                     <select class="form-control" name="vbranch" id="vbranch">
@@ -75,14 +75,11 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                         <tr>    
                             <th rowspan="2" style="background-color: purple; color: white;"><b>NO</b></th>
                             <th rowspan="2" style="background-color: purple; color: white;"><b>BRANCH</b></th>
+                            <th rowspan="2" style="background-color: purple; color: white;"><b>CHANNEL</b></th>
                             <th rowspan="2" style="background-color: purple; color: white;"><b>TL</b></th>
-                            <th rowspan="2" style="background-color: purple; color: white;"><b>NAMA SALES</b></th>
                             <th colspan="3" style="background-color: purple; color: white;" class="text-center"><b>KATEGORI PAKET</b></th>
                             <th colspan="2" style="background-color: purple; color: white;" class="text-center"><b>KATEGORI TRANSPORT</b></th>
                             <th colspan="4" style="background-color: purple; color: white;" class="text-center"><b>FEE</b></th>
-                            <th rowspan="2" style="background-color: purple; color: white;"><b>NAMA BANK</b></th>
-                            <th rowspan="2" style="background-color: purple; color: white;"><b>NO REKENING</b></th>
-                            <th rowspan="2" style="background-color: purple; color: white;"><b>ATAS NAMA</b></th>
                         </tr>
                         <tr>
                             <th style="background-color: orange; color: white;" nowrap=""><b>PAKET < 100</th>
@@ -100,7 +97,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
                     </tbody>
                 </table>
-                <p id="informasi">Information : <br> Selama proses berlangsung, diharapkan menunggu +- 4-8 menit. Silahkan untuk melakukan aktifitas yang lain.</p>
+                <p id="informasi">Information : <br> Selama proses berlangsung, diharapkan menunggu +- 2-4 menit. Silahkan untuk melakukan aktifitas yang lain.</p>
             </div>
 
         </div> 
