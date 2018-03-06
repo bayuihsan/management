@@ -13,7 +13,7 @@ class sales extends CI_Controller {
         }
         date_default_timezone_set(get_current_setting('timezone')); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel'));
+        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel'));
     }
     
     public function index(){
@@ -206,29 +206,13 @@ class sales extends CI_Controller {
     }
     
     /** Method For Add New Account and Account Page View **/ 	
-    public function add($no_bast='',$action='',$param1='')
+    public function add($action='',$param1='')
 	{
+        $datax=array();
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
-        if($sess_level==4){
-            $datax['branch']=$this->Branchmodel->get_all();
-            $datax['tl']=$this->usersmodel->get_all_tl();
-            $datax['sub_channel']=$this->Sales_channelmodel->get_all();
-            $datax['sales_person']=$this->Salespersonmodel->get_all();
-            $datax['validasi']=$this->usersmodel->get_all_validasi();
-
-        }else{
-            $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
-            $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);
-            $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);
-            $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);
-            $datax['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);
-        }
         
-        $datax['paket']=$this->Paketmodel->get_all();
-        $qbast = $this->bastmodel->get_all_by_no_bast($no_bast);
-        $datax['no_bast'] = $qbast->no_bast;
-        $datax['tanggal_masuk'] = $qbast->tanggal_masuk;
+        
         if($action=='asyn'){
             $this->load->view('content/sales/add',$datax);
         }else if($action==''){
@@ -258,7 +242,7 @@ class sales extends CI_Controller {
             $data['account_id']         = $account_id =addslashes($this->input->post('saccount_id',true));
             $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
-            $data['status']             =addslashes($this->input->post('sstatus',true));
+            $data['status']             = $status = addslashes($this->input->post('sstatus',true));
             $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
 
             $data['branch_id']          =addslashes($this->input->post('sbranch',true));
@@ -303,7 +287,9 @@ class sales extends CI_Controller {
 
             if($do == "update"){
                 $msisdn1 = addslashes($this->input->post('smsisdn1',true)); 
+                $sno_bast1 = addslashes($this->input->post('sno_bast1',true)); 
                 $this->form_validation->set_rules('smsisdn1', 'MSISDN', 'trim|xss_clean|min_length[10]|max_length[14]|numeric');
+                $this->form_validation->set_rules('sno_bast1', 'No BAST', 'trim|xss_clean|min_length[10]');
             }
 
             if (!$this->form_validation->run() == FALSE)
@@ -341,6 +327,10 @@ class sales extends CI_Controller {
                             $data['TL'] = $user_tl->username;
                         }
 
+                        $datastatus['status']             ="masuk";
+                        $this->db->where('msisdn', $msisdn);
+                        $this->db->update('msisdn', $datastatus);
+
                         $this->db->insert('new_psb',$data);
                         echo "true";
                     }
@@ -348,8 +338,10 @@ class sales extends CI_Controller {
                 }else if($do=='update'){
                     
                     if($msisdn1 == "" || $msisdn1 == null){
+                        $msisdn = $msisdn;
                         $data['msisdn'] = $msisdn;
                     }else{
+                        $msisdn = $msisdn1;
                         $data['msisdn'] = $msisdn1;
                     }
 
@@ -388,6 +380,10 @@ class sales extends CI_Controller {
                         $this->db->where('psb_id', $id);
                         $this->db->update('new_psb', $data);
 
+                        $datastatus['status']             =$status;
+                        $this->db->where('msisdn', $msisdn);
+                        $this->db->update('msisdn', $datastatus);
+
                         echo "true";
                     }
                     
@@ -399,7 +395,14 @@ class sales extends CI_Controller {
             }
             //----End validation----//         
         }
-        else if($action=='remove'){    
+        else if($action=='remove'){   
+            $qpsb=$this->salesmodel->get_sales_by_id($param1);  
+            $msisdn = $qpsb->msisdn;
+
+            $datastatus['status']             ="";
+            $this->db->where('msisdn', $msisdn);
+            $this->db->update('msisdn', $datastatus);
+
             $this->db->delete('new_psb', array('psb_id' => $param1));       
         }
 	}
@@ -411,6 +414,8 @@ class sales extends CI_Controller {
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
         if($sess_level==4){
+            $data['bast']=$this->bastmodel->get_all_by('');
+            $data['msisdn']=$this->Msisdnmodel->get_all();
             $data['branch']=$this->Branchmodel->get_all();
             $data['tl']=$this->usersmodel->get_all_tl();
             $data['sub_channel']=$this->Sales_channelmodel->get_all();
@@ -418,14 +423,18 @@ class sales extends CI_Controller {
             $data['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
+            $data['bast']=$this->bastmodel->get_all_by($sess_branch);
+            $data['msisdn']=$this->Msisdnmodel->get_all_by_status($sess_branch);
             $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
             $data['tl']=$this->usersmodel->get_all_tl_by($sess_branch);;
             $data['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);;
             $data['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);;
             $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
         }
+
         $data['edit_sales']=$this->salesmodel->get_sales_by_id($psb_id); 
         $data['paket']=$this->Paketmodel->get_all();
+        $data['psb_id'] = $psb_id;
 
         if($action=='asyn'){
             $this->load->view('content/sales/add',$data);

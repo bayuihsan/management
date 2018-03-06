@@ -25,7 +25,7 @@
                     <td class="date"><?php echo $no++; ?></td>
                     <td>
                     <?php if($this->session->userdata('level')==5 || $this->session->userdata('level')==4) { ?>
-                        <a href="<?php echo site_url('bast/add').'/'.$new->no_bast; ?>" id="lihat_bast"><?php echo strtoupper($new->no_bast) ?></a>
+                        <a href="<?php echo site_url('bast/add').'/'.$new->no_bast; ?>" title="Click For Add MSISDN" id="lihat_bast"><?php echo strtoupper($new->no_bast) ?></a>
                     <?php }else{ 
                         echo strtoupper($new->no_bast);
                     }?>
