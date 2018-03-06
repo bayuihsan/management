@@ -353,10 +353,18 @@ class Reports extends CI_Controller {
                     if($opsi == "opsi2"){
                         $total = $sukses_masuk+$valid+$cancel+$reject+$pending+$retur+$bentrok+$blacklist+$masuk;
                         $total_by_sukses = $sukses+$valid+$cancel+$reject+$pending+$retur+$bentrok+$blacklist+$masuk;
-                        $persensukses = ($sukses/$total_by_sukses)*100;
+                        if($total_by_sukses == 0){
+                            $persensukses = "0";
+                        }else{
+                            $persensukses = ($sukses/$total_by_sukses)*100;
+                        }
                     }else{
                         $total = $sukses+$valid+$cancel+$reject+$pending+$retur+$bentrok+$blacklist+$masuk;
-                        $persensukses = ($sukses/$total)*100;
+                        if($total == 0){
+                            $persensukses = "0";
+                        }else{
+                            $persensukses = ($sukses/$total)*100;
+                        }
                     }
                     ?>
 
@@ -387,7 +395,11 @@ class Reports extends CI_Controller {
                     $tmasuk = $tmasuk + $masuk;
                     $ttotal = $ttotal + $total;
                 }  
-                $tpersensukses = ($tsukses/$ttotal)*100;
+                if($ttotal == 0){
+                    $tpersensukses = "0";
+                }else{
+                    $tpersensukses = ($tsukses/$ttotal)*100;
+                }
                  
                  echo "<tr><td colspan='2'><b>Grand Total</b></td>";
                  echo "<td class='text-right'><b>".number_format($tsukses)."</b></td>";
