@@ -8,7 +8,7 @@
 </div>
 <!--End Card box-->
 <div class="col-md-12 col-lg-12 col-sm-12">
-    <form id="pencarian" action="<?php echo site_url('Admin/dashboard') ?>">
+    <form id="pencarian" action="<?php echo site_url('Admin/dashboard_cm') ?>">
         <div class="col-md-3 col-lg-3 col-sm-3"> 
             <div class="form-group"> 
                 <div class='input-group date' id='date'>
@@ -79,25 +79,8 @@
         </div>
     </div>
 </div>
+<br>
 <div class="row">
-<!--Start Daily Report Line Chart-->
-<div class="col-md-12 col-sm-12 col-lg-12">
-<!--Start Panel-->
-<div class="panel panel-default custom-box">
-    
-    <!-- Default panel contents -->
-    <div class="panel-heading">Daily Report (<span id="nilaidaily"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body">
-        <!--<canvas id="inc_vs_exp2"></canvas>-->
-        <div id="inc_vs_exp2"></div>
-        <br>
-    </div>
-    <!--End Panel Body-->
-
-</div>
-<!--End Panel-->
-</div>
-<!--End Daily Report Col-->
 
 <!--Start CM Ekstrak-->
 <div class="col-md-6 col-sm-6 col-lg-6">
@@ -150,49 +133,6 @@ $(document).ready(function() {
         cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
 
-
-    var chart;
-    chart = c3.generate({
-        bindto: '#inc_vs_exp2',
-        data: {
-            x: 'x',
-    //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-            columns: [
-                ['x'
-
-                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
-                 echo ",";    
-                 echo "'".$line_chart[0][$i]['date']."'"; 
-                } ?>
-
-                ],
-
-                ['Aktif', 
-                <?php for($i=1;$i<=count($line_chart[0]);$i++){ 
-                echo  $line_chart[0][$i]['amount'].",";
-                } ?>
-                ],
-
-                // ['Pending', 
-                // <?php // for($i=1;$i<=count($line_chart[1]);$i++){ 
-                // echo  $line_chart[1][$i]['amount'].",";
-                // } ?>
-                // ],
-
-                
-            ]
-        },
-        axis: {
-            x: {
-                type: 'timeseries',
-                tick: {
-                    format: '%Y-%m-%d'
-                }
-            }
-        }
-    });
-
-
     $("#date").datepicker();
 
     $('#pencarian').on('submit',function(){
@@ -203,10 +143,7 @@ $(document).ready(function() {
             history.pushState(null, null,link);  
             $('.asyn-div').load(link+'/view/'+tanggal,function() {
                 $(".block-ui").css('display','none');  
-                $("#from-date").val(tanggal);   
-                $("#nilaidaily").html(tanggal);   
-                $("#nilaibranch").html(tanggal);   
-                $("#nilaipaket").html(tanggal);   
+                $("#from-date").val(tanggal);    
             });
         }else{
             swal("Alert","Please Select Date Range.", "info");      
@@ -216,42 +153,6 @@ $(document).ready(function() {
     });
 
 
-    chart = c3.generate({
-        bindto: '#persen_status',
-        data: {
-            columns: [
-                ['Sukses', <?php echo $pie_data['sukses'] ?>],
-                ['Reject', <?php echo $pie_data['reject'] ?>],
-                ['Retur', <?php echo $pie_data['retur'] ?>],
-                ['Pending', <?php echo $pie_data['pending'] ?>],
-                ['Cancel', <?php echo $pie_data['cancel'] ?>],
-                ['Bentrok', <?php echo $pie_data['bentrok'] ?>],
-                ['Masuk', <?php echo $pie_data['masuk'] ?>],
-                ['Blacklist', <?php echo $pie_data['blacklist'] ?>],
-                ['Valid', <?php echo $pie_data['valid'] ?>],
-            ],
-            type: 'donut',
-            onclick: function(d, i) {
-                alert(d['name']+' : '+d['value']);
-                // console.log("onclick", d, i);
-            },
-            onmouseover: function(d, i) {
-                document.getElementById("info_status").innerHTML = d['name']+' : '+d['value'].toLocaleString(undefined,{ minimumFractionDigits: 0 }
-);
-                // console.log("onmouseover", d, i);
-            },
-            // onmouseout: function(d, i) {
-            //     console.log("onmouseout", d, i);
-            // }
-        },
-        // color: {
-        //     pattern: ['#23c6c8', '#f39c12']
-        // },
-        donut: {
-            title: "% Status Sales"
-        }
-    });
-   
 });
 
 </script>

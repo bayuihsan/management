@@ -12,7 +12,7 @@ class cm_ekstrak extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('cm_ekstrakmodel'));
+        $this->load->model(array('cm_ekstrakmodel','Reportmodel'));
     }
     
     public function index(){
@@ -22,6 +22,8 @@ class cm_ekstrak extends CI_Controller {
 	public function view_aktif($action='')
 	{   
         $data=array();
+        $tanggal = $this->Reportmodel->getMaxDate();
+        $data['max_tanggal'] = $tanggal->tgl_max;
         $data['aktif']=$this->cm_ekstrakmodel->get_all_aktif(); 
         if($action=='asyn'){
             $this->load->view('content/cm_ekstrak/list_aktif',$data);
@@ -35,6 +37,8 @@ class cm_ekstrak extends CI_Controller {
     public function view_churn($action='')
     {   
         $data=array();
+        $tanggal = $this->Reportmodel->getMaxDate();
+        $data['max_tanggal'] = $tanggal->tgl_max;
         $data['churn']=$this->cm_ekstrakmodel->get_all_churn(); 
         if($action=='asyn'){
             $this->load->view('content/cm_ekstrak/list_churn',$data);

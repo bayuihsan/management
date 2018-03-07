@@ -97,10 +97,10 @@ $db['default'] = array(
 
 $db['hvc'] = array(
 	'dsn'	=> '',
-	'hostname' => '10.250.193.23',
-	'username' => 'area2',
-	'password' => 'area2@',
-	'database' => 'share_area2',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'db_money',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -116,3 +116,25 @@ $db['hvc'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+// $db['hvc'] = array(
+// 	'dsn'	=> '',
+// 	'hostname' => '10.250.193.23',
+// 	'username' => 'area2',
+// 	'password' => 'area2@',
+// 	'database' => 'share_area2',
+// 	'dbdriver' => 'mysqli',
+// 	'dbprefix' => '',
+// 	'pconnect' => FALSE,
+// 	'db_debug' => TRUE,
+// 	'cache_on' => FALSE,
+// 	'cachedir' => '',
+// 	'char_set' => 'utf8',
+// 	'dbcollat' => 'utf8_general_ci',
+// 	'swap_pre' => '',
+// 	'encrypt' => FALSE,
+// 	'compress' => FALSE,
+// 	'stricton' => FALSE,
+// 	'failover' => array(),
+// 	'save_queries' => TRUE
+// );

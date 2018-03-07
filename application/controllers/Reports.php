@@ -50,7 +50,11 @@ class Reports extends CI_Controller {
                     }
                     
                     $paketlebih = $report->jml_paketlebih;
-                    if($paketlebih>0){
+                    if($paketlebih>60){
+                        $feepaketlebih = $paketlebih*65000;
+                    }else if($paketlebih<=60 && $paketlebih > 30){
+                        $feepaketlebih = $paketlebih*60000;
+                    }else if($paketlebih<=30 && $paketlebih > 0){
                         $feepaketlebih = $paketlebih*55000;
                     }else{
                         $feepaketlebih = $paketlebih*0;

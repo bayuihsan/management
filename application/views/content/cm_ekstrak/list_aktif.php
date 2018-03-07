@@ -5,6 +5,24 @@
 <div class="inner-contatier">    
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>cm_ekstrak</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
+    <form id="pencarian" action="<?php echo site_url('Admin/dashboard_cm') ?>">
+        <div class="col-md-3 col-lg-3 col-sm-3"> 
+            <div class="form-group"> 
+                <div class='input-group date' id='date'>
+                    <input type="text" class="form-control" placeholder="Month to date" name="from-date" id="from-date"/>   
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div> 
+        </div>
+        <div class="col-md-1 col-lg-1 col-sm-1"> 
+            <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
+        </div>
+    </form>
+</div>
+
+<div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -57,6 +75,7 @@ $(document).ready(function() {
         cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
 
+    $("#date").datepicker();
     $("#repeat-cm_ekstrak-table").DataTable();
     $(".dataTables_length select").addClass("show_entries");
 
