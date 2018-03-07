@@ -126,7 +126,19 @@
 	                    </tr>
 	                    <tr>
 	                    	<td>SLA</td>
-	                    	<td>: <?php echo isset($detail_msisdn->sla) ? strtoupper($detail_msisdn->sla).' Hari' : ""; ?></td>
+	                    	<td>: <?php 
+	                    	if(!empty($detail_msisdn->tanggal_aktif)){
+			                    $tgl_aktif = new DateTime($detail_msisdn->tanggal_aktif);
+			                }else{
+			                    $tgl_aktif = new DateTime($detail_msisdn->tanggal_validasi);
+			                }
+			                $tgl_masuk = new DateTime($detail_msisdn->tanggal_masuk);
+			                $diff = $tgl_aktif->diff($tgl_masuk); 
+	                    	if(isset($detail_msisdn->sla)) {
+	                    		echo strtoupper($detail_msisdn->sla).' Hari';
+                    		}else{
+                    			echo $diff->d." Hari";
+                    		} ?></td>
 	                    </tr>
 	                    <tr>
 	                    	<td>PAKET</td>

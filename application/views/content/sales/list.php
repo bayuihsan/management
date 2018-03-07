@@ -163,12 +163,12 @@ function jenis_event($id){
                 <th>NAMA PELANGGAN</th>
                 <th>BRANCH</th>
                 <th>PAKET</th>
+                <th>SLA</th>
                 <th>TL</th>
                 <th>SALES PERSON</th>
                 <th>TANGGAL MASUK</th>
                 <th>TANGGAL VALIDASI</th>
                 <th>TANGGAL AKTIF</th>
-                <th>SLA</th>
                 <th>FA ID</th>
                 <th>ACCOUNT ID</th>
                 <th>ALAMAT</th>
@@ -196,12 +196,24 @@ function jenis_event($id){
                             <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
                             <td><?php echo strtoupper($new->nama_branch) ?></td>
                             <td><?php echo strtoupper($new->nama_paket) ?></td>
+                            <td><?php
+                                if(empty($new->sla)){ 
+                                    if(!empty($new->tanggal_aktif)){
+                                        $tgl_aktif = new DateTime($new->tanggal_aktif);
+                                    }else{
+                                        $tgl_aktif = new DateTime();
+                                    }
+                                    $tgl_masuk = new DateTime($new->tanggal_masuk);
+                                    $diff = $tgl_aktif->diff($tgl_masuk); 
+                                    echo $diff->d." Hari";
+                                }else{
+                                    echo strtoupper($new->sla)." Hari"; 
+                                } ?></td>
                             <td><?php echo strtoupper($new->TL) ?></td>
                             <td><?php echo strtoupper($new->sales_person) ?></td>
                             <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
                             <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
                             <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
-                            <td><?php echo strtoupper($new->sla)." Hari"; ?></td>
                             <td><?php echo strtoupper($new->fa_id) ?></td>
                             <td><?php echo strtoupper($new->account_id) ?></td>
                             <td><?php echo strtoupper($new->alamat) ?></td>

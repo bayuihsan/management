@@ -306,6 +306,13 @@ class bast extends CI_Controller {
                             <td><?php echo $row->nama_branch ?></td>
                             <td><?php echo $row->tanggal_masuk ?></td>
                             <td><?php echo $row->tanggal_terima ?></td>
+                            <td><?php if(!empty($row->tanggal_terima)){
+                                $tgl_terima = new DateTime($row->tanggal_terima);
+                            }else{
+                                $tgl_terima = new DateTime();
+                            }
+                            $tgl_masuk = new DateTime($row->tanggal_masuk);
+                            $diff = $tgl_terima->diff($tgl_masuk); echo $diff->d." Hari"; ?></td>
                             <td><?php echo $row->nama ?></td>
                             <td><?php echo $row->nama_penerima ?></td>
                             <td><?php echo $row->jumlah." MSISDN" ?></td>

@@ -15,7 +15,7 @@
         <table id="repeat-bast-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>NO BAST</th><th>BRANCH</th>
-                <th>TANGGAL MASUK</th><th>TANGGAL TERIMA</th><th>FOS ALR</th><th>FOS GRAPARI</th><th>JUMLAH</th>
+                <th>TANGGAL MASUK</th><th>TANGGAL TERIMA</th><th>SLA</th><th>FOS ALR</th><th>FOS GRAPARI</th><th>JUMLAH</th>
                 <th class="single-action">ACTION</th>
             </thead>
 
@@ -33,6 +33,13 @@
                     <td><?php echo strtoupper($new->nama_branch) ?></td>
                     <td><?php echo strtoupper($new->tanggal_masuk) ?></td>
                     <td><?php echo strtoupper($new->tanggal_terima) ?></td>
+                    <td><?php if(!empty($new->tanggal_terima)){
+                                $tgl_terima = new DateTime($new->tanggal_terima);
+                            }else{
+                                $tgl_terima = new DateTime();
+                            }
+                            $tgl_masuk = new DateTime($new->tanggal_masuk);
+                            $diff = $tgl_terima->diff($tgl_masuk); echo $diff->d." Hari"; ?></td>
                     <td><?php echo strtoupper($new->nama) ?></td>
                     <td><?php echo strtoupper($new->nama_penerima) ?></td>
                     <td><?php echo strtoupper($new->jumlah)." MSISDN" ?></td>

@@ -25,10 +25,10 @@
                 <th>NAMA PELANGGAN</th>
                 <th>BRANCH</th>
                 <th>TL</th>
+                <th>SLA</th>
                 <th>TANGGAL MASUK</th>
                 <th>TANGGAL VALIDASI</th>
                 <th>TANGGAL AKTIF</th>
-                <th>SLA</th>
                 <th>STATUS</th>
             </thead>
 
@@ -41,10 +41,10 @@
                             <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
                             <td><?php echo strtoupper($new->nama_branch) ?></td>
                             <td><?php echo strtoupper($new->nama_tl) ?></td>
+                            <td><?php echo strtoupper($new->selisih). " Hari"; ?></td>
                             <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
                             <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
                             <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
-                            <td><?php echo strtoupper($new->selisih). " Hari"; ?></td>
                             <td><?php echo strtoupper($new->status) ?></td>
                             
                         </tr>

@@ -224,7 +224,7 @@ class salesModel extends CI_Model{
 				WHERE a.status = 'masuk' and a.branch_id='".$sess_branch."' and a.TL='".$user_tl."' 
 				ORDER BY selisih, a.tanggal_masuk DESC");  
 		}else if($sess_level == 5 || $sess_level == 7){ //FOS
-			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', DATEDIFF(current_date(), a.tanggal_validasi) as selisih
+			$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', DATEDIFF(current_date(), a.tanggal_masuk) as selisih
 				FROM new_psb a
 				LEFT JOIN branch b ON b.branch_id = a.branch_id
 				LEFT JOIN app_users c ON c.username = a.TL

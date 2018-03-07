@@ -49,6 +49,7 @@
                         <th>BRANCH</th>
                         <th>TANGGAL MASUK</th>
                         <th>TANGGAL TERIMA</th>
+                        <th>SLA</th>
                         <th>FOS ALR</th>
                         <th>FOS GRAPARI</th>
                         <th>JUMLAH</th>
