@@ -104,7 +104,7 @@ class Reason extends CI_Controller {
 
             $object->setActiveSheetIndex(0);
 
-            $table_columns = array("ID", "NAMA_BRANCH", "KETUA", "STATUS", "UPDATED");
+            $table_columns = array("ID", "NAMA REASON", "UPDATED");
 
             $column = 0;
 
@@ -114,26 +114,19 @@ class Reason extends CI_Controller {
                 $column++;
             }
 
-            $branch = $this->Branchmodel->get_all();
+            $reasons = $this->Reasonmodel->get_all(); 
 
             $excel_row = 2;
 
-            foreach($branch as $row)
+            foreach($reasons as $row)
             {
-                if($row->status == 1){
-                    $status = "Aktif";
-                }else{
-                    $status = "Tidak Aktif";
-                }
-                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->branch_id));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->ketua));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($status));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->time_update));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_reason));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_reason));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->tgl_update));
                 $excel_row++;
             }
 
-            $filename = "Branch-Exported-on-".date("Y-m-d-H-i-s").".xls";
+            $filename = "Reason-Exported-on-".date("Y-m-d-H-i-s").".xls";
 
             $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
             header("Pragma: public");
