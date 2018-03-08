@@ -13,12 +13,13 @@
         <a class="mybtn btn-default asyn-link" href="<?php echo site_url('reason/add') ?>">Add Reason</a>
         <?php } ?>
     
-    <a class="mybtn btn-default export-btn" href="<?php echo site_url('reason/export') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('reason/export/asyn') ?>" download="<?php echo site_url('reason/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th>
+                <th>STATUS</th>
                 <th>REASON</th>
                 <th>UPDATE BY</th>
                 <th>UPDATED</th>
@@ -29,6 +30,7 @@
                 <?php $no=1; foreach($reason as $new) { ?>    
                 <tr>
                     <td class="date"><?php echo $no++; ?></td>
+                    <td><?php echo strtoupper($new->status) ?></td>
                     <td><?php echo $new->id_reason.' - '.strtoupper($new->nama_reason) ?></td>
                     <td><?php echo strtoupper($new->update_by) ?></td>
                     <td><?php echo strtoupper($new->tgl_update) ?></td>

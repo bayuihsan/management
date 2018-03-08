@@ -32,6 +32,8 @@ ALTER TABLE `app_users`
   DROP `no_rekening`,
   DROP `nama_bank`;
 
+  ALTER TABLE `reason` ADD `status` VARCHAR(10) NOT NULL AFTER `id_reason`;
+
   
 SELECT b.branch_id, b.nama_branch, 
 IFNULL((SELECT COUNT(psb_id) 

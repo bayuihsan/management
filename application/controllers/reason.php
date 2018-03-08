@@ -47,11 +47,13 @@ class Reason extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do                     =addslashes($this->input->post('action',true));     
+            $data['status']    =addslashes($this->input->post('sstatus',true));  
             $data['nama_reason']    =addslashes($this->input->post('nama_reason',true));  
             $data['update_by']       =addslashes($this->input->post('update_by',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('nama_reason', 'Reason', 'trim|required|xss_clean|min_length[4]');
+            $this->form_validation->set_rules('sstatus', 'Status', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('nama_reason', 'Reason', 'trim|required|xss_clean|min_length[5]');
             $this->form_validation->set_rules('update_by', 'Input by', 'trim|required|xss_clean');
 
 
@@ -104,7 +106,7 @@ class Reason extends CI_Controller {
 
             $object->setActiveSheetIndex(0);
 
-            $table_columns = array("ID", "NAMA REASON", "UPDATED");
+            $table_columns = array("ID", "STATUS","NAMA REASON", "UPDATED");
 
             $column = 0;
 
@@ -121,8 +123,9 @@ class Reason extends CI_Controller {
             foreach($reasons as $row)
             {
                 $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_reason));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_reason));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->tgl_update));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->status));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_reason));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->tgl_update));
                 $excel_row++;
             }
 

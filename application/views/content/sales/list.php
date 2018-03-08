@@ -137,7 +137,7 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                 <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
                 <?php if(!empty($bfrom_date) && !empty($bto_date)) { ?>
-                <a href="<?php echo site_url('sales/export/asyn').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
+                <a href="<?php echo site_url('sales/view/export').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
                 <?php } ?>
                 </div>
                                 

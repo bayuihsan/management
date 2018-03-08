@@ -12,7 +12,15 @@
 </div>
 <!--End Alert-->
 
-
+<?php $status=array('sukses'=>'sukses',
+  'valid'=>'valid',
+  'cancel'=>'cancel',
+  'reject'=>'reject',
+  'pending'=>'pending',
+  'retur'=>'retur',
+  'blacklist'=>'blacklist',
+  'bentrok'=>'bentrok',
+  'masuk'=>'masuk'); ?>
 <div class="col-md-8 col-lg-8 col-sm-8 branch-div">
 <!--Start Panel-->
 <div class="panel panel-default">
@@ -22,7 +30,16 @@
     <?php if(!isset($edit_reason)){ ?>  
     <form id="add-reason">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="id_reason" id="id_reason" value=""/>    
+      <input type="hidden" name="id_reason" id="id_reason" value=""/>  
+      <div class="form-group"> 
+        <label for="status">Status</label>
+        <select name="sstatus" class="form-control" id="sstatus">  
+          <option value="">Pilih Status</option>
+          <?php foreach($status as $status) { ?>
+            <option value="<?php echo $status; ?>"><?php echo $status; ?></option>
+          <?php } ?>
+        </select>      
+      </div>  
       <div class="form-group">
         <label for="acc_name">Reason</label>
         <input type="text" class="form-control" name="nama_reason" id="nama_reason">
@@ -40,6 +57,19 @@
     <form id="add-reason">
       <input type="hidden" name="action" id="action" value="update"/>  
       <input type="hidden" name="id_reason" id="id_reason" value="<?php echo $edit_reason->id_reason ?>"/>   
+      <div class="form-group"> 
+        <label for="status">Status</label>
+        <select name="sstatus" class="form-control" id="sstatus">  
+          <option value="">Pilih Status</option>
+          <?php foreach($status as $status) { 
+            if($edit_reason->status == $status){ ?>
+            <option value="<?php echo $status; ?>" selected><?php echo $status; ?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $status; ?>"><?php echo $status; ?></option>
+            <?php }
+          } ?>
+        </select>      
+      </div>
       <div class="form-group">
         <label for="nama_reason">Reason</label>
         <input type="text" class="form-control" name="nama_reason" id="nama_reason" value="<?php echo $edit_reason->nama_reason ?>">
@@ -73,6 +103,7 @@ $(document).ready(function(){
       $(".main-content").css("padding-left","0px");
     } 
 
+    $("#sstatus").select2();
     //for number only
     $("#asdas").keypress(function (e) {
       //if the letter is not digit then display error and don't type anything
@@ -95,6 +126,7 @@ $(document).ready(function(){
           sucessAlert("Saved Sucessfully"); 
           $(".block-ui").css('display','none'); 
           if($("#action").val()!='update'){        
+            $('#sstatus').select2("val","");    
             $('#nama_reason').val("");    
           }
         }else{

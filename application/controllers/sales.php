@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+ini_set('max_execution_time', 0); 
+ini_set('memory_limit','2048M');
+
 class sales extends CI_Controller {
 
     // db2 digunakan untuk mengakses database ke-2
@@ -13,7 +16,7 @@ class sales extends CI_Controller {
         }
         date_default_timezone_set(get_current_setting('timezone')); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel'));
+        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel','Reasonmodel'));
     }
     
     public function index(){
@@ -76,6 +79,91 @@ class sales extends CI_Controller {
             }
 
             $this->load->view('content/sales/list',$data);
+        }else if($action == 'export'){
+            $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+            $jenis_event=array(1=>'Industrial Park',2=>'Mall to Mall',3=>'Office to Office',4=>'Other',5=>'Mandiri',6=>'Telkomsel');
+            $discount=array(''=>'', 1=>'0',2=>'25',3=>'50',4=>'100',5=>'FreeMF');
+            $periode=array(''=>'', 1=>'0',2=>'1',3=>'3',4=>'6',5=>'12');
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "MSISDN", "NAMA_PELANGGAN", "BRANCH", "PAKET", "SLA", "TL", "SALES_PERSON", "TANGGAL_MASUK", "TANGGAL_VALIDASI", "TANGGAL_AKTIF", "FA_ID", "ACCOUNT_ID", "ALAMAT", "ALAMAT2", "DISCOUNT (RB)", "PERIODE (BULAN)", "BILL CYCLE", "CHANNEL", "SUB SALES CHANNEL", "JENIS EVENT", "NAMA EVENT", "VALIDATOR", "AKTIVATOR", "STATUS", "KETERANGAN", "TANGGAL_INPUT (SYSTEM)", "TANGGAL_UPDATE (SYSTEM)");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            if($branch_id == 17){
+                $sales = $this->salesmodel->get_all_cari_all($branch_id,$tgl,$status,$from_date,$to_date);
+            }else{
+                $sales = $this->salesmodel->get_all_cari($branch_id,$tgl,$status,$from_date,$to_date);
+            }
+
+            $excel_row = 2;
+
+            foreach($sales as $row)
+            {
+                if(empty($row->sla)){ 
+                    if(!empty($row->tanggal_aktif)){
+                        $tgl_aktif = new DateTime($row->tanggal_aktif);
+                    }else{
+                        $tgl_aktif = new DateTime();
+                    }
+                    $tgl_masuk = new DateTime($row->tanggal_masuk);
+                    $diff = $tgl_aktif->diff($tgl_masuk); 
+                    $sla = $diff->d." Hari";
+                }else{
+                    $sla = strtoupper($row->sla)." Hari"; 
+                }
+
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->psb_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->msisdn));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_pelanggan));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->nama_paket));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $sla);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, strtoupper($row->TL));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, strtoupper($row->sales_person));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, strtoupper(date('Y-m-d', strtotime($row->tanggal_masuk))));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, strtoupper(date('Y-m-d', strtotime($row->tanggal_validasi))));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, strtoupper(date('Y-m-d', strtotime($row->tanggal_aktif))));
+                // $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, strtoupper($diff->d));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, strtoupper($row->fa_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, strtoupper($row->account_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, strtoupper($row->alamat));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, strtoupper($row->alamat2));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, strtoupper($discount[$row->discount]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, strtoupper($periode[$row->periode]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, strtoupper($row->bill_cycle));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(18, $excel_row, strtoupper($channel[$row->sales_channel]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(19, $excel_row, strtoupper($row->sub_channel));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(20, $excel_row, strtoupper($jenis_event[$row->jenis_event]));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, strtoupper($row->nama_event));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(22, $excel_row, strtoupper($row->validator));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(23, $excel_row, strtoupper($row->aktivator));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(24, $excel_row, strtoupper($row->status));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(25, $excel_row, strtoupper($row->deskripsi));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(26, $excel_row, strtoupper($row->tanggal_input));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(27, $excel_row, strtoupper($row->tanggal_update));
+                $excel_row++;
+            }
+
+            $filename = "Sales-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
         }
     }
 
@@ -413,6 +501,7 @@ class sales extends CI_Controller {
         $data=array();
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
+        $data['reason']=$this->Reasonmodel->get_all(); 
         if($sess_level==4){
             $data['bast']=$this->bastmodel->get_all_by('');
             $data['msisdn']=$this->Msisdnmodel->get_all();
@@ -447,84 +536,7 @@ class sales extends CI_Controller {
 
     public function export($action="",$branch_id='',$tgl='',$status='',$from_date='',$to_date=''){
         if($action=="asyn"){
-            $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
-            $jenis_event=array(1=>'Industrial Park',2=>'Mall to Mall',3=>'Office to Office',4=>'Other',5=>'Mandiri',6=>'Telkomsel');
-            $discount=array(''=>'', 1=>'0',2=>'25',3=>'50',4=>'100',5=>'FreeMF');
-            $periode=array(''=>'', 1=>'0',2=>'1',3=>'3',4=>'6',5=>'12');
-            $object = new PHPExcel();
-
-            $object->setActiveSheetIndex(0);
-
-            $table_columns = array("ID", "MSISDN", "NAMA_PELANGGAN", "BRANCH", "PAKET", "TL", "SALES_PERSON", "TANGGAL_MASUK", "TANGGAL_VALIDASI", "TANGGAL_AKTIF", "FA_ID", "ACCOUNT_ID", "ALAMAT", "ALAMAT2", "DISCOUNT (RB)", "PERIODE (BULAN)", "BILL CYCLE", "CHANNEL", "SUB SALES CHANNEL", "JENIS EVENT", "NAMA EVENT", "VALIDATOR", "AKTIVATOR", "STATUS", "KETERANGAN", "TANGGAL_INPUT (SYSTEM)", "TANGGAL_UPDATE (SYSTEM)");
-
-            $column = 0;
-
-            foreach($table_columns as $field)
-            {
-                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
-                $column++;
-            }
-
-            if($branch_id == 17){
-                $sales = $this->salesmodel->get_all_cari_all($branch_id,$tgl,$status,$from_date,$to_date);
-            }else{
-                $sales = $this->salesmodel->get_all_cari($branch_id,$tgl,$status,$from_date,$to_date);
-            }
-
-            $excel_row = 2;
-
-            foreach($sales as $row)
-            {
-                // if(!empty($row->tanggal_aktif)){
-                //     $tgl_aktif = new DateTime($row->tanggal_aktif);
-                // }else{
-                //     $tgl_aktif = new DateTime();
-                // }
-                // $tgl_masuk = new DateTime($row->tanggal_masuk);
-                // $diff = $tgl_aktif->diff($tgl_masuk); 
-
-                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->psb_id));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->msisdn));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_pelanggan));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nama_branch));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->nama_paket));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, strtoupper($row->TL));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, strtoupper($row->sales_person));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, strtoupper(date('Y-m-d', strtotime($row->tanggal_masuk))));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, strtoupper(date('Y-m-d', strtotime($row->tanggal_validasi))));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, strtoupper(date('Y-m-d', strtotime($row->tanggal_aktif))));
-                // $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, strtoupper($diff->d));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, strtoupper($row->fa_id));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, strtoupper($row->account_id));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, strtoupper($row->alamat));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(13, $excel_row, strtoupper($row->alamat2));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(14, $excel_row, strtoupper($discount[$row->discount]));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(15, $excel_row, strtoupper($periode[$row->periode]));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(16, $excel_row, strtoupper($row->bill_cycle));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(17, $excel_row, strtoupper($channel[$row->sales_channel]));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(18, $excel_row, strtoupper($row->sub_channel));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(19, $excel_row, strtoupper($jenis_event[$row->jenis_event]));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(20, $excel_row, strtoupper($row->nama_event));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(21, $excel_row, strtoupper($row->validator));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(22, $excel_row, strtoupper($row->aktivator));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(23, $excel_row, strtoupper($row->status));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(24, $excel_row, strtoupper($row->deskripsi));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(25, $excel_row, strtoupper($row->tanggal_input));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(26, $excel_row, strtoupper($row->tanggal_update));
-                $excel_row++;
-            }
-
-            $filename = "Sales-Exported-on-".date("Y-m-d-H-i-s").".xls";
-
-            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
-            header("Pragma: public");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Content-Type: application/force-download");
-            header("Content-Type: application/octet-stream");
-            header("Content-Type: application/download");;
-            header("Content-Disposition: attachment;filename=$filename");
-            $object_writer->save('php://output');
+            
         }
         
     }

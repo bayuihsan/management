@@ -15,7 +15,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <?php if($this->session->userdata('level')==4){ ?>
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales_channel/add') ?>">Add Sales Channel</a>
         <?php } ?>
-    <a class="mybtn btn-default export-btn" href="<?php echo site_url('sales_channel/export') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('sales_channel/export/asyn') ?>" download="<?php echo site_url('sales_channel/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="sales_channel-table" class="display responsive nowrap" cellspacing="0" width="100%">

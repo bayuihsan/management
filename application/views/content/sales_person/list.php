@@ -12,7 +12,7 @@
     <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5 || $this->session->userdata('level')==3){ ?>
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('salesperson/add') ?>">Add Sales Person</a>
     <?php } ?>
-    <a class="mybtn btn-default export-btn" href="<?php echo site_url('salesperson/export') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('salesperson/export/asyn') ?>" download="<?php echo site_url('salesperson/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">

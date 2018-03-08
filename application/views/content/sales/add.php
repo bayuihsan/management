@@ -143,7 +143,7 @@ $status=array('sukses'=>'sukses',
               </span>
           </div>
       </div>
-      <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
+      <button type="submit" class="mybtn btn-submit" id="save_button"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>sales/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
     
@@ -310,9 +310,16 @@ $status=array('sukses'=>'sukses',
           } ?>
         </select>      
       </div>
-      <div class="form-group">
-        <label for="Input By">Keterangan</label>
-        <input type="text" class="form-control" name="sdekripsi" id="sdekripsi" placeholder="Keterangan" value="<?php echo $edit_sales->deskripsi?>">
+      <div class="form-group"> 
+        <label for="sbranch">Keterangan / Reason</label>
+        <select name="id_reason" class="form-control" id="id_reason">  
+          <option value="">Pilih Reason</option>
+          <?php foreach ($reason as $new) { ?>
+            <option value="<?php echo $new->id_reason ?>"><?php echo strtoupper($new->nama_reason) ?></option>
+            <?php }
+            ?>
+          
+        </select>      
       </div>
     </div>
     <!--End Panel Body-->
@@ -348,6 +355,7 @@ $(document).ready(function(){
   $("#ssales_person").select2();
   $("#sstatus").select2();
   $("#svalidasi_by").select2();
+  $("#id_reason").select2();
 
   $(".date").datepicker();
   
@@ -441,6 +449,16 @@ $(document).ready(function(){
 
       return false;
   });
+  document.getElementById("save_button").disabled = true;
+  $('#id_reason').change(function() {
+    var id_reason = $("#id_reason").val();
 
+    if(id_reason == ""){
+      document.getElementById("save_button").disabled = true;
+    }else{
+      document.getElementById("save_button").disabled = false;
+    }
+  });
 });
+
 </script>

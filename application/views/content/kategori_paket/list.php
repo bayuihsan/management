@@ -12,7 +12,7 @@
         <?php if($this->session->userdata('level')==4){ ?>
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('kategori_paket/add') ?>">Add Kategori</a>
         <?php } ?>
-    <a class="mybtn btn-default export-btn" href="<?php echo site_url('kategori_paket/export') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('kategori_paket/export/asyn') ?>" download="<?php echo site_url('kategori_paket/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
