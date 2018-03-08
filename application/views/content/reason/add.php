@@ -95,9 +95,7 @@ $(document).ready(function(){
           sucessAlert("Saved Sucessfully"); 
           $(".block-ui").css('display','none'); 
           if($("#action").val()!='update'){        
-            $('#nama_branch').val("");
-            $("#ketua").val("");
-            $('#status').val("");      
+            $('#nama_reason').val("");    
           }
         }else{
           failedAlert2(data);
