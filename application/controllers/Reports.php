@@ -241,7 +241,7 @@ class Reports extends CI_Controller {
     }
 
     //View Branch Report// 
-    public function branch($action='')
+    public function branch($action='',$tanggal='',$status='',$to_date='')
     {
         $data=array();
         if($action=='asyn'){
@@ -319,11 +319,91 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
+        }else if($action=='export'){
+            
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "LAST_MONTH", "THIS_MONTH", "AVG/HARI", "RATA2 SLA", "%MOM");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $branch=$this->Reportmodel->getReportBranch($tanggal,$status,$to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tlm = 0;
+            $ttm = 0;
+            $tsla = 0;
+            $tgl        = date('d', strtotime($to_date));
+            foreach($branch as $row)
+            {
+                $lm = $row->last_month;
+                $tm = $row->this_month;
+                $avg = $tm/$tgl;
+                $sla = $row->sla;
+                $avgsla = $sla/$tm;
+
+                if($lm == 0){ 
+                    $mom = 'Infinity'; 
+                }else{ 
+                    $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                } 
+
+                if($avgsla < 16){
+
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, number_format($lm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($tm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, round($avg));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, number_format($avgsla)." Hari");
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $mom."%");
+                    $excel_row++;
+
+                    $tlm = $tlm + $lm;
+                    $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                }
+                
+            }
+
+            $tavg = $ttm/$tgl;
+            $tavgsla = $tsla/$ttm; 
+            $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
+
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($branch)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($branch)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($branch)+1, number_format($tlm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($branch)+1, number_format($ttm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($branch)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($branch)+1, number_format($tavgsla)." Hari");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($branch)+1, $tmom."%");
+
+            $filename = "ReportBranch-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
         }
 
     }
 
-    public function allbranch($action='')
+    public function allbranch($action='', $opsi='', $to_date='')
     {
         $data=array();
         if($action=='asyn'){
@@ -340,7 +420,7 @@ class Reports extends CI_Controller {
                 echo "false";
             }else{
                 $no=1 ;
-                $tsukses = 0; $tvalid = 0; $tcancel = 0; $treject = 0; $tpending = 0; $tretur = 0; $tbentrok = 0; $tblacklist = 0; $tmasuk = 0; $total = 0;
+                $tsukses = 0; $tvalid = 0; $tcancel = 0; $treject = 0; $tpending = 0; $tretur = 0; $tbentrok = 0; $tblacklist = 0; $tmasuk = 0; $total = 0; $ttotal = 0;
                 foreach ($reportData as $report) { 
                     $sukses = $report->sukses;
                     if($opsi=="opsi2"){
@@ -419,11 +499,121 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tpersensukses)." %</b></td>";
                  echo "</tr>"; 
             }
+        }else if($action=='export'){
+            $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "AKTIF","VALID", "CANCEL", "REJECT", "PENDING", "RETUR", "BENTROK", "BLACKLIST", "ON PROCESS", "DATA MASUK", "% SUKSES");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $allbranch=$this->Reportmodel->getStatusBranch($opsi, $to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tsukses = 0; $tvalid = 0; $tcancel = 0; $treject = 0; $tpending = 0; $tretur = 0; $tbentrok = 0; $tblacklist = 0; $tmasuk = 0; $total = 0; $ttotal = 0;
+            foreach($allbranch as $row)
+            {
+                $sukses = $row->sukses;
+                if($opsi=="opsi2"){
+                    $sukses_masuk = $row->sukses_masuk;
+                }
+                $valid = $row->valid;
+                $cancel = $row->cancel;
+                $reject = $row->reject;
+                $pending = $row->pending;
+                $retur = $row->retur;
+                $bentrok = $row->bentrok;
+                $blacklist = $row->blacklist;
+                $masuk = $row->masuk;
+                if($opsi == "opsi2"){
+                    $total = $sukses_masuk+$valid+$cancel+$reject+$pending+$retur+$bentrok+$blacklist+$masuk;
+                    $total_by_sukses = $sukses+$valid+$cancel+$reject+$pending+$retur+$bentrok+$blacklist+$masuk;
+                    if($total_by_sukses == 0){
+                        $persensukses = "0";
+                    }else{
+                        $persensukses = ($sukses/$total_by_sukses)*100;
+                    }
+                }else{
+                    $total = $sukses+$valid+$cancel+$reject+$pending+$retur+$bentrok+$blacklist+$masuk;
+                    if($total == 0){
+                        $persensukses = "0";
+                    }else{
+                        $persensukses = ($sukses/$total)*100;
+                    }
+                }
+
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, number_format($sukses));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($valid));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($cancel));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, number_format($reject));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, number_format($pending));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, number_format($retur));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, number_format($blacklist));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, number_format($masuk));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, number_format($total));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, number_format($persensukses)."%");
+                $excel_row++;
+
+                $tsukses = $tsukses + $sukses;
+                $tvalid = $tvalid + $valid;
+                $tcancel = $tcancel + $cancel;
+                $treject = $treject + $reject;
+                $tpending = $tpending + $pending;
+                $tretur = $tretur + $retur;
+                $tbentrok = $tbentrok + $bentrok;
+                $tblacklist = $tblacklist + $blacklist;
+                $tmasuk = $tmasuk + $masuk;
+                $ttotal = $ttotal + $total;
+            }
+
+            if($ttotal == 0){
+                $tpersensukses = "0";
+            }else{
+                $tpersensukses = ($tsukses/$ttotal)*100;
+            }
+             
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($allbranch)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($allbranch)+1, "Grand Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($allbranch)+1, number_format($tsukses));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($allbranch)+1, number_format($tvalid));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($allbranch)+1, number_format($tcancel));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($allbranch)+1, number_format($treject));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($allbranch)+1, number_format($tpending));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($allbranch)+1, number_format($tretur));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(8, count($allbranch)+1, number_format($tblacklist));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(9, count($allbranch)+1, number_format($tmasuk));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(10, count($allbranch)+1, number_format($ttotal));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(11, count($allbranch)+1, number_format($tpersensukses)."%");
+
+            $filename = "ReportAllBranch-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
         }
     }
 
     //View Paket Report// 
-    public function paket($action='')
+    public function paket($action='',$branch_id='',$tanggal='',$status='',$to_date='')
     {
         $data=array();
         $data['branch']=$this->Branchmodel->get_all(); 
@@ -505,12 +695,94 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
+        }else if($action=='export'){
+            
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "PAKET", "LAST_MONTH", "THIS_MONTH", "AVG/HARI", "RATA2 SLA", "%MOM");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $paket = $this->Reportmodel->getReportPaket($branch_id,$tanggal,$status,$to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tlm = 0;
+            $ttm = 0;
+            $tsla = 0;
+            $tgl        = date('d', strtotime($to_date));
+            foreach($paket as $row)
+            {
+                $lm = $row->last_month;
+                $tm = $row->this_month;
+                $avg = $tm/$tgl;
+                $sla = $row->sla;
+                $avgsla = $sla/$tm;
+
+                if($lm == 0){ 
+                    $mom = 'Infinity'; 
+                }else{ 
+                    $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                } 
+
+                if($avgsla < 16){
+
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_paket));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($lm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($tm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, round($avg));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, number_format($avgsla)." Hari");
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $mom."%");
+                    $excel_row++;
+
+                    $tlm = $tlm + $lm;
+                    $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                }
+                
+            }
+
+            $tavg = $ttm/$tgl;
+            $tavgsla = $tsla/$ttm; 
+            $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
+
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($paket)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($paket)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($paket)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($paket)+1, number_format($tlm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($paket)+1, number_format($ttm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($paket)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($paket)+1, number_format($tavgsla)." Hari");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($paket)+1, $tmom."%");
+
+            $filename = "ReportPaket-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
         }
 
     }
 
     //View TL Report// 
-    public function tl($action='')
+    public function tl($action='',$branch_id='',$tanggal='',$status='',$to_date='')
     {
         $data=array();
         $data['branch']=$this->Branchmodel->get_all(); 
@@ -591,12 +863,94 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
+        }else if($action=='export'){
+            
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "NAMA TL", "LAST_MONTH", "THIS_MONTH", "AVG/HARI", "RATA2 SLA", "%MOM");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $TL=$this->Reportmodel->getReportTL($branch_id,$tanggal,$status,$to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tlm = 0;
+            $ttm = 0;
+            $tsla = 0;
+            $tgl        = date('d', strtotime($to_date));
+            foreach($TL as $row)
+            {
+                $lm = $row->last_month;
+                $tm = $row->this_month;
+                $avg = $tm/$tgl;
+                $sla = $row->sla;
+                $avgsla = $sla/$tm;
+
+                if($lm == 0){ 
+                    $mom = 'Infinity'; 
+                }else{ 
+                    $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                } 
+
+                if($avgsla < 16){
+
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($lm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($tm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, round($avg));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, number_format($avgsla)." Hari");
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $mom."%");
+                    $excel_row++;
+
+                    $tlm = $tlm + $lm;
+                    $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                }
+                
+            }
+
+            $tavg = $ttm/$tgl;
+            $tavgsla = $tsla/$ttm; 
+            $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
+
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($TL)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($TL)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($TL)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($TL)+1, number_format($tlm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($TL)+1, number_format($ttm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($TL)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($TL)+1, number_format($tavgsla)." Hari");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($TL)+1, $tmom."%");
+
+            $filename = "ReportTL-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
         }
 
     }
 
     //View Sub Channel Report// 
-    public function sub_channel($action='')
+    public function sub_channel($action='',$branch_id='',$tanggal='',$status='',$to_date='')
     {
         $data=array();
         $data['branch']=$this->Branchmodel->get_all(); 
@@ -678,6 +1032,90 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
+        }else if($action=='export'){
+            $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
+
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "CHANNEL","SUB CHANNEL", "LAST_MONTH", "THIS_MONTH", "AVG/HARI", "RATA2 SLA", "%MOM");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $sub_channel=$this->Reportmodel->getReportSubChannel($branch_id,$tanggal,$status,$to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tlm = 0;
+            $ttm = 0;
+            $tsla = 0;
+            $tgl        = date('d', strtotime($to_date));
+            foreach($sub_channel as $row)
+            {
+                $lm = $row->last_month;
+                $tm = $row->this_month;
+                $avg = $tm/$tgl;
+                $sla = $row->sla;
+                $avgsla = $sla/$tm;
+
+                if($lm == 0){ 
+                    $mom = 'Infinity'; 
+                }else{ 
+                    $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                } 
+
+                if($avgsla < 16){
+
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $channel[$row->sales_channel] );
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->sub_channel));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($lm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, number_format($tm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, round($avg));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, number_format($avgsla)." Hari");
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $mom."%");
+                    $excel_row++;
+
+                    $tlm = $tlm + $lm;
+                    $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                }
+                
+            }
+            $tavg = $ttm/$tgl;
+            $tavgsla = $tsla/$ttm; 
+            $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
+
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($sub_channel)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($sub_channel)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($sub_channel)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($sub_channel)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($sub_channel)+1, number_format($tlm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($sub_channel)+1, number_format($ttm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($sub_channel)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($sub_channel)+1, number_format($tavgsla)." Hari");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(8, count($sub_channel)+1, $tmom."%");
+
+            $filename = "ReportSubChannel-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
         }
 
     }
