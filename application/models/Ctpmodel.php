@@ -13,9 +13,9 @@ class Ctpmodel extends CI_Model{
 
 	//get all Branch  
 	public function get_all(){
-		$this->db->select('*');
-		$this->db->from('ctp');  
-		$this->db->order_by("id_ctp", "desc");    
+		$this->db->select('a.*, b.nama_paket');
+		$this->db->from('ctp a');  
+		$this->db->join('paket b', 'b.paket_id = a.paket_id');
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
@@ -38,4 +38,15 @@ class Ctpmodel extends CI_Model{
 		$result=$query_result->row();
 		return $result;
 	} 
+
+		//get sales channel by id  
+	public function get_all_by($paket_id){
+		$this->db->select('a.*, b.nama_paket');
+		$this->db->from('ctp a');
+		$this->db->join('paket b', 'b.paket_id = a.paket_id');
+		$this->db->where('a.paket_id',$paket_id);    
+		$query_result=$this->db->get();
+		$result=$query_result->result();
+		return $result;
+	}
 }
