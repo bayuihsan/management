@@ -125,43 +125,63 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 <script type="text/javascript">
 $(document).ready(function() {
-$("#vto-date").datepicker(); 
-$("#vbranch").select2();
-$("#vtanggal, #vstatus").select2({
-minimumResultsForSearch: Infinity    
-});
+    $("#vto-date").datepicker(); 
+    $("#vbranch").select2();
+    $("#vtanggal, #vstatus").select2({
+    minimumResultsForSearch: Infinity    
+    });
 
-$('#sales_cari').on('submit',function(){
-    var link=$(this).attr("action");
-    if($("#vto-date").val()!=""){
-        //query data
-        $.ajax({
-            method : "POST",    
-            url : link,
-            data : $(this).serialize(),
-            beforeSend : function(){
-                $(".preloader").css("display","block");
-            },success : function(data){
-                $(".preloader").css("display","none"); 
-                if(data!="false"){
-                    $("#Report-Table tbody").html(data);
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
-                }else{
-                    $("#Report-Table tbody").html("");
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
-                    swal("Alert","Sorry, No Data Found !", "info");    
+    $('#sales_cari').on('submit',function(){
+        var link=$(this).attr("action");
+        if($("#vto-date").val()!=""){
+            //query data
+            $.ajax({
+                method : "POST",    
+                url : link,
+                data : $(this).serialize(),
+                beforeSend : function(){
+                    $(".preloader").css("display","block");
+                },success : function(data){
+                    $(".preloader").css("display","none"); 
+                    if(data!="false"){
+                        $("#Report-Table tbody").html(data);
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
+                    }else{
+                        $("#Report-Table tbody").html("");
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
+                        swal("Alert","Sorry, No Data Found !", "info");    
+                    }
                 }
+
+            });
+        }else{
+            swal("Alert","Please Select Date Range.", "info");      
+        }
+
+        return false;
+    });
+
+    $(document).on('click','.export-btn',function(){
+
+        var link=$(this).attr("href"); 
+        var vbranch = $("#vbranch").val();
+        var vtanggal = $("#vtanggal").val();
+        var vstatus = $("#vstatus").val();
+        var vtodate = $("#vto-date").val();
+        // alert(link);
+        $.ajax({
+            method : "POST",
+            url : link,
+            beforeSend : function(){
+                $(".block-ui").css('display','block'); 
+            },success : function(data){ 
+                window.open(link+'/export/'+vbranch+'/'+vtanggal+'/'+vstatus+'/'+vtodate);
+                $(".block-ui").css('display','none');               
             }
-
         });
-    }else{
-        swal("Alert","Please Select Date Range.", "info");      
-    }
 
-    return false;
-});
-
-
+        return false;
+    });
 });
 
  function Print(data) 

@@ -1032,7 +1032,7 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
-        }else if($action=='export'){
+        } else if($action=='export') {
             $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
 
             $object = new PHPExcel();
@@ -1121,7 +1121,7 @@ class Reports extends CI_Controller {
     }
 
     //View Sales Person Report// 
-    public function sales_person($action='',$branch_id='',$tanggal='',$status='',$to_date='')
+    public function sales_person($action='')
     {
         $data=array();
         $data['branch']=$this->Branchmodel->get_all(); 
@@ -1191,7 +1191,7 @@ class Reports extends CI_Controller {
                 $column++;
             }
 
-            $sales_person=$this->Reportmodel->getReportSalesPerson($branch_id,$tanggal,$status,$to_date);
+            $TL=$this->Reportmodel->getReportSalesPerson($branch_id,$tanggal,$status,$to_date);
 
             $excel_row = 2;
 
@@ -1200,8 +1200,9 @@ class Reports extends CI_Controller {
             $ttm = 0;
             $tsla = 0;
             $tgl        = date('d', strtotime($to_date));
-            foreach($sales_person as $row)
+            foreach($reportData as $row)
             {
+                $lm = $row->last_month;
                 $tm = $row->this_month;
                 $avg = $tm/$tgl;
                 $sla = $row->sla;
@@ -1213,10 +1214,12 @@ class Reports extends CI_Controller {
                     $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
                     $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_sales));
                     $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($tm));
-                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, round($avg));
-                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, number_format($avgsla)." Hari");
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($sla));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, round($avg));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, number_format($avgsla)." Hari");
                     $excel_row++;
 
+                    $tlm = $tlm + $lm;
                     $ttm = $ttm + $tm; 
                     $tsla = $tsla + $sla; 
                 }
@@ -1225,13 +1228,15 @@ class Reports extends CI_Controller {
 
             $tavg = $ttm/$tgl;
             $tavgsla = $tsla/$ttm; 
+            $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
 
-            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($sales_person)+1, "");
-            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($sales_person)+1, "");
-            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($sales_person)+1, "Total");
-            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($sales_person)+1, number_format($ttm));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($sales_person)+1, round($tavg));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($sales_person)+1, number_format($tavgsla)." Hari");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($TL)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($TL)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($TL)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($TL)+1, number_format($tlm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($TL)+1, number_format($ttm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($TL)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($TL)+1, number_format($tavgsla)." Hari");
 
             $filename = "ReportSalesPerson-Exported-on-".date("Y-m-d-H-i-s").".xls";
 
@@ -1245,7 +1250,6 @@ class Reports extends CI_Controller {
             header("Content-Disposition: attachment;filename=$filename");
             $object_writer->save('php://output');
         }
-
     }
 
     //View Status Daily Report// 
@@ -1794,6 +1798,7 @@ class Reports extends CI_Controller {
                                 <b><?php echo number_format($persentotal)." %"; ?></b>
                             </td>
                         </tr>
+                    
                     <?php } ?>
                         
                     </tbody>
