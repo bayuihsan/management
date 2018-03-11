@@ -521,7 +521,10 @@ class sales extends CI_Controller {
             $data['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);;
         }
 
-        $data['edit_sales']=$this->salesmodel->get_sales_by_id($psb_id); 
+        $data['edit_sales']=$edit_sales=$this->salesmodel->get_sales_by_id($psb_id); 
+        if(empty($edit_sales)){
+            redirect('Admin/home');
+        }
         $data['paket']=$this->Paketmodel->get_all();
         $data['psb_id'] = $psb_id;
 

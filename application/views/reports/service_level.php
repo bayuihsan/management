@@ -69,7 +69,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
+        <a class="mybtn btn-default export-btn" style="float: right" href="<?php echo site_url('Reports/service_level') ?>" >Export to Excel</a>
         </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
@@ -113,41 +113,61 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 <script type="text/javascript">
 $(document).ready(function() {
-$("#vto-date").datepicker(); 
-$("#vtanggal, #vstatus").select2({
-minimumResultsForSearch: Infinity    
-});
+    $("#vto-date").datepicker(); 
+    $("#vtanggal, #vstatus").select2({
+    minimumResultsForSearch: Infinity    
+    });
 
-$('#sales_cari').on('submit',function(){
-    var link=$(this).attr("action");
-    if($("#vto-date").val()!=""){
-        //query data
-        $.ajax({
-            method : "POST",    
-            url : link,
-            data : $(this).serialize(),
-            beforeSend : function(){
-                $(".preloader").css("display","block");
-            },success : function(data){
-                $(".preloader").css("display","none"); 
-                if(data!="false"){
-                    $("#Report-Table tbody").html(data);
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
-                }else{
-                    $("#Report-Table tbody").html("");
-                    // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
-                    swal("Alert","Sorry, No Data Found !", "info");    
+    $('#sales_cari').on('submit',function(){
+        var link=$(this).attr("action");
+        if($("#vto-date").val()!=""){
+            //query data
+            $.ajax({
+                method : "POST",    
+                url : link,
+                data : $(this).serialize(),
+                beforeSend : function(){
+                    $(".preloader").css("display","block");
+                },success : function(data){
+                    $(".preloader").css("display","none"); 
+                    if(data!="false"){
+                        $("#Report-Table tbody").html(data);
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
+                    }else{
+                        $("#Report-Table tbody").html("");
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
+                        swal("Alert","Sorry, No Data Found !", "info");    
+                    }
                 }
+
+            });
+        }else{
+            swal("Alert","Please Select Date Range.", "info");      
+        }
+
+        return false;
+    });
+
+    $(document).on('click','.export-btn',function(){
+
+        var link=$(this).attr("href"); 
+        var vtanggal = $("#vtanggal").val();
+        var vstatus = $("#vstatus").val();
+        var vtodate = $("#vto-date").val();
+        // alert(link);
+        $.ajax({
+            method : "POST",
+            url : link,
+            beforeSend : function(){
+                $(".block-ui").css('display','block'); 
+            },success : function(data){ 
+                window.open(link+'/export/'+vtanggal+'/'+vstatus+'/'+vtodate);
+                $(".block-ui").css('display','none');               
             }
-
         });
-    }else{
-        swal("Alert","Please Select Date Range.", "info");      
-    }
 
-    return false;
-});
-
+        return false;
+    });
 
 });
 

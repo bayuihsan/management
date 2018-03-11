@@ -110,7 +110,10 @@ class Ctp extends CI_Controller {
     public function edit($id_ctp,$action='')
     {
         $data=array();
-        $data['edit_ctp']=$this->Ctpmodel->get_ctp_by_id($id_ctp);
+        $data['edit_ctp']=$edit_ctp=$this->Ctpmodel->get_ctp_by_id($id_ctp);
+        if(empty($edit_ctp)){
+            redirect('Admin/home');
+        }
         if($action=='asyn'){
             $this->load->view('content/ctp/add',$data);
         }else if($action==''){

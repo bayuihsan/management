@@ -773,23 +773,6 @@ class ReportModel extends CI_Model{
 
 	}
 
-	//get report sales person information 
-	public function getReportServiceLevel($tanggal,$status,$to_date)
-	{
-		$date = $to_date;
-		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
-		$service_query=$this->db->query("SELECT c.nama_branch, count(a.psb_id) jumlah, SUM(DATEDIFF(a.".$tanggal.", a.tanggal_masuk)) as this_month
-			FROM new_psb a 
-			JOIN branch c on a.branch_id=c.branch_id
-			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY c.nama_branch ORDER BY this_month DESC
-			")->result();
-
-		$result=$service_query;
-		return $result;
-
-	}
-
 	//get report status daily branch information 
 	public function getStatusDaily($branch_id, $st, $tgl, $tahun, $bulan)
 	{

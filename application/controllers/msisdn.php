@@ -120,7 +120,10 @@ class Msisdn extends CI_Controller {
     public function edit($id_haloinstan,$action='')
     {
         $data=array();
-        $data['edit_msisdn']=$this->Msisdnmodel->get_msisdn_by_id($id_haloinstan);
+        $data['edit_msisdn']=$edit_msisdn=$this->Msisdnmodel->get_msisdn_by_id($id_haloinstan);
+        if(empty($edit_msisdn)){
+            redirect('Admin/home');
+        }
         $sess_branch = $this->session->userdata('branch_id');
         if($this->session->userdata('level')==4){
             $data['TL'] = $this->usersmodel->get_all_tl();

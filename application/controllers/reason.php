@@ -90,7 +90,10 @@ class Reason extends CI_Controller {
     public function edit($id_reason,$action='')
     {
         $data=array();
-        $data['edit_reason']=getOld("id_reason",$id_reason,"reason"); 
+        $data['edit_reason']=$edit_reason=getOld("id_reason",$id_reason,"reason"); 
+        if(empty($edit_reason)){
+            redirect('Admin/home');
+        }
         if($action=='asyn'){
             $this->load->view('content/reason/add',$data);
         }else if($action==''){

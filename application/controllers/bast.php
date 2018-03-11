@@ -138,6 +138,9 @@ class bast extends CI_Controller {
         
         $datax['paket']=$this->Paketmodel->get_all();
         $qbast = $this->bastmodel->get_all_by_no_bast_row($no_bast);
+        if(empty($qbast)){
+            redirect('Admin/home');
+        }
         $datax['no_bast'] = $qbast->no_bast;
         $datax['tanggal_masuk'] = $qbast->tanggal_masuk;
         if($action=='asyn'){
@@ -686,7 +689,10 @@ class bast extends CI_Controller {
             $data['branch']=$this->Branchmodel->get_all_by($sess_branch);
         }
 
-        $data['edit_bast']=$this->bastmodel->get_all_by_id($id_header); 
+        $data['edit_bast']=$edit_bast=$this->bastmodel->get_all_by_id($id_header); 
+        if(empty($edit_bast)){
+            redirect('Admin/home');
+        }
 
         if($action=='asyn'){
             $this->load->view('content/bast/add',$data);
@@ -700,7 +706,10 @@ class bast extends CI_Controller {
     public function detail($no_bast='', $action='')
     {   
         $data=array();
-        $data['edit_bast']=$this->bastmodel->get_all_by_no_bast_row($no_bast); 
+        $data['edit_bast']=$edit_bast=$this->bastmodel->get_all_by_no_bast_row($no_bast); 
+        if(empty($edit_bast)){
+            redirect('Admin/home');
+        }
         $data['detail_bast']=$this->salesmodel->getBASTDetail($no_bast);
         $data['cno_bast']=$no_bast;
         if($action=='asyn'){

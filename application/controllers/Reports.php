@@ -1179,57 +1179,6 @@ class Reports extends CI_Controller {
 
     }
 
-    //View Sales Person Report// 
-    public function service_level($action='')
-    {
-        $data=array();
-        if($action=='asyn'){
-            $this->load->view('reports/service_level',$data);
-        }else if($action==''){
-            $this->load->view('theme/include/header');
-            $this->load->view('reports/service_level',$data);
-            $this->load->view('theme/include/footer');
-        }else if($action=='view'){
-            $tanggal    =$this->input->post('vtanggal',true); 
-            $status     =$this->input->post('vstatus',true); 
-            $to_date    =$this->input->post('vto-date',true);  
-            $tgl        = date('d', strtotime($to_date));
-            $reportData=$this->Reportmodel->getReportServiceLevel($tanggal,$status,$to_date);
-            if(empty($reportData)){
-                echo "false";
-            }else{
-                $no=1 ;
-                $tjml = 0;
-                $ttm = 0;
-                $tavg = 0;
-                foreach ($reportData as $report) { 
-                    $jumlah = $report->jumlah;
-                    $tm = $report->this_month;
-                    $avg = $tm/$jumlah;
-                    
-                    if($avg < 16) {?>
-
-                    <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo $report->nama_branch ?></td>
-                        <td class="text-right"><?php echo number_format($jumlah);?></td>
-                        <td class="text-right"><?php echo number_format($avg)." Hari";?></td>
-                    </tr>
-                <?php 
-                    $tjml = $tjml + $jumlah; 
-                    $ttm = $ttm + $tm; 
-                    $tavg = $ttm/$tjml;
-                    } 
-                }  
-                 //Summery value
-                 echo "<tr><td colspan='2'><b>Total</b></td>";
-                 echo "<td class='text-right'><b>".number_format($tjml)."</b></td>";
-                 echo "<td class='text-right'><b>".number_format($tavg)." Hari</b></td>";
-            }
-        }
-
-    }
-
     //View Status Daily Report// 
     public function status_daily($action='')
     {
