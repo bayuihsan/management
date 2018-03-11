@@ -1032,7 +1032,7 @@ class Reports extends CI_Controller {
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                  echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
             }
-        }else if($action=='export'){
+        } else if($action=='export') {
             $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
 
             $object = new PHPExcel();
@@ -1175,8 +1175,81 @@ class Reports extends CI_Controller {
                  // echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
                  echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
             }
-        }
+        }else if($action=='export'){
+            
+            $object = new PHPExcel();
 
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "NAMA SALES", "JUMLAH", "AVG/HARI", "RATA2 SLA");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $TL=$this->Reportmodel->getReportSalesPerson($branch_id,$tanggal,$status,$to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tlm = 0;
+            $ttm = 0;
+            $tsla = 0;
+            $tgl        = date('d', strtotime($to_date));
+            foreach($reportData as $row)
+            {
+                $lm = $row->last_month;
+                $tm = $row->this_month;
+                $avg = $tm/$tgl;
+                $sla = $row->sla;
+                $avgsla = $sla/$tm; 
+
+                if($avgsla < 16){
+
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->nama_sales));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($tm));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($sla));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, round($avg));
+                    $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, number_format($avgsla)." Hari");
+                    $excel_row++;
+
+                    $tlm = $tlm + $lm;
+                    $ttm = $ttm + $tm; 
+                    $tsla = $tsla + $sla; 
+                }
+                
+            }
+
+            $tavg = $ttm/$tgl;
+            $tavgsla = $tsla/$ttm; 
+            $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
+
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($TL)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($TL)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($TL)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($TL)+1, number_format($tlm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($TL)+1, number_format($ttm));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($TL)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($TL)+1, number_format($tavgsla)." Hari");
+
+            $filename = "ReportSalesPerson-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
     }
 
     //View Sales Person Report// 
@@ -1776,6 +1849,7 @@ class Reports extends CI_Controller {
                                 <b><?php echo number_format($persentotal)." %"; ?></b>
                             </td>
                         </tr>
+                    
                     <?php } ?>
                         
                     </tbody>

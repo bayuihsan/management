@@ -71,7 +71,7 @@ $status=array('sukses'=>'sukses',
 
 
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
+        <a class="mybtn btn-default export-btn" style="float: right" href="<?php echo site_url('Reports/branch') ?>" >Export to Excel</a>
         </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
