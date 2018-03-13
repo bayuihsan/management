@@ -428,12 +428,16 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top branch information 
-	public function getTopBranch($limit=0, $lm='', $tgl='')
+	public function getTopBranch($limit=0, $ly='', $lm='', $tgl='')
 	{
 		$date = $tgl;
 		// $last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		// $date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
@@ -450,12 +454,16 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top paket information 
-	public function getTopPaket($limit=0, $lm='', $tgl='')
+	public function getTopPaket($limit=0, $ly='', $lm='', $tgl='')
 	{
 		$date = $tgl;
 		// $last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		// $date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND paket_id=b.paket_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND paket_id=b.paket_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
@@ -473,12 +481,16 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top TL information 
-	public function getTopTL($limit=0, $lm='', $tgl='')
+	public function getTopTL($limit=0, $ly='', $lm='', $tgl='')
 	{
 		$date = $tgl;
 		// $last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		// $date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
 		$tl_query=$this->db->query("SELECT b.id_users, b.username, b.nama, c.nama_branch, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND TL=b.username AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND TL=b.username AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
@@ -497,10 +509,14 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top channel information 
-	public function getTopChannel($limit=0, $lm='', $tgl='')
+	public function getTopChannel($limit=0, $ly='', $lm='', $tgl='')
 	{
 
 		$channel_query=$this->db->query("SELECT a.sales_channel, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND sales_channel=a.sales_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
@@ -609,7 +625,7 @@ class ReportModel extends CI_Model{
 	}
 
 	//get report branch information 
-	public function getReportBranch($tanggal,$status,$to_date)
+	public function getReportBranch($tanggal,$status,$ly,$to_date)
 	{
 		$date = $to_date;
 		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
@@ -617,12 +633,19 @@ class ReportModel extends CI_Model{
 			IFNULL((SELECT COUNT(branch_id) 
 				FROM new_psb 
 				WHERE STATUS='".$status."' AND branch_id=b.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
+			IFNULL((SELECT COUNT(branch_id) 
+				FROM new_psb 
+				WHERE STATUS='".$status."' AND branch_id=b.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-			COUNT(a.branch_id) AS this_month 
+			IFNULL((SELECT COUNT(branch_id) 
+				FROM new_psb 
+				WHERE STATUS='".$status."' AND branch_id=b.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
 			FROM new_psb a 
-			right JOIN branch b ON a.branch_id=b.branch_id
-			WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.nama_branch ORDER BY this_month DESC
+			RIGHT JOIN branch b ON a.branch_id=b.branch_id
+			WHERE b.branch_id not in('17')
+			GROUP BY b.nama_branch ORDER BY this_month DESC
 			")->result();
 
 		$result=$branch_query;
@@ -631,12 +654,16 @@ class ReportModel extends CI_Model{
 	}
 
 	//get report paket information 
-	public function getReportPaket($branch_id,$tanggal,$status,$to_date)
+	public function getReportPaket($branch_id,$tanggal,$status,$ly,$to_date)
 	{
 		$date = $to_date;
 		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
 		if($branch_id=='17'){ //ALL
 			$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, c.nama_branch, SUM(DATEDIFF(a.".$tanggal.", a.tanggal_masuk)) as sla,
+				IFNULL((SELECT COUNT(paket_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
 				IFNULL((SELECT COUNT(paket_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
@@ -650,6 +677,10 @@ class ReportModel extends CI_Model{
 					'".$date."' GROUP BY a.paket_id, c.branch_id order by this_month desc ")->result();
 		}else{
 			$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, c.nama_branch, SUM(DATEDIFF(a.".$tanggal.", a.tanggal_masuk)) as sla,
+				IFNULL((SELECT COUNT(paket_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
 				IFNULL((SELECT COUNT(paket_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 

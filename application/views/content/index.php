@@ -99,45 +99,6 @@
 </div>
 <!--End Daily Report Col-->
 
-<!--Start CM Ekstrak-->
-<div class="col-md-6 col-sm-6 col-lg-6">
-<!--Start Panel-->
-<div class="panel panel-default medium-box">
-    <!-- Default panel contents -->
-    
-    <div class="panel-heading">SALES CM EKTRAK (<span id="nilaibranch"><?php echo $max_tanggal?></span>) </div>
-    <div class="panel-body financial-bal" style="font-size: 11px;">
-        <!--Branch Table-->
-        <table class="table table-bordered" >
-            <tr>
-                <th style="background-color: black; color: white">KETERANGAN</th>
-                <th style="background-color: black; color: white">JUMLAH</th> 
-            </tr>
-            <tr>
-                <td>SALES</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>CHURN</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>NETADD</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>REVENUE</td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-    <!--End Panel Body-->
-
-</div>
-<!--End Panel-->
-</div>
-<!--End CM Ekstrak Col-->
-
 <!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
@@ -145,22 +106,25 @@
     <!-- Default panel contents -->
     
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
-    <div class="panel-body financial-bal" style="font-size: 11px;">
+    <div class="panel-body financial-bal" style="font-size: 11px; ">
         <!--Branch Table-->
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">BRANCH</th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lyear)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
-            <th style="background-color: black; color: white" class="text-right">%MTD</th>
+            <th style="background-color: black; color: white" class="text-right">%MOM</th>
+            <th style="background-color: black; color: white" class="text-right">%YOY</th>
          <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
                 <td><b> <?php echo strtoupper($top->nama_branch) ?></b></td>
+                <td class="text-right"><b><?php $ly = $top->last_year; echo number_format($ly); ?></b></td>
                 <td class="text-right"><b><?php $lm = $top->last_month; echo number_format($lm); ?></b></td>
                 <td class="text-right"><b><?php $tm = $top->amount; echo number_format($tm); ?></b></td>
                 <?php if($lm == 0){ 
-                        $mom = 'Infinity'; 
+                        $mom = '0'; 
                         $style = "style='background-color:#D3D3D3'";
                     }else{ 
                         $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
@@ -173,6 +137,20 @@
                         }
                     } ?>
                 <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
+                <?php if($ly == 0){ 
+                        $yoy = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $yoy = (($tm-$ly)/$ly)*100; $yoy = decimalPlace($yoy);
+                        if($yoy > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($yoy < 0){
+                            $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $yoy.' %'; ?></b></td>
             </tr>
 
           <?php } ?>  
@@ -206,21 +184,24 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Paket (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px;">
+    <div class="panel-body financial-bal" style="font-size: 11px; ">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">PAKET</th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lyear)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
-            <th style="background-color: black; color: white" class="text-right">%MTD</th>
+            <th style="background-color: black; color: white" class="text-right">%MOM</th>
+            <th style="background-color: black; color: white" class="text-right">%YOY</th>
         <?php $no=1; foreach($top_paket as $paket){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
                 <td><b><?php echo strtoupper($paket->nama_paket) ?></b></td>
+                <td class="text-right"><b><?php $ly_paket = $paket->last_year; echo number_format($ly_paket); ?></b></td>
                 <td class="text-right"><b><?php $lm_paket = $paket->last_month; echo number_format($lm_paket); ?></b></td>
                 <td class="text-right"><b><?php $tm_paket = $paket->amount; echo number_format($tm_paket); ?></b></td>
                 <?php if($lm_paket == 0){ 
-                        $mom_paket = 'Infinity'; 
+                        $mom_paket = '0'; 
                         $style_paket = "style='background-color:#D3D3D3'";
                     }else{ 
                         $mom_paket = (($tm_paket-$lm_paket)/$lm_paket)*100; $mom_paket = decimalPlace($mom_paket);
@@ -233,6 +214,20 @@
                         }
                     } ?>
                 <td class="text-right" <?php echo $style_paket?>><b><?php  echo $mom_paket.' %'; ?></b></td>
+                <?php if($ly_paket == 0){ 
+                        $yoy_paket = '0'; 
+                        $style_paket = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $yoy_paket = (($tm_paket-$ly_paket)/$ly_paket)*100; $yoy_paket = decimalPlace($yoy_paket);
+                        if($yoy_paket > 0){
+                            $style_paket = "style='background-color:#7CFC00'";
+                        }else if($yoy_paket < 0){
+                            $style_paket = "style='background-color:#F08080'";
+                        }else{
+                            $style_paket = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style_paket?>><b><?php  echo $yoy_paket.' %'; ?></b></td>
             </tr>
 
         <?php } ?>  
@@ -256,17 +251,20 @@
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">SUB CHANNEL</th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lyear)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
-            <th style="background-color: black; color: white" class="text-right">%MTD</th>
+            <th style="background-color: black; color: white" class="text-right">%MOM</th>
+            <th style="background-color: black; color: white" class="text-right">%YOY</th>
         <?php $no=1; foreach($top_channel as $channel){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
                 <td><b><?php echo strtoupper($data_cn[$channel->sales_channel]) ?></b></td>
+                <td class="text-right"><b><?php $ly_channel = $channel->last_year; echo number_format($ly_channel); ?></b></td>
                 <td class="text-right"><b><?php $lm_channel = $channel->last_month; echo number_format($lm_channel); ?></b></td>
                 <td class="text-right"><b><?php $tm_channel = $channel->amount; echo number_format($tm_channel); ?></b></td>
                 <?php if($lm_channel == 0){ 
-                        $mom_channel = 'Infinity'; 
+                        $mom_channel = '0'; 
                         $style_channel = "style='background-color:#D3D3D3'";
                     }else{ 
                         $mom_channel = (($tm_channel-$lm_channel)/$lm_channel)*100; $mom_channel = decimalPlace($mom_channel);
@@ -279,6 +277,20 @@
                         }
                     } ?>
                 <td class="text-right" <?php echo $style_channel?>><b><?php  echo $mom_channel.' %'; ?></b></td>
+                <?php if($ly_channel == 0){ 
+                        $yoy_channel = '0'; 
+                        $style_channel = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $yoy_channel = (($tm_channel-$ly_channel)/$ly_channel)*100; $yoy_channel = decimalPlace($yoy_channel);
+                        if($yoy_channel > 0){
+                            $style_channel = "style='background-color:#7CFC00'";
+                        }else if($yoy_channel < 0){
+                            $style_channel = "style='background-color:#F08080'";
+                        }else{
+                            $style_channel = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style_channel?>><b><?php  echo $yoy_channel.' %'; ?></b></td>
             </tr>
 
         <?php } ?>
@@ -298,23 +310,26 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Team Leader (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px;">
+    <div class="panel-body financial-bal" style="font-size: 11px; ">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">NAMA</th>
             <th style="background-color: black; color: white">BRANCH</th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lyear)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
-            <th style="background-color: black; color: white" class="text-right">%MTD</th>
+            <th style="background-color: black; color: white" class="text-right">%MOM</th>
+            <th style="background-color: black; color: white" class="text-right">%YOY</th>
         <?php $no=1; foreach($top_tl as $tl){ ?>   
             <tr>
                 <td><b><?php echo $no++; ?></b></td>
                 <td><b><?php echo strtoupper($tl->nama) ?></b></td>
                 <td><b><?php echo strtoupper($tl->nama_branch) ?></b></td>
+                <td class="text-right"><b><?php $ly_tl = $tl->last_year; echo number_format($ly_tl); ?></b></td>
                 <td class="text-right"><b><?php $lm_tl = $tl->last_month; echo number_format($lm_tl); ?></b></td>
                 <td class="text-right"><b><?php $tm_tl = $tl->amount; echo number_format($tm_tl); ?></b></td>
                 <?php if($lm_tl == 0){ 
-                        $mom_tl = 'Infinity'; 
+                        $mom_tl = '0'; 
                         $style_tl = "style='background-color:#D3D3D3'";
                     }else{ 
                         $mom_tl = (($tm_tl-$lm_tl)/$lm_tl)*100; $mom_tl = decimalPlace($mom_tl);
@@ -327,6 +342,20 @@
                         }
                     } ?>
                 <td class="text-right" <?php echo $style_tl?>><b><?php  echo $mom_tl.' %'; ?></b></td>
+                <?php if($ly_tl == 0){ 
+                        $yoy_tl = '0'; 
+                        $style_tl = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $yoy_tl = (($tm_tl-$ly_tl)/$ly_tl)*100; $yoy_tl = decimalPlace($yoy_tl);
+                        if($yoy_tl > 0){
+                            $style_tl = "style='background-color:#7CFC00'";
+                        }else if($yoy_tl < 0){
+                            $style_tl = "style='background-color:#F08080'";
+                        }else{
+                            $style_tl = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style_tl?>><b><?php  echo $yoy_tl.' %'; ?></b></td>
             </tr>
 
         <?php } ?>
