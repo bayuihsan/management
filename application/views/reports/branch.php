@@ -158,9 +158,10 @@ $(document).ready(function() {
                 },success : function(data){
                     $(".preloader").css("display","none"); 
                     if(data == "error_tgl_lebih"){
-                        $("#Report-Table tbody").html("");
+                        // $("#Report-Table tbody").html("");
                         // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
                         swal("Alert","Pencarian tidak boleh lebih dari hari ini.", "info"); 
+                        return false;
                     }else if(data!="false"){
                         $("#Report-Table tbody").html(data);
                         $("#last_year").html(NamaBulan[this_month]+"-"+last_year);
