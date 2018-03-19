@@ -643,16 +643,17 @@ class Reports extends CI_Controller {
 
                 $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, number_format($sukses));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, number_format($valid));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, number_format($cancel));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, number_format($reject));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, number_format($pending));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, number_format($retur));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, number_format($blacklist));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, number_format($masuk));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, number_format($total));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, number_format($persensukses)."%");
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $sukses);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $valid);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $cancel);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $reject);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $pending);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $retur);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $bentrok);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $blacklist);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $masuk);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $total);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, $persensukses."%");
                 $excel_row++;
 
                 $tsukses = $tsukses + $sukses;
@@ -675,16 +676,17 @@ class Reports extends CI_Controller {
              
             $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($allbranch)+1, "");
             $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($allbranch)+1, "Grand Total");
-            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($allbranch)+1, number_format($tsukses));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($allbranch)+1, number_format($tvalid));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($allbranch)+1, number_format($tcancel));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($allbranch)+1, number_format($treject));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($allbranch)+1, number_format($tpending));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($allbranch)+1, number_format($tretur));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(8, count($allbranch)+1, number_format($tblacklist));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(9, count($allbranch)+1, number_format($tmasuk));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(10, count($allbranch)+1, number_format($ttotal));
-            $object->getActiveSheet()->setCellValueByColumnAndRow(11, count($allbranch)+1, number_format($tpersensukses)."%");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($allbranch)+1, $tsukses);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($allbranch)+1, $tvalid);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($allbranch)+1, $tcancel);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($allbranch)+1, $treject);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($allbranch)+1, $tpending);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($allbranch)+1, $tretur);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(8, count($allbranch)+1, $bentrok);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(9, count($allbranch)+1, $tblacklist);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(10, count($allbranch)+1, $tmasuk);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(11, count($allbranch)+1, $ttotal);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(12, count($allbranch)+1, $tpersensukses."%");
 
             $filename = "ReportAllBranch-Exported-on-".date("Y-m-d-H-i-s").".xls";
 
@@ -970,17 +972,10 @@ class Reports extends CI_Controller {
             $branch_id    =$this->input->post('vbranch',true); 
             $tanggal    =$this->input->post('vtanggal',true); 
             $status    =$this->input->post('vstatus',true); 
-<<<<<<< HEAD
-            $to_date    =$this->input->post('vto-date',true); 
-            if(date('Y-m-d', strtotime($to_date)) > date('Y-m-d')){
-                echo "error_tgl_lebih";
-            }else{   
-=======
             $to_date    =$this->input->post('vto-date',true);  
             if(date('Y-m-d', strtotime($to_date)) > date('Y-m-d')){
                 echo "error_tgl_lebih";
-            }else{  
->>>>>>> 6e7b85bedeffae0136b75c5e241832ddec3f252b
+            }else{
                 $tgl        = date('d', strtotime($to_date));
                 $ly = date('Y-m-d', strtotime('-1 year', strtotime( $to_date )));
                 $reportData=$this->Reportmodel->getReportTL($branch_id,$tanggal,$status,$ly,$to_date);
@@ -1095,11 +1090,7 @@ class Reports extends CI_Controller {
                      //echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
                      echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
                      echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td>"; 
-<<<<<<< HEAD
-                     echo "<td class='text-right' ".$tstyle_ly."><b>".$tyoy." %</b></td></tr>";
-=======
                      echo "<td class='text-right' ".$tstyle_ly."><b>".$tyoy." %</b></td></tr>"; 
->>>>>>> 6e7b85bedeffae0136b75c5e241832ddec3f252b
                 }
             }
         }else if($action=='export'){
@@ -1303,7 +1294,7 @@ class Reports extends CI_Controller {
                             <td class="text-right"><?php echo round($avg);?></td>
                             <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td>
                             <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
-                            <td class="text-right" <?php echo $style?>><b><?php  echo $yoy.' %'; ?></b></td>
+                            <td class="text-right" <?php echo $style_ly?>><b><?php  echo $yoy.' %'; ?></b></td>
                         </tr>
                 <?php 
                         $tly = $tly + $ly;

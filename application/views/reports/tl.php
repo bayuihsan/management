@@ -101,11 +101,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                         <th style='background-color: black; color: white;' class="text-right" id="last_year">Last Year</th>
                         <th style='background-color: black; color: white;' class="text-right" id="last_month">Last Month</th>
                         <th style='background-color: black; color: white;' class="text-right" id="this_month">This Month</th>
-<<<<<<< HEAD
                         <th style='background-color: black; color: white;' class="text-right">Avg/hari</th>
-=======
-                        <th style='background-color: black; color: white;' class="text-right" id="this_month">Avg/hari</th>
->>>>>>> 6e7b85bedeffae0136b75c5e241832ddec3f252b
                         <th style='background-color: black; color: white;' class="text-right">Rata2 SLA</th>
                         <th style='background-color: black; color: white;' class="text-right">% MOM</th>
                         <th style='background-color: black; color: white;' class="text-right">% YOY</th>
@@ -173,16 +169,10 @@ $(document).ready(function() {
                 },success : function(data){
                     $(".preloader").css("display","none"); 
                     if(data == "error_tgl_lebih"){
-<<<<<<< HEAD
-                        $("#Report-Table tbody").html("");
-                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
-                        swal("Alert","Pencarian tidak boleh lebih dari hari ini.", "info"); 
-=======
                         // $("#Report-Table tbody").html("");
                         // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
                         swal("Alert","Pencarian tidak boleh lebih dari hari ini.", "info"); 
                         return false;
->>>>>>> 6e7b85bedeffae0136b75c5e241832ddec3f252b
                     }else if(data!="false"){
                         $("#Report-Table tbody").html(data);
                         $("#last_year").html(NamaBulan[this_month]+"-"+last_year);
