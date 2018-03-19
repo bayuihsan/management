@@ -95,14 +95,16 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
             <div id="Table-div">
                 <table class="table table-bordered hoverTable">
                     <thead>
-                        <th>No</th>
-                        <th>Branch</th>
-                        <th>Nama TL</th>
-                        <th class="text-right" id="last_month">Last Month</th>
-                        <th class="text-right" id="this_month">This Month</th>
-                        <th class="text-right" id="this_month">Avg/hari</th>
-                        <th class="text-right">Rata2 SLA</th>
-                        <th class="text-right">% MOM</th>
+                        <th style='background-color: black; color: white;'>No</th>
+                        <th style='background-color: black; color: white;'>Branch</th>
+                        <th style='background-color: black; color: white;'>Nama TL</th>
+                        <th style='background-color: black; color: white;' class="text-right" id="last_year">Last Year</th>
+                        <th style='background-color: black; color: white;' class="text-right" id="last_month">Last Month</th>
+                        <th style='background-color: black; color: white;' class="text-right" id="this_month">This Month</th>
+                        <th style='background-color: black; color: white;' class="text-right">Avg/hari</th>
+                        <th style='background-color: black; color: white;' class="text-right">Rata2 SLA</th>
+                        <th style='background-color: black; color: white;' class="text-right">% MOM</th>
+                        <th style='background-color: black; color: white;' class="text-right">% YOY</th>
                     </thead>
                     <tbody>
 
@@ -136,10 +138,22 @@ $(document).ready(function() {
     $('#sales_cari').on('submit',function(){
         var link=$(this).attr("action");
         var to_date = $("#vto-date").val();
-        var last_month = new Date(to_date).getMonth()-1;
+        var last_month = new Date(to_date).getMonth();
+        if(last_month <= 0){
+            last_month = 11;
+            var this_year_lm = new Date(to_date).getFullYear()-1;
+        }else{
+            last_month = new Date(to_date).getMonth()-1;
+            var this_year_lm = new Date(to_date).getFullYear();
+        }
+        // alert(last_month+" - "+this_year_lm);
+        // return false;
         var this_month = new Date(to_date).getMonth();
-        var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
-    "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+        var last_year = new Date(to_date).getFullYear()-1;
+        var this_year = new Date(to_date).getFullYear();
+        
+        var NamaBulan = new Array("Jan", "Feb", "Mar", "Apr", "Mei",
+    "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
         if(to_date!=""){
             //query data
             $.ajax({
@@ -147,13 +161,22 @@ $(document).ready(function() {
                 url : link,
                 data : $(this).serialize(),
                 beforeSend : function(){
+                    $("#Report-Table tbody").html("");
+                    $("#last_year").html(NamaBulan[this_month]+"-"+last_year);
+                    $("#last_month").html(NamaBulan[last_month]+"-"+this_year_lm);
+                    $("#this_month").html(NamaBulan[this_month]+"-"+this_year);
                     $(".preloader").css("display","block");
                 },success : function(data){
                     $(".preloader").css("display","none"); 
-                    if(data!="false"){
+                    if(data == "error_tgl_lebih"){
+                        $("#Report-Table tbody").html("");
+                        // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());    
+                        swal("Alert","Pencarian tidak boleh lebih dari hari ini.", "info"); 
+                    }else if(data!="false"){
                         $("#Report-Table tbody").html(data);
-                        $("#last_month").html(NamaBulan[last_month]);
-                        $("#this_month").html(NamaBulan[this_month]);
+                        $("#last_year").html(NamaBulan[this_month]+"-"+last_year);
+                        $("#last_month").html(NamaBulan[last_month]+"-"+this_year_lm);
+                        $("#this_month").html(NamaBulan[this_month]+"-"+this_year);
                         // $(".report-heading p").html("Date From "+$("#from-date").val()+" To "+$("#to-date").val());
                     }else{
                         $("#Report-Table tbody").html("");

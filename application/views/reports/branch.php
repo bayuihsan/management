@@ -182,33 +182,6 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click','.print-btn-excel',function(){
-
-        var link=$(this).attr("href"); 
-        var vtanggal = $("#vtanggal").val();
-        var vstatus = $("#vstatus").val();
-        var to_date = $("#vto-date").val();
-
-        var last_month = new Date(to_date).getMonth()-1;
-        var this_month = new Date(to_date).getMonth();
-
-        var NamaBulan = new Array("Januari", "Februari", "Maret", "April", "Mei",
-    "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-        // alert(link);
-        $.ajax({
-            method : "POST",
-            url : link,
-            beforeSend : function(){
-                $(".block-ui").css('display','block'); 
-            },success : function(data){ 
-                window.open(link+'/asyn/'+vtanggal+'/'+vstatus+'/'+NamaBulan[last_month]+'/'+to_date);
-                $(".block-ui").css('display','none');               
-            }
-        });
-
-        return false;
-    });
-
     $(document).on('click','.export-btn',function(){
 
         var link=$(this).attr("href"); 

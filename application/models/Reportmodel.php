@@ -668,13 +668,14 @@ class ReportModel extends CI_Model{
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 						ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-				count(a.paket_id) as this_month 
+				IFNULL((SELECT COUNT(paket_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
 				FROM new_psb a 
 				right JOIN paket b ON a.paket_id=b.paket_id
 				JOIN branch c ON c.branch_id=a.branch_id
-				WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') between 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND
-					'".$date."' GROUP BY a.paket_id, c.branch_id order by this_month desc ")->result();
+				GROUP BY a.paket_id, c.branch_id order by this_month desc ")->result();
 		}else{
 			$paket_query=$this->db->query("SELECT b.paket_id, b.nama_paket, c.nama_branch, SUM(DATEDIFF(a.".$tanggal.", a.tanggal_masuk)) as sla,
 				IFNULL((SELECT COUNT(paket_id) 
@@ -701,7 +702,7 @@ class ReportModel extends CI_Model{
 	}
 
 	//get report TL information 
-	public function getReportTL($branch_id,$tanggal,$status,$to_date)
+	public function getReportTL($branch_id,$tanggal,$status,$ly,$to_date)
 	{
 		$date = $to_date;
 		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
@@ -710,26 +711,39 @@ class ReportModel extends CI_Model{
 				IFNULL((SELECT COUNT(psb_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 						ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-				count(a.psb_id) as this_month 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
 				FROM new_psb a 
 				right JOIN app_users b on a.TL=b.username
 				JOIN branch c on a.branch_id=c.branch_id
-				WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.username, c.branch_id ORDER BY this_month DESC
+				GROUP BY b.username, c.branch_id ORDER BY this_month DESC
 				")->result();
 		}else{
 			$tl_query=$this->db->query("SELECT b.id_users, b.username, b.nama, c.nama_branch, SUM(DATEDIFF(a.".$tanggal.", a.tanggal_masuk)) as sla, 
 				IFNULL((SELECT COUNT(psb_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 						ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-				count(a.psb_id) as this_month 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
 				FROM new_psb a 
 				right JOIN app_users b on a.TL=b.username
 				JOIN branch c on a.branch_id=c.branch_id
-				WHERE c.branch_id='".$branch_id."' and a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.username, c.branch_id ORDER BY this_month DESC
+				WHERE c.branch_id='".$branch_id."' 
+				GROUP BY b.username, c.branch_id ORDER BY this_month DESC
 				")->result();
 		}
 		$result=$tl_query;
