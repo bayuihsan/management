@@ -686,13 +686,15 @@ class ReportModel extends CI_Model{
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 						ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-				count(a.paket_id) as this_month 
+				IFNULL((SELECT COUNT(paket_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND paket_id=b.paket_id AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
 				FROM new_psb a 
 				right JOIN paket b ON a.paket_id=b.paket_id
 				JOIN branch c ON c.branch_id=a.branch_id
-				WHERE c.branch_id='".$branch_id."' and a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') between 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND
-					'".$date."' GROUP BY a.paket_id, c.branch_id order by this_month desc ")->result();
+				WHERE c.branch_id='".$branch_id."' 
+				GROUP BY a.paket_id, c.branch_id order by this_month desc ")->result();
 		}
 		
 
@@ -719,7 +721,11 @@ class ReportModel extends CI_Model{
 				IFNULL((SELECT COUNT(psb_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND TL=b.username AND branch_id = c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+<<<<<<< HEAD
 						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
+=======
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month' 
+>>>>>>> 6e7b85bedeffae0136b75c5e241832ddec3f252b
 				FROM new_psb a 
 				right JOIN app_users b on a.TL=b.username
 				JOIN branch c on a.branch_id=c.branch_id
@@ -752,7 +758,7 @@ class ReportModel extends CI_Model{
 	}
 
 	//get report Sub Channel information 
-	public function getReportSubChannel($branch_id,$tanggal,$status,$to_date)
+	public function getReportSubChannel($branch_id,$tanggal,$status,$ly,$to_date)
 	{
 		$date = $to_date;
 		$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
@@ -761,26 +767,39 @@ class ReportModel extends CI_Model{
 				IFNULL((SELECT COUNT(psb_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 						ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-				count(a.psb_id) as this_month 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'last_month'
 				FROM new_psb a 
 				left JOIN sales_channel b on a.sub_sales_channel=b.id_channel
 				JOIN branch c on a.branch_id=c.branch_id
-				WHERE a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.sub_channel, a.sales_channel, c.nama_branch ORDER BY this_month DESC
+				GROUP BY b.sub_channel, a.sales_channel, c.nama_branch ORDER BY this_month DESC
 				")->result();
 		}else{
 			$tl_query=$this->db->query("SELECT a.sales_channel, b.sub_channel, c.nama_branch, SUM(DATEDIFF(a.".$tanggal.", a.tanggal_masuk)) as sla,
 				IFNULL((SELECT COUNT(psb_id) 
 					FROM new_psb 
 					WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
 						ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
-				count(a.psb_id) as this_month 
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb 
+					WHERE STATUS='".$status."' AND sub_sales_channel=a.sub_sales_channel AND sales_channel=a.sales_channel AND branch_id=c.branch_id AND DATE_FORMAT(".$tanggal.", '%Y-%m-%d') BETWEEN 
+						ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month'
 				FROM new_psb a 
 				left JOIN sales_channel b on a.sub_sales_channel=b.id_channel
 				JOIN branch c on a.branch_id=c.branch_id
-				WHERE c.branch_id='".$branch_id."' and a.status='".$status."' AND DATE_FORMAT(a.".$tanggal.", '%Y-%m-%d') BETWEEN 
-					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.sub_channel, a.sales_channel, c.nama_branch ORDER BY this_month DESC
+				WHERE c.branch_id='".$branch_id."' 
+				GROUP BY b.sub_channel, a.sales_channel, c.nama_branch ORDER BY this_month DESC
 				")->result();
 		}
 
