@@ -22,7 +22,7 @@
       <input type="hidden" name="id_haloinstan" id="id_haloinstan" value=""/>    
       <div class="form-group">
         <label for="acc_name">MSISDN</label>
-        <input type="text" class="form-control" name="msisdn" id="msisdn" maxlength="14">
+        <input type="text" class="form-control" name="msisdn" id="msisdn">
       </div>
       <div class='form-group'>
         <label>Branch</label>
