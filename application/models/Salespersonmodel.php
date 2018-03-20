@@ -12,21 +12,23 @@ class Salespersonmodel extends CI_Model{
 	}
 
 	//get all Branch  
-	public function get_all(){
-		$this->db->select('*');
-		$this->db->from('sales_person');  
-		$this->db->order_by("id_sales", "desc");    
-		$query_result=$this->db->get();
-		$result=$query_result->result();
-		return $result;
-	}
+	// public function get_all(){
+	// 	$this->db->select('*');
+	// 	$this->db->from('sales_person');  
+	// 	$this->db->order_by("id_sales", "desc");    
+	// 	$query_result=$this->db->get();
+	// 	$result=$query_result->result();
+	// 	return $result;
+	// }
 
-	public function get_databranch(){
-		$this->db->select('*');
-		$this->db->from('branch');     
+	public function get_all(){
+		$this->db->select('a.*, b.nama_branch');
+		$this->db->from('sales_person a');  
+		$this->db->join('branch b', 'b.branch_id = a.branch_id');    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;
+
 	} 
 
 	//get branch by id  

@@ -30,7 +30,7 @@
                 <tr>
                 <td>(<?php echo $new->id_sales ?>) <?php echo $new->user_sales ?></td>
                 <td><?php echo $new->nama_sales ?></td>
-                <td><?php echo $new->branch_id ?></td>
+                <td><?php echo $new->nama_branch ?></td>
                 <td><?php echo $new->status ?></td>
                 <td><?php echo $new->no_telp ?></td>
                 <td><?php echo $new->nama_bank ?></td>
