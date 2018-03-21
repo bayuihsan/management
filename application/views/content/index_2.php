@@ -15,7 +15,7 @@
 <div class="panel panel-default">
     
     <!-- Default panel contents -->
-    <div class="panel-heading"><?php echo $title?></div>
+    <div class="panel-heading"><?php echo $title." (".$jumlah_sales.")"; ?></div>
     <div class="panel-body">
     	
     	<table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">

@@ -311,16 +311,19 @@ $status=array('sukses'=>'sukses',
         </select>      
       </div>
       <div class="form-group"> 
-        <label for="sbranch">Keterangan / Reason</label>
+        <label for="sbranch">Keterangan / Reason</label> *Jika tidak tersedia, silahkan hubungi administrator
         <select name="id_reason" class="form-control" id="id_reason">  
           <option value="">Pilih Reason</option>
-          <?php foreach ($reason as $new) { ?>
-            <option value="<?php echo $new->id_reason ?>"><?php echo strtoupper($new->nama_reason) ?></option>
+          <?php foreach ($reason as $new) { 
+            if($edit_sales->deskripsi == $new->id_reason){ ?>
+            <option value="<?php echo $new->id_reason ?>" class="<?php echo $new->status?>" selected><?php echo strtoupper($new->nama_reason) ?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $new->id_reason ?>" class="<?php echo $new->status?>"><?php echo strtoupper($new->nama_reason) ?></option>
             <?php }
+          }
             ?>
           
-        </select>      
-      </div>
+        </select> 
     </div>
     <!--End Panel Body-->
   </div>
@@ -365,6 +368,7 @@ $(document).ready(function(){
   $("#sTL").chained("#sbranch");
   $("#ssales_person").chained("#sTL");
   $("#smsisdn1").chained("#sTL");
+  $("#id_reason").chained("#sstatus");
   //for number only
   $("#smsisdn, #sno_hp, #sfa_id, #saccount_id").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
@@ -381,18 +385,32 @@ $(document).ready(function(){
     var msisdn1 = $("#smsisdn1").val();
     var no_hp = $("#sno_hp").val();
     var fa_id = $("#sfa_id").val();
+    var id_reason = $("#id_reason").val();
     var account_id = $("#saccount_id").val();
+    var bill_cycle = $("#sbill_cycle").val();
     if(msisdn.substring(0,3)!=628){
       alert("MSISDN harus diawali 628");
       return false;
     }else if(no_hp.substring(0,3)!=628){
       alert("No HP harus diawali 628");
       return false;
+    }else if(bill_cycle == ''){
+      alert("Bill Cycle tidak boleh kosong");
+      return false;
+    }else if(fa_id == ''){
+      alert("FA ID tidak boleh kosong");
+      return false;
+    }else if(account_id == ''){
+      alert("Account ID tidak boleh kosong");
+      return false;
     }else if(account_id == fa_id){
       alert("account_id tidak boleh sama dengan FA ID");
       return false;
     }else if(msisdn == msisdn1){
       alert("Pengubahan MSISDN tidak boleh sama");
+      return false;
+    }else if(id_reason == ''){
+      alert("Keterangan tidak boleh kosong");
       return false;
     }else{
       $.ajax({

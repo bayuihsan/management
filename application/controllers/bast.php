@@ -13,7 +13,7 @@ class bast extends CI_Controller {
         }
         date_default_timezone_set("Asia/Bangkok"); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel'));
+        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel','Reasonmodel'));
     }
     
     public function index(){
@@ -320,11 +320,15 @@ class bast extends CI_Controller {
                             <td><?php echo $row->nama_penerima ?></td>
                             <td><?php echo $row->jumlah." MSISDN" ?></td>
                             <td>
-                            <?php if(empty($row->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
+                            <?php 
+                            if($this->session->userdata('level')==4 || $this->session->userdata('level')==5){ ?>
+                            <a class="mybtn btn-default btn-xs" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" href="<?php echo site_url('bast/add/'.$row->no_bast) ?>">Tambah</a>
+                            <?php }
+                            if(empty($row->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
                                 <input type="hidden" name="xno_bast" id="xno_bast" value="<?php echo $row->no_bast?>">
                                 <a class="mybtn btn-success btn-xs bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('bast/cek_bast/receive/'.$row->id_header) ?>">Terima</a>
                         <?php } ?>
-                                <a href="<?php echo site_url('bast/detail').'/'.$row->no_bast; ?>" class="mybtn btn-info btn-xs">Detail</a></td>
+                                <a href="<?php echo site_url('bast/detail').'/'.$row->no_bast; ?>" data-toggle="tooltip" title="Click For Detail BAST" class="mybtn btn-info btn-xs">Detail</a></td>
                         </tr>
                     <?php 
                     
@@ -385,6 +389,7 @@ class bast extends CI_Controller {
         $data=array();
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
+        $datax['reason']=$this->Reasonmodel->get_all(); 
         if($sess_level==4){
             $datax['msisdn']=$this->Msisdnmodel->get_all();
             $datax['branch']=$this->Branchmodel->get_all();
@@ -437,7 +442,7 @@ class bast extends CI_Controller {
             $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
             $data['status']             =$status = addslashes($this->input->post('sstatus',true));
-            $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
+            $data['deskripsi']          =addslashes($this->input->post('id_reason',true));
             $data['validasi_by']          =addslashes($this->session->userdata('username'));
         
                  
@@ -454,7 +459,7 @@ class bast extends CI_Controller {
             $this->form_validation->set_rules('sjenis_event', 'Jenis Event', 'trim|required|xss_clean');
             $this->form_validation->set_rules('snama_event', 'Nama Event', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('sstatus', 'Status', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('sdekripsi', 'Keterangan', 'trim|required|xss_clean|min_length[5]');
+            $this->form_validation->set_rules('id_reason', 'Keterangan', 'trim|required|xss_clean');
 
             $this->form_validation->set_rules('sno_bast', 'No BAST', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sbranch', 'Branch', 'trim|required|xss_clean');
@@ -522,6 +527,7 @@ class bast extends CI_Controller {
         $data=array();
         $sess_level = $this->session->userdata('level');
         $sess_branch = $this->session->userdata('branch_id');
+        $datax['reason']=$this->Reasonmodel->get_all(); 
         if($sess_level==4){
             $datax['msisdn']=$this->Msisdnmodel->get_all();
             $datax['branch']=$this->Branchmodel->get_all();
@@ -580,7 +586,7 @@ class bast extends CI_Controller {
             $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
             $data['status']             =$status = addslashes($this->input->post('sstatus',true));
-            $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
+            $data['deskripsi']          =addslashes($this->input->post('id_reason',true));
             $data['validasi_by']        =addslashes($this->input->post('svalidasi_by',true));
             $data['username']           =addslashes($this->input->post('susername',true));
         
@@ -601,7 +607,7 @@ class bast extends CI_Controller {
             $this->form_validation->set_rules('sjenis_event', 'Jenis Event', 'trim|required|xss_clean');
             $this->form_validation->set_rules('snama_event', 'Nama Event', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('sstatus', 'Status', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('sdekripsi', 'Keterangan', 'trim|required|xss_clean|min_length[5]');
+            $this->form_validation->set_rules('id_reason', 'Keterangan', 'trim|required|xss_clean');
             $this->form_validation->set_rules('svalidasi_by', 'Validasi By', 'trim|required|xss_clean');
 
             $this->form_validation->set_rules('sno_bast', 'No BAST', 'trim|required|xss_clean');

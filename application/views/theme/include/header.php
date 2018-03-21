@@ -369,6 +369,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Reports/fee_sales_tl') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TL</a></li>
 </ul>
 </li>
+<?php if($this->session->userdata('level')<6){ ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">Master</span></a>
@@ -382,6 +383,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('feedbacks/view') ?>"><i class="fa fa-calendar-plus-o"></i> Feedbacks</a></li>
 </ul>
 </li>
+<?php } ?>
 <?php if($this->session->userdata('level')==4){ ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-book"></i>

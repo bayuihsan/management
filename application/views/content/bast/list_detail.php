@@ -63,10 +63,15 @@
   <!-- Default panel contents -->
     <div class="panel-heading">-</div>
     <div class="panel-body add-client">
-        
-        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
-        <button type="button" class="btn btn-info pdf-btn"><i class="fa fa-file-pdf-o"></i> PDF Export</button>
-        <a href="<?php echo base_url()?>bast/cek_bast" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <?php if(empty($edit_bast->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
+        <input type="hidden" name="xno_bast" id="xno_bast" value="<?php echo $cno_bast?>">
+        <a class="mybtn btn-success bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('bast/cek_bast/receive/'.$edit_bast->id_header) ?>">Terima</a>
+      <?php } ?>
+      <a href="<?php echo base_url()?>bast/export/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Export BAST" class="mybtn btn-success"><i class="fa fa-file-excel-o"></i> Export</a>
+      <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5){ ?>
+        <a href="<?php echo base_url()?>bast/add/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" class="mybtn btn-default"><i class="fa fa-plus"></i> Tambah</a>
+      <?php } ?>
+        <a href="<?php echo base_url()?>bast/cek_bast" style="cursor: pointer;" data-toggle="tooltip" title="Click For Back" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
         
     </div>
     <!--End Panel Body-->
@@ -119,11 +124,11 @@
                                   <?php if(($this->session->userdata('level')==4 || $this->session->userdata('level')>5) && $this->session->userdata('branch_id')==$new->branch_id && $edit_bast->tanggal_terima!=''){  
                                     if($new->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
                                   <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 
-                                title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/aktivasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Aktivasi</a>
+                                title="Click For Aktifasi" data-dismiss="modal" href="<?php echo site_url('bast/aktivasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Aktivasi</a>
                                   <?php }else{ 
                                         if($new->status!="sukses" && $this->session->userdata('level')==6){  ?>
                                   <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                                title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/validasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Validasi</a> <?php }}}?> </td>
+                                title="Click For Validasi" data-dismiss="modal" href="<?php echo site_url('bast/validasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Validasi</a> <?php }}}?> </td>
                                 
                             </tr>
                     <?php } ?>
@@ -155,6 +160,32 @@ $(document).ready(function() {
 
     $("#sales-table").DataTable();
     $(".dataTables_length select").addClass("show_entries");
+
+    $(document).on('click','.bast-terima-btn',function(){  
+        var xno_bast = $("#xno_bast").val();
+        var main=$(this);
+        swal({title: "Are you sure Want To Receive This Data?",
+        text: "",
+        type: "warning",   showCancelButton: true,confirmButtonColor: "green",   
+        confirmButtonText: "Yes, receive it!",closeOnConfirm: false,
+        showLoaderOnConfirm: true }, function(){ 
+            ///////////////     
+            var link=$(main).attr("href");    
+            $.ajax({
+                url : link,
+                beforeSend : function(){
+                    $(".block-ui").css('display','block'); 
+                },success : function(data){ 
+                    //sucessAlert("Remove Sucessfully"); 
+                    $(".system-alert-box").empty();
+                    swal("Received!", "Receive Sucessfully", "success"); 
+                    $(".block-ui").css('display','none');
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/detail/'+xno_bast; }, 2000);
+                }    
+            });
+        }); 
+        return false;       
+    });
 });
 function Print(data) 
 {

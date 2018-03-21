@@ -21,8 +21,10 @@ class Admin extends CI_Controller {
 
         $data['title'] = "Data belum diproses";
         if($sess_level !=4){
-            $data['sales'] = $this->salesmodel->getAllSalesBy($sess_level, $sess_branch);
+            $data['sales'] = $sales = $this->salesmodel->getAllSalesBy($sess_level, $sess_branch);
         }
+
+        $data['jumlah_sales'] = count($sales);
 
         if($action=='asyn'){
             $this->load->view('content/index_2', $data);
