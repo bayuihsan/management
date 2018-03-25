@@ -24,7 +24,7 @@ class Admin extends CI_Controller {
             $data['sales'] = $sales = $this->salesmodel->getAllSalesBy($sess_level, $sess_branch);
         }
 
-        $data['jumlah_sales'] = count($sales);
+        $data['jumlah_sales'] = @count($sales);
 
         if($action=='asyn'){
             $this->load->view('content/index_2', $data);
