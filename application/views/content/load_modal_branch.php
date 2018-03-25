@@ -1,7 +1,7 @@
 
 <div id="load_popup_modal_contant" class="" role="dialog">
 
-	<div class="modal-dialog modal-lg" style="width: 90%;">
+	<div class="modal-dialog modal-lg" style="width: 90%; height: 100%;">
 	<?php
 	//$id1 = $_POST["id1"];
 	//$id2 = $_POST["id2"];
@@ -15,8 +15,45 @@
 			<div id="validation-error"></div>
 			<div class="cl"></div>
 			<div class="modal-body">
-			<div id="detail_branch"></div>
-			
+				<div class="col-md-6 col-sm-6 col-lg-6">
+			        <table class="table table-bordered" >
+			            <th style="background-color: black; color: white">RANK</th>
+			            <th style="background-color: black; color: white">BRANCH</th>
+			            <th style="background-color: black; color: white" class="text-right"> <= 30</th>
+			            <th style="background-color: black; color: white" class="text-right"> > 30</th>
+			        <?php $no=1; foreach($sum_tsa as $tsa){ 
+			            $jml = $tsa->amount;
+			            ?> 
+			            <tr>
+			                <td class="text-center"><b><?php echo $no++; ?></b></td>
+			                <td class="text-left"><b><?php echo strtoupper($tsa->nama_branch) ?></b></td>
+			                <td class="text-right"><b><?php if($jml <= 30 ){ echo $jml; }else{ echo 0;} ?></b></td>
+			                <td class="text-right"><b><?php if($jml > 30 ){ echo $jml; }else{ echo 0;} ?></b></td>
+			            </tr>
+			        <?php } ?>
+			        </table>
+			    </div>
+		    	<div class="col-md-6 col-sm-6 col-lg-6">
+			        <table class="table table-bordered">
+			            <th style="background-color: black; color: white">RANK</th>
+			            <th style="background-color: black; color: white">BRANCH</th>
+			            <th style="background-color: black; color: white" class="text-right"> <= 200</th>
+			            <th style="background-color: black; color: white" class="text-right"> > 200 </th>
+			            <?php $no=1; foreach($sum_tl as $tl){ 
+			            $jml = $tl->amount;
+			            ?> 
+			            <tr>
+			                <td class="text-center"><b><?php echo $no++; ?></b></td>
+			                <td class="text-left"><b><?php echo strtoupper($tl->nama_branch) ?></b></td>
+			                <td class="text-right"><b><?php if($jml <= 200 ){ echo $jml; }else{ echo 0;} ?></b></td>
+			                <td class="text-right"><b><?php if($jml > 200 ){ echo $jml; }else{ echo 0;} ?></b></td>
+			            </tr>
+			        <?php } ?>
+			       </table>
+			   	</div>
+				<div class="col-md-12 col-sm-12 col-lg-12">
+					<div id="detail_branch"></div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
