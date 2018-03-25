@@ -50,6 +50,9 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
+            // $data['sum_tsa']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
+            // $data['sum_tl']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
+            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
@@ -61,6 +64,8 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
+            // $data['sum_tsa']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
+            // $data['sum_tl']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
@@ -76,6 +81,8 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
+            // $data['sum_tsa']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
+            // $data['sum_tl']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);

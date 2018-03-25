@@ -109,6 +109,5 @@ class bastmodel extends CI_Model{
 		$result=$query_result->result();
 		return $result;
 
-	}
-	
+	}	
 }

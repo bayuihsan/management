@@ -76,10 +76,20 @@ class bast extends CI_Controller {
             if($data['no_bast']!="" && $data['branch_id']!="" && $data['tanggal_masuk']!=""){
                 if($do=='insert'){
                     //Check Duplicate Entry    
-                    if(!value_exists("bast_header","no_bast",$data['no_bast'])){    
-                        if($this->db->insert('bast_header',$data)){
-                            $last_id=$this->db->insert_id();    
-                            echo '{"result":"true", "action":"insert", "last_id":"'.$last_id.'"}';
+                    if(!value_exists("bast_header","no_bast",$data['no_bast'])){
+                        if($sess_level == 4){
+                            $jml_bast=$this->bastmodel->get_all_bydate('');
+                        }else{
+                            $jml_bast=$this->bastmodel->get_all_bydate($sess_branch);
+                        }
+
+                        if(count($jml_bast)>=2){
+                            echo '{"result":"false", "message":"Pembuatan BAST maksimal 2 kali dalam sehari.!!"}';;
+                        }else{
+                            if($this->db->insert('bast_header',$data)){
+                                $last_id=$this->db->insert_id();    
+                                echo '{"result":"true", "action":"insert", "last_id":"'.$last_id.'"}';
+                            }
                         }
                     }else{
                         echo '{"result":"false", "message":"This Name Is Already Exists !"}';;
