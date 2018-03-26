@@ -653,6 +653,42 @@ class ReportModel extends CI_Model{
 
 	}
 
+	//sla global for hvc and grapari
+		public function getReportSLA($tanggal,$status,$to_date)
+	{
+		$date = $to_date;
+		//$lm = date('Y-m-d', strtotime('-1 month', strtotime( $date )));
+		$branch_query=$this->db->query("SELECT z.branch_id, z.nama_branch,  
+	IFNULL((SELECT COUNT(a.psb_id) 
+		FROM new_psb a 
+		RIGHT JOIN bast_header c ON a.no_bast = c.no_bast 
+		WHERE a.STATUS='sukses' AND a.branch_id=z.branch_id AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'
+		),0) AS 'jumlah_grapari',
+	IFNULL((SELECT SUM(DATEDIFF(a.tanggal_aktif, c.tanggal_terima)) 
+		FROM new_psb a 
+		RIGHT JOIN bast_header c ON a.no_bast = c.no_bast 
+		WHERE a.STATUS='sukses' AND a.branch_id=z.branch_id AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'
+		),0) AS 'sla_grapari',
+	IFNULL((SELECT COUNT(b.psb_id) 
+		FROM new_psb b 
+		RIGHT JOIN bast_header d ON b.no_bast = d.no_bast 
+		WHERE b.STATUS='masuk' AND b.branch_id=z.branch_id  AND DATE_FORMAT(b.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'
+		),0) AS 'jumlah_hvc',
+	IFNULL((SELECT SUM(DATEDIFF(d.tanggal_terima, b.tanggal_masuk)) 
+		FROM new_psb b 
+		RIGHT JOIN bast_header d ON b.no_bast = d.no_bast 
+		WHERE b.STATUS='masuk' AND b.branch_id=z.branch_id  AND DATE_FORMAT(b.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+		ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'
+		),0) AS 'sla_hvc'
+		FROM branch z
+		WHERE z.branch_id NOT IN('17')")->result();
+		$result=$branch_query;
+		return $result;
+	}
+
 	//get report paket information 
 	public function getReportPaket($branch_id,$tanggal,$status,$ly,$to_date)
 	{

@@ -491,6 +491,64 @@ class Reports extends CI_Controller {
 
     }
 
+    //View Branch Report// 
+    public function service_level($action='',$tanggal='',$status='',$to_date='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('reports/service_level',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/service_level',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $tanggal    =$this->input->post('vtanggal',true); 
+            $status     =$this->input->post('vstatus',true); 
+            $to_date    =$this->input->post('vto-date',true);  
+            if(date('Y-m-d', strtotime($to_date)) > date('Y-m-d')){
+                echo "error_tgl_lebih";
+            }else{
+                $tgl        = date('d', strtotime($to_date));
+                $reportData=$this->Reportmodel->getReportSLA($tanggal,$status,$to_date);
+                if(empty($reportData)){
+                    echo "false";
+                }else{
+                    $no=1 ;
+
+                    foreach ($reportData as $report) { 
+                        $slagr  = $report->sla_grapari;
+                        $jmlgr  = $report->jumlah_grapari;
+                        if ($jmlgr == 0){
+                            $rata2gr = 0;
+                        }else{
+                            $rata2gr = $slagr/$jmlgr;
+                            
+                        }
+                        $slahvc = $report->sla_hvc;
+                        $jmlhvc = $report->jumlah_hvc;
+
+                        if($jmlhvc == 0){
+                            $rata2hvc = 0;
+                        }else{
+                            $rata2hvc = $slahvc/$jmlhvc;
+                        }
+                        ?>
+                        <tr>
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo $report->nama_branch ?></td>
+                            <td><?php echo $rata2gr ?></td>
+                            <td><?php echo $rata2hvc ?></td>
+                            <td><?php echo $rata2hvc + $rata2gr ?></td>
+                        </tr>
+                    <?php 
+                        
+                    }  
+                }
+
+        }
+
+    }}
+
     public function allbranch($action='', $opsi='', $to_date='')
     {
         $data=array();
