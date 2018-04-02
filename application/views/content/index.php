@@ -238,9 +238,64 @@
 <!--End Panel-->
 </div>
 <!--End Paket Col-->
-<?php /*
 
-*/?>
+
+<div class="col-md-6 col-sm-6 col-lg-6">
+<!--Start Panel-->
+<div class="panel panel-default medium-box">
+    <!-- Default panel contents -->
+    <div class="panel-heading">TOP TSA (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
+    <div class="panel-body financial-bal" style="font-size: 11px; ">
+        <table class="table table-bordered" >
+            <th style="background-color: black; color: white">RANK</th>
+            <th style="background-color: black; color: white">BRANCH</th>
+            <th style="background-color: black; color: white" class="text-right"> <= 30</th>
+            <th style="background-color: black; color: white" class="text-right"> > 30</th>
+        <?php $no=1; foreach($sum_tsa as $tsa){ 
+            $jml = $tsa->amount;
+            ?> 
+            <tr>
+                <td class="text-center"><b><?php echo $no++; ?></b></td>
+                <td class="text-left"><b><?php echo strtoupper($tsa->nama_branch) ?></b></td>
+                <td class="text-right"><b><?php if($jml <= 30 ){ echo $jml; }else{ echo 0;} ?></b></td>
+                <td class="text-right"><b><?php if($jml > 30 ){ echo $jml; }else{ echo 0;} ?></b></td>
+            </tr>
+        <?php } ?>
+        </table>
+    </div>
+    <!--End Panel Body-->
+</div>
+<!--End Panel-->
+</div>
+
+<div class="col-md-6 col-sm-6 col-lg-6">
+<!--Start Panel-->
+<div class="panel panel-default medium-box">
+    <!-- Default panel contents -->
+    <div class="panel-heading">TOP TEAM LEADER (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
+    <div class="panel-body financial-bal" style="font-size: 11px; ">
+        <table class="table table-bordered">
+            <th style="background-color: black; color: white">RANK</th>
+            <th style="background-color: black; color: white">BRANCH</th>
+            <th style="background-color: black; color: white" class="text-right"> <= 200</th>
+            <th style="background-color: black; color: white" class="text-right"> > 200 </th>
+            <?php $no=1; foreach($sum_tl as $tl){ 
+            $jml = $tl->amount;
+            ?> 
+            <tr>
+                <td class="text-center"><b><?php echo $no++; ?></b></td>
+                <td class="text-left"><b><?php echo strtoupper($tl->nama_branch) ?></b></td>
+                <td class="text-right"><b><?php if($jml <= 200 ){ echo $jml; }else{ echo 0;} ?></b></td>
+                <td class="text-right"><b><?php if($jml > 200 ){ echo $jml; }else{ echo 0;} ?></b></td>
+            </tr>
+        <?php } ?>
+       </table>
+    </div>
+    <!--End Panel Body-->
+</div>
+<!--End Panel-->
+</div>
+
 <!--Start Channel-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->

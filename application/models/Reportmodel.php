@@ -508,6 +508,32 @@ class ReportModel extends CI_Model{
 
 	}
 
+	//get top branch information 
+	public function getSumTSA($limit=0, $tgl='')
+	{
+		$date = $tgl;
+		// $last_date=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
+		// $date1=$this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
+		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'
+					HAVING COUNT(psb_id) <= 30),0) AS 'kurang30',
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'lebih30',
+			FROM new_psb a 
+			JOIN branch b ON a.branch_id=b.branch_id
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' GROUP BY b.nama_branch ORDER BY amount DESC LIMIT ".$limit."
+			")->result();
+
+		$result=$sukses_query;
+		return $result;
+	}
+
 	//get top channel information 
 	public function getTopChannel($limit=0, $ly='', $lm='', $tgl='')
 	{
