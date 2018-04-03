@@ -9,12 +9,6 @@
 <?php 
 $status=array('sukses'=>'sukses',
   'valid'=>'valid',
-  'cancel'=>'cancel',
-  'reject'=>'reject',
-  'pending'=>'pending',
-  'retur'=>'retur',
-  'blacklist'=>'blacklist',
-  'bentrok'=>'bentrok',
   'masuk'=>'masuk');
 $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_validasi", "tanggal_masuk"=>"tanggal_masuk");
 ?>
@@ -87,8 +81,9 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                     <thead>
                         <th>No</th>
                         <th>Branch</th>
-                        <th class="text-right">Jumlah</th>
-                        <th class="text-right">Rata2 SLA</th>
+                        <th>Rata2 SLA GraPARI</th>
+                        <th>Rata2 SLA HVC </th>
+                        <th>Total SLA</th>
                     </thead>
                     <tbody>
 

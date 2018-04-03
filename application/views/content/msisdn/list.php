@@ -10,6 +10,7 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Msisdn <div class="add-button">
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('msisdn/add') ?>">Add Msisdn</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('msisdn/export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-msisdn-table" class="display responsive nowrap" cellspacing="0" width="100%">
