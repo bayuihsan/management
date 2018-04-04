@@ -331,7 +331,7 @@ class sales extends CI_Controller {
             $data['jenis_event']        =addslashes($this->input->post('sjenis_event',true));
             $data['nama_event']         =addslashes($this->input->post('snama_event',true));
             $data['status']             = $status = addslashes($this->input->post('sstatus',true));
-            $data['deskripsi']          =addslashes($this->input->post('sdekripsi',true));
+            $data['deskripsi']          =addslashes($this->input->post('id_reason',true));
 
             $data['branch_id']          =addslashes($this->input->post('sbranch',true));
             $data['sub_sales_channel']  = $sub_channel = addslashes($this->input->post('ssub_channel',true));
@@ -362,7 +362,7 @@ class sales extends CI_Controller {
             $this->form_validation->set_rules('sjenis_event', 'Jenis Event', 'trim|required|xss_clean');
             $this->form_validation->set_rules('snama_event', 'Nama Event', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('sstatus', 'Status', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('sdekripsi', 'Keterangan', 'trim|required|xss_clean|min_length[5]');
+            $this->form_validation->set_rules('id_reason', 'Keterangan', 'trim|required|xss_clean');
 
             $this->form_validation->set_rules('sbranch', 'Branch', 'trim|required|xss_clean');
             $this->form_validation->set_rules('ssub_channel', 'Sub Channel', 'trim|required|xss_clean');

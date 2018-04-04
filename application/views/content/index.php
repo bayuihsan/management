@@ -247,20 +247,34 @@
     <div class="panel-heading">TOP TSA (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
     <div class="panel-body financial-bal" style="font-size: 11px; ">
         <table class="table table-bordered" >
-            <th style="background-color: black; color: white">RANK</th>
+            <th style="background-color: black; color: white">NO</th>
             <th style="background-color: black; color: white">BRANCH</th>
             <th style="background-color: black; color: white" class="text-right"> <= 30</th>
             <th style="background-color: black; color: white" class="text-right"> > 30</th>
-        <?php $no=1; foreach($sum_tsa as $tsa){ 
-            $jml = $tsa->amount;
-            ?> 
-            <tr>
-                <td class="text-center"><b><?php echo $no++; ?></b></td>
-                <td class="text-left"><b><?php echo strtoupper($tsa->nama_branch) ?></b></td>
-                <td class="text-right"><b><?php if($jml <= 30 ){ echo $jml; }else{ echo 0;} ?></b></td>
-                <td class="text-right"><b><?php if($jml > 30 ){ echo $jml; }else{ echo 0;} ?></b></td>
-            </tr>
-        <?php } ?>
+        <?php $no=1; 
+            $tgl = $max_tanggal;
+            foreach($branch as $row){ 
+                $branch_id_tsa = $row->branch_id;
+                if($branch_id_tsa != 17){
+                    $tsa_k30 = $this->db->query("SELECT branch_id, sales_person, COUNT(psb_id) AS jumlah
+                                FROM new_psb 
+                                WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND branch_id='$branch_id_tsa'
+                                GROUP BY branch_id, sales_person
+                                HAVING jumlah <= 30")->num_rows();
+                    $tsa_l30 = $this->db->query("SELECT branch_id, sales_person, COUNT(psb_id) AS jumlah
+                                FROM new_psb 
+                                WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND branch_id='$branch_id_tsa'
+                                GROUP BY branch_id, sales_person
+                                HAVING jumlah > 30")->num_rows();
+                ?> 
+                <tr>
+                    <td class="text-center"><b><?php echo $no++; ?></b></td>
+                    <td class="text-left"><b><?php echo strtoupper($row->nama_branch) ?></b></td>
+                    <td class="text-right"><b><?php echo $tsa_k30?></b></td>
+                    <td class="text-right"><b><?php echo $tsa_l30?></b></td>
+                </tr>
+            <?php }
+            } ?>
         </table>
     </div>
     <!--End Panel Body-->
@@ -275,20 +289,35 @@
     <div class="panel-heading">TOP TEAM LEADER (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
     <div class="panel-body financial-bal" style="font-size: 11px; ">
         <table class="table table-bordered">
-            <th style="background-color: black; color: white">RANK</th>
+            <th style="background-color: black; color: white">NO</th>
             <th style="background-color: black; color: white">BRANCH</th>
             <th style="background-color: black; color: white" class="text-right"> <= 200</th>
             <th style="background-color: black; color: white" class="text-right"> > 200 </th>
-            <?php $no=1; foreach($sum_tl as $tl){ 
-            $jml = $tl->amount;
-            ?> 
-            <tr>
-                <td class="text-center"><b><?php echo $no++; ?></b></td>
-                <td class="text-left"><b><?php echo strtoupper($tl->nama_branch) ?></b></td>
-                <td class="text-right"><b><?php if($jml <= 200 ){ echo $jml; }else{ echo 0;} ?></b></td>
-                <td class="text-right"><b><?php if($jml > 200 ){ echo $jml; }else{ echo 0;} ?></b></td>
-            </tr>
-        <?php } ?>
+            <?php $no=1; 
+            foreach($branch as $row_tl){ 
+                $branch_id_tl = $row_tl->branch_id;
+                if($branch_id_tl != 17){
+                    $tl_k200 = $this->db->query("SELECT a.branch_id, a.tl, COUNT(psb_id) AS jumlah
+                                FROM new_psb a 
+                                JOIN app_users b ON a.tl = b.username 
+                                WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND a.branch_id='$branch_id_tl' AND b.level='3'
+                                GROUP BY a.branch_id, a.tl
+                                HAVING jumlah <= 200")->num_rows();
+                    $tl_l200 = $this->db->query("SELECT a.branch_id, a.tl, COUNT(psb_id) AS jumlah
+                                FROM new_psb a 
+                                JOIN app_users b ON a.tl = b.username 
+                                WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND a.branch_id='$branch_id_tl' AND b.level='3'
+                                GROUP BY a.branch_id, a.tl
+                                HAVING jumlah > 200")->num_rows();                
+                ?> 
+                <tr>
+                    <td class="text-center"><b><?php echo $no++; ?></b></td>
+                    <td class="text-left"><b><?php echo strtoupper($row_tl->nama_branch) ?></b></td>
+                    <td class="text-right"><b><?php echo $tl_k200?></b></td>
+                    <td class="text-right"><b><?php echo $tl_l200?></b></td>
+                </tr>
+            <?php }
+            } ?>
        </table>
     </div>
     <!--End Panel Body-->

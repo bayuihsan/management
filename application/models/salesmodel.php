@@ -18,6 +18,7 @@ class salesModel extends CI_Model{
 	//get all sales  
 	public function get_all($tgl = ""){
 		$date = $tgl;
+		$bulan = date('Y-m');
 		$query_result = $this->db->query("SELECT a.*, b.nama_branch, c.nama as 'nama_tl', d.nama_paket, e.sub_channel, f.nama as 'aktivator', g.nama as 'validator', DATEDIFF(a.tanggal_aktif, a.tanggal_masuk) as sla
 			FROM new_psb a
 			LEFT JOIN branch b ON b.branch_id = a.branch_id
@@ -26,9 +27,8 @@ class salesModel extends CI_Model{
 			LEFT JOIN sales_channel e ON e.id_channel = a.sub_sales_channel
 			LEFT JOIN app_users f ON f.username = a.username 
 			LEFT JOIN app_users g ON g.username = a.validasi_by 
-			where DATE_FORMAT(a.tanggal_masuk,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',
-		INTERVAL 1 MONTH)), 1) AND '".$date."'
-			ORDER BY a.tanggal_masuk DESC");  
+			where DATE_FORMAT(a.tanggal_aktif,'%Y-%m')='$bulan'
+			ORDER BY a.tanggal_aktif DESC");  
 		$result=$query_result->result();
 		return $result;
 
