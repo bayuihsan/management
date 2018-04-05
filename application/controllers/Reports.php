@@ -84,6 +84,77 @@ class Reports extends CI_Controller {
 
     }
 
+    public function allbranch($action='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('reports/allbranch',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/allbranch',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $tanggal    =$this->input->post('vtanggal',true); 
+            $status    =$this->input->post('vstatus',true); 
+            $to_date    =$this->input->post('vto-date',true);  
+            $tgl        = date('d', strtotime($to_date));
+            $reportData=$this->Reportmodel->getReportBranch($tanggal,$status,$to_date);
+            if(empty($reportData)){
+                echo "false";
+            }else{
+                $no=1 ;
+                $tlm = 0;
+                $ttm = 0;
+                foreach ($reportData as $report) { 
+                    $lm = $report->last_month;
+                    $tm = $report->this_month;
+                    $avg = $tm/$tgl;
+                    if($lm == 0){ 
+                        $mom = 'Infinity'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                        if($mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($mom < 0){
+                            $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo $report->nama_branch ?></td>
+                        <td class="text-right"><?php echo number_format($lm);?></td>
+                        <td class="text-right"><?php echo number_format($tm);?></td>
+                        <td class="text-right"><?php echo round($avg);?></td>
+                        <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
+                    </tr>
+                <?php 
+                    $tlm = $tlm + $lm;
+                    $ttm = $ttm + $tm; 
+                  }  
+                 //Summery value
+                    $tavg = $ttm/$tgl;
+                    $tmom = (($ttm-$tlm)/$tlm)*100; $tmom = decimalPlace($tmom);
+                    if($tmom > 0){
+                        $tstyle = "style='background-color:#7CFC00'";
+                    }else if($tmom < 0){
+                        $tstyle = "style='background-color:#F08080'";
+                    }else{
+                        $tstyle = "style='background-color:#D3D3D3'";
+                    }
+                 echo "<tr><td colspan='2'><b>Total</b></td>";
+                 echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
+                 echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
+                 echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                 echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td></tr>"; 
+            }
+        }
+
+    }
+
     //View Paket Report// 
     public function paket($action='')
     {
