@@ -270,9 +270,29 @@
                 <tr>
                     <td class="text-center"><b><?php echo $no++; ?></b></td>
                     <td class="text-left"><b><?php echo strtoupper($row->nama_branch) ?></b></td>
-                    <td class="text-right"><b><?php echo $tsa_k30?></b></td>
-                    <td class="text-right"><b><?php echo $tsa_l30?></b></td>
+                    <td class="text-right"><b><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch_k30_<?php echo $branch_id_tsa ?>"><?php echo $tsa_k30?></a></b></td>
+                    <td class="text-right"><b><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch_l30_<?php echo $branch_id_tsa ?>"><?php echo $tsa_l30?></a></b></td>
                 </tr>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        var branch_id_tsa = "<?php echo $branch_id_tsa?>";
+                        var $modal_tsa = $('#load_popup_modal_show_branch_detail_tsa');
+                        $('#click_to_load_modal_popup_branch_k30_<?php echo $branch_id_tsa ?>').on('click', function(){
+                            $modal_tsa.load('<?php echo base_url()?>Admin/load_modal_detail_tsa/',{'branch_id': branch_id_tsa,'tipe':'k30','tanggal':'<?php echo $max_tanggal?>'},
+                            function(){
+                                $modal_tsa.modal('show');
+                            });
+
+                        });
+                        $('#click_to_load_modal_popup_branch_l30_<?php echo $branch_id_tsa ?>').on('click', function(){
+                            $modal_tsa.load('<?php echo base_url()?>Admin/load_modal_detail_tsa/',{'branch_id': branch_id_tsa,'tipe':'l30','tanggal':'<?php echo $max_tanggal?>'},
+                            function(){
+                                $modal_tsa.modal('show');
+                            });
+
+                        });
+                    });
+                </script>
             <?php }
             } ?>
         </table>
@@ -281,6 +301,7 @@
 </div>
 <!--End Panel-->
 </div>
+<div id="load_popup_modal_show_branch_detail_tsa" class="modal fade" tabindex="-1"></div>
 
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
@@ -313,9 +334,29 @@
                 <tr>
                     <td class="text-center"><b><?php echo $no++; ?></b></td>
                     <td class="text-left"><b><?php echo strtoupper($row_tl->nama_branch) ?></b></td>
-                    <td class="text-right"><b><?php echo $tl_k200?></b></td>
-                    <td class="text-right"><b><?php echo $tl_l200?></b></td>
+                    <td class="text-right"><b><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch_k200_<?php echo $branch_id_tl ?>"><?php echo $tl_k200?></a></b></td>
+                    <td class="text-right"><b><a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch_l200_<?php echo $branch_id_tl ?>"><?php echo $tl_l200?></a></b></td>
                 </tr>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        var branch_id_tl = "<?php echo $branch_id_tl?>";
+                        var $modal_tsa = $('#load_popup_modal_show_branch_detail_tl');
+                        $('#click_to_load_modal_popup_branch_k200_<?php echo $branch_id_tl ?>').on('click', function(){
+                            $modal_tsa.load('<?php echo base_url()?>Admin/load_modal_detail_tl/',{'branch_id': branch_id_tl,'tipe':'k200','tanggal':'<?php echo $max_tanggal?>'},
+                            function(){
+                                $modal_tsa.modal('show');
+                            });
+
+                        });
+                        $('#click_to_load_modal_popup_branch_l200_<?php echo $branch_id_tl ?>').on('click', function(){
+                            $modal_tsa.load('<?php echo base_url()?>Admin/load_modal_detail_tl/',{'branch_id': branch_id_tl,'tipe':'l200','tanggal':'<?php echo $max_tanggal?>'},
+                            function(){
+                                $modal_tsa.modal('show');
+                            });
+
+                        });
+                    });
+                </script>
             <?php }
             } ?>
        </table>
@@ -324,7 +365,7 @@
 </div>
 <!--End Panel-->
 </div>
-
+<div id="load_popup_modal_show_branch_detail_tl" class="modal fade" tabindex="-1"></div>
 <!--Start Channel-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->

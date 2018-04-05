@@ -51,8 +51,6 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
-            $data['sum_tsa']=$this->Reportmodel->getSumTSA(500,$param1);
-            $data['sum_tl']=$this->Reportmodel->getSumTL(500,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
@@ -65,8 +63,6 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
-            $data['sum_tsa']=$this->Reportmodel->getSumTSA(500,$param1);
-            $data['sum_tl']=$this->Reportmodel->getSumTL(500,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
@@ -82,8 +78,6 @@ class Admin extends CI_Controller {
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
-            $data['sum_tsa']=$this->Reportmodel->getSumTSA(500,$param1);
-            $data['sum_tl']=$this->Reportmodel->getSumTL(500,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
@@ -96,14 +90,68 @@ class Admin extends CI_Controller {
     {
         $tanggal    = $param1 = $this->input->post('tanggal',true);
         $date1      = $this->db->query("SELECT ADDDATE(LAST_DAY(SUBDATE('".$tanggal."',INTERVAL 1 MONTH)), 1) as d")->row()->d;
-        $date2      = $lm = date('Y-m-d', strtotime('-1 month', strtotime( $tanggal )));
-        $date3      = $ly = date('Y-m-d', strtotime('-1 year', strtotime( $tanggal )));
         $data['from_date'] = $date1;
         $data['to_date'] = $tanggal;
         $data['line_chart_branch']=$this->Reportmodel->dayByDaySalesBranch($date1, $tanggal);
-        $data['sum_tsa']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
-        $data['sum_tl']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
         $this->load->view('content/load_modal_branch',$data);
+    }
+
+    function load_modal_detail_tsa()
+    {
+        $branch_id  = $this->input->post('branch_id',true);
+        $tgl        = date('Y-m-d', strtotime($this->input->post('tanggal',true)));
+        $tipe       = $this->input->post('tipe',true);
+        if($tipe == "k30"){
+            $data['title'] = "Detail Data <= 30";
+            $data['branch_30'] = $this->db->query("SELECT a.branch_id, b.nama_branch, a.sales_person, COUNT(a.psb_id) AS jumlah
+                                FROM new_psb a
+                                JOIN branch b ON a.branch_id=b.branch_id
+                                WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND a.branch_id='$branch_id'
+                                GROUP BY a.branch_id, a.sales_person
+                                HAVING jumlah <= 30
+                                ORDER BY jumlah DESC")->result();
+        }else{
+            $data['title'] = "Detail Data > 30";
+            $data['branch_30'] = $this->db->query("SELECT a.branch_id, b.nama_branch, a.sales_person, COUNT(a.psb_id) AS jumlah
+                                FROM new_psb a
+                                JOIN branch b ON a.branch_id=b.branch_id
+                                WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND a.branch_id='$branch_id'
+                                GROUP BY a.branch_id, a.sales_person
+                                HAVING jumlah > 30
+                                ORDER BY jumlah DESC")->result();
+        }
+        $data['branch_id'] = $branch_id;
+        $this->load->view('content/load_modal_branch_detail_tsa',$data);
+    }
+
+    function load_modal_detail_tl()
+    {
+        $branch_id  = $this->input->post('branch_id',true);
+        $tgl        = date('Y-m-d', strtotime($this->input->post('tanggal',true)));
+        $tipe       = $this->input->post('tipe',true);
+        if($tipe == "k200"){
+            $data['title'] = "Detail Data <= 200";
+            $data['branch_200'] = $this->db->query("SELECT a.branch_id, c.nama_branch, a.tl, b.nama, COUNT(psb_id) AS jumlah
+                                FROM new_psb a 
+                                JOIN app_users b ON a.tl = b.username 
+                                JOIN branch c ON a.branch_id=c.branch_id
+                                WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND a.branch_id='$branch_id' AND b.level='3'
+                                GROUP BY a.branch_id, a.tl
+                                HAVING jumlah <= 200
+                                ORDER BY jumlah DESC")->result();
+        }else{
+            $data['title'] = "Detail Data > 200";
+            $data['branch_200'] = $this->db->query("SELECT a.branch_id, c.nama_branch, a.tl, b.nama, COUNT(psb_id) AS jumlah
+                                FROM new_psb a 
+                                JOIN app_users b ON a.tl = b.username 
+                                JOIN branch c ON a.branch_id=c.branch_id
+                                WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$tgl."',INTERVAL 1 MONTH)), 1) AND '".$tgl."' AND a.branch_id='$branch_id' AND b.level='3'
+                                GROUP BY a.branch_id, a.tl
+                                HAVING jumlah > 200
+                                ORDER BY jumlah DESC")->result();
+        }
+        $data['branch_id'] = $branch_id;
+        $this->load->view('content/load_modal_branch_detail_tl',$data);
     }
     /** Method For general settings page  **/
     public function generalSettings($action='')
