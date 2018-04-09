@@ -139,5 +139,51 @@ class Msisdn extends CI_Controller {
             $this->load->view('content/msisdn/add',$data);
             $this->load->view('theme/include/footer');
         }    
+    }
+    public function export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ORDER_ID", "ORDER_SUBMIT_DATE", "ORDER_COMPLETED_DATE", "NAMA_PELANGGAN", "USER_ID","EMPLOYEE_NAME","NAMA_PAKET");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $ctp = $this->Ctpmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($ctp as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->order_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->order_submit_date));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->order_completed_date));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nama_pelanggan_ctp));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->user_id));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, strtoupper($row->employee_name));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, strtoupper($row->nama_paket));
+                $excel_row++;
+            }
+
+            $filename = "CTP-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
     }   
 }

@@ -53,25 +53,26 @@
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>msisdn/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     <br>*Note : Input MSISDN Harus menggunakan format 628<br> 
-    <br>*Note : Jika ingin menginputkan MSISDN lebih dari 1, gunakan (,) dan (spasi).<br> 
+    <br>*Note : Jika ingin menginputkan MSISDN lebih dari 1, gunakan ( , ) dan ( spasi ).<br> 
      Contoh : 62811123124, 628112234467
     </form>
     </div>
 </div>
 </div>
-</div>
-
 <div  class="col-lg-6">
-<ul class="list-group">
+ <ul class="list-group">
 <button type="button" class="list-group-item list-group-item-dark">
-    MSISDN Upload From Excel
+    Upload MSISDN From Excel
   </button>
   <li class="list-group-item">
-<form>
-<?php echo form_open_multipart('upload/update');?>
+<?php echo form_open_multipart('uploadmsisdn/update');?>
 <input type="file" name="file" size="20" id='files'/>
-<br /><br />
-<button type="submit" class="mybtn btn-submit">Update</button>
+<input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
+<input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>"> 
+<br>
+<a href="<?php echo base_url()?>assets/ctp/template/upload_msisdn.xls" download="upload_msisdn.xls">Download Format File</a>
+<br><br>
+<button type="submit" class="mybtn btn-submit">Save</button>
 </form></li>   
 </ul>
 </div></div>
