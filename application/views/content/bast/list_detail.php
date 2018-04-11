@@ -63,11 +63,11 @@
   <!-- Default panel contents -->
     <div class="panel-heading">-</div>
     <div class="panel-body add-client">
-      <?php if(empty($edit_bast->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
         <input type="hidden" name="xno_bast" id="xno_bast" value="<?php echo $cno_bast?>">
+      <?php if(empty($edit_bast->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
         <a class="mybtn btn-success bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('bast/cek_bast/receive/'.$edit_bast->id_header) ?>">Terima</a>
       <?php } ?>
-      <a href="<?php echo base_url()?>bast/export/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Export BAST" class="mybtn btn-success"><i class="fa fa-file-excel-o"></i> Export</a>
+      <a href="<?php echo base_url()?>bast/export/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Export BAST" class="mybtn btn-success export-btn"><i class="fa fa-file-excel-o"></i> Export</a>
       <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5){ ?>
         <a href="<?php echo base_url()?>bast/add/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" class="mybtn btn-default"><i class="fa fa-plus"></i> Tambah</a>
       <?php } ?>
@@ -166,7 +166,7 @@ $(document).ready(function() {
         var main=$(this);
         swal({title: "Are you sure Want To Receive This Data?",
         text: "",
-        type: "warning",   showCancelButton: true,confirmButtonColor: "green",   
+        type: "info",   showCancelButton: true,confirmButtonColor: "green",   
         confirmButtonText: "Yes, receive it!",closeOnConfirm: false,
         showLoaderOnConfirm: true }, function(){ 
             ///////////////     
@@ -185,6 +185,24 @@ $(document).ready(function() {
             });
         }); 
         return false;       
+    });
+
+    $(document).on('click','.export-btn',function(){
+
+        var link=$(this).attr("href"); 
+        // alert(link);
+        $.ajax({
+            method : "POST",
+            url : link,
+            beforeSend : function(){
+                $(".block-ui").css('display','block'); 
+            },success : function(data){ 
+                window.open(link+'/asyn','_blank');
+                $(".block-ui").css('display','none');               
+            }
+        });
+
+        return false;
     });
 });
 function Print(data) 
