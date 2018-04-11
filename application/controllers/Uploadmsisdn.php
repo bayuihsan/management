@@ -42,26 +42,28 @@ public function update()
   $sheet = $objPHPExcel->getSheet(0);
   $highestRow = $sheet->getHighestRow();
   $highestColumn = $sheet->getHighestColumn();
-
+  $no=0;
   for ($row = 2; $row <= $highestRow; $row++){  
-   $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
-     NULL,
-     TRUE,
-     FALSE);
-   $data = array(
-     "msisdn"=>$rowData[0][0],
-     "tipe"=>$rowData[0][1],
-     "id_users"=>$this->input->post('id_users_up'),
-     "branch_id"=>$this->input->post('branch_id_up'),
-     "tanggal"=>date('Y-m-d h:i:s'));
-        $msisdn = $rowData[0][0];
-        $cek_msisdn =  $this->db->query("select count(msisdn) jml from msisdn where msisdn='$msisdn'")->row();
-        if($cek_msisdn->jml<1){
-        $insert = $this->db->insert("msisdn",$data);
-    }
- } 
+     $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+       NULL,
+       TRUE,
+       FALSE);
+     $data = array(
+       "msisdn"=>$rowData[0][0],
+       "tipe"=>$rowData[0][1],
+       "id_users"=>$this->input->post('id_users_up'),
+       "branch_id"=>$this->input->post('branch_id_up'),
+       "tanggal"=>date('Y-m-d h:i:s')
+     );
+      $msisdn = $rowData[0][0];
+      $cek_msisdn =  $this->db->query("select count(msisdn) jml from msisdn where msisdn='$msisdn'")->row();
+      if($cek_msisdn->jml<1){
+        $insert = $this->db->insert("msisdn",$data);     
+      }
+      $no = $no+1;
+   } 
    unlink($inputFileName); // hapus file temp
-   $count = $highestRow;
+   $count = $no;
    $this->session->set_flashdata('pesan','Upload berhasil, Total: <b>'.$count.'</b> data.'); 
    redirect('msisdn/view');
 

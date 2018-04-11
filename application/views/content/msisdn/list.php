@@ -13,6 +13,7 @@
     <a class="mybtn btn-default" href="<?php echo site_url('msisdn/export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
+        <p><?php echo $this->session->flashdata("pesan"); ?></p>
         <table id="repeat-msisdn-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO.</th>
