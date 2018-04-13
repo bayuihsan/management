@@ -80,6 +80,33 @@ class Admin extends CI_Controller {
         }
 	}
 
+    public function dashboard_cm($action='', $param1='')
+    {
+        $data=array();
+        $tanggal = $this->Reportmodel->getMaxDate();
+        $data['max_tanggal'] = $tanggal->tgl_max;
+        $data['lmonth'] = $lm = date('Y-m-d', strtotime('-1 month', strtotime( $tanggal->tgl_max )));
+        if($action=='asyn'){
+            $param1 = $tanggal->tgl_max;
+            $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
+            $data['cm_ekstrak']=$this->Reportmodel->getSumCM($param1);
+            $this->load->view('content/index_cm',$data);
+        }else if($action==''){
+            $param1 = $tanggal->tgl_max;
+            $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
+            $data['cm_ekstrak']=$this->Reportmodel->getSumCM($param1);
+            $this->load->view('theme/include/header');
+            $this->load->view('content/index_cm',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $data['max_tanggal'] = $param1 = $param1;
+            $data['lmonth'] = $lm = date('Y-m-d', strtotime('-1 month', strtotime( $param1 )));
+            $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
+            $data['cm_ekstrak']=$this->Reportmodel->getSumCM($param1);
+            $this->load->view('content/index_cm',$data);
+        }
+    }
+
     function load_modal()
     {
         $tanggal    = $this->input->post('tanggal',true);

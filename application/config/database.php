@@ -97,10 +97,10 @@ $db['default'] = array(
 
 $db['hvc'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'db_money',
+	'hostname' => '10.250.193.23',
+	'username' => 'area2',
+	'password' => 'area2@',
+	'database' => 'share_area2',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

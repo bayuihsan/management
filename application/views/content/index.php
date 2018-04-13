@@ -99,6 +99,45 @@
 </div>
 <!--End Daily Report Col-->
 
+<!--Start CM Ekstrak-->
+<div class="col-md-6 col-sm-6 col-lg-6">
+<!--Start Panel-->
+<div class="panel panel-default medium-box">
+    <!-- Default panel contents -->
+    
+    <div class="panel-heading">SALES CM EKTRAK (<span id="nilaibranch"><?php echo $max_tanggal?></span>) </div>
+    <div class="panel-body financial-bal" style="font-size: 11px;">
+        <!--Branch Table-->
+        <table class="table table-bordered" >
+            <tr>
+                <th style="background-color: black; color: white">KETERANGAN</th>
+                <th style="background-color: black; color: white">JUMLAH</th> 
+            </tr>
+            <tr>
+                <td>SALES</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>CHURN</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>NETADD</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>REVENUE</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <!--End Panel Body-->
+
+</div>
+<!--End Panel-->
+</div>
+<!--End CM Ekstrak Col-->
+
 <!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
