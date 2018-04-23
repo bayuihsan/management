@@ -510,8 +510,71 @@
 </div>
 <!--End Persentase Status Sales Chart-->
 
-<!--Start login Status-->
+<!--Start Panel-->
 <div class="col-md-6 col-sm-6 col-lg-6">
+<div class="panel panel-default medium-box">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Top Sub Sales Channel (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
+    <div class="panel-body financial-bal" style="font-size: 11px; ">
+        <!--Branch Table-->
+        <table class="table table-bordered" >
+            <th style="background-color: black; color: white">RANK</th>
+            <th style="background-color: black; color: white">Sub Sales Channel</th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lyear)))?></th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
+            <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
+            <th style="background-color: black; color: white" class="text-right">%MOM</th>
+            <th style="background-color: black; color: white" class="text-right">%YOY</th>
+         <?php $no=1; foreach($top_subchannel as $tsc){ ?>   
+            <tr>
+                <td class="text-center"><b><?php echo $no++; ?></b></td>
+                <td><b> <?php echo strtoupper($tsc->sub_channel) ?></b></td>
+                <td class="text-right"><b><?php $ly = $top->last_year; echo number_format($ly); ?></b></td>
+                <td class="text-right"><b><?php $lm = $top->last_month; echo number_format($lm); ?></b></td>
+                <td class="text-right"><b><?php $tm = $top->amount; echo number_format($tm); ?></b></td>
+                <?php if($lm == 0){ 
+                        $mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                        if($mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($mom < 0){
+                            $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
+                <?php if($ly == 0){ 
+                        $yoy = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $yoy = (($tm-$ly)/$ly)*100; $yoy = decimalPlace($yoy);
+                        if($yoy > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($yoy < 0){
+                            $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $yoy.' %'; ?></b></td>
+            </tr>
+
+          <?php } ?>  
+
+        </table>
+    </div>
+    <!--End Panel Body-->
+
+</div>
+<!--End Panel-->
+</div>
+<!--End channel Col-->
+
+<!--Start login Status-->
+<div class="col-md-12 col-sm-12 col-lg-12">
 <!--Start Panel-->
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->

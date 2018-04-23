@@ -518,6 +518,32 @@ class ReportModel extends CI_Model{
 
 	}
 
+	//get top sub sales channel information 
+	public function getTopSubSalesChannel($limit=0, $ly='', $lm='', $tgl='')
+	{
+		$date=date('Y-m-d', strtotime($tgl));
+		$ly=date('Y-m-d', strtotime($ly));
+		$lm=date('Y-m-d', strtotime($lm));
+		$sukses_query=$this->db->query("SELECT b.id_channel, b.sub_channel, 
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND sub_sales_channel=b.id_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year',
+			IFNULL((SELECT COUNT(psb_id) 
+				FROM new_psb 
+				WHERE STATUS='sukses' AND sub_sales_channel=b.id_channel AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
+					ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+			COUNT(a.psb_id) AS amount 
+			FROM new_psb a 
+			JOIN sales_channel b ON a.sub_sales_channel=b.id_channel
+			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.sub_channel ORDER BY amount DESC LIMIT ".$limit."
+			")->result();
+
+		$result=$sukses_query;
+		return $result;
+	}
+
 	//get report fee sales TSAinformation 
 	public function getFeeSales($branch_id, $to_date)
 	{

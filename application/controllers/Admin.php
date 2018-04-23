@@ -53,6 +53,7 @@ class Admin extends CI_Controller {
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
+            $data['top_subchannel']=$this->Reportmodel->getTopSubSalesChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
@@ -64,6 +65,7 @@ class Admin extends CI_Controller {
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
+            $data['top_subchannel']=$this->Reportmodel->getTopSubSalesChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);
@@ -79,6 +81,7 @@ class Admin extends CI_Controller {
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
+            $data['top_subchannel']=$this->Reportmodel->getTopSubSalesChannel(10,$ly,$lm,$param1);
             $data['top_tl']=$this->Reportmodel->getTopTL(10,$ly,$lm,$param1);
             $data['pie_data']=$this->Reportmodel->getContrStatus($param1);
             $data['last_login']=$this->Adminmodel->getLastLogin(10);

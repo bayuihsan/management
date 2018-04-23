@@ -61,8 +61,23 @@ function jenis_event($id){
         echo strtoupper("Mandiri");
     }elseif ($id=="6") {
         echo strtoupper("Telkomsel");
+    }elseif ($id=="7") {
+        echo strtoupper("BNI");
+    }elseif ($id=="8") {
+        echo strtoupper("BRI");
+    }elseif ($id=="9") {
+        echo strtoupper("Direct Sales/Residential");
+    }elseif ($id=="10") {
+        echo strtoupper("Event - Booth - Canvasing - Banking -etc");
+    }elseif ($id=="11") {
+        echo strtoupper("Partnership");
+    }elseif ($id=="12") {
+        echo strtoupper("Outlet Regular AD");
+    }elseif ($id=="13") {
+        echo strtoupper("Outlet Device (MDN+MDR)");
     }
 }
+
  ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
