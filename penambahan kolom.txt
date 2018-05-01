@@ -28,6 +28,8 @@ ALTER TABLE `msisdn` CHANGE `status` `status` VARCHAR(50) CHARACTER SET latin1 C
 
 ALTER TABLE `app_users` CHANGE `no_hp` `no_hp` VARCHAR(20) NULL DEFAULT NULL;
 
+ALTER TABLE `new_psb` ADD `id_grapari` INT NOT NULL AFTER `tanggal_aktif`;
+
 ALTER TABLE `app_users`
   DROP `no_rekening`,
   DROP `nama_bank`;

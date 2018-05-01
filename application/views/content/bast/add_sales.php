@@ -90,6 +90,15 @@ $status=array('sukses'=>'sukses',
           <?php } ?>
         </select>      
       </div>
+      <div class="form-group"> 
+        <label for="ssales_person">Sales Person</label>
+        <select name="ssales_person" class="form-control" id="ssales_person">  
+          <option value="">Pilih Sales Person</option>
+          <?php foreach ($sales_person as $new) {?>
+          <option value="<?php echo $new->nama_sales ?>" class="<?php echo $new->id_users?>"><?php echo "(".$new->id_sales.") ".$new->nama_sales ?></option>
+          <?php } ?>
+        </select>      
+      </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>

@@ -376,6 +376,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <span class="title">Master</span></a>
 <ul class="collapse">
     <li><a href="<?php echo site_url('branch/view') ?>"><i class="fa fa-calendar-plus-o"></i> Branch</a></li>
+    <li><a href="<?php echo site_url('grapari/view') ?>"><i class="fa fa-calendar-plus-o"></i> Grapari</a></li>
     <li><a href="<?php echo site_url('reason/view') ?>"><i class="fa fa-calendar-plus-o"></i> Reason</a></li>
     <li><a href="<?php echo site_url('paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Paket</a></li>
     <li><a href="<?php echo site_url('kategori_paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>

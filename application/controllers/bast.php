@@ -13,7 +13,7 @@ class bast extends CI_Controller {
         }
         date_default_timezone_set("Asia/Bangkok"); 
         $this->db2 = $this->load->database('hvc', TRUE);
-        $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel','Reasonmodel'));
+        $this->load->model(array('bastmodel','salesmodel','graparimodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel','Reasonmodel'));
     }
     
     public function index(){
@@ -135,6 +135,7 @@ class bast extends CI_Controller {
             $datax['tl']=$this->usersmodel->get_all_tl();
             $datax['sub_channel']=$this->Sales_channelmodel->get_all();
             $datax['sales_person']=$this->Salespersonmodel->get_all();
+            $datax['grapari']=$this->graparinmodel->get_all();
             $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
@@ -143,6 +144,7 @@ class bast extends CI_Controller {
             $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);
             $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);
             $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);
+            $datax['grapari']=$this->graparinmodel->get_all_by($sess_branch);
             $datax['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);
         }
         
@@ -303,7 +305,7 @@ class bast extends CI_Controller {
             $this->db->update('bast_header', $datareceive);    
             echo "terima"; 
         } else if($action=='view'){
-            $cek    =addslashes($this->input->post('cek',true)); 
+            $cek    =addslashes(trim($this->input->post('cek',true))); 
             $this->form_validation->set_rules('cek', 'MSISDN', 'trim|required|xss_clean');
             if (!$this->form_validation->run() == FALSE)
             {
@@ -331,14 +333,14 @@ class bast extends CI_Controller {
                             <td><?php echo $row->jumlah." MSISDN" ?></td>
                             <td>
                             <?php 
-                            if($this->session->userdata('level')==4 || $this->session->userdata('level')==5){ ?>
+                            if($this->session->userdata('branch_id')==$row->branch_id && ($this->session->userdata('level')==4 || $this->session->userdata('level')==5)){ ?>
                             <a class="mybtn btn-default btn-xs" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" href="<?php echo site_url('bast/add/'.$row->no_bast) ?>">Tambah</a>
-                            <?php }
-                            if(empty($row->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
+                            <?php } 
+                            if($this->session->userdata('branch_id')==$row->branch_id && empty($row->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
                                 <input type="hidden" name="xno_bast" id="xno_bast" value="<?php echo $row->no_bast?>">
                                 <a class="mybtn btn-success btn-xs bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('bast/cek_bast/receive/'.$row->id_header) ?>">Terima</a>
-                        <?php } ?>
-                                <a href="<?php echo site_url('bast/detail').'/'.$row->no_bast; ?>" data-toggle="tooltip" title="Click For Detail BAST" class="mybtn btn-info btn-xs">Detail</a></td>
+                            <?php } ?>
+                            <a href="<?php echo site_url('bast/detail').'/'.$row->no_bast; ?>" data-toggle="tooltip" title="Click For Detail BAST" class="mybtn btn-info btn-xs">Detail</a></td>
                         </tr>
                     <?php 
                     
@@ -403,6 +405,7 @@ class bast extends CI_Controller {
         if($sess_level==4){
             $datax['msisdn']=$this->Msisdnmodel->get_all();
             $datax['branch']=$this->Branchmodel->get_all();
+            $datax['grapari']=$this->graparimodel->get_all();
             $datax['tl']=$this->usersmodel->get_all_tl();
             $datax['sub_channel']=$this->Sales_channelmodel->get_all();
             $datax['sales_person']=$this->Salespersonmodel->get_all();
@@ -410,6 +413,7 @@ class bast extends CI_Controller {
         }else{
             $datax['msisdn']=$this->Msisdnmodel->get_all_by_status($sess_branch);
             $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $datax['grapari']=$this->graparimodel->get_all_by($sess_branch);
             $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);
             $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);
             $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);
@@ -432,6 +436,7 @@ class bast extends CI_Controller {
             $do                         =addslashes($this->input->post('action',true));     
             $data['no_bast']            = $no_bast = addslashes($this->input->post('sno_bast',true)); 
             $data['branch_id']          =addslashes($this->input->post('sbranch',true));
+            $data['id_grapari']          =addslashes($this->input->post('sgrapari',true));
             $data['sub_sales_channel']  = $sub_channel = addslashes($this->input->post('ssub_channel',true));
             $data['detail_sub']         =addslashes($this->input->post('sdetail_sub',true));
             $data['TL']                 = $tl =addslashes($this->input->post('sTL',true));
@@ -473,6 +478,7 @@ class bast extends CI_Controller {
 
             $this->form_validation->set_rules('sno_bast', 'No BAST', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sbranch', 'Branch', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sgrapari', 'Grapari', 'trim|required|xss_clean');
             $this->form_validation->set_rules('ssub_channel', 'Sub Channel', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sdetail_sub', 'Detail Sub', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('sTL', 'TL', 'trim|required|xss_clean');
@@ -541,6 +547,7 @@ class bast extends CI_Controller {
         if($sess_level==4){
             $datax['msisdn']=$this->Msisdnmodel->get_all();
             $datax['branch']=$this->Branchmodel->get_all();
+            $datax['grapari']=$this->graparimodel->get_all();
             $datax['tl']=$this->usersmodel->get_all_tl();
             $datax['sub_channel']=$this->Sales_channelmodel->get_all();
             $datax['sales_person']=$this->Salespersonmodel->get_all();
@@ -549,6 +556,7 @@ class bast extends CI_Controller {
         }else{
             $datax['msisdn']=$this->Msisdnmodel->get_all_by_status($sess_branch);
             $datax['branch']=$this->Branchmodel->get_all_by($sess_branch);
+            $datax['grapari']=$this->graparimodel->get_all_by($sess_branch);
             $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);
             $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);
             $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);
@@ -572,6 +580,7 @@ class bast extends CI_Controller {
             $do                         =addslashes($this->input->post('action',true));     
             $data['no_bast']            = $no_bast = addslashes($this->input->post('sno_bast',true)); 
             $data['branch_id']          =addslashes($this->input->post('sbranch',true));
+            $data['id_grapari']          =addslashes($this->input->post('sgrapari',true));
             $data['sub_sales_channel']  = $sub_channel = addslashes($this->input->post('ssub_channel',true));
             $data['detail_sub']         =addslashes($this->input->post('sdetail_sub',true));
             $data['TL']                 = $tl =addslashes($this->input->post('sTL',true));
@@ -622,6 +631,7 @@ class bast extends CI_Controller {
 
             $this->form_validation->set_rules('sno_bast', 'No BAST', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sbranch', 'Branch', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('sgrapari', 'Grapari', 'trim|required|xss_clean');
             $this->form_validation->set_rules('ssub_channel', 'Sub Channel', 'trim|required|xss_clean');
             $this->form_validation->set_rules('sdetail_sub', 'Detail Sub', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('sTL', 'TL', 'trim|required|xss_clean');

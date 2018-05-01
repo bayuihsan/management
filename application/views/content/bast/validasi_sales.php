@@ -120,6 +120,21 @@ $status=array(
               </span>
           </div>
       </div> 
+      <div class="form-group"> 
+        <label for="sgrapari">Grapari</label>
+        <select name="sgrapari" class="form-control" id="sgrapari">  
+          <option value="">Pilih Grapari</option>
+          <?php foreach ($grapari as $new) { 
+            if($edit_sales->id_grapari == $new->id_grapari){ ?>
+            <option value="<?php echo $new->id_grapari ?>" class="<?php echo $new->branch_id?>" selected><?php echo "(".$new->id_grapari.") ".$new->nama_grapari ?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $new->id_grapari ?>" class="<?php echo $new->branch_id?>"><?php echo "(".$new->id_grapari.") ".$new->nama_grapari ?></option>
+            <?php }
+            ?>
+          
+          <?php } ?>
+        </select>      
+      </div>
       <button type="submit" class="mybtn btn-submit" id="save_button"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>bast/detail/<?php echo $edit_sales->no_bast?>" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
@@ -286,6 +301,7 @@ $(document).ready(function(){
   
   $("#smsisdn1").select2();
   $("#sbranch").select2();
+  $("#sgrapari").select2();
   $("#ssub_channel").select2();
   $("#schannel").select2();
   $("#spaket").select2();
@@ -302,9 +318,11 @@ $(document).ready(function(){
   //sub channel berdasarkan branch
   $("#ssub_channel").chained("#sbranch");
   $("#sTL").chained("#sbranch");
+  $("#sgrapari").chained("#sbranch");
   $("#ssales_person").chained("#sTL");
   $("#smsisdn1").chained("#sTL");
   $("#id_reason").chained("#sstatus");
+
   //for number only
   $("#smsisdn, #sno_hp, #smsisdn1").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
@@ -361,6 +379,7 @@ $(document).ready(function(){
             $('#sdetail_sub').val("");
             $('#sTL').select2("val","");
             $('#ssales_person').select2("val","");
+            $('#sgrapari').select2("val","");
           }
           swal("Saved!", "Saved Sucessfully", "success");
           setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/validasi/'+no_bast+'/'+psb_id; }, 2000);
@@ -376,17 +395,16 @@ $(document).ready(function(){
 
   $(document).on('click','.kembali',function(){
 
-      var link=$(this).attr("href"); 
-      
-      $(".block-ui").css('display','block'); 
-   
-      history.pushState(null, null,link);  
-      $('.asyn-div').load(link+'/asyn',function() {
-          $(".block-ui").css('display','none');     
-      });     
-            
-
-      return false;
+    var link=$(this).attr("href"); 
+    
+    $(".block-ui").css('display','block'); 
+ 
+    history.pushState(null, null,link);  
+    $('.asyn-div').load(link+'/asyn',function() {
+        $(".block-ui").css('display','none');     
+    });     
+          
+    return false;
   });
 
   document.getElementById("save_button").disabled = false;

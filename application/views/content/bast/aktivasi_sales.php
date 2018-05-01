@@ -101,31 +101,46 @@ $status=array(
         </select>      
       </div>
       <div class="form-group"> 
-          <label for="spaket">Tanggal Masuk</label>
-          <div class='input-group date' >
-              <input type="text" class="form-control" placeholder="Tanggal Masuk" name="stanggal_masuk" id="stanggal_masuk" value="<?php echo $edit_sales->tanggal_masuk?>" readonly />   
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-          </div>
+        <label for="spaket">Tanggal Masuk</label>
+        <div class='input-group date' >
+            <input type="text" class="form-control" placeholder="Tanggal Masuk" name="stanggal_masuk" id="stanggal_masuk" value="<?php echo $edit_sales->tanggal_masuk?>" readonly />   
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
       </div> 
       <div class="form-group"> 
-          <label for="spaket">Tanggal Validasi</label>
-          <div class='input-group date' >
-              <input type="text" class="form-control" placeholder="Tanggal Validasi" name="stanggal_validasi" id="stanggal_validasi" value="<?php echo $edit_sales->tanggal_validasi?>" readonly />   
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-          </div>
+        <label for="spaket">Tanggal Validasi</label>
+        <div class='input-group date' >
+            <input type="text" class="form-control" placeholder="Tanggal Validasi" name="stanggal_validasi" id="stanggal_validasi" value="<?php echo $edit_sales->tanggal_validasi?>" readonly />   
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
       </div> 
       <div class="form-group"> 
-          <label for="spaket">Tanggal Aktivasi</label>
-          <div class='input-group date' >
-              <input type="text" class="form-control" placeholder="Tanggal Aktivasi" name="stanggal_aktivasi" id="stanggal_aktivasi" value="<?php echo date('Y-m-d h:i:s')?>" readonly />   
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-          </div>
+        <label for="spaket">Tanggal Aktivasi</label>
+        <div class='input-group date' >
+            <input type="text" class="form-control" placeholder="Tanggal Aktivasi" name="stanggal_aktivasi" id="stanggal_aktivasi" value="<?php echo date('Y-m-d h:i:s')?>" readonly />   
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+      </div>
+      <div class="form-group"> 
+        <label for="sgrapari">Grapari</label>
+        <select name="sgrapari" class="form-control" id="sgrapari">  
+          <option value="">Pilih Grapari</option>
+          <?php foreach ($grapari as $new) { 
+            if($edit_sales->id_grapari == $new->id_grapari){ ?>
+            <option value="<?php echo $new->id_grapari ?>" class="<?php echo $new->branch_id?>" selected><?php echo "(".$new->id_grapari.") ".$new->nama_grapari ?></option>
+            <?php }else{ ?>
+            <option value="<?php echo $new->id_grapari ?>" class="<?php echo $new->branch_id?>"><?php echo "(".$new->id_grapari.") ".$new->nama_grapari ?></option>
+            <?php }
+            ?>
+          
+          <?php } ?>
+        </select>      
       </div>
       <button type="submit" class="mybtn btn-submit" id="save_button"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>bast/detail/<?php echo $edit_sales->no_bast?>" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
@@ -331,6 +346,7 @@ $(document).ready(function(){
   
   $("#smsisdn1").select2();
   $("#sbranch").select2();
+  $("#sgrapari").select2();
   $("#ssub_channel").select2();
   $("#schannel").select2();
   $("#spaket").select2();
@@ -349,6 +365,7 @@ $(document).ready(function(){
   //sub channel berdasarkan branch
   $("#ssub_channel").chained("#sbranch");
   $("#svalidasi_by").chained("#sbranch");
+  $("#sgrapari").chained("#sbranch");
   $("#sTL").chained("#sbranch");
   $("#ssales_person").chained("#sTL");
   $("#smsisdn1").chained("#sTL");

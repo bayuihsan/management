@@ -33,7 +33,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                 <td><?php echo strtoupper($new->nama_branch) ?></td>
                 <td><?php echo strtoupper($new->no_hp) ?></td>
                 <td><?php echo strtoupper($channel[$new->channel]) ?></td>
-                <td><?php echo strtoupper($level[$new->level]) ?></td>
+                <td><?php echo strtoupper($new->level) ?></td>
                 <td><?php echo strtoupper($new->keterangan) ?></td>
                 <td><?php echo strtoupper($new->last_login) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
