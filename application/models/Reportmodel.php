@@ -380,12 +380,73 @@ class ReportModel extends CI_Model{
 	}
 
 	//get top branch information 
+	//1.TSA, 2. MOGI, 3.MITRA AD, 4.MITRA DEVICE, 5.OTHERS
+	public function getBranchInfo($limit=0, $lm='', $tgl='')
+	{
+		$date=date('Y-m-d', strtotime($tgl));
+		$lm=date('Y-m-d', strtotime($lm));
+		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=1 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'tsa_last_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=2 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'mogi_last_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=3 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'miad_last_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=4 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'mdevice_last_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' 
+			AND branch_id=b.branch_id AND sales_channel=5 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'others_last_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' 
+			AND branch_id=b.branch_id AND sales_channel=1 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'tsa_this_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb WHERE STATUS='sukses' 
+			AND branch_id=b.branch_id 
+			AND sales_channel=2 AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'mogi_this_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb WHERE STATUS='sukses' 
+			AND branch_id=b.branch_id AND sales_channel=3 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'miad_this_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb WHERE STATUS='sukses' 
+			AND branch_id=b.branch_id AND sales_channel=4 
+			AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'mdevice_this_month', 
+		IFNULL((SELECT COUNT(psb_id) 
+			FROM new_psb 
+			WHERE STATUS='sukses' 
+			AND branch_id=b.branch_id 
+			AND sales_channel=5 AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'others_this_month' 
+		FROM new_psb a 
+		JOIN branch b ON a.branch_id=b.branch_id 
+		WHERE a.STATUS='sukses'
+		AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'
+		Group by b.nama_branch
+
+			")->result();
+
+		$result=$sukses_query;
+		return $result;
+	}
+
+	//get top branch information 
 	public function getTopBranch($limit=0, $ly='', $lm='', $tgl='')
 	{
 		$date=date('Y-m-d', strtotime($tgl));
-		$ly=date('Y-m-d', strtotime($ly));
 		$lm=date('Y-m-d', strtotime($lm));
-		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch, 
+		$sukses_query=$this->db->query("SELECT b.branch_id, b.nama_branch,  
 			IFNULL((SELECT COUNT(psb_id) 
 				FROM new_psb 
 				WHERE STATUS='sukses' AND branch_id=b.branch_id AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN 
@@ -400,7 +461,6 @@ class ReportModel extends CI_Model{
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
 				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.nama_branch ORDER BY amount DESC LIMIT ".$limit."
 			")->result();
-
 		$result=$sukses_query;
 		return $result;
 	}
@@ -537,7 +597,7 @@ class ReportModel extends CI_Model{
 			FROM new_psb a 
 			JOIN sales_channel b ON a.sub_sales_channel=b.id_channel
 			WHERE a.status='sukses' AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN 
-				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.sub_channel ORDER BY amount DESC LIMIT ".$limit."
+				ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."' GROUP BY b.sub_channel ORDER BY amount DESC
 			")->result();
 
 		$result=$sukses_query;

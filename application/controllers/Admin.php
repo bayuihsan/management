@@ -50,7 +50,7 @@ class Admin extends CI_Controller {
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
-            $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
+            $data['branch_info']=$this->Reportmodel->getBranchInfo(20,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_subchannel']=$this->Reportmodel->getTopSubSalesChannel(10,$ly,$lm,$param1);
@@ -63,6 +63,7 @@ class Admin extends CI_Controller {
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
+            $data['branch_info']=$this->Reportmodel->getBranchInfo(20,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_subchannel']=$this->Reportmodel->getTopSubSalesChannel(10,$ly,$lm,$param1);
@@ -79,6 +80,7 @@ class Admin extends CI_Controller {
             $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
+            $data['branch_info']=$this->Reportmodel->getBranchInfo(20,$lm,$param1);
             $data['top_paket']=$this->Reportmodel->getTopPaket(10,$ly,$lm,$param1);
             $data['top_channel']=$this->Reportmodel->getTopChannel(10,$ly,$lm,$param1);
             $data['top_subchannel']=$this->Reportmodel->getTopSubSalesChannel(10,$ly,$lm,$param1);

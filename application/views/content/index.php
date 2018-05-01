@@ -100,6 +100,143 @@
 <!--End Daily Report Col-->
 
 <!--Start Branch-->
+<div class="col-md-12 col-sm-12 col-lg-12">
+<!--Start Panel-->
+<div class="panel panel-default medium-box">
+    <!-- Default panel contents -->
+    
+    <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
+    <div class="panel-body financial-bal" style="font-size: 10px; ">
+        <!--Branch Table-->
+        <table class="table table-bordered" >
+         <tr>
+            <th style="background-color: #6C7A89; color: white" rowspan="2">BRANCH</th>
+            <th style="background-color: #CF000F; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
+            <th style="background-color: #34495E; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
+            <th style="background-color: #446CB3; color: white" colspan="5" class="text-center">%GROWTH</th>
+         </tr>
+         <tr>
+            <!-- last month -->
+            <th style="background-color: #CF000F; color: white">TSA</th>
+            <th style="background-color: #CF000F; color: white">M. AD</th>
+            <th style="background-color: #CF000F; color: white">M. DEVICE</th>
+            <th style="background-color: #CF000F; color: white">OTHERS</th>
+            <th style="background-color: #CF000F; color: white">TOTAL</th>
+            <!-- this month -->
+            <th style="background-color: #34495E; color: white">TSA</th>
+            <th style="background-color: #34495E; color: white">M. AD</th>
+            <th style="background-color: #34495E; color: white">M. DEVICE</th>
+            <th style="background-color: #34495E; color: white">OTHERS</th>
+            <th style="background-color: #34495E; color: white">TOTAL</th>
+            <!-- Growth -->
+            <th style="background-color: #446CB3; color: white">TSA</th>
+            <th style="background-color: #446CB3; color: white">M. AD</th>
+            <th style="background-color: #446CB3; color: white">M. DEVICE</th>
+            <th style="background-color: #446CB3; color: white">OTHERS</th>
+            <th style="background-color: #446CB3; color: white">TOTAL</th>
+         </tr>
+         <?php $no=1; foreach($branch_info as $binfo) { ?>   
+            <tr>
+                <td><b> <?php echo strtoupper($binfo->nama_branch) ?></b></td>
+                <!-- last month -->
+                <td class="text-right"><b><?php $tsa_lm     = $binfo->tsa_last_month; echo number_format($tsa_lm); ?></b></td>
+                <td class="text-right"><b><?php $mad_lm     = $binfo->miad_last_month; echo number_format($mad_lm); ?></b></td>
+                <td class="text-right"><b><?php $mdev_lm    = $binfo->mdevice_last_month; echo number_format($mdev_lm); ?></b></td>
+                <td class="text-right"><b><?php $oth_lm     = $binfo->others_last_month; echo number_format($oth_lm); ?></b></td>
+                <td class="text-right"><b><?php $total_lm   = $tsa_lm+$mad_lm+$mdev_lm+$oth_lm; echo number_format($total_lm); ?></b></td>
+                <!-- this month -->
+                <td class="text-right"><b><?php $tsa_tm     = $binfo->tsa_this_month; echo number_format($tsa_tm); ?></b></td>
+                <td class="text-right"><b><?php $mad_tm     = $binfo->miad_this_month; echo number_format($mad_tm); ?></b></td>
+                <td class="text-right"><b><?php $mdev_tm    = $binfo->mdevice_this_month; echo number_format($mdev_tm); ?></b></td>
+                <td class="text-right"><b><?php $oth_tm     = $binfo->others_this_month; echo number_format($oth_tm); ?></b></td>
+                <td class="text-right"><b><?php $total_tm   = $tsa_tm+$mad_tm+$mdev_tm+$oth_tm; echo number_format($total_tm); ?></b></td>
+                <!-- Growth -->
+                <?php if($tsa_lm == 0){ 
+                        $tsa_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tsa_mom = (($tsa_tm-$tsa_lm)/$tsa_lm)*100; $tsa_mom = decimalPlace($tsa_mom);
+                        if($tsa_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($tsa_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $tsa_mom.' %'; ?></b></td>
+
+                <?php if($mad_lm == 0){ 
+                        $mad_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $mad_mom = (($mad_tm-$mad_lm)/$mad_lm)*100; $mad_mom = decimalPlace($mad_mom);
+                        if($mad_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($mad_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $mad_mom.' %'; ?></b></td>
+
+                <?php if($mdev_lm == 0){ 
+                        $mdev_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $mdev_mom = (($mdev_tm-$mdev_lm)/$mdev_lm)*100; $mdev_mom = decimalPlace($mdev_mom);
+                        if($mdev_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($mdev_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $mdev_mom.' %'; ?></b></td>
+
+                <?php if($oth_lm == 0){ 
+                        $oth_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $oth_mom = (($oth_tm-$oth_lm)/$oth_lm)*100; $oth_mom = decimalPlace($oth_mom);
+                        if($oth_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($oth_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $oth_mom.' %'; ?></b></td>
+
+                <?php if($total_lm == 0){ 
+                        $total_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $total_mom = (($total_tm-$total_lm)/$total_lm)*100; $totl_mom = decimalPlace($total_mom);
+                        if($total_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($total_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $total_mom.' %'; ?></b></td>
+            </tr>
+          <?php } ?>  
+
+        </table>
+    </div>
+    <!--End Panel Body-->
+
+</div>
+<!--End Panel-->
+</div>
+
+<!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
 <div class="panel panel-default medium-box">
@@ -131,7 +268,7 @@
                         if($mom > 0){
                             $style = "style='background-color:#7CFC00'";
                         }else if($mom < 0){
-                            $style = "style='background-color:#F08080'";
+                             $style = "style='background-color:#F08080'";
                         }else{
                             $style = "style='background-color:#D3D3D3'";
                         }

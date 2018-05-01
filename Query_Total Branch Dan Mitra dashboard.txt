@@ -1,0 +1,49 @@
+SELECT b.branch_id, b.nama_branch, 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=1 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-03-30',INTERVAL 1 MONTH)), 1) AND '2018-03-30'),0) AS 'tsa_last_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=2 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-03-30',INTERVAL 1 MONTH)), 1) AND '2018-03-30'),0) AS 'mogi_last_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=3 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-03-30',INTERVAL 1 MONTH)), 1) AND '2018-03-30'),0) AS 'mad_last_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' AND branch_id=b.branch_id AND sales_channel=4 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-03-30',INTERVAL 1 MONTH)), 1) AND '2018-03-30'),0) AS 'mdevice_last_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' 
+	AND branch_id=b.branch_id AND sales_channel=5 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-03-30',INTERVAL 1 MONTH)), 1) AND '2018-03-30'),0) AS 'others_last_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' 
+	AND branch_id=b.branch_id AND sales_channel=1 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-04-30',INTERVAL 1 MONTH)), 1) AND '2018-04-30'),0) AS 'tsa_this_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb WHERE STATUS='sukses' 
+	AND branch_id=b.branch_id 
+	AND sales_channel=2 AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-04-30',INTERVAL 1 MONTH)), 1) AND '2018-04-30'),0) AS 'mogi_this_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb WHERE STATUS='sukses' 
+	AND branch_id=b.branch_id AND sales_channel=3 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-04-30',INTERVAL 1 MONTH)), 1) AND '2018-04-30'),0) AS 'mad_this_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb WHERE STATUS='sukses' 
+	AND branch_id=b.branch_id AND sales_channel=4 
+	AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-04-30',INTERVAL 1 MONTH)), 1) AND '2018-04-30'),0) AS 'mdevice_this_month', 
+IFNULL((SELECT COUNT(psb_id) 
+	FROM new_psb 
+	WHERE STATUS='sukses' 
+	AND branch_id=b.branch_id 
+	AND sales_channel=5 AND DATE_FORMAT(tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-04-30',INTERVAL 1 MONTH)), 1) AND '2018-04-30'),0) AS 'others_this_month' 
+FROM new_psb a 
+JOIN branch b ON a.branch_id=b.branch_id 
+WHERE a.STATUS='sukses'
+AND DATE_FORMAT(a.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('2018-04-30',INTERVAL 1 MONTH)), 1) AND '2018-04-30'
+Group by b.nama_branch
