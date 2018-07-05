@@ -13,7 +13,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales (Updated <?php echo $max_tanggal?>)<div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('sales/add') ?>">Add Sales</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/sales_add') ?>">Add Sales</a>
     </div></div>
     <div class="panel-body" style="overflow: auto;">
         <table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -74,7 +74,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-          "url": "<?php echo site_url('sales/ajax_list')?>",
+          "url": "<?php echo site_url('Admin/sales_ajax_list')?>",
           "type": "POST"
         },
 

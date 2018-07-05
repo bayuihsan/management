@@ -67,11 +67,11 @@ function jenis_event($id){
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><?php echo strtoupper($nama_table)?> <div class="add-button">
-    <a href="<?php echo base_url()?>generate_table/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+    <a href="<?php echo base_url()?>Admin/generatetable_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div></div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('generate_table/load_table/'.$id_temp) ?>">
+            <form id="sales_cari" action="<?php echo site_url('Admin/generatetable_load_table/'.$id_temp) ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
@@ -137,7 +137,7 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                 <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
                 <?php if(!empty($bfrom_date) && !empty($bto_date)) { ?>
-                <a href="<?php echo site_url('generate_table/export/'.$id_temp.'/asyn').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
+                <a href="<?php echo site_url('Admin/generatetable_export/'.$id_temp.'/asyn').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
                 <?php } ?>
                 </div>
                                 

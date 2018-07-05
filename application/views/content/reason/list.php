@@ -10,10 +10,10 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Reason List <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('reason/add') ?>">Add Reason</a>
+        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/reason_add') ?>">Add Reason</a>
         <?php } ?>
     
-    <a class="mybtn btn-default" href="<?php echo site_url('reason/export/asyn') ?>" download="<?php echo site_url('reason/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/reason_export/asyn') ?>" download="<?php echo site_url('Admin/reason_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -37,8 +37,8 @@
                     <td>
                         <?php if($this->session->userdata('level')==4){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('reason/edit/'.$new->id_reason) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('reason/add/remove/'.$new->id_reason) ?>">Delete</a>
+                    title="Click For Edit" href="<?php echo site_url('Admin/reason_edits/'.$new->id_reason) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/reason_add/remove/'.$new->id_reason) ?>">Delete</a>
                         <?php } ?>
                     </td>
                 </tr>

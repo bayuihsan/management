@@ -1,6 +1,6 @@
 <?php
 
-class graparimodel extends CI_Model{
+class Graparimodel extends CI_Model{
  
 	// db2 digunakan untuk mengakses database ke-2
 	private $db2;

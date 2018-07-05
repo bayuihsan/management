@@ -70,7 +70,7 @@ public function update()
    unlink($inputFileName); // hapus file temp
    $count = $highestRow;
    $this->session->set_flashdata('pesan','Upload berhasil, Total: <b>'.$count.'</b> data.'); 
-   redirect('ctp/view');
+   redirect('Admin/view_ctp');
 
  }
 }

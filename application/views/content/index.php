@@ -4,15 +4,24 @@
 <div class="row">
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Dashboard</h4></div>
 
-
 </div>
 <!--End Card box-->
 <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="col-md-3 col-lg-3 col-sm-3"> 
+            <div class="form-group"> 
+                <div class='input-group date' id='date2'>
+                    <input type="text" class="form-control" placeholder="Month to date" name="" id="" value=""/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div> 
+        </div>
     <form id="pencarian" action="<?php echo site_url('Admin/dashboard') ?>">
         <div class="col-md-3 col-lg-3 col-sm-3"> 
             <div class="form-group"> 
                 <div class='input-group date' id='date'>
-                    <input type="text" class="form-control" placeholder="Month to date" name="from-date" id="from-date" value="<?php echo $max_tanggal?>"/>   
+                    <input type="text" class="form-control" placeholder="Month to date" name="from-date" id="from-date" value="<?php echo $max_tanggal?>"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -32,8 +41,8 @@
                 <i class="ion-speedometer cart-icon"></i>
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Current Sales  <br>
-                    <span class="card-value"><?php echo $cart_summery['current_day_psb']; ?></span></p>
+                <p class="card-head">Monthly Sales<br>
+                    <span class="card-value"><?php echo $cart_summery['current_month_psb']; ?> </span></p>
             </div>
         </div>
     </div>
@@ -46,13 +55,15 @@
                 <i class="ion-speedometer cart-icon"></i>
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Month Sales<br>
-                    <span class="card-value"><?php echo $cart_summery['current_month_psb']; ?></span></p>
+                <p class="card-head">Today Sales<br>
+                    <span class="card-value"><?php echo $cart_summery['current_day_psb']; ?></span></p>
             </div>
         </div>
     </div>
 </div>
-<div class="clo-md-3 col-lg-3 col-sm-6">
+
+
+<!-- <div class="clo-md-3 col-lg-3 col-sm-6">
     <div class="card-box">
         <div class="box-callout-green">
             <div class="leftside-cart">
@@ -78,7 +89,8 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
 <div class="row">
 <!--Start Daily Report Line Chart-->
 <div class="col-md-12 col-sm-12 col-lg-12">
@@ -102,38 +114,38 @@
 <!--Start Branch-->
 <div class="col-md-12 col-sm-12 col-lg-12">
 <!--Start Panel-->
-<div class="panel panel-default medium-box">
+<div class="panel panel-default medium-box" style="height: 435px"> 
     <!-- Default panel contents -->
     
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
-    <div class="panel-body financial-bal" style="font-size: 10px; ">
+    <div class="panel-body financial-bal" style="font-size: 10px; height: 420px; ">
         <!--Branch Table-->
         <table class="table table-bordered" >
          <tr>
-            <th style="background-color: #6C7A89; color: white" rowspan="2">BRANCH</th>
-            <th style="background-color: #CF000F; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
-            <th style="background-color: #34495E; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
-            <th style="background-color: #446CB3; color: white" colspan="5" class="text-center">%GROWTH</th>
+            <th style="background-color: #2574A9; color: white" rowspan="2">BRANCH</th>
+            <th style="background-color: #2574A9; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
+            <th style="background-color: #2574A9; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
+            <th style="background-color: #2574A9; color: white" colspan="5" class="text-center">%GROWTH</th>
          </tr>
          <tr>
             <!-- last month -->
-            <th style="background-color: #CF000F; color: white">TSA</th>
-            <th style="background-color: #CF000F; color: white">M. AD</th>
-            <th style="background-color: #CF000F; color: white">M. DEVICE</th>
-            <th style="background-color: #CF000F; color: white">OTHERS</th>
-            <th style="background-color: #CF000F; color: white">TOTAL</th>
+            <th style="background-color: #2574A9; color: white">TSA</th>
+            <th style="background-color: #2574A9; color: white">M. AD</th>
+            <th style="background-color: #2574A9; color: white">M. DEVICE</th>
+            <th style="background-color: #2574A9; color: white">OTHERS</th>
+            <th style="background-color: #2574A9; color: white">TOTAL</th>
             <!-- this month -->
-            <th style="background-color: #34495E; color: white">TSA</th>
-            <th style="background-color: #34495E; color: white">M. AD</th>
-            <th style="background-color: #34495E; color: white">M. DEVICE</th>
-            <th style="background-color: #34495E; color: white">OTHERS</th>
-            <th style="background-color: #34495E; color: white">TOTAL</th>
+            <th style="background-color: #2574A9; color: white">TSA</th>
+            <th style="background-color: #2574A9; color: white">M. AD</th>
+            <th style="background-color: #2574A9; color: white">M. DEVICE</th>
+            <th style="background-color: #2574A9; color: white">OTHERS</th>
+            <th style="background-color: #2574A9; color: white">TOTAL</th>
             <!-- Growth -->
-            <th style="background-color: #446CB3; color: white">TSA</th>
-            <th style="background-color: #446CB3; color: white">M. AD</th>
-            <th style="background-color: #446CB3; color: white">M. DEVICE</th>
-            <th style="background-color: #446CB3; color: white">OTHERS</th>
-            <th style="background-color: #446CB3; color: white">TOTAL</th>
+            <th style="background-color: #2574A9; color: white">TSA</th>
+            <th style="background-color: #2574A9; color: white">M. AD</th>
+            <th style="background-color: #2574A9; color: white">M. DEVICE</th>
+            <th style="background-color: #2574A9; color: white">OTHERS</th>
+            <th style="background-color: #2574A9; color: white">TOTAL</th>
          </tr>
          <?php $no=1; foreach($branch_info as $binfo) { ?>   
             <tr>
@@ -215,7 +227,7 @@
                         $total_mom = '0'; 
                         $style = "style='background-color:#D3D3D3'";
                     }else{ 
-                        $total_mom = (($total_tm-$total_lm)/$total_lm)*100; $totl_mom = decimalPlace($total_mom);
+                        $total_mom = (($total_tm-$total_lm)/$total_lm)*100; $total_mom = decimalPlace($total_mom);
                         if($total_mom > 0){
                             $style = "style='background-color:#7CFC00'";
                         }else if($total_mom < 0){
@@ -229,21 +241,23 @@
           <?php } ?>  
 
         </table>
+
     </div>
     <!--End Panel Body-->
-
+    
 </div>
+Total Sales Area 2 <?php echo $cart_summery['current_month_psb'];?>
 <!--End Panel-->
 </div>
 
 <!--Start Branch-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
-<div class="panel panel-default medium-box">
+<div class="panel panel-default medium-box" style="height: 510px">
     <!-- Default panel contents -->
     
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
-    <div class="panel-body financial-bal" style="font-size: 11px; ">
+    <div class="panel-body financial-bal" style="font-size: 9px; height: 470px">
         <!--Branch Table-->
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
@@ -253,6 +267,7 @@
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
             <th style="background-color: black; color: white" class="text-right">%MOM</th>
             <th style="background-color: black; color: white" class="text-right">%YOY</th>
+            <th style="background-color: black; color: white" class="text-right">Flag</th>
          <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
@@ -288,15 +303,21 @@
                         }
                     } ?>
                 <td class="text-right" <?php echo $style?>><b><?php  echo $yoy.' %'; ?></b></td>
-            </tr>
-
-          <?php } ?>  
-
+                <?php if($no == 2){
+                         $src = "<img src='".base_url('image/medal.png')."' width='25' height='25'>";
+                    }else{
+                        $src ="";
+                    } ?>
+                <td><?php echo $src?></td>
+                <?php } ?>
+            </tr>  
         </table>
+        Total Sales Area 2 <?php echo $cart_summery['current_month_psb'];?>
     </div>
     <!--End Panel Body-->
 
 </div>
+
 <!--End Panel-->
 </div>
 <!--End Branch Col-->
@@ -318,10 +339,10 @@
 <!--Start Paket-->
 <div class="col-md-6 col-sm-6 col-lg-6">
 <!--Start Panel-->
-<div class="panel panel-default medium-box">
+<div class="panel panel-default medium-box" style="height: 510px">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Paket (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px; ">
+    <div class="panel-body financial-bal" style="font-size: 10px; height: 460px">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">PAKET</th>
@@ -370,6 +391,7 @@
         <?php } ?>  
         </table>
     </div>
+
     <!--End Panel Body-->
 </div>
 <!--End Panel-->
@@ -382,12 +404,12 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">TOP TSA (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px; ">
+    <div class="panel-body financial-bal" style="font-size: 10px;">
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">NO</th>
             <th style="background-color: black; color: white">BRANCH</th>
-            <th style="background-color: black; color: white" class="text-right"> <= 30</th>
-            <th style="background-color: black; color: white" class="text-right"> > 30</th>
+            <th style="background-color: black; color: white" class="text-left">Sales <= 30</th>
+            <th style="background-color: black; color: white" class="text-left">Sales > 30</th>
         <?php $no=1; 
             $tgl = $max_tanggal;
             foreach($branch as $row){ 
@@ -449,8 +471,8 @@
         <table class="table table-bordered">
             <th style="background-color: black; color: white">NO</th>
             <th style="background-color: black; color: white">BRANCH</th>
-            <th style="background-color: black; color: white" class="text-right"> <= 200</th>
-            <th style="background-color: black; color: white" class="text-right"> > 200 </th>
+            <th style="background-color: black; color: white" class="text-left">Sales <= 200</th>
+            <th style="background-color: black; color: white" class="text-left">Sales > 200 </th>
             <?php $no=1; 
             foreach($branch as $row_tl){ 
                 $branch_id_tl = $row_tl->branch_id;
@@ -794,6 +816,7 @@ $(document).ready(function() {
 
 
     $("#date").datepicker();
+    $("#date2").datepicker();
 
     $('#pencarian').on('submit',function(){
         var link=$(this).attr("action");

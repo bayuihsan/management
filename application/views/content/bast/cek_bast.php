@@ -12,7 +12,7 @@
     <div class="panel-heading">BERITA ACARA SERAH TERIMA</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="msisdn_cari" action="<?php echo site_url('bast/cek_bast/view') ?>">
+            <form id="msisdn_cari" action="<?php echo site_url('Admin/cek_bast/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <input type="text" name="cek" id="cek" class="form-control" placeholder="Cari Nomor BAST">
@@ -130,7 +130,7 @@ $(document).ready(function() {
                     $(".system-alert-box").empty();
                     swal("Received!", "Receive Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
-                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/detail/'+xno_bast; }, 2000);
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_detail/'+xno_bast; }, 2000);
                 }    
             });
         }); 

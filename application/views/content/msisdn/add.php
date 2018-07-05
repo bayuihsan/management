@@ -51,7 +51,7 @@
         </select>
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>msisdn/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/msisdn_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     <br>*Note : Input MSISDN Harus menggunakan format 628<br> 
     <br>*Note : Jika ingin menginputkan MSISDN lebih dari 1, gunakan ( , ) dan ( spasi ).<br> 
      Contoh : 62811123124, 628112234467
@@ -65,7 +65,7 @@
     Upload MSISDN From Excel
   </button>
   <li class="list-group-item">
-<?php echo form_open_multipart('uploadmsisdn/update');?>
+<?php echo form_open_multipart('Uploadmsisdn/update');?>
 <input type="file" name="file" size="20" id='files'/>
 <input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
 <input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>"> 
@@ -133,7 +133,7 @@
         </select>
       </div>    
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>msisdn/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/msisdn_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -176,7 +176,7 @@ $(document).ready(function(){
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('msisdn/add/insert') ?>",
+        url : "<?php echo site_url('Admin/msisdn_add/insert') ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 

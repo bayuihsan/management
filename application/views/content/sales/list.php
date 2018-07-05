@@ -82,11 +82,11 @@ function jenis_event($id){
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('bast/view') ?>">Add Sales</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/bast_view') ?>">Add Sales</a>
     </div></div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('sales/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Admin/sales_view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
@@ -152,7 +152,7 @@ function jenis_event($id){
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                 <button type="submit"  class="mybtn btn-submit"><i class="fa fa-play"></i></button>
                 <?php if(!empty($bfrom_date) && !empty($bto_date)) { ?>
-                <a href="<?php echo site_url('sales/view/export').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
+                <a href="<?php echo site_url('Admin/sales_view/export').'/'.$bbranch_id.'/'.$btgl.'/'.$bstatus.'/'.$bfrom_date.'/'.$bto_date ?>" title="Export to Excel" class="mybtn btn-warning"><i class="fa fa-download"></i></a>
                 <?php } ?>
                 </div>
                                 
@@ -246,11 +246,11 @@ function jenis_event($id){
                             <td><?php echo strtoupper($new->tanggal_update) ?></td>
                             <?php if($this->session->userdata('level')==4){ ?>
                             <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
-                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('sales/add/remove/'.$new->psb_id) ?>">Delete</a> </td>
+                            title="Click For Edit" href="<?php echo site_url('Admin/sales_edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
+                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/sales_add/remove/'.$new->psb_id) ?>">Delete</a> </td>
                             <?php }else{ ?>
                             <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Edit" href="<?php echo site_url('sales/edit/'.$new->psb_id) ?>">Edit</a> </td>
+                            title="Click For Edit" href="<?php echo site_url('Admin/sales_edits/'.$new->psb_id) ?>">Edit</a> </td>
                             <?php } ?>
                             
                         </tr>

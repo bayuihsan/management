@@ -97,8 +97,8 @@
 			                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
 			                            <td><?php echo strtoupper($new->status) ?></td>
 			                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-			                            title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('bast/edit/'.$new->no_bast.'/'.$new->psb_id) ?>">Edit</a> &nbsp; 
-			                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('bast/add/remove/'.$new->psb_id) ?>">Delete</a> </td>
+			                            title="Click For Edit" data-dismiss="modal" href="<?php echo site_url('Admin/bast_edit/'.$new->no_bast.'/'.$new->psb_id) ?>">Edit</a> &nbsp; 
+			                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/bast_add/remove/'.$new->psb_id) ?>">Delete</a> </td>
 			                            
 			                        </tr>
 			                <?php } ?>

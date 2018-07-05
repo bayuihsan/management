@@ -1,6 +1,6 @@
 <?php
 
-class BranchModel extends CI_Model{
+class Branchmodel extends CI_Model{
  
 	// db2 digunakan untuk mengakses database ke-2
 	private $db2;

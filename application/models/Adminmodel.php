@@ -1,6 +1,6 @@
 <?php
 
-class AdminModel extends CI_Model{
+class Adminmodel extends CI_Model{
  
  	// db2 digunakan untuk mengakses database ke-2
 	private $db2;

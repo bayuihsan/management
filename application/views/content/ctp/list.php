@@ -9,8 +9,8 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Customer Touch Point <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('ctp/add') ?>">Add CTP</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('ctp/export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/ctp_add') ?>">Add CTP</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/ctp_export/asyn') ?>" download="<?php echo site_url('Admin/ctp_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body manage-client" >
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -39,7 +39,7 @@
                     <td><?php echo $new->id_users ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                 title="Click For Edit" href="<?php echo site_url('feedbacks/edit/'.$new->id_ctp) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('ctp/add/remove/'.$new->id_ctp) ?>">Remove</a></td>
+                <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/ctp_add/remove/'.$new->id_ctp) ?>">Remove</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

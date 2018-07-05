@@ -9,8 +9,8 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Msisdn <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('msisdn/add') ?>">Add Msisdn</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('msisdn/export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/msisdn_add') ?>">Add Msisdn</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/msisdn_export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <p><?php echo $this->session->flashdata("pesan"); ?></p>
@@ -35,8 +35,8 @@
                 <td><?php echo strtoupper($new->status) ?></td>
                 <td><?php echo strtoupper($new->nama) ?></td>
                 <td><?php if($new->status==""){ ?><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('msisdn/edit/'.$new->id_haloinstan) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs msisdn-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('msisdn/add/remove/'.$new->id_haloinstan) ?>">Remove</a>
+                title="Click For Edit" href="<?php echo site_url('Admin/msisdn_edits/'.$new->id_haloinstan) ?>">Edit</a> &nbsp; 
+                <a class="mybtn btn-danger btn-xs msisdn-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/msisdn_add/remove/'.$new->id_haloinstan) ?>">Remove</a>
                 <?php } ?></td>
                 </tr>
                <?php } ?>

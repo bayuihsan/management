@@ -293,8 +293,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-search"></i>
 <span class="title">Pencarian</span></a>
 <ul class="collapse">
-    <li><a class="asyn-bast" href="<?php echo site_url('sales/cek_msisdn') ?>""><i class="fa fa-search"></i> MSISDN</a></li>
-    <li><a class="asyn-bast" href="<?php echo site_url('bast/cek_bast') ?>""><i class="fa fa-search"></i> NO BAST</a></li>
+    <li><a class="asyn-bast" href="<?php echo site_url('Admin/sales_cek_msisdn') ?>""><i class="fa fa-search"></i> MSISDN</a></li>
+    <li><a class="asyn-bast" href="<?php echo site_url('Admin/cek_bast') ?>""><i class="fa fa-search"></i> NO BAST</a></li>
 </ul>
 </li>
 <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
@@ -302,25 +302,25 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-credit-card"></i>
 <span class="title">BAST</span></a>
 <ul class="collapse">
-    <li><a class="asyn-bast" href="<?php date_default_timezone_set(get_current_setting('timezone'));  echo site_url('bast/create') ?>"><i class="fa fa-plus-square"></i> Add Bast</a></li>
-    <li><a class="asyn-bast" href="<?php echo site_url('bast/view') ?>"><i class="fa fa-book"></i> Manage Bast</a></li>
+    <li><a class="asyn-bast" href="<?php date_default_timezone_set(get_current_setting('timezone'));  echo site_url('Admin/bast_create') ?>"><i class="fa fa-plus-square"></i> Add Bast</a></li>
+    <li><a class="asyn-bast" href="<?php echo site_url('Admin/bast_view') ?>"><i class="fa fa-book"></i> Manage Bast</a></li>
 </ul>
 </li>
 <li class="has-sub">
 <a href="#"><i class="fa fa-language"></i>
 <span class="title">Sales</span></a>
 <ul class="collapse">
-    <li><a class="asyn-sales" href="<?php echo site_url('sales/view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
+    <li><a class="asyn-sales" href="<?php echo site_url('Admin/sales_view') ?>"><i class="fa fa-book"></i> Manage Sales</a></li>
     <?php /*<li><a class="asyn-sales" href="<?php echo site_url('cm_ekstrak/view_aktif') ?>"><i class="fa fa-book"></i> CM New Activation</a></li>
     <li><a class="asyn-sales" href="<?php echo site_url('cm_ekstrak/view_churn') ?>"><i class="fa fa-book"></i> CM New Deactivation</a></li>*/?>
     <?php $qgenerate = $this->db->query("select * from new_psb_temp order by nama_table desc")->result();
     foreach($qgenerate as $row){ ?>
-    <li><a class="asyn-sales" href="<?php echo site_url('generate_table/load_table/'.$row->id_temp) ?>"><i class="fa fa-book"></i> <?php echo $row->nama_table?></a></li>
+    <li><a class="asyn-sales" href="<?php echo site_url('Admin/generatetable_load_table/'.$row->id_temp) ?>"><i class="fa fa-book"></i> <?php echo $row->nama_table?></a></li>
     <?php }
     ?>
     <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')!=5){ ?>
-    <li><a href="<?php echo site_url('ctp/add') ?>"><i class="fa fa-plus-square"></i> Add Data CTP</a></li>
-    <li><a href="<?php echo site_url('ctp/view') ?>"><i class="fa fa-calendar-plus-o"></i> Data Sales CTP</a></li>
+    <li><a href="<?php echo site_url('Admin/ctp_add') ?>"><i class="fa fa-plus-square"></i> Add Data CTP</a></li>
+    <li><a href="<?php echo site_url('Admin/ctp_view') ?>"><i class="fa fa-calendar-plus-o"></i> Data Sales CTP</a></li>
     <?php } ?>
     
 </ul>
@@ -330,8 +330,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-university"></i>
 <span class="title">MSISDN</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('msisdn/add') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
-    <li><a href="<?php echo site_url('msisdn/view') ?>"><i class="fa fa-book"></i> Data MSISDN</a></li>
+    <li><a href="<?php echo site_url('Admin/msisdn_add') ?>"><i class="fa fa-plus-square"></i> Add MSISDN</a></li>
+    <li><a href="<?php echo site_url('Admin/msisdn_view') ?>"><i class="fa fa-book"></i> Data MSISDN</a></li>
 </ul>
 </li>
 <?php } ?>
@@ -340,8 +340,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">Sales Person</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('salesperson/add') ?>"><i class="fa fa-calendar-plus-o"></i> Add Sales Person</a></li>
-    <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Manage Sales Person</a></li>
+    <li><a href="<?php echo site_url('Admin/salesperson_add') ?>"><i class="fa fa-calendar-plus-o"></i> Add Sales Person</a></li>
+    <li><a href="<?php echo site_url('Admin/salesperson_view') ?>"><i class="fa fa-calendar-plus-o"></i> Manage Sales Person</a></li>
 </ul>
 </li>
 <?php } ?>
@@ -358,16 +358,16 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-area-chart"></i>
 <span class="title">Reporting</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('Reports/allbranch') ?>"><i class="fa fa-angle-double-right"></i> All Branch Report</a></li>
-    <li><a href="<?php echo site_url('Reports/paket') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Paket</a></li>
-    <li><a href="<?php echo site_url('Reports/branch') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Branch</a></li>
-    <li><a href="<?php echo site_url('Reports/tl') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by TL</a></li>
-    <li><a href="<?php echo site_url('Reports/sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
-    <li><a href="<?php echo site_url('Reports/status_daily') ?>" target="_BLANK"><i class="fa fa-angle-double-right"></i> Report Daily by Status</a></li>
-    <li><a href="<?php echo site_url('Reports/sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
-    <li><a href="<?php echo site_url('Reports/service_level') ?>"><i class="fa fa-angle-double-right"></i> SLA View Report</a></li>
-    <li><a href="<?php echo site_url('Reports/fee_sales_tsa') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TSA</a></li>
-    <li><a href="<?php echo site_url('Reports/fee_sales_tl') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TL</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_allbranch') ?>"><i class="fa fa-angle-double-right"></i> All Branch Report</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_paket') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Paket</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_branch') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Branch</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_tl') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by TL</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_sub_channel') ?>"><i class="fa fa-angle-double-right"></i> MoM Report by Sub Channel</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_status_daily') ?>" target="_BLANK"><i class="fa fa-angle-double-right"></i> Report Daily by Status</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_sales_person') ?>"><i class="fa fa-angle-double-right"></i> Report by Sales Person</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_service_level') ?>"><i class="fa fa-angle-double-right"></i> SLA View Report</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_fee_sales_tsa') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TSA</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_fee_sales_tl') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TL</a></li>
 </ul>
 </li>
 <?php if($this->session->userdata('level')<6){ ?>
@@ -375,14 +375,14 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-suitcase"></i>
 <span class="title">Master</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('branch/view') ?>"><i class="fa fa-calendar-plus-o"></i> Branch</a></li>
-    <li><a href="<?php echo site_url('grapari/view') ?>"><i class="fa fa-calendar-plus-o"></i> Grapari</a></li>
-    <li><a href="<?php echo site_url('reason/view') ?>"><i class="fa fa-calendar-plus-o"></i> Reason</a></li>
-    <li><a href="<?php echo site_url('paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Paket</a></li>
-    <li><a href="<?php echo site_url('kategori_paket/view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>
-    <li><a href="<?php echo site_url('salesperson/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
-    <li><a href="<?php echo site_url('sales_channel/view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Channel</a></li>
-    <li><a href="<?php echo site_url('feedbacks/view') ?>"><i class="fa fa-calendar-plus-o"></i> Feedbacks</a></li>
+    <li><a href="<?php echo site_url('Admin/branch_view') ?>"><i class="fa fa-calendar-plus-o"></i> Branch</a></li>
+    <li><a href="<?php echo site_url('Admin/grapari_view') ?>"><i class="fa fa-calendar-plus-o"></i> Grapari</a></li>
+    <li><a href="<?php echo site_url('Admin/reason_view') ?>"><i class="fa fa-calendar-plus-o"></i> Reason</a></li>
+    <li><a href="<?php echo site_url('Admin/paket_view') ?>"><i class="fa fa-calendar-plus-o"></i> Paket</a></li>
+    <li><a href="<?php echo site_url('Admin/kategoripaket_view') ?>"><i class="fa fa-calendar-plus-o"></i> Kategori Paket</a></li>
+    <li><a href="<?php echo site_url('Admin/salesperson_view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Person</a></li>
+    <li><a href="<?php echo site_url('Admin/saleschannel_view') ?>"><i class="fa fa-calendar-plus-o"></i> Sales Channel</a></li>
+    <li><a href="<?php echo site_url('Admin/feedback_view') ?>"><i class="fa fa-calendar-plus-o"></i> Feedbacks</a></li>
 </ul>
 </li>
 <?php } ?>
@@ -392,9 +392,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <span class="title">Table Generate</span></a>
 <ul class="collapse">
   
-    <li><a href="<?php echo site_url('generate_table/add') ?>"><i class="fa fa-calendar-plus-o"></i> Add Generate</a></li>
+    <li><a href="<?php echo site_url('Admin/generatetable_add') ?>"><i class="fa fa-calendar-plus-o"></i> Add Generate</a></li>
   
-    <li><a href="<?php echo site_url('generate_table/view') ?>"><i class="fa fa-book"></i> View Table</a></li>
+    <li><a href="<?php echo site_url('Admin/generatetable_view') ?>"><i class="fa fa-book"></i> View Table</a></li>
 </ul>
 </li>
 
@@ -402,9 +402,9 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <a href="#"><i class="fa fa-cog"></i>
 <span class="title">Administration</span></a>
 <ul class="collapse">
-    <li><a href="<?php echo site_url('users/view') ?>"><i class="fa fa-users"></i> User Management</a></li>
+    <li><a href="<?php echo site_url('Admin/users_view') ?>"><i class="fa fa-users"></i> User Management</a></li>
     <li><a href="<?php echo site_url('Admin/generalSettings') ?>"><i class="fa fa-cogs"></i> General Settings</a></li>
-    <li><a href="<?php echo site_url('custom_fields/add') ?>"><i class="fa fa-language"></i>Custom Fields</a></li>
+    <li><a href="<?php echo site_url('Admin/customfields_add') ?>"><i class="fa fa-language"></i>Custom Fields</a></li>
     <li><a href="<?php echo site_url('Admin/backupDatabase') ?>"><i class="fa fa-database"></i> Backup Database</a></li>
 </ul>
 </li>

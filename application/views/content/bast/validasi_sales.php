@@ -15,7 +15,20 @@
 <?php 
 $level = array(1=>'Cek MSISDN', 2=>'Validasi', 3=>'TL', 4=>'Administrator', 5=>'FOS ALR', 6=>'Validasi GraPARI', 7=>'FOS GraPARI', 8=>'Admin CTP');
 $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom');
-$jenis_event=array(1=>'Industrial Park',2=>'Mall to Mall',3=>'Office to Office',4=>'Other',5=>'Mandiri',6=>'Telkomsel');
+$jenis_event=array(1=>'Industrial Park',
+                   2=>'Mall to Mall',
+                   3=>'Office to Office',
+                   4=>'Other',
+                   5=>'Mandiri',
+                   6=>'Telkomsel',
+                   7=>'BNI',
+                   8=>'BRI',
+                   9=>'Direct Sales/Residential',
+                   10=>'Event - Booth - Canvasing - Banking -etc',
+                   11=>'Partnership',
+                   12=>'Outlet Regular AD',
+                   13=>'Outlet Device (MDN+MDR)'
+                 );
 $discount=array(''=>'', 1=>'0',2=>'25',3=>'50',4=>'100',5=>'FreeMF');
 $periode=array(''=>'', 1=>'0',2=>'1',3=>'3',4=>'6',5=>'12');
 $bc=array('BC 01'=>'BC 01', 'BC 06'=>'BC 06', 'BC 11'=>'BC 11', 'BC 16'=>'BC 16', 'BC 20'=>'BC 20');
@@ -136,7 +149,7 @@ $status=array(
         </select>      
       </div>
       <button type="submit" class="mybtn btn-submit" id="save_button"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>bast/detail/<?php echo $edit_sales->no_bast?>" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/bast_detail/<?php echo $edit_sales->no_bast?>" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
     
   </div>
@@ -354,7 +367,7 @@ $(document).ready(function(){
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('bast/validasi').'/'.$no_bast.'/'.$psb_id.'/insert' ?>",
+        url : "<?php echo site_url('Admin/bast_validasi').'/'.$no_bast.'/'.$psb_id.'/insert' ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
@@ -382,7 +395,7 @@ $(document).ready(function(){
             $('#sgrapari').select2("val","");
           }
           swal("Saved!", "Saved Sucessfully", "success");
-          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/validasi/'+no_bast+'/'+psb_id; }, 2000);
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_validasi/'+no_bast+'/'+psb_id; }, 2000);
         }else{
           failedAlert2(data);
           $(".block-ui").css('display','none');

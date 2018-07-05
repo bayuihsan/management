@@ -40,7 +40,7 @@
           <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo date('Y-m-d h:i:s')?>"/>   
         </div> 
         <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-        <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+        <a href="<?php echo base_url()?>Admin/bast_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
       </form>
     </div>
     <!--End Panel Body-->
@@ -81,7 +81,7 @@
           <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo $edit_bast->tanggal_masuk?>" readonly/>   
         </div> 
         <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-        <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+        <a href="<?php echo base_url()?>Admin/bast_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
       </form>
     </div>
     <!--End Panel Body-->
@@ -108,7 +108,7 @@
               <td class="a_no_bast sc-col-3"><?php echo $list->no_bast ?></a></td>
               <td class="a_nama_branch sc-col-1"><?php echo $list->branch_id ?></td> 
               <td class="a_tanggal_masuk sc-col-3"><?php echo $list->tanggal_masuk ?></td> 
-              <td class="sc-col-4"><a href="<?php echo site_url('bast/add').'/'.$list->no_bast; ?>" title="Click For Add MSISDN" class="mybtn btn-success btn-xs">Tambah</a> <a class="mybtn btn-info btn-xs bast-edit-btn" title="Click For Edit"  href="<?php echo $list->id_header ?>">Edit</a>
+              <td class="sc-col-4"><a href="<?php echo site_url('Admin/bast_add').'/'.$list->no_bast; ?>" title="Click For Add MSISDN" class="mybtn btn-success btn-xs">Tambah</a> <a class="mybtn btn-info btn-xs bast-edit-btn" title="Click For Edit"  href="<?php echo $list->id_header ?>">Edit</a>
               </td>     
             </tr>
             
@@ -142,7 +142,7 @@ $(document).ready(function() {
   $('#add-bast-account').on('submit',function(){    
     $.ajax({
       method : "POST",
-      url : "<?php echo site_url('bast/create/insert') ?>",
+      url : "<?php echo site_url('Admin/bast_create/insert') ?>",
       data : $(this).serialize(),
       beforeSend : function(){
         $(".block-ui").css('display','block'); 
@@ -158,7 +158,7 @@ $(document).ready(function() {
           $(".block-ui").css('display','none');     
           $('#add-bast-account')[0].reset(); 
           $("#bbranch").select2("val","");  
-          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/create'; }, 2000); 
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_create'; }, 2000); 
         }else{
           failedAlert(json['message']);
           $(".block-ui").css('display','none');
@@ -223,7 +223,7 @@ $(document).ready(function() {
 
 
   function appendRow(id){
-    var base='<?php echo base_url() ?>'+'bast/create/remove/'+id;    
+    var base='<?php echo base_url() ?>'+'Admin/bast_create/remove/'+id;    
     var edit_link="<a class='mybtn btn-info btn-xs bast-edit-btn' href='"+id+"'>Edit</a>";
     var remove_link="<a class='mybtn btn-danger btn-xs bast-remove-btn' href='"+base+"'>Remove</a>";
     /*

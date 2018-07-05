@@ -39,7 +39,7 @@
         <input type="text" class="form-control" name="username" id="username" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>grapari/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/grapari_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -68,7 +68,7 @@
         <input type="text" class="form-control" name="username" id="username" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>grapari/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/grapari_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
   <?php } ?>
@@ -104,7 +104,7 @@ $(document).ready(function(){
   $('#add-grapari').on('submit',function(){     
     $.ajax({
       method : "POST",
-      url : "<?php echo site_url('grapari/add/insert') ?>",
+      url : "<?php echo site_url('Admin/grapari_add/insert') ?>",
       data : $(this).serialize(),
       beforeSend : function(){
         $(".block-ui").css('display','block'); 
@@ -117,7 +117,7 @@ $(document).ready(function(){
           $('#nama_grapari').val(""); 
         }
         swal("Saved!", "Saved Sucessfully", "success");
-        setTimeout(function(){ document.location.href = '<?php echo base_url()?>grapari/add'; }, 2000);
+        setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/grapari_add'; }, 2000);
       }else{
         failedAlert2(data);
         $(".block-ui").css('display','none');

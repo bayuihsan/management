@@ -61,7 +61,7 @@
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>generate_table/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/generatetable_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -120,7 +120,7 @@
       </div>   
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>generate_table/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/generatetable_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -158,7 +158,7 @@ $(document).ready(function(){
       var id_temp = $('#id_temp').val();
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('generate_table/add/insert') ?>",
+        url : "<?php echo site_url('Admin/generatetable_add/insert') ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
@@ -175,7 +175,7 @@ $(document).ready(function(){
           if(id_temp!=""){
             setTimeout(function(){ document.location.href = '<?php echo base_url()?>generate_table/edit/'+id_temp; }, 2000);
           }else{
-            setTimeout(function(){ document.location.href = '<?php echo base_url()?>generate_table/add'; }, 2000);
+            setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/generatetable_add'; }, 2000);
           }
         }else{
           failedAlert2(data);

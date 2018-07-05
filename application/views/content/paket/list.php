@@ -10,9 +10,9 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage paket <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('paket/add') ?>">Add Paket</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/paket_add') ?>">Add Paket</a>
         <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('paket/export/asyn') ?>" download="<?php echo site_url('paket/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/paket_export/asyn') ?>" download="<?php echo site_url('Admin/paket_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -38,8 +38,8 @@
                     <td>
                         <?php if($this->session->userdata('level')==4){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('paket/edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('paket/add/remove/'.$new->paket_id) ?>">Delete</a>
+                    title="Click For Edit" href="<?php echo site_url('Admin/paket_edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/paket_add/remove/'.$new->paket_id) ?>">Delete</a>
                         <?php } ?>
 
                     </td>

@@ -72,11 +72,11 @@
 	            	<?php if($this->session->userdata('level')==4 || $this->session->userdata('level')>5){  
                                 if($detail_msisdn->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
                               <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Aktivasi" href="<?php echo site_url('bast/aktivasi/'.$detail_msisdn->no_bast.'/'.$detail_msisdn->psb_id) ?>">Aktivasi</a>
+                            title="Click For Aktivasi" href="<?php echo site_url('Admin/bast_aktivasi/'.$detail_msisdn->no_bast.'/'.$detail_msisdn->psb_id) ?>">Aktivasi</a>
                               <?php }else{
                               		if($detail_msisdn->status!="sukses" && $this->session->userdata('level')==6){ ?>
                               <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Validasi" href="<?php echo site_url('bast/validasi/'.$detail_msisdn->no_bast.'/'.$detail_msisdn->psb_id) ?>">Validasi</a> 
+                            title="Click For Validasi" href="<?php echo site_url('Admin/bast_validasi/'.$detail_msisdn->no_bast.'/'.$detail_msisdn->psb_id) ?>">Validasi</a> 
                         <?php 	} } }
                              ?>
 	                <table class="table table-bordered hoverTable">

@@ -13,8 +13,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Users <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('users/add') ?>">Add Users</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('users/export/asyn') ?>" download="<?php echo site_url('users/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/users_add') ?>">Add Users</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/users_export/asyn') ?>" download="<?php echo site_url('Admin/users_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="users-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -37,8 +37,8 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                 <td><?php echo strtoupper($new->keterangan) ?></td>
                 <td><?php echo strtoupper($new->last_login) ?></td>
                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('users/edit/'.$new->id_users) ?>">Edit</a> &nbsp; 
-                <a class="mybtn btn-danger btn-xs users-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('users/add/remove/'.$new->id_users) ?>">Delete</a> &nbsp; <a class="mybtn btn-warning btn-xs users-reset-btn" data-toggle="tooltip" title="Click For Reset Password" href="<?php echo site_url('users/add/reset/'.$new->id_users) ?>">Reset Password</a></td>
+                title="Click For Edit" href="<?php echo site_url('Admin/users_edits/'.$new->id_users) ?>">Edit</a> &nbsp; 
+                <a class="mybtn btn-danger btn-xs users-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/users_add/remove/'.$new->id_users) ?>">Delete</a> &nbsp; <a class="mybtn btn-warning btn-xs users-reset-btn" data-toggle="tooltip" title="Click For Reset Password" href="<?php echo site_url('Admin/users_add/reset/'.$new->id_users) ?>">Reset Password</a></td>
                 </tr>
                <?php } ?>
             </tbody>       

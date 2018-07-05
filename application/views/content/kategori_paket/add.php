@@ -36,7 +36,7 @@
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>kategori_paket/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/kategoripaket_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -57,7 +57,7 @@
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>kategori_paket/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/kategoripaket_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -94,7 +94,7 @@ $(document).ready(function(){
   $('#add-kategori').on('submit',function(){    
     $.ajax({
       method : "POST",
-      url : "<?php echo site_url('kategori_paket/add/insert') ?>",
+      url : "<?php echo site_url('Admin/kategoripaket_add/insert') ?>",
       data : $(this).serialize(),
       beforeSend : function(){
         $(".block-ui").css('display','block'); 

@@ -50,7 +50,7 @@
       </div>    
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>reason/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/reason_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -79,7 +79,7 @@
         <input type="text" class="form-control" name="update_by" id="update_by" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>reason/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/reason_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -117,7 +117,7 @@ $(document).ready(function(){
     $('#add-reason').on('submit',function(){    
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('reason/add/insert') ?>",
+        url : "<?php echo site_url('Admin/reason_add/insert') ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 

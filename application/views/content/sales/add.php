@@ -157,7 +157,7 @@ $status=array('sukses'=>'sukses',
           </div>
       </div>
       <button type="submit" class="mybtn btn-submit" id="save_button"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>sales/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/sales_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
     
   </div>
@@ -428,7 +428,7 @@ $(document).ready(function(){
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('sales/add').'/insert/'.$psb_id ?>",
+        url : "<?php echo site_url('Admin/sales_add').'/insert/'.$psb_id ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
@@ -455,7 +455,7 @@ $(document).ready(function(){
             $('#ssales_person').select2("val","");
           }
           swal("Saved!", "Saved Sucessfully", "success");
-          setTimeout(function(){ document.location.href = '<?php echo base_url()?>sales/edit/'+psb_id; }, 2000);
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/sales_edit/'+psb_id; }, 2000);
         }else{
           failedAlert2(data);
           $(".block-ui").css('display','none');

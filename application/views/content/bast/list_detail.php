@@ -65,13 +65,13 @@
     <div class="panel-body add-client">
         <input type="hidden" name="xno_bast" id="xno_bast" value="<?php echo $cno_bast?>">
       <?php if(empty($edit_bast->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
-        <a class="mybtn btn-success bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('bast/cek_bast/receive/'.$edit_bast->id_header) ?>">Terima</a>
+        <a class="mybtn btn-success bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('Admin/cek_bast/receive/'.$edit_bast->id_header) ?>">Terima</a>
       <?php } ?>
-      <a href="<?php echo base_url()?>bast/export/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Export BAST" class="mybtn btn-success export-btn"><i class="fa fa-file-excel-o"></i> Export</a>
+      <a href="<?php echo base_url()?>Admin/bast_export/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Export BAST" class="mybtn btn-success export-btn"><i class="fa fa-file-excel-o"></i> Export</a>
       <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5){ ?>
-        <a href="<?php echo base_url()?>bast/add/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" class="mybtn btn-default"><i class="fa fa-plus"></i> Tambah</a>
+        <a href="<?php echo base_url()?>Admin/bast_add/<?php echo $cno_bast?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" class="mybtn btn-default"><i class="fa fa-plus"></i> Tambah</a>
       <?php } ?>
-        <a href="<?php echo base_url()?>bast/cek_bast" style="cursor: pointer;" data-toggle="tooltip" title="Click For Back" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+        <a href="<?php echo base_url()?>Admin/cek_bast" style="cursor: pointer;" data-toggle="tooltip" title="Click For Back" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
         
     </div>
     <!--End Panel Body-->
@@ -124,11 +124,11 @@
                                   <?php if(($this->session->userdata('level')==4 || $this->session->userdata('level')>5) && $this->session->userdata('branch_id')==$new->branch_id && $edit_bast->tanggal_terima!=''){  
                                     if($new->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
                                   <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 
-                                title="Click For Aktifasi" data-dismiss="modal" href="<?php echo site_url('bast/aktivasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Aktivasi</a>
+                                title="Click For Aktifasi" data-dismiss="modal" href="<?php echo site_url('Admin/bast_aktivasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Aktivasi</a>
                                   <?php }else{ 
                                         if($new->status!="sukses" && $this->session->userdata('level')==6){  ?>
                                   <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                                title="Click For Validasi" data-dismiss="modal" href="<?php echo site_url('bast/validasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Validasi</a> <?php }}}?> </td>
+                                title="Click For Validasi" data-dismiss="modal" href="<?php echo site_url('Admin/bast_validasi/'.$new->no_bast.'/'.$new->psb_id) ?>">Validasi</a> <?php }}}?> </td>
                                 
                             </tr>
                     <?php } ?>
@@ -180,7 +180,7 @@ $(document).ready(function() {
                     $(".system-alert-box").empty();
                     swal("Received!", "Receive Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
-                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/detail/'+xno_bast; }, 2000);
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_detail/'+xno_bast; }, 2000);
                 }    
             });
         }); 

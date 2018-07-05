@@ -23,7 +23,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
     <div class="panel-heading">Summary by branch</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/allbranch/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Admin/reports_allbranch/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <select class="form-control" name="opsi" id="opsi">
@@ -52,7 +52,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <a class="mybtn btn-default export-btn" style="float: right" href="<?php echo site_url('Reports/allbranch') ?>" >Export to Excel</a>
+        <a class="mybtn btn-default export-btn" style="float: right" href="<?php echo site_url('Admin/reports_allbranch') ?>" >Export to Excel</a>
         </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>

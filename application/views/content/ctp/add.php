@@ -97,7 +97,7 @@
       </div>
 
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>ctp/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/ctp_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
     <?php }else{ ?>
@@ -144,12 +144,12 @@
     Upload MSISDN From Excel
   </button>
   <li class="list-group-item">
-<?php echo form_open_multipart('upload/update');?>
+<?php echo form_open_multipart('Upload/update');?>
 <input type="file" name="file" size="20" id='files'/>
 <input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
 <input type="hidden" name="branch_id_up" value="<?php echo $this->session->userdata('branch_id');?>">
 <br /><br />  
-  <a href="<?php echo base_url()?>assets/ctp/template/upload_file.xls" download="upload_file.xls">Download Format File</a>
+  <a href="<?php echo base_url()?>assets/ctp/template/upload_ctp.xls" download="upload_ctp.xls">Download Format File</a>
   <a href="<?php echo base_url()?>assets/ctp/template/kode_paket.xls" download="kode_paket.xls"><p style="color:red;">Download Kode paket</p></a> 
 <button type="submit" class="mybtn btn-submit">Save</button>
 </form></li>   
@@ -193,7 +193,7 @@ $('#cbranch_id').select2();
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('ctp/add/insert') ?>",
+        url : "<?php echo site_url('Admin/ctp_add/insert') ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 

@@ -90,17 +90,8 @@ $status=array('sukses'=>'sukses',
           <?php } ?>
         </select>      
       </div>
-      <div class="form-group"> 
-        <label for="ssales_person">Sales Person</label>
-        <select name="ssales_person" class="form-control" id="ssales_person">  
-          <option value="">Pilih Sales Person</option>
-          <?php foreach ($sales_person as $new) {?>
-          <option value="<?php echo $new->nama_sales ?>" class="<?php echo $new->id_users?>"><?php echo "(".$new->id_sales.") ".$new->nama_sales ?></option>
-          <?php } ?>
-        </select>      
-      </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/bast_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
     
   </div>
@@ -284,7 +275,7 @@ $(document).ready(function(){
         </select>      
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>bast/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/bast_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </div>
     
   </div>
@@ -477,7 +468,7 @@ $(document).ready(function(){
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('bast/add').'/'.$no_bast.'/insert' ?>",
+        url : "<?php echo site_url('Admin/bast_add').'/'.$no_bast.'/insert' ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
@@ -504,7 +495,7 @@ $(document).ready(function(){
             $('#ssales_person').select2("val","");
           }
           swal("Saved!", "Saved Sucessfully", "success");
-          setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast/add/'+no_bast; }, 2000);
+          setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_add/'+no_bast; }, 2000);
           
         }else{
           failedAlert2(data);

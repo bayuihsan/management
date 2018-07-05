@@ -23,7 +23,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
     <div class="panel-heading">Branch</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/branch/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Admin/reports_branch/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <select class="form-control" name="vtanggal" id="vtanggal">
@@ -69,7 +69,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 
 
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <a class="mybtn btn-default export-btn" style="float: right" href="<?php echo site_url('Reports/branch') ?>" >Export to Excel</a>
+        <a class="mybtn btn-default export-btn" style="float: right" href="<?php echo site_url('Admin/reports_branch') ?>" >Export to Excel</a>
         </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
@@ -87,13 +87,13 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                     <thead>
                         <th style='background-color: black; color: white;' >No</th>
                         <th style='background-color: black; color: white;' >Branch</th>
-                        <th style='background-color: black; color: white;' class="text-right" id="last_year">Last Year</th>
+                        <th style='background-color: black; color: white;'  class="text-right" id="last_year">Last Year</th>
                         <th style='background-color: black; color: white;'  class="text-right" id="last_month">Last Month</th>
                         <th style='background-color: black; color: white;'  class="text-right" id="this_month">This Month</th>
-                        <th style='background-color: black; color: white;'  class="text-right">Avg/hari</th>
-                        <th style='background-color: black; color: white;'  class="text-right">Rata2 SLA</th>
                         <th style='background-color: black; color: white;'  class="text-right">% MOM</th>
                         <th style='background-color: black; color: white;'  class="text-right">% YOY</th>
+                        <!-- <th style='background-color: black; color: white;'  class="text-right">Avg/hari</th>
+                        <th style='background-color: black; color: white;'  class="text-right">Rata2 SLA</th> -->
                     </thead>
                     <tbody>
 
@@ -112,7 +112,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 </div><!--End Inner container-->
 </div><!--End Row-->
 </div><!--End Main-content DIV-->
-</section><!--End Main-content Section-->
+</section><!--End Main-content Section--a
 
 <!--<script src="<?php echo base_url() ?>/theme/js/pdf/jspdf.debug.js"></script>-->
 

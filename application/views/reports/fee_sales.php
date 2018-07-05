@@ -23,7 +23,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
     <div class="panel-heading">Fee Sales TSA</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Reports/fee_sales_tsa/view') ?>">
+            <form id="sales_cari" action="<?php echo site_url('Admin/reports_fee_sales_tsa/view') ?>">
 
                 <div class="col-md-3 col-lg-3 col-sm-3"> 
                     <select class="form-control" name="vbranch" id="vbranch">

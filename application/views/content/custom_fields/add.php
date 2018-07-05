@@ -94,7 +94,7 @@ $("#id_users").keypress(function (e) {
 $('#add-custom_fields').on('submit',function(){    
   $.ajax({
     method : "POST",
-    url : "<?php echo site_url('custom_fields/add/eksekusi') ?>",
+    url : "<?php echo site_url('Admin/customfields_add/eksekusi') ?>",
     data : $(this).serialize(),
     beforeSend : function(){
       $(".block-ui").css('display','block'); 

@@ -49,7 +49,7 @@
         </select>
       </div>      
       <div class="form-group">
-        <label for="balance">No Telp</label>
+        <label for="balance">No Telp</label> *No. Telp Diawali dengan 628 
         <input type="text" class="form-control" name="no_telp" id="no_telp">
       </div>
       <div class="form-group">
@@ -73,7 +73,7 @@
         </select>
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>salesperson/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/salesperson_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -84,7 +84,7 @@
         <label for="user_sales">User Sales</label>
         <input type="text" class="form-control" name="user_sales" id="user_sales" value="<?php echo $edit_salesperson->user_sales?>" readonly> 
         change *Jika menggunakan spasi, otomatis akan diganti menjadi Underscore (_)
-        <input type="text" class="form-control" name="user_sales1" id="user_sales1" placeholder="Change Username">
+        <input type="text" class="form-control" name="user_sales" id="user_sales" placeholder="Change Username">
       </div>
       <div class="form-group">
         <label for="nama_sales">Nama Sales</label>
@@ -146,7 +146,7 @@
         </select>
       </div>
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>salesperson/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/salesperson_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -193,7 +193,7 @@ $(document).ready(function(){
     }else{
       $.ajax({
         method : "POST",
-        url : "<?php echo site_url('salesperson/add/insert') ?>",
+        url : "<?php echo site_url('Admin/salesperson_add/insert') ?>",
         data : $(this).serialize(),
         beforeSend : function(){
           $(".block-ui").css('display','block'); 

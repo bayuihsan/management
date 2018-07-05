@@ -10,9 +10,9 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Kategori Paket <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('kategori_paket/add') ?>">Add Kategori</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/kategoripaket_add') ?>">Add Kategori</a>
         <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('kategori_paket/export/asyn') ?>" download="<?php echo site_url('kategori_paket/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/kategoripaket_export/asyn') ?>" download="<?php echo site_url('Admin/kategoripaket_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -34,8 +34,8 @@
                     <td>
                         <?php if($this->session->userdata('level')==4){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('kategori_paket/edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('kategori_paket/add/remove/'.$new->id_kategori) ?>">Delete</a>
+                    title="Click For Edit" href="<?php echo site_url('Admin/kategoripaket_edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/kategoripaket_add/remove/'.$new->id_kategori) ?>">Delete</a>
                     <?php } ?>
                     
                     </td>

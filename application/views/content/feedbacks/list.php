@@ -9,8 +9,8 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Feedbacks <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('feedbacks/add') ?>">Add Feedbacks</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('feedbacks/export/asyn') ?>" download="<?php echo site_url('feedbacks/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/feedback_add') ?>">Add Feedbacks</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/feedback_export/asyn') ?>" download="<?php echo site_url('Admin/feedback_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body manage-client" >
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -34,9 +34,9 @@
                     <td><?php echo strtoupper($new->tgl_update) ?></td>
                     <td><?php echo strtoupper(substr($new->saran, 0, 100)).'...' ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('feedbacks/edit/'.$new->id_feedback) ?>">Edit</a> &nbsp; 
+                title="Click For Edit" href="<?php echo site_url('Admin/feedback_edit/'.$new->id_feedback) ?>">Edit</a> &nbsp; 
                 <?php if($this->session->userdata('level')==4){ ?>
-                        <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('feedbacks/add/remove/'.$new->id_feedback) ?>">Delete</a>
+                        <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/feedback_add/remove/'.$new->id_feedback) ?>">Delete</a>
                     <?php } ?>
                     </td>
                 </tr>

@@ -135,7 +135,7 @@ class bast extends CI_Controller {
             $datax['tl']=$this->usersmodel->get_all_tl();
             $datax['sub_channel']=$this->Sales_channelmodel->get_all();
             $datax['sales_person']=$this->Salespersonmodel->get_all();
-            $datax['grapari']=$this->graparinmodel->get_all();
+            $datax['grapari']=$this->graparimodel->get_all();
             $datax['validasi']=$this->usersmodel->get_all_validasi();
 
         }else{
@@ -144,7 +144,7 @@ class bast extends CI_Controller {
             $datax['tl']=$this->usersmodel->get_all_tl_by($sess_branch);
             $datax['sub_channel']=$this->Sales_channelmodel->get_all_by($sess_branch);
             $datax['sales_person']=$this->Salespersonmodel->get_all_by($sess_branch);
-            $datax['grapari']=$this->graparinmodel->get_all_by($sess_branch);
+            $datax['grapari']=$this->graparimodel->get_all_by($sess_branch);
             $datax['validasi']=$this->usersmodel->get_all_validasi_by($sess_branch);
         }
         

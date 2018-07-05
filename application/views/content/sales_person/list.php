@@ -10,9 +10,9 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales Person <div class="add-button">
     <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5 || $this->session->userdata('level')==3){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('salesperson/add') ?>">Add Sales Person</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/salesperson_add') ?>">Add Sales Person</a>
     <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('salesperson/export/asyn') ?>" download="<?php echo site_url('salesperson/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/salesperson_export/asyn') ?>" download="<?php echo site_url('Admin/salesperson_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -22,7 +22,7 @@
                 <th>NAMA SALES</th>
                 <th>BRANCH</th>
                 <th>TL</th>
-                <th>NO HP</th>
+                <th>NO TELP</th>
                 <th>NAMA BANK</th>
                 <th>NO REKENING</th>
                 <th>ATAS NAMA</th>
@@ -48,9 +48,9 @@
                     <td>
                         <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5 || $this->session->userdata('level')==3){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('salesperson/edit/'.$new->id_sales) ?>">Edit</a> &nbsp; 
+                    title="Click For Edit" href="<?php echo site_url('Admin/salesperson_edits/'.$new->id_sales) ?>">Edit</a> &nbsp; 
                     <?php if($this->session->userdata('level')==4){ ?>
-                    <a class="mybtn btn-danger btn-xs salesperson-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('salesperson/add/remove/'.$new->id_sales) ?>">Delete</a>
+                    <a class="mybtn btn-danger btn-xs salesperson-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/salesperson_add/remove/'.$new->id_sales) ?>">Delete</a>
                     <?php }
                     } ?>
                     </td>

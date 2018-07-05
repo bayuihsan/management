@@ -232,7 +232,7 @@ $status=array('sukses'=>'sukses',
         <td class="a_name sc-col-4"><?php echo $list->msisdn ?></td>
         <td class="a_type sc-col-3"><?php echo $list->nama_pelanggan ?></td> 
         <td class="sc-col-3"><a class="mybtn btn-info btn-xs chart-edit-btn"  href="<?php echo $list->psb_id ?>">Edit</a>
-        <a class="mybtn btn-danger btn-xs chart-remove-btn"  href="<?php echo site_url('bast/view/remove/'.$list->psb_id) ?>">Remove</a></td>     
+        <a class="mybtn btn-danger btn-xs chart-remove-btn"  href="<?php echo site_url('Admin/bast_view/remove/'.$list->psb_id) ?>">Remove</a></td>     
         </tr>
         
         <?php } ?>

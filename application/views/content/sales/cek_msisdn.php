@@ -12,7 +12,7 @@
     <div class="panel-heading">MSISDN</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="msisdn_cari" action="<?php echo site_url('sales/cek_msisdn/view') ?>">
+            <form id="msisdn_cari" action="<?php echo site_url('Admin/sales_cek_msisdn/view') ?>">
 
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <input type="text" name="cek" id="cek" class="form-control" placeholder="Cari MSISDN">

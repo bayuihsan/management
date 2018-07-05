@@ -385,7 +385,7 @@ min-height: 800px;
 .medium-box {
     background: #fff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
-    height: 375px;
+    height: 500px;
     width: 100%;
     overflow: hidden;
 }
@@ -412,7 +412,7 @@ overflow: hidden;
 /* End Page Body Height*/
 
 .financial-bal {
-    height: 315px;
+    height: 515px;
     overflow: hidden;
 }
 #inc_vs_exp {

@@ -1,6 +1,6 @@
 <?php
 
-class generate_tablemodel extends CI_Model{
+class Generate_tablemodel extends CI_Model{
  
 	// db2 digunakan untuk mengakses database ke-2
 	private $db2;

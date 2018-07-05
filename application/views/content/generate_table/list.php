@@ -10,7 +10,7 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Generate <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('generate_table/add') ?>">Add Generate</a>
+        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/generatetable_add') ?>">Add Generate</a>
         <?php } ?>
     </div></div>
     <div class="panel-body">
@@ -34,9 +34,9 @@
                     <td><?php echo strtoupper($new->nama) ?></td>
                     <td><?php echo strtoupper($new->tanggal_update) ?></td>
                     <td>
-                        <a class="mybtn btn-info btn-xs load_data" data-toggle="tooltip" title="Click For View" href="<?php echo site_url('generate_table/load_table/'.$new->id_temp) ?>">View</a>
+                        <a class="mybtn btn-info btn-xs load_data" data-toggle="tooltip" title="Click For View" href="<?php echo site_url('Admin/generatetable_load_table/'.$new->id_temp) ?>">View</a>
                         <?php if($this->session->userdata('level')==4){ ?>
-                        <a class="mybtn btn-danger btn-xs generate_table-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('generate_table/add/remove/'.$new->id_temp) ?>">Delete</a>
+                        <a class="mybtn btn-danger btn-xs generate_table-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/generatetable_add/remove/'.$new->id_temp) ?>">Delete</a>
                         <?php } ?>
                     </td>
                 </tr>

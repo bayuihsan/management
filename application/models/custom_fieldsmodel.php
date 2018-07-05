@@ -10,7 +10,7 @@
  * @link		#
  */
 
-class custom_fieldsmodel extends CI_Model 
+class Custom_fieldsmodel extends CI_Model 
 {
 	function __construct()
 	{

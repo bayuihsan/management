@@ -49,7 +49,7 @@
         <input type="text" class="form-control" name="username" id="username" value="<?php echo $this->session->userdata('username'); ?>" readonly>
       </div>    
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>sales_channel/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/saleschannel_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
     <?php }else{ ?>
 
@@ -95,7 +95,7 @@
       </div>    
           
       <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>sales_channel/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/saleschannel_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
 
  <?php } ?>
@@ -132,7 +132,7 @@ $(document).ready(function(){
   $('#add-sales_channel').on('submit',function(){     
     $.ajax({
       method : "POST",
-      url : "<?php echo site_url('sales_channel/add/insert') ?>",
+      url : "<?php echo site_url('Admin/saleschannel_add/insert') ?>",
       data : $(this).serialize(),
       beforeSend : function(){
         $(".block-ui").css('display','block'); 

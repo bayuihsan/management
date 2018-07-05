@@ -10,9 +10,9 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Grapari <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('grapari/add') ?>">Add Grapari</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/grapari_add') ?>">Add Grapari</a>
         <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('grapari/export/asyn') ?>" download="<?php echo site_url('grapari/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/grapari_export/asyn') ?>" download="<?php echo site_url('Admin/grapari_export/asyn') ?>">Export to Excel</a>
     </div></div>
     <div class="panel-body">
         <table id="grapari-table" class="display responsive nowrap" cellspacing="0" width="100%">
@@ -36,8 +36,8 @@
                     <td>
                     <?php if($this->session->userdata('level')==4){ ?>
                     <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('grapari/edit/'.$new->id_grapari) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('grapari/add/remove/'.$new->id_grapari) ?>">Delete</a>
+                    title="Click For Edit" href="<?php echo site_url('Admin/grapari_edits/'.$new->id_grapari) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/grapari_add/remove/'.$new->id_grapari) ?>">Delete</a>
                     <?php } ?>
                     </td>
                 </tr>
