@@ -7,16 +7,6 @@
 </div>
 <!--End Card box-->
 <div class="col-md-12 col-lg-12 col-sm-12">
-        <div class="col-md-3 col-lg-3 col-sm-3"> 
-            <div class="form-group"> 
-                <div class='input-group date' id='date2'>
-                    <input type="text" class="form-control" placeholder="Month to date" name="" id="" value=""/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div> 
-        </div>
     <form id="pencarian" action="<?php echo site_url('Admin/dashboard') ?>">
         <div class="col-md-3 col-lg-3 col-sm-3"> 
             <div class="form-group"> 
@@ -246,7 +236,6 @@
     <!--End Panel Body-->
     
 </div>
-Total Sales Area 2 <?php echo $cart_summery['current_month_psb'];?>
 <!--End Panel-->
 </div>
 

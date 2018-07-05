@@ -41,7 +41,7 @@
                       background-color: #b8d1f3;
                 }
             </style>
-            <div id="Table-div">
+            <div id="Table-div" style="overflow: auto;">
                 <table class="table table-bordered hoverTable">
                     <thead>
                         <th>No</th>

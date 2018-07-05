@@ -24,6 +24,14 @@
         <label for="acc_name">MSISDN</label>
         <input type="text" class="form-control" name="msisdn" id="msisdn">
       </div>
+      <div class="form-group">
+        <label for="note">Tipe</label>
+        <select name="tipe" class="form-control">
+          <option value="">Pilih Tipe</option>
+          <option value="HaloInstan">Halo Instan</option>
+          <option value="HaloReguler">Halo Reguler</option>
+        </select>
+      </div>
       <div class='form-group'>
         <label>Branch</label>
         <select name="mbranch_id" id="mbranch_id" class="form-control">
@@ -31,14 +39,6 @@
           <?php foreach($branch as $row) { ?>
           <option value="<?php echo $row->branch_id?>"><?php echo $row->nama_branch?></option>
           <?php } ?>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="note">Tipe</label>
-        <select name="tipe" class="form-control">
-          <option value="">Pilih Tipe</option>
-          <option value="HaloInstan">Halo Instan</option>
-          <option value="HaloReguler">Halo Reguler</option>
         </select>
       </div>
       <div class='form-group'>
@@ -89,6 +89,19 @@
         <label for="nama_paket">MSISDN</label>
         <input type="text" class="form-control" name="msisdn" id="msisdn" value="<?php echo $edit_msisdn->msisdn ?>" maxlength="14">
       </div>
+      <div class="form-group">
+        <label for="tipe">Tipe</label>
+        <select name="tipe" class="form-control">
+          <option value="0">Pilih Tipe</option>
+          <?php if($edit_msisdn->tipe == "HaloInstan"){ ?>
+          <option value="HaloInstan" selected="selected">Halo Instan</option>
+          <option value="HaloReguler">Halo Reguler</option>
+          <?php }else{ ?>
+          <option value="HaloInstan">Halo Instan</option>
+          <option value="HaloReguler" selected="selected">Halo Reguler</option>
+          <?php } ?>
+        </select>
+      </div>
       <div class='form-group'>
         <label>Branch</label>
         <select name="mbranch_id" id="mbranch_id" class="form-control">
@@ -104,20 +117,6 @@
           <?php } ?>
         </select>
       </div>
-      <div class="form-group">
-        <label for="tipe">Tipe</label>
-        <select name="tipe" class="form-control">
-          <option value="0">Pilih Tipe</option>
-          <?php if($edit_msisdn->tipe == "HaloInstan"){ ?>
-          <option value="HaloInstan" selected="selected">Halo Instan</option>
-          <option value="HaloReguler">Halo Reguler</option>
-          <?php }else{ ?>
-          <option value="HaloInstan">Halo Instan</option>
-          <option value="HaloReguler" selected="selected">Halo Reguler</option>
-          <?php } ?>
-        </select>
-      </div>
-
       <div class='form-group'>
         <label>TL</label>
         <select name="mid_users" class="form-control" id="mid_users">

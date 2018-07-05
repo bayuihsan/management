@@ -1,7 +1,7 @@
 </div>
 <!--Start Footer-->
 <footer id="footer">
-<p><b> &copy; 2016 - <?php echo date('Y')?> B.I. Code </b></p>
+<p><b> &copy; 2016 - <?php echo date('Y')?> B.I. Code # HVCares V2 </b></p>
 </footer>
 
 <!--End Footer-->
