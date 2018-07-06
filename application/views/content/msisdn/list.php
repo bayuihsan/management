@@ -12,7 +12,7 @@
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/msisdn_add') ?>">Add Msisdn</a>
     <a class="mybtn btn-default" href="<?php echo site_url('Admin/msisdn_export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
     </div></div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto;">
         <p><?php echo $this->session->flashdata("pesan"); ?></p>
         <table id="repeat-msisdn-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    

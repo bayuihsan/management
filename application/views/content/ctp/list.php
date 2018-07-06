@@ -9,8 +9,8 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Customer Touch Point <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/ctp_add') ?>">Add CTP</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('Admin/ctp_export/asyn') ?>" download="<?php echo site_url('Admin/ctp_export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/ctp_add') ?>">Add</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/ctp_export/asyn') ?>" download="<?php echo site_url('Admin/ctp_export/asyn') ?>">Export</a>
     </div></div>
     <div class="panel-body manage-client" >
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">

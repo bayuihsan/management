@@ -10,10 +10,10 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Generate <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/generatetable_add') ?>">Add Generate</a>
+        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/generatetable_add') ?>">Add</a>
         <?php } ?>
     </div></div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto;">
         <table id="repeat-generate_table-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>NAMA TABEL</th><th>BULAN</th>

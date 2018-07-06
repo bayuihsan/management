@@ -10,11 +10,11 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Sales Person <div class="add-button">
     <?php if($this->session->userdata('level')==4 || $this->session->userdata('level')==5 || $this->session->userdata('level')==3){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/salesperson_add') ?>">Add Sales Person</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/salesperson_add') ?>">Add</a>
     <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('Admin/salesperson_export/asyn') ?>" download="<?php echo site_url('Admin/salesperson_export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/salesperson_export/asyn') ?>" download="<?php echo site_url('Admin/salesperson_export/asyn') ?>">Export</a>
     </div></div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto;">
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th>

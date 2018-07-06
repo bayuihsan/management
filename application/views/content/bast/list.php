@@ -11,7 +11,7 @@
     <div class="panel-heading">Manage Bast <div class="add-button">
         <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/bast_create') ?>">Add Bast</a>
     </div></div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto;">
         <table id="repeat-bast-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>NO BAST</th><th>BRANCH</th>

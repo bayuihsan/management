@@ -98,7 +98,7 @@
     <div class="panel-heading">Data BAST</div>
     <div class="panel-body">
        
-        <div class="scroll-div"> 
+        <div class="scroll-div" style="overflow: auto;"> 
           <table id="accounts-table" class="table table-striped table-bordered">
             <th class="sc-col-3">NO BAST</th><th class="sc-col-1">BRANCH</th><th class="sc-col-3">TANGGAL</th><th class="sc-col-4">Action</th>
                 

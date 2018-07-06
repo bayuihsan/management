@@ -10,11 +10,11 @@
     <!-- Default panel contents -->
     <div class="panel-heading">Manage paket <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/paket_add') ?>">Add Paket</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/paket_add') ?>">Add</a>
         <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('Admin/paket_export/asyn') ?>" download="<?php echo site_url('Admin/paket_export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/paket_export/asyn') ?>" download="<?php echo site_url('Admin/paket_export/asyn') ?>">Export</a>
     </div></div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto;">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th>

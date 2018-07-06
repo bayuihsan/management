@@ -82,7 +82,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                       background-color: #b8d1f3;
                 }
             </style>
-            <div id="Table-div">
+            <div id="Table-div" style="overflow: auto;">
                 <table class="table table-bordered hoverTable">
                     <thead>
                         <th style='background-color: black; color: white;' >No</th>

@@ -170,95 +170,96 @@ function jenis_event($id){
         </script>
         
         <?php }else{ ?>
+        <div style="overflow: auto;">
+            <table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
+                <thead>    
+                    <th>NO</th>
+                    <th>MSISDN</th>
+                    <th>NAMA PELANGGAN</th>
+                    <th>BRANCH</th>
+                    <th>PAKET</th>
+                    <th>SLA</th>
+                    <th>TL</th>
+                    <th>SALES PERSON</th>
+                    <th>TANGGAL MASUK</th>
+                    <th>TANGGAL VALIDASI</th>
+                    <th>TANGGAL AKTIF</th>
+                    <th>FA ID</th>
+                    <th>ACCOUNT ID</th>
+                    <th>ALAMAT</th>
+                    <th>ALAMAT 2</th>
+                    <th>DISCOUNT (RB)</th>
+                    <th>PERIODE (BULAN)</th>
+                    <th>BILL CYCLE</th>
+                    <th>CHANNEL</th>
+                    <th>SUB SALES CHANNEL</th>
+                    <th>JENIS EVENT</th>
+                    <th>NAMA EVENT</th>
+                    <th>VALIDATOR</th>
+                    <th>AKTIVATOR</th>
+                    <th>STATUS</th>
+                    <th>TANGGAL UPDATE (System)</th>
+                    <th class="single-action">ACTION</th>
+                </thead>
 
-        <table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
-            <thead>    
-                <th>NO</th>
-                <th>MSISDN</th>
-                <th>NAMA PELANGGAN</th>
-                <th>BRANCH</th>
-                <th>PAKET</th>
-                <th>SLA</th>
-                <th>TL</th>
-                <th>SALES PERSON</th>
-                <th>TANGGAL MASUK</th>
-                <th>TANGGAL VALIDASI</th>
-                <th>TANGGAL AKTIF</th>
-                <th>FA ID</th>
-                <th>ACCOUNT ID</th>
-                <th>ALAMAT</th>
-                <th>ALAMAT 2</th>
-                <th>DISCOUNT (RB)</th>
-                <th>PERIODE (BULAN)</th>
-                <th>BILL CYCLE</th>
-                <th>CHANNEL</th>
-                <th>SUB SALES CHANNEL</th>
-                <th>JENIS EVENT</th>
-                <th>NAMA EVENT</th>
-                <th>VALIDATOR</th>
-                <th>AKTIVATOR</th>
-                <th>STATUS</th>
-                <th>TANGGAL UPDATE (System)</th>
-                <th class="single-action">ACTION</th>
-            </thead>
-
-            <tbody>
-                <?php $no=1;
-                    foreach($sales as $new) { ?>    
-                        <tr>
-                            <td class="date"><?php echo $no++; ?></td>
-                            <td><?php echo $new->psb_id.' - '.strtoupper($new->msisdn) ?></td>
-                            <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
-                            <td><?php echo strtoupper($new->nama_branch) ?></td>
-                            <td><?php echo strtoupper($new->nama_paket) ?></td>
-                            <td><?php
-                                if(empty($new->sla)){ 
-                                    if(!empty($new->tanggal_aktif)){
-                                        $tgl_aktif = new DateTime($new->tanggal_aktif);
+                <tbody>
+                    <?php $no=1;
+                        foreach($sales as $new) { ?>    
+                            <tr>
+                                <td class="date"><?php echo $no++; ?></td>
+                                <td><?php echo $new->psb_id.' - '.strtoupper($new->msisdn) ?></td>
+                                <td><?php echo strtoupper($new->nama_pelanggan) ?></td>
+                                <td><?php echo strtoupper($new->nama_branch) ?></td>
+                                <td><?php echo strtoupper($new->nama_paket) ?></td>
+                                <td><?php
+                                    if(empty($new->sla)){ 
+                                        if(!empty($new->tanggal_aktif)){
+                                            $tgl_aktif = new DateTime($new->tanggal_aktif);
+                                        }else{
+                                            $tgl_aktif = new DateTime();
+                                        }
+                                        $tgl_masuk = new DateTime($new->tanggal_masuk);
+                                        $diff = $tgl_aktif->diff($tgl_masuk); 
+                                        echo $diff->d." Hari";
                                     }else{
-                                        $tgl_aktif = new DateTime();
-                                    }
-                                    $tgl_masuk = new DateTime($new->tanggal_masuk);
-                                    $diff = $tgl_aktif->diff($tgl_masuk); 
-                                    echo $diff->d." Hari";
-                                }else{
-                                    echo strtoupper($new->sla)." Hari"; 
-                                } ?></td>
-                            <td><?php echo strtoupper($new->TL) ?></td>
-                            <td><?php echo strtoupper($new->sales_person) ?></td>
-                            <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
-                            <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
-                            <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
-                            <td><?php echo strtoupper($new->fa_id) ?></td>
-                            <td><?php echo strtoupper($new->account_id) ?></td>
-                            <td><?php echo strtoupper($new->alamat) ?></td>
-                            <td><?php echo strtoupper($new->alamat2) ?></td>
-                            <td><?php echo strtoupper(discount($new->discount)) ?></td>
-                            <td><?php echo strtoupper(periode($new->periode)) ?></td>
-                            <td><?php echo strtoupper($new->bill_cycle) ?></td>
-                            <td><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
-                            <td><?php echo strtoupper($new->sub_channel) ?></td>
-                            <td><?php echo strtoupper(jenis_event($new->jenis_event)) ?></td>
-                            <td><?php echo strtoupper($new->nama_event) ?></td>
-                            <td><?php echo strtoupper($new->validator) ?></td>
-                            <td><?php echo strtoupper($new->aktivator) ?></td>
-                            <td><?php echo strtoupper($new->status) ?></td>
-                            <td><?php echo strtoupper($new->tanggal_update) ?></td>
-                            <?php if($this->session->userdata('level')==4){ ?>
-                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Edit" href="<?php echo site_url('Admin/sales_edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
-                            <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/sales_add/remove/'.$new->psb_id) ?>">Delete</a> </td>
-                            <?php }else{ ?>
-                            <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                            title="Click For Edit" href="<?php echo site_url('Admin/sales_edits/'.$new->psb_id) ?>">Edit</a> </td>
-                            <?php } ?>
-                            
-                        </tr>
-                <?php } ?>
-                
-            </tbody>       
+                                        echo strtoupper($new->sla)." Hari"; 
+                                    } ?></td>
+                                <td><?php echo strtoupper($new->TL) ?></td>
+                                <td><?php echo strtoupper($new->sales_person) ?></td>
+                                <td><?php echo isset($new->tanggal_masuk) ? date('Y-m-d', strtotime($new->tanggal_masuk)) : ''; ?></td>
+                                <td><?php echo isset($new->tanggal_validasi) ? date('Y-m-d', strtotime($new->tanggal_validasi)) : ''; ?></td>
+                                <td><?php echo isset($new->tanggal_aktif) ? date('Y-m-d', strtotime($new->tanggal_aktif)) : ''; ?></td>
+                                <td><?php echo strtoupper($new->fa_id) ?></td>
+                                <td><?php echo strtoupper($new->account_id) ?></td>
+                                <td><?php echo strtoupper($new->alamat) ?></td>
+                                <td><?php echo strtoupper($new->alamat2) ?></td>
+                                <td><?php echo strtoupper(discount($new->discount)) ?></td>
+                                <td><?php echo strtoupper(periode($new->periode)) ?></td>
+                                <td><?php echo strtoupper($new->bill_cycle) ?></td>
+                                <td><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
+                                <td><?php echo strtoupper($new->sub_channel) ?></td>
+                                <td><?php echo strtoupper(jenis_event($new->jenis_event)) ?></td>
+                                <td><?php echo strtoupper($new->nama_event) ?></td>
+                                <td><?php echo strtoupper($new->validator) ?></td>
+                                <td><?php echo strtoupper($new->aktivator) ?></td>
+                                <td><?php echo strtoupper($new->status) ?></td>
+                                <td><?php echo strtoupper($new->tanggal_update) ?></td>
+                                <?php if($this->session->userdata('level')==4){ ?>
+                                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                                title="Click For Edit" href="<?php echo site_url('Admin/sales_edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
+                                <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/sales_add/remove/'.$new->psb_id) ?>">Delete</a> </td>
+                                <?php }else{ ?>
+                                <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                                title="Click For Edit" href="<?php echo site_url('Admin/sales_edits/'.$new->psb_id) ?>">Edit</a> </td>
+                                <?php } ?>
+                                
+                            </tr>
+                    <?php } ?>
+                    
+                </tbody>       
 
-        </table>
+            </table>
+        </div>
         <?php }  ?>
     </div>
     <!--End Panel Body-->
