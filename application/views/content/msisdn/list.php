@@ -9,8 +9,8 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Msisdn <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/msisdn_add') ?>">Add Msisdn</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('Admin/msisdn_export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/msisdn_add') ?>">Add</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/msisdn_export/asyn') ?>" download="<?php echo site_url('ctp/export/asyn') ?>">Export</a>
     </div></div>
     <div class="panel-body" style="overflow: auto;">
         <p><?php echo $this->session->flashdata("pesan"); ?></p>

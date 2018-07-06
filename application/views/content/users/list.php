@@ -13,10 +13,10 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Users <div class="add-button">
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/users_add') ?>">Add Users</a>
-    <a class="mybtn btn-default" href="<?php echo site_url('Admin/users_export/asyn') ?>" download="<?php echo site_url('Admin/users_export/asyn') ?>">Export to Excel</a>
+    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/users_add') ?>">Add</a>
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/users_export/asyn') ?>" download="<?php echo site_url('Admin/users_export/asyn') ?>">Export</a>
     </div></div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto;">
         <table id="users-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>USERNAME</th><th>NAMA USER</th>

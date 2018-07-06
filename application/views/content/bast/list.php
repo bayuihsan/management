@@ -9,7 +9,7 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Bast <div class="add-button">
-        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/bast_create') ?>">Add Bast</a>
+        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/bast_create') ?>">Add</a>
     </div></div>
     <div class="panel-body" style="overflow: auto;">
         <table id="repeat-bast-table" class="display responsive nowrap" cellspacing="0" width="100%">
