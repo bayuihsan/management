@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
             redirect('User');    
         }
         // $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Adminmodel','Bastmodel','Branchmodel','Ctpmodel','Msisdnmodel','Custom_fieldsmodel','Datamodel','Feedbacksmodel','Generate_tablemodel','Graparimodel','Kategoripaketmodel','Paketmodel','Reasonmodel','Reportmodel','Sales_channelmodel','Salesmodel','Salespersonmodel','Usermodel','Usersmodel'));
+        $this->load->model(array('Adminmodel','Bastmodel','Regionmodel','Branchmodel','Ctpmodel','Msisdnmodel','Custom_fieldsmodel','Datamodel','Feedbacksmodel','Generate_tablemodel','Graparimodel','Kategoripaketmodel','Paketmodel','Reasonmodel','Reportmodel','Sales_channelmodel','Salesmodel','Salespersonmodel','Usermodel','Usersmodel'));
     }
     
 	public function home($action=''){   
@@ -1250,9 +1250,144 @@ class Admin extends CI_Controller {
         }
     }
     //end controller BAST
+    
+    //controller region
+    public function region_view($action='')
+    {   
+        $data=array();
+        $data['region']=$this->Regionmodel->get_all(); 
+        if($action=='asyn'){
+            $this->load->view('content/region/list',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/region/list',$data);
+            $this->load->view('theme/include/footer');
+        }
+    }
+
+    /** Method For Add New region and Region Page View **/    
+    public function region_add($action='',$param1='')
+    {
+        if($action=='asyn'){
+            $this->load->view('content/region/add');
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/region/add');
+            $this->load->view('theme/include/footer');
+        }
+        //----End Page Load------//
+        //----For Insert update and delete-----// 
+        if($action=='insert'){  
+            $data=array();
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['nama_region']    =addslashes($this->input->post('nama_region',true)); 
+            $data['status_region']         =addslashes($this->input->post('status_region',true));  
+            $data['update_by']      =addslashes($this->input->post('update_by',true));  
+        
+            //-----Validation-----//   
+            $this->form_validation->set_rules('nama_region', 'Nama Region', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('status_region', 'Status Region', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('update_by', 'Input by', 'trim|required|xss_clean');
+
+
+            if (!$this->form_validation->run() == FALSE)
+            {
+                if($do=='insert'){ 
+
+                    $this->db->insert('region',$data); 
+                    
+                    echo "true";    
+                    
+                }else if($do=='update'){
+                    $id=addslashes($this->input->post('id_region',true));
+                    
+                    $this->db->where('id_region', $id);
+                    $this->db->update('region', $data);
+
+                    echo "true";
+                    
+                }         
+            }else{
+                //echo "All Field Must Required With Valid Length !";
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+
+            }
+            //----End validation----//         
+        }
+        else if($action=='remove'){    
+            $this->db->delete('region', array('id_region' => $param1));       
+        }
+    }
+
+    /** Method For get region information for region Edit **/ 
+    public function region_edit($id_region,$action='')
+    {
+        $data=array();
+        $data['edit_region']=$edit_region=getOld("id_region",$id_region,"region"); 
+        if(empty($edit_region)){
+            redirect('Admin/home');
+        }
+        if($action=='asyn'){
+            $this->load->view('content/region/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/region/add',$data);
+            $this->load->view('theme/include/footer');
+        }    
+    }
+
+    public function region_export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "NAMA_REGION", "STATUS", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $region = $this->Regionmodel->get_all();
+
+            $excel_row = 2;
+
+            foreach($region as $row)
+            {
+                if($row->status_region == 1){
+                    $status = "Aktif";
+                }else{
+                    $status = "Tidak Aktif";
+                }
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_region));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_region));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($status_region));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->tanggal_update));
+                $excel_row++;
+            }
+
+            $filename = "Region-sExported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
+    //end controller region
 
     //controller branch
-        public function branch_view($action='')
+    public function branch_view($action='')
     {   
         $data=array();
         $data['branch']=$this->Branchmodel->get_all(); 
@@ -1265,7 +1400,7 @@ class Admin extends CI_Controller {
         }
     }
     
-    /** Method For Add New Account and Account Page View **/    
+    /** Method For Add New branch and Branch Page View **/    
     public function branch_add($action='',$param1='')
     {
         if($action=='asyn'){
@@ -6281,13 +6416,13 @@ class Admin extends CI_Controller {
     //controller upload
     public function upload_update()
     {
-    $fileName = $this->input->post('file', TRUE);
+        $fileName = $this->input->post('file', TRUE);
 
-            $config['upload_path'] = './assets/excel/'; 
-            $config['file_name'] = $fileName;
-            $config['allowed_types'] = '*';
-            $config['encrypt_name']= TRUE;
-            $config['max_size'] = 0;
+        $config['upload_path'] = './assets/excel/'; 
+        $config['file_name'] = $fileName;
+        $config['allowed_types'] = '*';
+        $config['encrypt_name']= TRUE;
+        $config['max_size'] = 0;
 
         $this->load->library('upload', $config);
         $this->upload->initialize($config); 
@@ -6300,54 +6435,54 @@ class Admin extends CI_Controller {
             $media = $this->upload->data();
             $inputFileName = './assets/excel/'.$media['file_name'];
    
-           try {
-            $inputFileType = IOFactory::identify($inputFileName);
-            $objReader = IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objReader->load($inputFileName);
-          } catch(Exception $e) {
-            die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
-          }
+            try {
+                $inputFileType = IOFactory::identify($inputFileName);
+                $objReader = IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objReader->load($inputFileName);
+            } catch(Exception $e) {
+                die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+            }
 
-          $sheet = $objPHPExcel->getSheet(0);
-          $highestRow = $sheet->getHighestRow();
-          $highestColumn = $sheet->getHighestColumn();
+            $sheet = $objPHPExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
 
-          for ($row = 2; $row <= $highestRow; $row++){  
-           $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
-             NULL,
-             TRUE,
-             FALSE);
-           $data = array(
-             "order_id"=>$rowData[0][0],
-             "order_submit_date"=>str_replace("'", "", $rowData[0][1]),
-             "order_completed_date"=>str_replace("'", "", $rowData[0][2]),
-             "msisdn_ctp"=>$rowData[0][3],
-             "nama_pelanggan_ctp"=>$rowData[0][4],
-             "order_type_name"=>$rowData[0][5],
-             "user_id"=>$rowData[0][6],
-             "employee_name"=>$rowData[0][7],
-             "paket_id"=>$rowData[0][8],
-             "id_users"=>$this->input->post('id_users_up'),
-             "branch_id"=>$this->input->post('branch_id_up'),
-             "tgl_upload"=>date('Y-m-d h:i:s'));
+            for ($row = 2; $row <= $highestRow; $row++){  
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+                    NULL,
+                    TRUE,
+                    FALSE);
+                $data = array(
+                    "order_id"=>$rowData[0][0],
+                    "order_submit_date"=>str_replace("'", "", $rowData[0][1]),
+                    "order_completed_date"=>str_replace("'", "", $rowData[0][2]),
+                    "msisdn_ctp"=>$rowData[0][3],
+                    "nama_pelanggan_ctp"=>$rowData[0][4],
+                    "order_type_name"=>$rowData[0][5],
+                    "user_id"=>$rowData[0][6],
+                    "employee_name"=>$rowData[0][7],
+                    "paket_id"=>$rowData[0][8],
+                    "id_users"=>$this->input->post('id_users_up'),
+                    "branch_id"=>$this->input->post('branch_id_up'),
+                    "tgl_upload"=>date('Y-m-d h:i:s'));
                 $msisdn_ctp = $rowData[0][3];
                 $cek_msisdn =  $this->db->query("select count(msisdn_ctp) jml from ctp where msisdn_ctp='$msisdn_ctp'")->row();
                 if($cek_msisdn->jml<1){
-                $insert = $this->db->insert("ctp",$data);
-            }
-         } 
-           unlink($inputFileName); // hapus file temp
-           $count = $highestRow;
-           $this->session->set_flashdata('pesan','Upload berhasil, Total: <b>'.$count.'</b> data.'); 
-           redirect('ctp/view');
+                    $insert = $this->db->insert("ctp",$data);
+                }
+            } 
+            unlink($inputFileName); // hapus file temp
+            $count = $highestRow;
+            $this->session->set_flashdata('pesan','Upload berhasil, Total: <b>'.$count.'</b> data.'); 
+            redirect('ctp/view');
 
             }
         }
         //controller upload
 
         //controller upload_msisdn
-          public function uploadmsisdn_update()
-              {
+        public function uploadmsisdn_update()
+        {
                 $fileName = $this->input->post('file', TRUE);
 
                 $config['upload_path'] = './assets/excel/'; 
@@ -6360,43 +6495,43 @@ class Admin extends CI_Controller {
                 $this->upload->initialize($config); 
                 
                 if (!$this->upload->do_upload('file')) {
-                  $error = $this->upload->display_errors();
-                  $this->session->set_flashdata('pesan',$error); 
-                  redirect(''); 
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('pesan',$error); 
+                    redirect(''); 
                 } else {
-                  $media = $this->upload->data();
-                  $inputFileName = './assets/excel/'.$media['file_name'];
+                    $media = $this->upload->data();
+                    $inputFileName = './assets/excel/'.$media['file_name'];
 
-                  try {
-                    $inputFileType = IOFactory::identify($inputFileName);
-                    $objReader = IOFactory::createReader($inputFileType);
-                    $objPHPExcel = $objReader->load($inputFileName);
-                  } catch(Exception $e) {
-                    die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
-                  }
+                    try {
+                        $inputFileType = IOFactory::identify($inputFileName);
+                        $objReader = IOFactory::createReader($inputFileType);
+                        $objPHPExcel = $objReader->load($inputFileName);
+                    } catch(Exception $e) {
+                        die('Error loading file "'.pathinfo($inputFileName,PATHINFO_BASENAME).'": '.$e->getMessage());
+                    }
 
-                  $sheet = $objPHPExcel->getSheet(0);
-                  $highestRow = $sheet->getHighestRow();
-                  $highestColumn = $sheet->getHighestColumn();
-                  $no=0;
-                  for ($row = 2; $row <= $highestRow; $row++){  
-                    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+                    $sheet = $objPHPExcel->getSheet(0);
+                    $highestRow = $sheet->getHighestRow();
+                    $highestColumn = $sheet->getHighestColumn();
+                    $no=0;
+                    for ($row = 2; $row <= $highestRow; $row++){  
+                        $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
                                                     NULL,
                                                     TRUE,
                                                     FALSE);
-               $data = array(
-                 "msisdn"=>$rowData[0][0],
-                 "tipe"=>$rowData[0][1],
-                 "id_users"=>$this->input->post('id_users_up'),
-                 "branch_id"=>$this->input->post('branch_id_up'),
-                 "tanggal"=>date('Y-m-d h:i:s'));
-                    $msisdn     = $rowData[0][0];
-                    $cek_msisdn =  $this->db->query("select count(msisdn) jml from msisdn where msisdn='$msisdn'")->row();
-                    if($cek_msisdn->jml<1){
-                    $insert = $this->db->insert("msisdn",$data);
-                }
-                    $no = $no+1;
-                  } 
+                        $data = array(
+                            "msisdn"=>$rowData[0][0],
+                            "tipe"=>$rowData[0][1],
+                            "id_users"=>$this->input->post('id_users_up'),
+                            "branch_id"=>$this->input->post('branch_id_up'),
+                            "tanggal"=>date('Y-m-d h:i:s'));
+                        $msisdn     = $rowData[0][0];
+                        $cek_msisdn =  $this->db->query("select count(msisdn) jml from msisdn where msisdn='$msisdn'")->row();
+                        if($cek_msisdn->jml<1){
+                            $insert = $this->db->insert("msisdn",$data);
+                        }
+                        $no = $no+1;
+                    } 
                   unlink($inputFileName); // hapus file temp
                   $count = $no;
                   $this->session->set_flashdata('pesan','Upload Data Berhasil, Total: <b>'.$count.'</b> data.'); 

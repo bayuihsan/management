@@ -29,12 +29,12 @@
       <div class="form-group">
         <label>Order Submit Date</label>
         <div class='input-group date' id='date'>
-        <input type='text' name="order_submit_date" id="order_submit_date" class="form-control" />
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-        </span>
-      </div>
-     </div>
+          <input type='text' name="order_submit_date" id="order_submit_date" class="form-control" />
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+       </div>
       <div class="form-group">
         <label>Order Completed Date</label>
         <div class='input-group date' id='date2'>
