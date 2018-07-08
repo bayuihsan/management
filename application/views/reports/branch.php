@@ -18,7 +18,7 @@ $status=array('sukses'=>'sukses',
   'masuk'=>'masuk');
 $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_validasi", "tanggal_masuk"=>"tanggal_masuk");
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" style="font-size: 10px; font-family: tahoma;">
     <!-- Default panel contents -->
     <div class="panel-heading">Branch</div>
     <div class="panel-body">

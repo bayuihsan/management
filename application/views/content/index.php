@@ -104,11 +104,11 @@
 <!--Start Branch-->
 <div class="col-md-12 col-sm-12 col-lg-12">
 <!--Start Panel-->
-<div class="panel panel-default medium-box" style="height: 435px"> 
+<div class="panel panel-default medium-box"> 
     <!-- Default panel contents -->
     
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
-    <div class="panel-body financial-bal" style="font-size: 10px; height: 420px; ">
+    <div class="panel-body financial-bal" style="font-size: 10px; height: 420px; font-family: tahoma;">
         <!--Branch Table-->
         <table class="table table-bordered" >
          <tr>
@@ -246,7 +246,7 @@
     <!-- Default panel contents -->
     
     <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
-    <div class="panel-body financial-bal" style="font-size: 9px; height: 470px">
+    <div class="panel-body financial-bal" style="font-size: 9px; height: 470px; font-family: tahoma;" >
         <!--Branch Table-->
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
@@ -331,7 +331,7 @@
 <div class="panel panel-default medium-box" style="height: 510px">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Paket (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 10px; height: 460px">
+    <div class="panel-body financial-bal" style="font-size: 10px; height: 460px; font-family: tahoma;">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">PAKET</th>
@@ -393,7 +393,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">TOP TSA (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 10px;">
+    <div class="panel-body financial-bal" style="font-size: 10px; font-family: tahoma;">
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">NO</th>
             <th style="background-color: black; color: white">BRANCH</th>
@@ -456,7 +456,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">TOP TEAM LEADER (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px; ">
+    <div class="panel-body financial-bal" style="font-size: 10px; font-family: tahoma;">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">NO</th>
             <th style="background-color: black; color: white">BRANCH</th>
@@ -520,7 +520,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Channel (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px;">
+    <div class="panel-body financial-bal" style="font-size: 10px; font-family: tahoma;">
         <!--Branch Table-->
         <?php $data_cn = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom'); ?>
         <table class="table table-bordered" >
@@ -585,7 +585,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top 10 Team Leader (<span id="nilaipaket"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px; ">
+    <div class="panel-body financial-bal" style="font-size: 10px; font-family: tahoma;">
         <table class="table table-bordered">
             <th style="background-color: black; color: white">RANK</th>
             <th style="background-color: black; color: white">NAMA</th>
@@ -663,7 +663,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Top Sub Sales Channel (<span id="nilaibranch"><?php echo $max_tanggal?></span>)</div>
-    <div class="panel-body financial-bal" style="font-size: 11px; ">
+    <div class="panel-body financial-bal" style="font-size: 11px; font-family: tahoma;">
         <!--Branch Table-->
         <table class="table table-bordered" >
             <th style="background-color: black; color: white">RANK</th>
@@ -727,7 +727,7 @@
 <div class="panel panel-default medium-box">
     <!-- Default panel contents -->
     <div class="panel-heading">Last Login</div>
-    <div class="panel-body financial-bal" style="font-size: 11px;">
+    <div class="panel-body financial-bal" style="font-size: 11px;" font-family: tahoma;>
         <table class="table table-bordered ">
             <th>Username</th>
             <th>Branch</th>

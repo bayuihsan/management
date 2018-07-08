@@ -18,7 +18,7 @@ $status=array('sukses'=>'sukses',
   'masuk'=>'masuk');
 $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_validasi", "tanggal_masuk"=>"tanggal_masuk");
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" style="font-size: 10px; font-family: tahoma;">
     <!-- Default panel contents -->
     <div class="panel-heading">Summary by branch</div>
     <div class="panel-body" >
@@ -65,7 +65,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                       background-color: #b8d1f3;
                 }
             </style>
-            <div id="Table-div">
+            <div id="Table-div" >
                 <table class="table table-bordered hoverTable">
                     <thead style="background-color: whitesmoke;">
                         <th>NO</th>

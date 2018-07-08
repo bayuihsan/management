@@ -21,7 +21,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">Sales Person</div>
-    <div class="panel-body">
+    <div class="panel-body" style="font-size: 10px; font-family: tahoma;">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
             <form id="sales_cari" action="<?php echo site_url('Admin/reports_sales_person/view') ?>">
                 <div class="col-md-3 col-lg-3 col-sm-3"> 

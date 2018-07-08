@@ -6,7 +6,7 @@
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>BAST</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
-<div class="panel panel-default">
+<div class="panel panel-default" style="font-size: 12px; font-family: tahoma;">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Bast <div class="add-button">
         <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/bast_create') ?>">Add</a>
@@ -46,7 +46,7 @@
                     <td>
                         <?php if($new->jumlah > 0){ 
                             if($this->session->userdata('level')==5 || $this->session->userdata('level')==4) {?>
-                        <a href="<?php echo site_url('Admin/bast_add').'/'.$new->no_bast; ?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" class="mybtn btn-default btn-xs">Tambah</a> <?php } ?>
+                        <a href="<?php echo site_url('Admin/bast_add').'/'.$new->no_bast; ?>" style="cursor: pointer;" data-toggle="tooltip" title="Click For Add MSISDN" class="mybtn btn-default btn-xs">Tambah MSISDN</a> <?php } ?>
                         <a class="mybtn btn-info btn-xs" style="cursor: pointer;" data-toggle="tooltip" title="Click For Detail BAST" href="<?php echo site_url('Admin/bast_detail').'/'.$new->no_bast; ?>">Detail</a>
                         <?php if(empty($new->tanggal_terima) && ($this->session->userdata('level')>5 || $this->session->userdata('level')==4)){ ?>
                         <a class="mybtn btn-success btn-xs bast-terima-btn" style="cursor: pointer;" data-toggle="tooltip" title="Click For Receive" href="<?php echo site_url('Admin/bast_create/receive/'.$new->id_header) ?>">Terima</a>

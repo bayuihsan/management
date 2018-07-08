@@ -68,7 +68,7 @@
 				    }
 				}
 	            ?>
-	            <div id="Table-div">
+	            <div id="Table-div" style="font-size: 12px; font-family: tahoma;">
 	            	<?php if($this->session->userdata('level')==4 || $this->session->userdata('level')>5){  
                                 if($detail_msisdn->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
                               <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 

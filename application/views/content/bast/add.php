@@ -24,7 +24,7 @@
         <input type="hidden" name="id_header" id="id_header" value=""/>    
         <div class="form-group"> 
           <label for="account">NO BAST</label>
-          <input type="text" maxlength="30" class="form-control" name="bno_bast" id="bno_bast" value="T<?php echo date('Ymdhis')?>"/>   
+          <input type="text" maxlength="30" class="form-control" name="bno_bast" id="bno_bast" value="T<?php echo date('Ymdhis')?>"/ readonly>   
         </div> 
         <div class="form-group"> 
           <label for="bbranch">Branch</label>
@@ -37,7 +37,7 @@
         </div>
         <div class="form-group"> 
           <label for="account">Tanggal Masuk</label>
-          <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo date('Y-m-d h:i:s')?>"/>   
+          <input type="text" maxlength="30" class="form-control" name="btanggal_masuk" id="btanggal_masuk" value="<?php echo date('Y-m-d h:i:s')?>"/ readonly>   
         </div> 
         <button type="submit"  class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
         <a href="<?php echo base_url()?>Admin/bast_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>

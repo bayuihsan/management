@@ -15,7 +15,7 @@
     
     <!-- Default panel contents -->
     <div class="panel-heading"><?php echo $title." (".$jumlah_sales.")"; ?></div>  
-    <div class="panel-body" style="overflow: auto;">
+    <div class="panel-body" style="overflow: auto; font-size: 12px; font-family: tahoma;">
     	
     	<table id="sales-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    

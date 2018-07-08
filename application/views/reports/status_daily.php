@@ -17,13 +17,12 @@ $status=array('sukses'=>'sukses',
   'bentrok'=>'bentrok',
   'masuk'=>'masuk');
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default" style="font-size: 10px; font-family: tahoma;">
     <!-- Default panel contents -->
     <div class="panel-heading">Daily Status</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
             <form id="status_cari" action="<?php echo site_url('Admin/reports_status_daily/view') ?>">
-
                 <div class="col-md-3 col-lg-3 col-sm-3"> 
                     <select class="form-control" name="vbranch" id="vbranch">
                         <?php foreach($branch as $row){ 

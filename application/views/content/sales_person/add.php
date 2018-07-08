@@ -14,7 +14,7 @@
 
 <div class="col-md-8 col-lg-8 col-sm-8 branch-div">
 <!--Start Panel-->
-<div class="panel panel-default">
+<div class="panel panel-default" style="font-size: 12px; font-family: tahoma;">
     <!-- Default panel contents -->
     <div class="panel-heading">Add Sales Person</div>
     <div class="panel-body add-client">
