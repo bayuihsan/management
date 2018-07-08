@@ -155,6 +155,7 @@ $(document).ready(function(){
           failedAlert2(data);
           $(".block-ui").css('display','none');
         }   
+        document.location.href = '<?php echo base_url()?>Admin/branch_view';
         }
       });    
       return false;
