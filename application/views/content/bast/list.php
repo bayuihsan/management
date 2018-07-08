@@ -141,7 +141,7 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast'; }, 2000);
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_view'; }, 2000);
                 swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    
@@ -166,7 +166,7 @@ $(document).ready(function() {
                 },success : function(data){ 
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>bast'; }, 2000);
+                    setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/bast_ view'; }, 2000);
                 swal("Received!", "Receive Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    

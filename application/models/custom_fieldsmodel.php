@@ -15,7 +15,7 @@ class Custom_fieldsmodel extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->db2 = $this->load->database('hvc',TRUE);
+		// $this->db2 = $this->load->database('hvc',TRUE);
 	}
 	
 	function get_all()

@@ -3,45 +3,40 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Sales Channel</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4><RP></RP>Region</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
-<?php 
-$channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE', 5=>'OTHER', 6=>'GraPARI Owned', 7=>'GraPARI Mitra', 8=>'GraPARI Manage Service', 9=>'Plasa Telkom', null=>'-');
- ?>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Manage Sales Channel <div class="add-button">
+    <div class="panel-heading">Manage Region <div class="add-button">
         <?php if($this->session->userdata('level')==4){ ?>
-    <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/saleschannel_add') ?>">Add</a>
+        <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/region_add') ?>">Add</a>
         <?php } ?>
-    <a class="mybtn btn-default" href="<?php echo site_url('Admin/saleschannel_export/asyn') ?>" download="<?php echo site_url('Admin/saleschannel_export/asyn') ?>">Export</a>
+    
+    <a class="mybtn btn-default" href="<?php echo site_url('Admin/region_export/asyn') ?>" download="<?php echo site_url('Admin/region_export/asyn') ?>">Export</a>
     </div></div>
     <div class="panel-body" style="overflow: auto;">
-        <table id="sales_channel-table" class="display responsive nowrap" cellspacing="0" width="100%">
+        <table id="repeat-region-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
-                <th>ID</th>
-                <th>CHANNEL</th>
-                <th>BRANCH</th>
-                <th>SUB CHANNEL</th>
-                <th>USERNAME</th>
+                <th>NO</th><th>NAMA REGION</th>
+                <th>STATUS</th><th>UPDATE BY</th><th>UPDATED</th>
                 <th class="single-action">ACTION</th>
             </thead>
 
             <tbody>
-                <?php $no=1; foreach($sales_channel as $new) { ?>    
+                <?php $no=1; foreach($region as $new) { ?>    
                 <tr>
-                    <td><?php echo $no++; ?></td>
-                    <td class="date"><?php echo strtoupper($channel[$new->sales_channel]) ?></td>
-                    <td><?php echo strtoupper($new->nama_branch) ?></td>
-                    <td><?php echo $new->id_channel.' - '.strtoupper($new->sub_channel) ?></td>
-                    <td><?php echo strtoupper($new->username) ?></td>
+                    <td class="date"><?php echo $no++; ?></td>
+                    <td><?php echo $new->id_region.' - '.strtoupper($new->nama_region) ?></td>
+                    <td><?php if($new->status_region==1){ echo "AKTIF"; }else{ echo "TIDAK AKTIF"; }  ?></td>
+                    <td><?php echo strtoupper($new->nama) ?></td>
+                    <td><?php echo strtoupper($new->tanggal_update) ?></td>
                     <td>
-                    <?php if($this->session->userdata('level')==4){ ?>
-                    <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('Admin/saleschannel_edits/'.$new->id_channel) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs saleschannel-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/saleschannel_add/remove/'.$new->id_channel) ?>">Delete</a>
-                    <?php } ?>
+                        <?php if($this->session->userdata('level')==4){ ?>
+                        <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+                    title="Click For Edit" href="<?php echo site_url('Admin/region_edit/'.$new->id_region) ?>">Edit</a> &nbsp; 
+                    <a class="mybtn btn-danger btn-xs region-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/region_add/remove/'.$new->id_region) ?>">Delete</a>
+                        <?php } ?>
                     </td>
                 </tr>
                <?php } ?>
@@ -69,12 +64,13 @@ $(document).ready(function() {
         cursorwidth: "8px",cursorcolor:"#7f8c8d"
     });
 
-    $("#sales_channel-table").DataTable();
+    $("#repeat-region-table").DataTable();
     $(".dataTables_length select").addClass("show_entries");
 
     $(document).on('click','.edit-btn',function(){
 
         var link=$(this).attr("href"); 
+        // alert(link);
         $.ajax({
             method : "POST",
             url : link,
@@ -93,7 +89,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click','.saleschannel-remove-btn',function(){  
+    $(document).on('click','.region-remove-btn',function(){  
         var main=$(this);
         swal({title: "Are you sure Want To Delete?",
         text: "You will not be able to recover this Data!",
@@ -110,7 +106,7 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    document.location.href = '<?php echo base_url()?>Admin/saleschannel_view';
+                    document.location.href = '<?php echo base_url()?>Admin/region_view';
                 swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    
@@ -136,7 +132,7 @@ $(document).ready(function() {
 
         return false;
     });
-
 });
 
 </script>
+

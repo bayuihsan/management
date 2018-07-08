@@ -38,7 +38,7 @@
                     <td><?php echo $new->paket_id ?></td>
                     <td><?php echo $new->id_users ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('feedbacks/edit/'.$new->id_ctp) ?>">Edit</a> &nbsp; 
+                title="Click For Edit" href="<?php echo site_url('Admin/ctp_edits/'.$new->id_ctp) ?>">Edit</a> &nbsp; 
                 <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/ctp_add/remove/'.$new->id_ctp) ?>">Remove</a></td>
                 </tr>
                <?php } ?>
@@ -107,6 +107,7 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
+                    document.location.href = '<?php echo base_url()?>Admin/ctp_view';
                 swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    
