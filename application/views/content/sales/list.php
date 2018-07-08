@@ -321,7 +321,7 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    document.location.href = '<?php echo base_url()?>/sales';
+                    document.location.href = '<?php echo base_url()?>Admin/sales_view';
                 swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    

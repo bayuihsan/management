@@ -40,7 +40,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
                     <?php if($this->session->userdata('level')==4){ ?>
                     <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
                     title="Click For Edit" href="<?php echo site_url('Admin/saleschannel_edits/'.$new->id_channel) ?>">Edit</a> &nbsp; 
-                    <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/saleschannel_add/remove/'.$new->id_channel) ?>">Delete</a>
+                    <a class="mybtn btn-danger btn-xs saleschannel-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/saleschannel_add/remove/'.$new->id_channel) ?>">Delete</a>
                     <?php } ?>
                     </td>
                 </tr>
@@ -93,7 +93,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click','.paket-remove-btn',function(){  
+    $(document).on('click','.saleschannel-remove-btn',function(){  
         var main=$(this);
         swal({title: "Are you sure Want To Delete?",
         text: "You will not be able to recover this Data!",
@@ -110,7 +110,7 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
-                    document.location.href = '<?php echo base_url()?>/sales_channel';
+                    document.location.href = '<?php echo base_url()?>Admin/saleschannel_view';
                 swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    

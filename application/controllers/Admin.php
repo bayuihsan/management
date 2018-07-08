@@ -1365,7 +1365,7 @@ class Admin extends CI_Controller {
                 }
                 $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_region));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_region));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($status_region));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($status));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->tanggal_update));
                 $excel_row++;
             }
