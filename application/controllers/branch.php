@@ -12,7 +12,7 @@ class Branch extends CI_Controller {
             redirect('User');    
         }
         $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Branchmodel'));
+        $this->load->model(array('Branchmodel','regionmodel'));
     }
     
     public function index(){
@@ -35,6 +35,7 @@ class Branch extends CI_Controller {
     /** Method For Add New Account and Account Page View **/ 	
     public function add($action='',$param1='')
 	{
+        $data['region']=$this->regionmodel->get_all(); 
         if($action=='asyn'){
             $this->load->view('content/branch/add');
         }else if($action==''){

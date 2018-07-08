@@ -13,10 +13,11 @@ class Branchmodel extends CI_Model{
 
 	//get all Branch  
 	public function get_all(){
-		$this->db->select('*');
-		$this->db->from('branch');  
-		$this->db->where('status','1');  
-		$this->db->order_by("nama_branch", "asc");    
+		$this->db->select('a.*, b.nama_region');
+		$this->db->from('branch a');
+		$this->db->join('region b', 'b.id_region = a.id_region','LEFT');  
+		$this->db->where('a.status','1');  
+		$this->db->order_by("a.nama_branch", "asc");    
 		$query_result=$this->db->get();
 		$result=$query_result->result();
 		return $result;

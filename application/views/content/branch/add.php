@@ -22,10 +22,19 @@
     <?php if(!isset($edit_branch)){ ?>  
     <form id="add-branch">
       <input type="hidden" name="action" id="action" value="insert"/>  
-      <input type="hidden" name="branch_id" id="branch_id" value=""/>    
+      <input type="hidden" name="id_branch" id="id_branch" value=""/>  
+      <div class="form-group"> 
+        <label for="branch">Region</label>
+        <select name="id_region" class="form-control" id="id_region">  
+          <option value="">Pilih Region</option>
+          <?php foreach ($region as $new) {?>
+          <option value="<?php echo $new->id_region ?>"><?php echo "(".$new->id_region.") ".$new->nama_region ?></option>
+          <?php } ?>
+        </select>      
+      </div>  
       <div class="form-group">
         <label for="acc_name">Nama Branch</label>
-        <input type="text" class="form-control" name="nama_branch" id="nama_branch">
+        <input type="text" class="form-control" name="nama_branch_b" id="nama_branch_b">
       </div>
       <div class="form-group">
         <label for="balance">Ketua</label>
@@ -51,10 +60,23 @@
 
     <form id="add-branch">
       <input type="hidden" name="action" id="action" value="update"/>  
-      <input type="hidden" name="branch_id" id="branch_id" value="<?php echo $edit_branch->branch_id ?>"/>   
+      <input type="hidden" name="id_branch" id="id_branch" value="<?php echo $edit_branch->branch_id ?>"/> 
+      <div class="form-group"> 
+        <label for="branch">Region</label>
+        <select name="id_region" class="form-control" id="id_region">  
+          <option value="">Pilih Region</option>
+          <?php foreach ($region as $new) { 
+            if($edit_branch->id_region == $new->id_region){ ?>
+            <option value="<?php echo $new->id_region ?>" selected><?php echo "(".$new->id_region.") ".$new->nama_region ?></option>
+          <?php }else{ ?>
+            <option value="<?php echo $new->id_region ?>"><?php echo "(".$new->id_region.") ".$new->nama_region ?></option>
+            <?php }
+           } ?>
+        </select>      
+      </div>  
       <div class="form-group">
         <label for="nama_branch">Nama Branch</label>
-        <input type="text" class="form-control" name="nama_branch" id="nama_branch" value="<?php echo $edit_branch->nama_branch ?>">
+        <input type="text" class="form-control" name="nama_branch_b" id="nama_branch_b" value="<?php echo $edit_branch->nama_branch ?>">
       </div>
       <div class="form-group">
         <label for="ketua">Ketua</label>
@@ -112,7 +134,7 @@ $(document).ready(function(){
       }
     });
 
-
+    $('#id_region').select2();
     $('#add-branch').on('submit',function(){    
       $.ajax({
         method : "POST",

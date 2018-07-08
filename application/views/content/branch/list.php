@@ -18,7 +18,7 @@
     <div class="panel-body" style="overflow: auto;">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
-                <th>NO</th><th>NAMA BRANCH</th><th>KETUA</th>
+                <th>NO</th><th>NAMA BRANCH</th><th>KETUA</th><th>REGION</th>
                 <th>STATUS</th><th>UPDATE BY</th><th>UPDATED</th>
                 <th class="single-action">ACTION</th>
             </thead>
@@ -29,13 +29,14 @@
                     <td class="date"><?php echo $no++; ?></td>
                     <td><?php echo $new->branch_id.' - '.strtoupper($new->nama_branch) ?></td>
                     <td><?php echo strtoupper($new->ketua) ?></td>
+                    <td><?php echo strtoupper($new->nama_region) ?></td>
                     <td><?php if($new->status==1){ echo "AKTIF"; }else{ echo "TIDAK AKTIF"; }  ?></td>
                     <td><?php echo strtoupper($new->update_by) ?></td>
                     <td><?php echo strtoupper($new->time_update) ?></td>
                     <td>
                         <?php if($this->session->userdata('level')==4){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('Admin/branch_edit/'.$new->branch_id) ?>">Edit</a> &nbsp; 
+                    title="Click For Edit" href="<?php echo site_url('Admin/branch_edits/'.$new->branch_id) ?>">Edit</a> &nbsp; 
                     <a class="mybtn btn-danger btn-xs branch-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/branch_add/remove/'.$new->branch_id) ?>">Delete</a>
                         <?php } ?>
                     </td>

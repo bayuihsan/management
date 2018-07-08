@@ -15,7 +15,7 @@ class Regionmodel extends CI_Model{
 	public function get_all(){
 		$this->db->select('a.*, b.nama');
 		$this->db->from('region a');  
-		$this->db->join('app_users b', 'b.id_users = a.update_by');
+		$this->db->join('app_users b', 'b.id_users = a.update_by', 'left');
 		$this->db->where('a.status_region','1');  
 		$this->db->order_by("a.nama_region", "asc");    
 		$query_result=$this->db->get();

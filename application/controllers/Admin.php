@@ -1403,11 +1403,12 @@ class Admin extends CI_Controller {
     /** Method For Add New branch and Branch Page View **/    
     public function branch_add($action='',$param1='')
     {
+        $data['region']=$this->Regionmodel->get_all(); 
         if($action=='asyn'){
-            $this->load->view('content/branch/add');
+            $this->load->view('content/branch/add', $data);
         }else if($action==''){
             $this->load->view('theme/include/header');
-            $this->load->view('content/branch/add');
+            $this->load->view('content/branch/add', $data);
             $this->load->view('theme/include/footer');
         }
         //----End Page Load------//
@@ -1415,13 +1416,15 @@ class Admin extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do                     =addslashes($this->input->post('action',true));     
-            $data['nama_branch']    =addslashes($this->input->post('nama_branch',true)); 
+            $data['id_region']      =addslashes($this->input->post('id_region',true)); 
+            $data['nama_branch']    =addslashes($this->input->post('nama_branch_b',true)); 
             $data['ketua']          =addslashes($this->input->post('ketua',true)); 
             $data['status']         =addslashes($this->input->post('status',true));  
             $data['update_by']      =addslashes($this->input->post('update_by',true));  
        
-            //-----Validation-----//   
-            $this->form_validation->set_rules('nama_branch', 'Nama Branch', 'trim|required|xss_clean|min_length[4]');
+            //-----Validation-----//  
+            $this->form_validation->set_rules('id_region', 'Region', 'trim|required|xss_clean'); 
+            $this->form_validation->set_rules('nama_branch_b', 'Nama Branch', 'trim|required|xss_clean|min_length[4]');
             $this->form_validation->set_rules('ketua', 'Ketua', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
             $this->form_validation->set_rules('update_by', 'Input by', 'trim|required|xss_clean');
@@ -1436,7 +1439,7 @@ class Admin extends CI_Controller {
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=addslashes($this->input->post('branch_id',true));
+                    $id=addslashes($this->input->post('id_branch',true));
                     
                     $this->db->where('branch_id', $id);
                     $this->db->update('branch', $data);
@@ -1460,6 +1463,7 @@ class Admin extends CI_Controller {
     public function branch_edits($branch_id,$action='')
     {
         $data=array();
+        $data['region']=$this->Regionmodel->get_all(); 
         $data['edit_branch']=$edit_branch=getOld("branch_id",$branch_id,"branch"); 
         if(empty($edit_branch)){
             redirect('Admin/home');
