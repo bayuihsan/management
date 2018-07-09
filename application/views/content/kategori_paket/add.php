@@ -100,12 +100,14 @@ $(document).ready(function(){
         $(".block-ui").css('display','block'); 
       },success : function(data){ 
       if(data=="true"){  
-        sucessAlert("Saved Sucessfully"); 
+        // sucessAlert("Saved Sucessfully"); 
         $(".block-ui").css('display','none'); 
         if($("#action").val()!='update'){        
           $('#nama_kategori').val("");
           $("#harga_kategori").val("");      
         }
+        swal("Saved!", "Saved Sucessfully", "success");
+        setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/kategoripaket_view'; }, 2000);
       }else{
         failedAlert2(data);
         $(".block-ui").css('display','none');

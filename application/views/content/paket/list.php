@@ -38,7 +38,7 @@
                     <td>
                         <?php if($this->session->userdata('level')==4){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('Admin/paket_edit/'.$new->paket_id) ?>">Edit</a> &nbsp; 
+                    title="Click For Edit" href="<?php echo site_url('Admin/paket_edits/'.$new->paket_id) ?>">Edit</a> &nbsp; 
                     <a class="mybtn btn-danger btn-xs paket-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/paket_add/remove/'.$new->paket_id) ?>">Delete</a>
                         <?php } ?>
 

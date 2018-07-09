@@ -34,7 +34,7 @@
                     <td>
                         <?php if($this->session->userdata('level')==4){ ?>
                         <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                    title="Click For Edit" href="<?php echo site_url('Admin/kategoripaket_edit/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
+                    title="Click For Edit" href="<?php echo site_url('Admin/kategoripaket_edits/'.$new->id_kategori) ?>">Edit</a> &nbsp; 
                     <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/kategoripaket_add/remove/'.$new->id_kategori) ?>">Delete</a>
                     <?php } ?>
                     
@@ -107,7 +107,7 @@ $(document).ready(function() {
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
                     document.location.href = '<?php echo base_url()?>Admin/kategoripaket_view';
-                swal("Deleted!", "Remove Sucessfully", "success"); 
+                    swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    
             });

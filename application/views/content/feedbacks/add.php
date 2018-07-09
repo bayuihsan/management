@@ -24,7 +24,7 @@
       <input type="hidden" name="id_feedback" id="id_feedback" value=""/>    
       <div class="form-group">
         <label for="acc_name">No HP</label>
-        <input type="text" class="form-control" name="no_hp" id="no_hp">
+        <input type="text" class="form-control" name="no_hp_f" id="no_hp_f" maxlength="15">
       </div>
       <div class="form-group">
         <label for="balance">Nama Pelanggan</label>
@@ -52,7 +52,7 @@
       <input type="hidden" name="id_feedback" id="id_feedback" value="<?php echo $edit_feedbacks->id_feedback ?>"/>    
       <div class="form-group">
         <label for="acc_name">No HP</label>
-        <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?php echo $edit_feedbacks->no_hp ?>">
+        <input type="text" class="form-control" name="no_hp_f" id="no_hp_f" value="<?php echo $edit_feedbacks->no_hp ?>" maxlength="15">
       </div>
       <div class="form-group">
         <label for="balance">Nama Pelanggan</label>
@@ -96,7 +96,7 @@ $(document).ready(function(){
     $(".main-content").css("padding-left","0px");
   } 
   //for number only
-  $("#no_hp").keypress(function (e) {
+  $("#no_hp_f").keypress(function (e) {
     //if the letter is not digit then display error and don't type anything
     if (e.which != 8 && e.which != 0 &&  (e.which < 48 || e.which > 57)) {
       //display error message
@@ -104,29 +104,37 @@ $(document).ready(function(){
     }
   });
   $('#add-feedbacks').on('submit',function(){    
-    $.ajax({
-      method : "POST",
-      url : "<?php echo site_url('Admin/feedbacks_add/insert') ?>",
-      data : $(this).serialize(),
-      beforeSend : function(){
-        $(".block-ui").css('display','block'); 
-      },success : function(data){ 
-      if(data=="true"){  
-        sucessAlert("Saved Sucessfully"); 
-        $(".block-ui").css('display','none'); 
-        if($("#action").val()!='update'){        
-          $('#no_telp').val("");
-          $('#nama_pelanggan').val("");
-          $("#kota").val("");
-          $('#saran').val("");      
+    var no_hp_f = $("#no_hp_f").val();
+    if(no_hp_f.substring(0,3)!=628){
+      alert("No Telp harus diawali 628");
+      return false;
+    }else{
+      $.ajax({
+        method : "POST",
+        url : "<?php echo site_url('Admin/feedback_add/insert') ?>",
+        data : $(this).serialize(),
+        beforeSend : function(){
+          $(".block-ui").css('display','block'); 
+        },success : function(data){ 
+          if(data=="true"){  
+            // sucessAlert("Saved Sucessfully"); 
+            $(".block-ui").css('display','none'); 
+            if($("#action").val()!='update'){        
+              $('#no_hp_f').val("");
+              $('#nama_pelanggan').val("");
+              $("#kota").val("");
+              $('#saran').val("");      
+            }
+            swal("Saved!", "Saved Sucessfully", "success");
+            setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/feedback_view'; }, 2000);
+          }else{
+            failedAlert2(data);
+            $(".block-ui").css('display','none');
+          }   
         }
-      }else{
-        failedAlert2(data);
-        $(".block-ui").css('display','none');
-      }   
-      }
-    });    
-    return false;
+      });    
+      return false;
+    }
 
   });
 

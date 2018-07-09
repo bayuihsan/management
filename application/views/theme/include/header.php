@@ -9,9 +9,10 @@
 <title>HVC Area 2</title>
 
 <!-- Bootstrap -->
-<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='<?php echo base_url() ?>assets/css/roboto_slab.css' rel='stylesheet' type='text/css'>
+<link href='<?php echo base_url() ?>assets/css/lora.css' rel='stylesheet' type='text/css'>
+<link href='<?php echo base_url() ?>assets/css/raleway.css' rel='stylesheet' type='text/css'>
+
 <link href="<?php echo base_url() ?>/theme/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo base_url() ?>/theme/css/metisMenu.css" rel="stylesheet">
 <link href="<?php echo base_url() ?>/theme/css/font-awesome.css" rel="stylesheet">

@@ -143,19 +143,20 @@ $(document).ready(function(){
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
         },success : function(data){ 
-        if(data=="true"){  
-          sucessAlert("Saved Sucessfully"); 
-          $(".block-ui").css('display','none'); 
-          if($("#action").val()!='update'){        
-            $('#nama_branch').val("");
-            $("#ketua").val("");
-            $('#status').val("");      
-          }
-        }else{
-          failedAlert2(data);
-          $(".block-ui").css('display','none');
-        }   
-        document.location.href = '<?php echo base_url()?>Admin/branch_view';
+          if(data=="true"){  
+            // sucessAlert("Saved Sucessfully"); 
+            $(".block-ui").css('display','none'); 
+            if($("#action").val()!='update'){        
+              $('#nama_branch').val("");
+              $("#ketua").val("");
+              $('#status').val("");      
+            }
+            swal("Saved!", "Saved Sucessfully", "success");
+            setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/branch_view'; }, 2000);
+          }else{
+            failedAlert2(data);
+            $(".block-ui").css('display','none');
+          }   
         }
       });    
       return false;

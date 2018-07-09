@@ -34,9 +34,9 @@
                     <td><?php echo strtoupper($new->tgl_update) ?></td>
                     <td><?php echo strtoupper(substr($new->saran, 0, 100)).'...' ?></td>
                     <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                title="Click For Edit" href="<?php echo site_url('Admin/feedback_edit/'.$new->id_feedback) ?>">Edit</a> &nbsp; 
+                title="Click For Edit" href="<?php echo site_url('Admin/feedback_edits/'.$new->id_feedback) ?>">Edit</a> &nbsp; 
                 <?php if($this->session->userdata('level')==4){ ?>
-                        <a class="mybtn btn-danger btn-xs kategori-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/feedback_add/remove/'.$new->id_feedback) ?>">Delete</a>
+                        <a class="mybtn btn-danger btn-xs feedback-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/feedback_add/remove/'.$new->id_feedback) ?>">Delete</a>
                     <?php } ?>
                     </td>
                 </tr>
@@ -89,7 +89,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('click','.salesperson-remove-btn',function(){  
+    $(document).on('click','.feedback-remove-btn',function(){  
         var main=$(this);
         swal({title: "Are you sure Want To Delete?",
         text: "You will not be able to recover this Data!",
@@ -106,8 +106,8 @@ $(document).ready(function() {
                     $(main).closest("tr").remove();    
                     //sucessAlert("Remove Sucessfully"); 
                     $(".system-alert-box").empty();
+                    swal("Deleted!", "Remove Sucessfully", "success"); 
                     document.location.href = '<?php echo base_url()?>Admin/feedback_view';
-                swal("Deleted!", "Remove Sucessfully", "success"); 
                     $(".block-ui").css('display','none');
                 }    
             });

@@ -84,7 +84,7 @@
         <label for="user_sales">User Sales</label>
         <input type="text" class="form-control" name="user_sales" id="user_sales" value="<?php echo $edit_salesperson->user_sales?>" readonly> 
         change *Jika menggunakan spasi, otomatis akan diganti menjadi Underscore (_)
-        <input type="text" class="form-control" name="user_sales" id="user_sales" placeholder="Change Username">
+        <input type="text" class="form-control" name="user_sales_change" id="user_sales_change" placeholder="Change Username">
       </div>
       <div class="form-group">
         <label for="nama_sales">Nama Sales</label>
@@ -198,24 +198,26 @@ $(document).ready(function(){
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
         },success : function(data){ 
-        if(data=="true"){  
-          sucessAlert("Saved Sucessfully"); 
-          $(".block-ui").css('display','none'); 
-          if($("#action").val()!='update'){        
-            $('#user_sales').val("");
-            $('#nama_sales').val("");
-            $("#sbranch_id").val("");
-            $('#id_users').val("");      
-            $('#no_telp').val("");      
-            $('#status').val("");      
-            $('#snama_bank').val("");      
-            $('#sno_rekening').val("");      
-            $('#atas_nama').val("");      
-          }
-        }else{
-          failedAlert2(data);
-          $(".block-ui").css('display','none');
-        }   
+          if(data=="true"){  
+            // sucessAlert("Saved Sucessfully"); 
+            $(".block-ui").css('display','none'); 
+            if($("#action").val()!='update'){        
+              $('#user_sales').val("");
+              $('#nama_sales').val("");
+              $("#sbranch_id").val("");
+              $('#id_users').val("");      
+              $('#no_telp').val("");      
+              $('#status').val("");      
+              $('#snama_bank').val("");      
+              $('#sno_rekening').val("");      
+              $('#atas_nama').val("");      
+            }
+            swal("Saved!", "Saved Sucessfully", "success");
+            setTimeout(function(){ document.location.href = '<?php echo base_url()?>Admin/salesperson_view'; }, 2000);
+          }else{
+            failedAlert2(data);
+            $(".block-ui").css('display','none');
+          }   
         }
       });    
       return false;

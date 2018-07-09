@@ -1766,18 +1766,18 @@ class Admin extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do                     =addslashes($this->input->post('action',true));     
-            $data['no_hp']          =addslashes($this->input->post('no_hp',true)); 
+            $data['no_hp']          =addslashes($this->input->post('no_hp_f',true)); 
             $data['nama_pelanggan'] =addslashes($this->input->post('nama_pelanggan',true)); 
             $data['kota']           =addslashes($this->input->post('kota',true)); 
             $data['saran']          =addslashes($this->input->post('saran',true));  
             $data['id_users']       =addslashes($this->input->post('id_users',true));  
        
             //-----Validation-----//   
-            $this->form_validation->set_rules('no_hp', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
+            $this->form_validation->set_rules('no_hp_f', 'No HP', 'trim|required|xss_clean|min_length[10]|numeric');
             $this->form_validation->set_rules('nama_pelanggan', 'Nama Pelanggan', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('kota', 'Kota', 'trim|required|xss_clean|min_length[3]');
             $this->form_validation->set_rules('saran', 'Saran', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('id_users', 'ID Users', 'trim|required|xss_clean');
 
             if (!$this->form_validation->run() == FALSE)
             {
@@ -2873,7 +2873,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    /** Method For get paket information for Branch Edit **/ 
+    /** Method For get paket information for Paket Edit **/ 
     public function paket_edits($paket_id,$action='')
     {
         $data=array();
@@ -6095,7 +6095,7 @@ class Admin extends CI_Controller {
                     }
                     
                 }else if($do=='update'){
-                    $user_sales1      = addslashes($this->input->post('user_sales1',true));
+                    $user_sales1      = addslashes($this->input->post('user_sales_change',true));
                     if(value_exists("sales_person","user_sales",$user_sales1)) {  
 
                         echo "This Username Is Already Exists !!!!"; 
