@@ -326,7 +326,18 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     
 </ul>
 </li>
-<?php } if($this->session->userdata('level')==3 || $this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
+<?php } ?> 
+<?php if($this->session->userdata('level')==4){ ?>
+<li class="has-sub">
+<a href="#"><i class="fa fa-language"></i>
+<span class="title">Churn</span></a>
+<ul class="collapse">
+    <li><a href="<?php echo site_url('Admin/churn_add') ?>"><i class="fa fa-plus-square"></i> Add Churn</a></li>
+    <li><a href="<?php echo site_url('Admin/churn_view') ?>"><i class="fa fa-book"></i> Data Churn</a></li>
+</ul>
+</li>
+<?php } ?>
+<?php if($this->session->userdata('level')==3 || $this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-university"></i>
 <span class="title">MSISDN</span></a>

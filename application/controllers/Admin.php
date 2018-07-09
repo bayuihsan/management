@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
             redirect('User');    
         }
         // $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Adminmodel','Bastmodel','Regionmodel','Branchmodel','Ctpmodel','Msisdnmodel','Custom_fieldsmodel','Datamodel','Feedbacksmodel','Generate_tablemodel','Graparimodel','Kategoripaketmodel','Paketmodel','Reasonmodel','Reportmodel','Sales_channelmodel','Salesmodel','Salespersonmodel','Usermodel','Usersmodel'));
+        $this->load->model(array('Adminmodel','Bastmodel','Regionmodel','Branchmodel','Churnmodel','Ctpmodel','Msisdnmodel','Custom_fieldsmodel','Datamodel','Feedbacksmodel','Generate_tablemodel','Graparimodel','Kategoripaketmodel','Paketmodel','Reasonmodel','Reportmodel','Sales_channelmodel','Salesmodel','Salespersonmodel','Usermodel','Usersmodel'));
     }
     
 	public function home($action=''){   
@@ -209,7 +209,7 @@ class Admin extends CI_Controller {
                 array(
                   'settings' => 'timezone' ,
                   'value' => $this->input->post("timezone",true)
-)
+                )
             );
             //-----Validation-----//   
             $this->form_validation->set_rules('company-name', 'Company Name', 'trim|required|min_length[2]|max_length[50]');
@@ -2087,8 +2087,28 @@ class Admin extends CI_Controller {
     }
     //end controller generate_table
 
+    //controller churn
+    public function churn_view($action='')
+    {   
+        $data=array();
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['churn']=$this->Churnmodel->get_all(); 
+        }else{
+            $data['churn']=$this->Churnmodel->get_all_by($sess_branch); 
+        }
+        
+        if($action=='asyn'){
+            $this->load->view('content/churn/list',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/churn/list',$data);
+            $this->load->view('theme/include/footer');
+        }
+    }
+
     //controller grapari
-        public function grapari_view($action='')
+    public function grapari_view($action='')
     {   
         $data=array();
         $sess_branch = $this->session->userdata('branch_id');
@@ -2104,6 +2124,61 @@ class Admin extends CI_Controller {
             $this->load->view('theme/include/header');
             $this->load->view('content/grapari/list',$data);
             $this->load->view('theme/include/footer');
+        }
+    }
+
+    /** Method For Add New Churn and CHurn Page View **/    
+    public function churn_add($action='',$param1='')
+    {
+        $data['branch']=$this->Branchmodel->get_all(); 
+        if($action=='asyn'){
+            $this->load->view('content/churn/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/churn/add',$data);
+            $this->load->view('theme/include/footer');
+        }
+        //----End Page Load------//
+        //----For Insert update and delete-----// 
+        if($action=='insert'){  
+            $data=array();
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['branch_id']      =addslashes($this->input->post('branch_id_c',true)); 
+            $data['tanggal_churn']  =addslashes($this->input->post('tanggal_churn',true)); 
+            $data['nilai_churn']    =addslashes($this->input->post('nilai_churn',true)); 
+            $data['updated_by']     =addslashes($this->input->post('updated_by',true));  
+            $data['tanggal_by']     =addslashes($this->input->post('tanggal_by',true));  
+       
+            //-----Validation-----//   
+            $this->form_validation->set_rules('branch_id_c', 'Branch', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('nama_grapari', 'Nama Grapari', 'trim|required|xss_clean|min_length[3]');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+
+            if (!$this->form_validation->run() == FALSE)
+            {
+                if($do=='insert'){ 
+
+                    $this->db->insert('grapari',$data); 
+                    
+                    echo "true";    
+                    
+                }else if($do=='update'){
+                    $id=$this->input->post('id_grapari',true);
+                    
+                    $this->db->where('id_grapari', $id);
+                    $this->db->update('grapari', $data);
+
+                    echo "true";
+
+                }         
+            }else{
+                //echo "All Field Must Required With Valid Length !";
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+            }
+            //----End validation----//         
+        }
+        else if($action=='remove'){    
+            $this->db->delete('grapari', array('id_grapari' => $param1));       
         }
     }
     
