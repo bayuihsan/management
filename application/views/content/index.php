@@ -1,4 +1,14 @@
 <!--Statt Main Content-->
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;    
+}
+</style>
 <section>
 <div class="main-content">
 <div class="row">
@@ -113,13 +123,14 @@
 <div class="panel panel-default medium-box"> 
     <!-- Default panel contents -->
     
-    <div class="panel-heading">Top Branch (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
-    <div class="panel-body financial-bal" style="font-size: 10px; height: 420px; font-family: tahoma;">
+    <div class="panel-heading">MoM Growth (<span id="nilaibranch"><?php echo $max_tanggal?></span>) <a style="float: right;cursor: pointer;" id="click_to_load_modal_popup_branch">View Detail</a></div>
+    <div class="panel-body financial-bal" style="font-size: 9px; height: 420px; font-family: tahoma; font-style: italic;">
+        <b><font style="font-size: 12px; font-family: tahoma;">MoM Growth AREA 2</font></b><br><br>
         <!--Branch Table-->
         <table class="table table-bordered" >
          <tr>
-            <th style="background-color: #2574A9; color: white" rowspan="2">BRANCH</th>
-            <th style="background-color: #2574A9; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
+            <th style="background-color: #2574A9; color: white" rowspan="2" class="text-center" >BRANCH</th>
+                <th style="background-color: #2574A9; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($lmonth)))?></th>
             <th style="background-color: #2574A9; color: white" colspan="5" class="text-center"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
             <th style="background-color: #2574A9; color: white" colspan="5" class="text-center">%GROWTH</th>
          </tr>
@@ -147,17 +158,17 @@
             <tr>
                 <td><b> <?php echo strtoupper($binfo->nama_branch) ?></b></td>
                 <!-- last month -->
-                <td class="text-right"><b><?php $tsa_lm     = $binfo->tsa_last_month; echo number_format($tsa_lm); ?></b></td>
-                <td class="text-right"><b><?php $mad_lm     = $binfo->miad_last_month; echo number_format($mad_lm); ?></b></td>
-                <td class="text-right"><b><?php $mdev_lm    = $binfo->mdevice_last_month; echo number_format($mdev_lm); ?></b></td>
-                <td class="text-right"><b><?php $oth_lm     = $binfo->others_last_month; echo number_format($oth_lm); ?></b></td>
-                <td class="text-right"><b><?php $total_lm   = $tsa_lm+$mad_lm+$mdev_lm+$oth_lm; echo number_format($total_lm); ?></b></td>
+                <td class="text-right"><?php $tsa_lm     = $binfo->tsa_last_month; echo number_format($tsa_lm); ?></td>
+                <td class="text-right"><?php $mad_lm     = $binfo->miad_last_month; echo number_format($mad_lm); ?></td>
+                <td class="text-right"><?php $mdev_lm    = $binfo->mdevice_last_month; echo number_format($mdev_lm); ?></td>
+                <td class="text-right"><?php $oth_lm     = $binfo->others_last_month; echo number_format($oth_lm); ?></td>
+                <td class="text-right"><?php $total_lm   = $tsa_lm+$mad_lm+$mdev_lm+$oth_lm; echo number_format($total_lm); ?></td>
                 <!-- this month -->
-                <td class="text-right"><b><?php $tsa_tm     = $binfo->tsa_this_month; echo number_format($tsa_tm); ?></b></td>
-                <td class="text-right"><b><?php $mad_tm     = $binfo->miad_this_month; echo number_format($mad_tm); ?></b></td>
-                <td class="text-right"><b><?php $mdev_tm    = $binfo->mdevice_this_month; echo number_format($mdev_tm); ?></b></td>
-                <td class="text-right"><b><?php $oth_tm     = $binfo->others_this_month; echo number_format($oth_tm); ?></b></td>
-                <td class="text-right"><b><?php $total_tm   = $tsa_tm+$mad_tm+$mdev_tm+$oth_tm; echo number_format($total_tm); ?></b></td>
+                <td class="text-right"><?php $tsa_tm     = $binfo->tsa_this_month; echo number_format($tsa_tm); ?></td>
+                <td class="text-right"><?php $mad_tm     = $binfo->miad_this_month; echo number_format($mad_tm); ?></td>
+                <td class="text-right"><?php $mdev_tm    = $binfo->mdevice_this_month; echo number_format($mdev_tm); ?></td>
+                <td class="text-right"><?php $oth_tm     = $binfo->others_this_month; echo number_format($oth_tm); ?></td>
+                <td class="text-right"><?php $total_tm   = $tsa_tm+$mad_tm+$mdev_tm+$oth_tm; echo number_format($total_tm); ?></td>
                 <!-- Growth -->
                 <?php if($tsa_lm == 0){ 
                         $tsa_mom = '0'; 
@@ -172,7 +183,7 @@
                             $style = "style='background-color:#D3D3D3'";
                         }
                     } ?>
-                <td class="text-right" <?php echo $style?>><b><?php  echo $tsa_mom.' %'; ?></b></td>
+                <td class="text-right" <?php echo $style?>><?php  echo $tsa_mom.' %'; ?></td>
 
                 <?php if($mad_lm == 0){ 
                         $mad_mom = '0'; 
@@ -187,7 +198,7 @@
                             $style = "style='background-color:#D3D3D3'";
                         }
                     } ?>
-                <td class="text-right" <?php echo $style?>><b><?php  echo $mad_mom.' %'; ?></b></td>
+                <td class="text-right" <?php echo $style?><?php  echo $mad_mom.' %'; ?></td>
 
                 <?php if($mdev_lm == 0){ 
                         $mdev_mom = '0'; 
@@ -202,7 +213,7 @@
                             $style = "style='background-color:#D3D3D3'";
                         }
                     } ?>
-                <td class="text-right" <?php echo $style?>><b><?php  echo $mdev_mom.' %'; ?></b></td>
+                <td class="text-right" <?php echo $style?>><?php  echo $mdev_mom.' %'; ?></td>
 
                 <?php if($oth_lm == 0){ 
                         $oth_mom = '0'; 
@@ -217,7 +228,7 @@
                             $style = "style='background-color:#D3D3D3'";
                         }
                     } ?>
-                <td class="text-right" <?php echo $style?>><b><?php  echo $oth_mom.' %'; ?></b></td>
+                <td class="text-right" <?php echo $style?>><?php  echo $oth_mom.' %'; ?></td>
 
                 <?php if($total_lm == 0){ 
                         $total_mom = '0'; 
@@ -232,7 +243,7 @@
                             $style = "style='background-color:#D3D3D3'";
                         }
                     } ?>
-                <td class="text-right" <?php echo $style?>><b><?php  echo $total_mom.' %'; ?></b></td>
+                <td class="text-right" <?php echo $style?>><?php  echo $total_mom.' %'; ?></td>
             </tr>
           <?php } ?>  
 
@@ -266,7 +277,7 @@
          <?php $no=1; foreach($top_branch as $top){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
-                <td><b> <?php echo strtoupper($top->nama_branch) ?></b></td>
+                <td><?php echo strtoupper($top->nama_branch) ?></td>
                 <td class="text-right"><b><?php $ly = $top->last_year; echo number_format($ly); ?></b></td>
                 <td class="text-right"><b><?php $lm = $top->last_month; echo number_format($lm); ?></b></td>
                 <td class="text-right"><b><?php $tm = $top->amount; echo number_format($tm); ?></b></td>

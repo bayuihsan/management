@@ -74,7 +74,8 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                         <tr> 
                             <th rowspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>AREA-2</b></th>
                             <th colspan="7" style="background-color: #1e3799; color: white;" class="text-center"><b>CURRENT MONTH</b></th>
-                            <th colspan="7" style="background-color: #1e3799; color: white;" class="text-center"><b>CUMMULATIVE</b></th>
+                            <th colspan="5" style="background-color: #1e3799; color: white;" class="text-center"><b>CUMMULATIVE</b></th>
+                            <th colspan="4" style="background-color: #1e3799; color: white;" class="text-center"><b>FY 2018</b></th>
                         </tr>
                         <tr>
                             <th colspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>1-8 Juli 2018</b></th>
@@ -84,6 +85,9 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>YoY Growth</b></th>
                             <th colspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>Jan - Juli 2018</b></th>
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Jan - Juli 2017</b></th>
+                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>YtD Growth</b></th>
+                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Tgt</b></th>
+                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Ach</b></th>
 
                         </tr>
                         <tr>
