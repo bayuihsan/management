@@ -6,7 +6,7 @@
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>MSISDN</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
-<div class="panel panel-default">
+<div class="panel panel-default" style="font-size: 10px; font-family: tahoma;">
     <!-- Default panel contents -->
     <div class="panel-heading">Manage Msisdn <div class="add-button">
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/msisdn_add') ?>">Add</a>

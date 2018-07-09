@@ -24,15 +24,21 @@
     </form>
 </div>
 <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
-<div class="clo-md-3 col-lg-3 col-sm-6">
+<div class="clo-md-4 col-lg-4 col-sm-6">
     <div class="card-box">
         <div class="box-callout-green">
             <div class="leftside-cart">
-                <i class="ion-speedometer cart-icon"></i>
+            <p class="card-head">Monthly Sales</p>
+                <!-- <i class="ion-speedometer cart-icon"></i> -->
             </div>
             <div class="rightside-cart">
-                <p class="card-head">Monthly Sales<br>
-                    <span class="card-value"><?php echo $cart_summery['current_month_psb']; ?> </span></p>
+                <p>  
+                    <span class="card-value"><?php echo $cart_summery['current_month_psb']; ?> <br> 
+                        MoM <br>
+                        YoY <br>
+                        YtD <br>
+                    </span>
+                </p>
             </div>
         </div>
     </div>

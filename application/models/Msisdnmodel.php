@@ -27,16 +27,28 @@ class Msisdnmodel extends CI_Model{
 	//get all Branch  
 	public function get_all_by($branch_id){
 		$id_tl = $this->session->userdata('id_users');
-		$query = $this->db->query("select a.*, b.nama_branch, c.nama
-			FROM msisdn a 
-			LEFT JOIN branch b ON a.branch_id=b.branch_id
-			LEFT JOIN app_users c ON a.id_users=c.id_users
-			WHERE  a.branch_id='".$branch_id."' and c.id_users='".$id_tl."'
-			ORDER BY a.tanggal desc
-			");
+		$level = $this->session->userdata('level');
+		if ($level == 5){ // FOS
+			$query =	$this->db->query("select a.*, b.nama_branch, c.nama
+				FROM msisdn a 
+				LEFT JOIN branch b ON a.branch_id=b.branch_id
+				LEFT JOIN app_users c ON a.id_users=c.id_users
+				WHERE  a.branch_id='".$branch_id."' 
+				ORDER BY a.tanggal desc
+				");
+		} else {
+			$query = $this->db->query("select a.*, b.nama_branch, c.nama
+				FROM msisdn a 
+				LEFT JOIN branch b ON a.branch_id=b.branch_id
+				LEFT JOIN app_users c ON a.id_users=c.id_users
+				WHERE  a.branch_id='".$branch_id."' and c.id_users='".$id_tl."'
+				ORDER BY a.tanggal desc
+				");
+		}
 		$query_result=$query;
 		$result=$query_result->result();
 		return $result;
+
 	}
 
 	//get all Branch  

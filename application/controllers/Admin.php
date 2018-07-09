@@ -3545,7 +3545,258 @@ class Admin extends CI_Controller {
 
     }
 
-    //View Branch Report// 
+        //View Branch Report// 
+    public function reports_scn_weekly($action='',$tanggal='',$status='',$to_date='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('reports/scn_weekly',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/scn_weekly',$data);
+            $this->load->view('theme/include/footer');
+        }else if($action=='view'){
+            $tanggal    =$this->input->post('vtanggal',true); 
+            $status    =$this->input->post('vstatus',true); 
+            $to_date    =$this->input->post('vto-date',true);  
+            if(date('Y-m-d', strtotime($to_date)) > date('Y-m-d')){
+                echo "error_tgl_lebih";
+            }else{
+                $tgl        = date('d', strtotime($to_date));
+                $ly = date('Y-m-d', strtotime('-1 year', strtotime( $to_date )));
+                $reportData=$this->Reportmodel->getReportBranch($tanggal,$status,$ly,$to_date);
+                if(empty($reportData)){
+                    echo "false";
+                }else{
+                    $no=1 ;
+                    $tly = 0;
+                    $tlm = 0;
+                    $ttm = 0;
+                    $tsla = 0;
+                    foreach ($reportData as $report) { 
+                        $ly = $report->last_year;
+                        $lm = $report->last_month;
+                        $tm = $report->this_month;
+                        $avg = $tm/$tgl;
+                        $sla = $report->sla;
+                        if($tm == 0){
+                            $avgsla = 0;
+                        }else{
+                            $avgsla = $sla/$tm;
+                        }
+                        
+                        if($ly == 0){ 
+                            $yoy = '0'; 
+                            $style_ly = "style='background-color:#D3D3D3'";
+                        }else{ 
+                            $yoy = (($tm-$ly)/$ly)*100; $yoy = decimalPlace($yoy);
+                            if($yoy > 0){
+                                $style_ly = "style='background-color:#7CFC00'";
+                            }else if($yoy < 0){
+                                $style_ly = "style='background-color:#F08080'";
+                            }else{
+                                $style_ly = "style='background-color:#D3D3D3'";
+                            }
+                        } 
+
+                        if($lm == 0){ 
+                            $mom = '0'; 
+                            $style = "style='background-color:#D3D3D3'";
+                        }else{ 
+                            $mom = (($tm-$lm)/$lm)*100; $mom = decimalPlace($mom);
+                            if($mom > 0){
+                                $style = "style='background-color:#7CFC00'";
+                            }else if($mom < 0){
+                                $style = "style='background-color:#F08080'";
+                            }else{
+                                $style = "style='background-color:#D3D3D3'";
+                            }
+                        } ?>
+
+                        <tr>
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo $report->nama_branch ?></td>
+                            <td class="text-right"><?php echo number_format($ly);?></td>
+                            <td class="text-right"><?php echo number_format($lm);?></td>
+                            <td class="text-right"><?php echo number_format($tm);?></td>
+                            <td class="text-right" <?php echo $style?>><b><?php  echo $mom.' %'; ?></b></td>
+                            <td class="text-right" <?php echo $style_ly?>><b><?php  echo $yoy.' %'; ?></b></td>
+                            <!-- <td class="text-right"><?php echo round($avg);?></td>
+                            <td class="text-right"><?php echo number_format($avgsla)." Hari";?></td> -->
+                        </tr>
+                    <?php 
+                        $tly = $tly + $ly;
+                        $tlm = $tlm + $lm;
+                        $ttm = $ttm + $tm;
+                        $tsla = $tsla + $sla; 
+                        
+                    }  
+                     //Summery value
+                        $tavg = $ttm/$tgl;
+                        if($ttm == 0){
+                            $tavgsla = 0;
+                        }else{
+                            $tavgsla = $tsla/$ttm;
+                        }
+
+                        if($tlm == 0){
+                            $tmom = 0;
+                        }else{
+                            $tmom = (($ttm-$tlm)/$tlm)*100; 
+                        }
+                        $tmom = decimalPlace($tmom);
+
+                        if($tly == 0){
+                            $tyoy = 0;
+                        }else{
+                            $tyoy = (($ttm-$tly)/$tly)*100;
+                        }
+                        $tyoy = decimalPlace($tyoy);
+
+                        if($tmom > 0){
+                            $tstyle = "style='background-color:#7CFC00'";
+                        }else if($tmom < 0){
+                            $tstyle = "style='background-color:#F08080'";
+                        }else{
+                            $tstyle = "style='background-color:#D3D3D3'";
+                        }
+                        if($tyoy > 0){
+                            $tstyle_ly = "style='background-color:#7CFC00'";
+                        }else if($tyoy < 0){
+                            $tstyle_ly = "style='background-color:#F08080'";
+                        }else{
+                            $tstyle_ly = "style='background-color:#D3D3D3'";
+                        }
+                     echo "<tr><td colspan='2'><b>Total</b></td>";
+                     echo "<td class='text-right'><b>".number_format($tly)."</b></td>";
+                     echo "<td class='text-right'><b>".number_format($tlm)."</b></td>";
+                     echo "<td class='text-right'><b>".number_format($ttm)."</b></td>";
+                     //echo "<td class='text-right'><b>".round($tavg)."</b></td>";
+                     // echo "<td class='text-right'><b>".number_format($tsla)." Hari</b></td>";
+                     //echo "<td class='text-right'><b>".number_format($tavgsla)." Hari</b></td>";
+                     echo "<td class='text-right' ".$tstyle."><b>".$tmom." %</b></td>"; 
+                     echo "<td class='text-right' ".$tstyle_ly."><b>".$tyoy." %</b></td></tr>"; 
+                }
+            }
+            
+        }else if($action=='export'){
+            
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("NO", "BRANCH", "LAST_YEAR", "LAST_MONTH", "THIS_MONTH", "AVG/HARI", "RATA2 SLA", "%MOM", "%YOY");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $ly = date('Y-m-d', strtotime('-1 year', strtotime( $to_date )));
+            $branch=$this->Reportmodel->getReportBranch($tanggal,$status,$ly,$to_date);
+
+            $excel_row = 2;
+
+            $no=1 ;
+            $tly = 0;
+            $tlm = 0;
+            $ttm = 0;
+            $tsla = 0;
+            $tgl        = date('d', strtotime($to_date));
+            foreach($branch as $row)
+            {
+                $ly = $row->last_year;
+                $lm = $row->last_month;
+                $tm = $row->this_month;
+                $avg = $tm/$tgl;
+                $sla = $row->sla;
+
+                if($tm == 0){
+                    $avgsla = 0;
+                }else{
+                    $avgsla = $sla/$tm;
+                }
+
+                if($lm == 0){ 
+                    $mom = '0'; 
+                }else{ 
+                    $mom = (($tm-$lm)/$lm)*100; $mom = $mom;
+                } 
+
+                if($ly == 0){ 
+                    $yoy = '0'; 
+                }else{ 
+                    $yoy = (($tm-$ly)/$ly)*100; $yoy = $yoy;
+                } 
+
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no++);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $ly);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $lm);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $tm);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, round($avg));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $avgsla." Hari");
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $mom."%");
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $yoy."%");
+                $excel_row++;
+
+                $tly = $tly + $ly;
+                $tlm = $tlm + $lm;
+                $ttm = $ttm + $tm;
+                $tsla = $tsla + $sla; 
+                
+            }
+
+            $tavg = $ttm/$tgl;
+            if($ttm == 0){
+                $tavgsla = 0;
+            }else{
+                $tavgsla = $tsla/$ttm;
+            }
+
+            if($tlm == 0){
+                $tmom = 0;
+            }else{
+                $tmom = (($ttm-$tlm)/$tlm)*100; 
+            }
+            $tmom = $tmom;
+
+            if($tly == 0){
+                $tyoy = 0;
+            }else{
+                $tyoy = (($ttm-$tly)/$tly)*100;
+            }
+            $tyoy = $tyoy;
+
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, count($branch)+1, "");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, count($branch)+1, "Total");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, count($branch)+1, $tly);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, count($branch)+1, $tlm);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, count($branch)+1, $ttm);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, count($branch)+1, round($tavg));
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, count($branch)+1, $tavgsla." Hari");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, count($branch)+1, $tmom."%");
+            $object->getActiveSheet()->setCellValueByColumnAndRow(8, count($branch)+1, $tyoy."%");
+
+            $filename = "ReportBranch-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+
+    }
+
+    //View SLA Report// 
     public function reports_service_level($action='',$tanggal='',$status='',$to_date='')
     {
         $data=array();

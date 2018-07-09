@@ -369,6 +369,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
     <li><a href="<?php echo site_url('Admin/reports_service_level') ?>"><i class="fa fa-angle-double-right"></i> SLA View Report</a></li>
     <li><a href="<?php echo site_url('Admin/reports_fee_sales_tsa') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TSA</a></li>
     <li><a href="<?php echo site_url('Admin/reports_fee_sales_tl') ?>"><i class="fa fa-angle-double-right"></i> FEE SALES TL</a></li>
+    <li><a href="<?php echo site_url('Admin/reports_scn_weekly') ?>"><i class="fa fa-angle-double-right"></i> SCN Weekly Report</a></li>
 </ul>
 </li>
 <?php if($this->session->userdata('level')<6){ ?>
