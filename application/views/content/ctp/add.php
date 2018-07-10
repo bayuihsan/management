@@ -105,28 +105,83 @@
       <input type="hidden" name="action" id="action" value="update"/>  
       <input type="hidden" name="id_ctp" id="id_ctp" value="<?php echo $edit_ctp->id_ctp ?>"/>    
       <div class="form-group">
-        <label for="acc_name">No HP</label>
-        <input type="text" class="form-control" name="no_hp" id="no_hp" value="<?php echo $edit_feedbacks->no_hp ?>">
+        <label for="acc_name">Order ID</label>
+        <input type="text" class="form-control" name="order_id" id="order_id" value="<?php echo $edit_ctp->order_id ?>">
+      </div>
+      <div class="form-group">
+        <label for="balance">Order Submit Date</label>
+        <input type="text" class="form-control" name="nama_pelanggan" id="nama_pelanggan" value="<?php echo $edit_ctp->order_submit_date ?>">
+      </div>
+      <div class="form-group">
+        <label for="balance">Order Completed Date</label>
+        <input type="text" class="form-control" name="order_completed_date" id="order_completed_date" value="<?php echo $edit_ctp->order_completed_date ?>">
+      </div>
+      <div class="form-group">
+        <label for="balance">MSISDN</label>
+        <input type="text" class="form-control" name="msisdn_ctp" id="msisdn_ctp" value="<?php echo $edit_ctp->msisdn_ctp ?>">
       </div>
       <div class="form-group">
         <label for="balance">Nama Pelanggan</label>
-        <input type="text" class="form-control" name="nama_pelanggan" id="nama_pelanggan" value="<?php echo $edit_feedbacks->nama_pelanggan ?>">
+        <input type="text" class="form-control" name="nama_pelanggan_ctp" id="nama_pelanggan_ctp" value="<?php echo $edit_ctp->nama_pelanggan_ctp ?>">
       </div>
       <div class="form-group">
-        <label for="balance">Kota</label>
-        <input type="text" class="form-control" name="kota" id="kota" value="<?php echo $edit_feedbacks->kota ?>">
+        <label for="balance">Order Type Name</label>
+        <input type="text" class="form-control" name="order_type_name" id="order_type_name" value="<?php echo $edit_ctp->order_type_name ?>">
       </div>
       <div class="form-group">
-        <label for="balance">Saran</label>
-        <textarea id="saran" name="saran" class="form-control" style="width: 630px; height: 80px"><?php echo $edit_feedbacks->saran ?></textarea>
-      </div>
+        <label for="balance">User ID</label>
+        <input type="text" class="form-control" name="user_id" id="msisdn" value="<?php echo $edit_ctp->user_id ?>">
+      </div>  
       <div class="form-group">
-        <label for="balance">ID Users</label>
-        <input type="text" class="form-control" name="id_users" id="id_users" value="<?php echo $this->session->userdata('id_users')?>" readonly>
+        <label for="balance">Employee Name</label>
+        <input type="text" class="form-control" name="employee_name" id="msisdn" value="<?php echo $edit_ctp->employee_name ?>">
+      </div>
+      <div class="form-group"> 
+        <label for="branch">Pilih Paket</label>
+        <select name="paket_id" class="form-control" id="paket_id">  
+          <option value="">Pilih Paket</option>
+          <?php foreach ($paket as $new) { 
+            if($edit_ctp->paket_id == $new->paket_id){ ?>
+            <option value="<?php echo $new->paket_id ?>" selected><?php echo "(".$new->paket_id.") ".$new->nama_paket ?></option>
+          <?php }else{ ?>
+            <option value="<?php echo $new->paket_id ?>"><?php echo "(".$new->paket_id.") ".$new->nama_paket ?></option>
+            <?php }
+           } ?>
+        </select>
+      </div>
+      <div class="form-group"> 
+        <label for="branch">Admin CTP</label>
+        <select name="id_users" class="form-control" id="id_users">  
+          <option value="">Pilih Admin CTP</option>
+          <?php foreach ($users as $new) { 
+            if($edit_ctp->$id_users == $new->id_users){ ?>
+            <option value="<?php echo $new->id_users ?>" selected><?php echo "(".$new->id_users.") ".$new->username ?></option>
+          <?php }else{ ?>
+            <option value="<?php echo $new->id_users ?>"><?php echo "(".$new->id_users.") ".$new->username ?></option>
+            <?php }
+           } ?>
+        </select>
+      </div>
+      <div class="form-group"> 
+        <label for="branch">Branch</label>
+        <select name="cbranch_id" class="form-control" id="cbranch_id">  
+          <option value="">Pilih Branch</option>
+          <?php foreach ($branch as $new) { 
+            if($edit_ctp->branch_id == $new->branch_id){ ?>
+            <option value="<?php echo $new->branch_id ?>" selected><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+          <?php }else{ ?>
+            <option value="<?php echo $new->branch_id ?>"><?php echo "(".$new->branch_id.") ".$new->nama_branch ?></option>
+            <?php }
+           } ?>
+        </select>      
+      </div>  
+      <div class="form-group">
+        <label for="balance">Tanggal Upload</label>
+        <input type="text" class="form-control" name="tgl_upload" id="tgl_upload" value="<?php echo $edit_ctp->tgl_upload ?>" readonly>
       </div>
             
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
-      <a href="<?php echo base_url()?>feedbacks/view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
+      <a href="<?php echo base_url()?>Admin/ctp_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
     </form>
          
  <?php } ?>

@@ -6,7 +6,7 @@
 <div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>CTP</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
-<div class="panel panel-default">
+<div class="panel panel-default" style="">
     <!-- Default panel contents -->
     <div class="panel-heading">Customer Touch Point <div class="add-button">
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/ctp_add') ?>">Add</a>
@@ -19,6 +19,7 @@
                 <th>Order_Submit_Date</th>
                 <th>Nama_Complete_Date</th>
                 <th>Nama_Pelanggan</th>
+                <th>MSISDN</th>
                 <th>User_ID</th>
                 <th>Employee_Name</th>
                 <th>Nama_Paket</th>
@@ -32,6 +33,7 @@
                     <td><?php echo $new->order_id?></td>
                     <td><?php echo $new->order_submit_date ?></td>
                     <td><?php echo $new->order_completed_date ?></td>
+                    <td><?php echo $new->nama_pelanggan_ctp ?></td>
                     <td><?php echo $new->msisdn_ctp ?></td>
                     <td><?php echo $new->user_id ?></td>
                     <td><?php echo $new->employee_name ?></td>
