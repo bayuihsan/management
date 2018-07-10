@@ -2183,7 +2183,7 @@ class Admin extends CI_Controller {
 
             $object->setActiveSheetIndex(0);
 
-            $table_columns = array("ID", "BRANCH", "TANGGAL CHURN", "NILAI CHURN", "UPDATED");
+            $table_columns = array("ID", "BRANCH", "TANGGAL CHURN", "NILAI CHURN", "UPDATED BY", "UPDATED");
 
             $column = 0;
 
@@ -2208,7 +2208,8 @@ class Admin extends CI_Controller {
                 $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->tanggal_churn));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nilai_churn));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->tanggal_update);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->tanggal_update);
                 $excel_row++;
             }
 
