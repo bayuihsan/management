@@ -17,7 +17,8 @@
     <!--<link href="css/jquery-ui.css" rel="stylesheet">-->
 
   </head>
-  <body class="login-body" style="background-image:url('<?php echo base_url()?>image/halo.png'); background-size:100% 100%; background-repeat:no-repeat; background-attachment: fixed;">
+  <!-- <body class="login-body" style="background-image:url('<?php //echo base_url()?>image/halo.png'); background-size:100% 100%; background-repeat:no-repeat; background-attachment: fixed;"> -->
+  <body class="login-body">
     <div class="block-ui">
       <div class="spinner">
         <div class="rect1"></div>
@@ -32,7 +33,7 @@
       <div class="login-div">
         <div class="system-name col-md-4 col-lg-4 col-sm-6 col-md-offset-4 col-lg-offset-4 col-sm-offset-3">
           <div class="login-logo"><img src="<?php echo base_url() ?>uploads/<?php  echo get_current_setting('logo_path'); ?>" alt=""/></div>
-          <h3><?php  echo get_current_setting('company_name'); ?></h3>
+          <b><h3 style="color: ;"><?php  echo get_current_setting('company_name'); ?></h3></b>
         </div>
 
         <!--Alert-->
@@ -42,7 +43,7 @@
         <!--End Alert-->
 
         <div class="col-md-4 col-lg-4 col-sm-6 login-panel col-md-offset-4 col-lg-offset-4 col-sm-offset-3">
-          <h3>Informasi Login </h3>
+          <h3><i class="ace-icon fa fa-coffee green"></i> Please Enter Your Information </h3>
           <form class="login-form" method="post" action="<?php echo site_url('User/varifyUser') ?>">
 
 
@@ -76,7 +77,6 @@
               $(".block-ui").css("display","block");
             },success : function(data){ 
               if(data=='true'){
-                window.location.href ="<?php echo site_url('Admin/home') ?>";
                 $(".block-ui").css("display","none"); 
                 if (!$(".ajax-notify").length){
                   $(".system-alert-box").append("<div class='alert alert-success ajax-notify'></div>");
@@ -88,6 +88,7 @@
                 //$(".my-btn").removeClass('loading');
                 $(".my-btn").html('Login');
                 $(".block-ui").css("display","none");  
+                window.location.href ="<?php echo site_url('Admin/home') ?>";
 
               }else{
                 if (!$(".ajax-notify").length){

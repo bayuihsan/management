@@ -246,7 +246,7 @@ function jenis_event($id){
                                 <td><?php echo strtoupper($new->tanggal_update) ?></td>
                                 <?php if($this->session->userdata('level')==4){ ?>
                                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
-                                title="Click For Edit" href="<?php echo site_url('Admin/sales_edit/'.$new->psb_id) ?>">Edit</a> &nbsp; 
+                                title="Click For Edit" href="<?php echo site_url('Admin/sales_edits/'.$new->psb_id) ?>">Edit</a> &nbsp; 
                                 <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/sales_add/remove/'.$new->psb_id) ?>">Delete</a> </td>
                                 <?php }else{ ?>
                                 <td><a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 

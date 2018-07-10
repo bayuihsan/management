@@ -2107,26 +2107,6 @@ class Admin extends CI_Controller {
         }
     }
 
-    //controller grapari
-    public function grapari_view($action='')
-    {   
-        $data=array();
-        $sess_branch = $this->session->userdata('branch_id');
-        if($this->session->userdata('level')==4){
-            $data['grapari']=$this->Graparimodel->get_all(); 
-        }else{
-            $data['grapari']=$this->Graparimodel->get_all_by($sess_branch); 
-        }
-        
-        if($action=='asyn'){
-            $this->load->view('content/grapari/list',$data);
-        }else if($action==''){
-            $this->load->view('theme/include/header');
-            $this->load->view('content/grapari/list',$data);
-            $this->load->view('theme/include/footer');
-        }
-    }
-
     /** Method For Add New Churn and CHurn Page View **/    
     public function churn_add($action='',$param1='')
     {
@@ -2144,29 +2124,29 @@ class Admin extends CI_Controller {
             $data=array();
             $do                     =addslashes($this->input->post('action',true));     
             $data['branch_id']      =addslashes($this->input->post('branch_id_c',true)); 
-            $data['tanggal_churn']  =addslashes($this->input->post('tanggal_churn',true)); 
+            $data['tanggal_churn']  =addslashes(date('Y-m-d', strtotime($this->input->post('tanggal_churn',true)))); 
             $data['nilai_churn']    =addslashes($this->input->post('nilai_churn',true)); 
             $data['updated_by']     =addslashes($this->input->post('updated_by',true));  
-            $data['tanggal_by']     =addslashes($this->input->post('tanggal_by',true));  
        
             //-----Validation-----//   
             $this->form_validation->set_rules('branch_id_c', 'Branch', 'trim|required|xss_clean|numeric');
-            $this->form_validation->set_rules('nama_grapari', 'Nama Grapari', 'trim|required|xss_clean|min_length[3]');
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('tanggal_churn', 'Tanggal churn', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('nilai_churn', 'Nilai churn', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('updated_by', 'Updated by', 'trim|required|xss_clean');
 
             if (!$this->form_validation->run() == FALSE)
             {
                 if($do=='insert'){ 
 
-                    $this->db->insert('grapari',$data); 
+                    $this->db->insert('churn',$data); 
                     
                     echo "true";    
                     
                 }else if($do=='update'){
-                    $id=$this->input->post('id_grapari',true);
+                    $id=$this->input->post('id_churn',true);
                     
-                    $this->db->where('id_grapari', $id);
-                    $this->db->update('grapari', $data);
+                    $this->db->where('id_churn', $id);
+                    $this->db->update('churn', $data);
 
                     echo "true";
 
@@ -2178,7 +2158,93 @@ class Admin extends CI_Controller {
             //----End validation----//         
         }
         else if($action=='remove'){    
-            $this->db->delete('grapari', array('id_grapari' => $param1));       
+            $this->db->delete('churn', array('id_churn' => $param1));       
+        }
+    }
+
+    /** Method For get churn information for churn Edit **/ 
+    public function churn_edits($id_churn,$action='')
+    {
+        $data=array();
+        $data['edit_churn']=getOld("id_churn",$id_churn,"churn");
+        $data['branch']=$this->Branchmodel->get_all();  
+        if($action=='asyn'){
+            $this->load->view('content/churn/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/churn/add',$data);
+            $this->load->view('theme/include/footer');
+        }    
+    }
+
+    public function churn_export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $table_columns = array("ID", "BRANCH", "TANGGAL CHURN", "NILAI CHURN", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $sess_branch = $this->session->userdata('branch_id');
+            if($this->session->userdata('level')==4){
+                $data_churn = $this->Churnmodel->get_all();
+
+            }else{
+                $data_churn = $this->Churnmodel->get_all_by($sess_branch);
+            }
+            
+            $excel_row = 2;
+            foreach($data_churn as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_churn));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, strtoupper($row->tanggal_churn));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nilai_churn));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->tanggal_update);
+                $excel_row++;
+            }
+
+            $filename = "Churn-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
+    //end controller churn
+
+    //controller grapari
+    public function grapari_view($action='')
+    {   
+        $data=array();
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['grapari']=$this->Graparimodel->get_all(); 
+        }else{
+            $data['grapari']=$this->Graparimodel->get_all_by($sess_branch); 
+        }
+        
+        if($action=='asyn'){
+            $this->load->view('content/grapari/list',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/grapari/list',$data);
+            $this->load->view('theme/include/footer');
         }
     }
     
@@ -2235,7 +2301,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    /** Method For get grapari information for Branch Edit **/ 
+    /** Method For get grapari information for grapari Edit **/ 
     public function grapari_edits($grapari_id,$action='')
     {
         $data=array();
@@ -5781,6 +5847,31 @@ class Admin extends CI_Controller {
 
                                 });
                             });
+                            $(document).on('click','.sales-remove-btn',function(){  
+                                var main=$(this);
+                                swal({title: "Are you sure Want To Delete?",
+                                text: "You will not be able to recover this Data!",
+                                type: "warning",   showCancelButton: true,confirmButtonColor: "#DD6B55",   
+                                confirmButtonText: "Yes, delete it!",closeOnConfirm: false,
+                                showLoaderOnConfirm: true }, function(){ 
+                                    ///////////////     
+                                    var link=$(main).attr("href");    
+                                    $.ajax({
+                                        url : link,
+                                        beforeSend : function(){
+                                            $(".block-ui").css('display','block'); 
+                                        },success : function(data){
+                                            $(main).closest("tr").remove();    
+                                            //sucessAlert("Remove Sucessfully"); 
+                                            $(".system-alert-box").empty();
+                                            document.location.href = '<?php echo base_url()?>Admin/sales_cek_msisdn';
+                                        swal("Deleted!", "Remove Sucessfully", "success"); 
+                                            $(".block-ui").css('display','none');
+                                        }    
+                                    });
+                                }); 
+                                return false;       
+                            }); 
 
                         </script>
                     <?php 
