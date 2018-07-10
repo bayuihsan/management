@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>churn</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Churn</h4></div>
 <div class="col-md-12 col-lg-12 col-sm-12">
 <!--Start Panel-->
 <div class="panel panel-default">
@@ -34,7 +34,7 @@
                     <td><?php echo date("Y-m-d", strtotime($new->tanggal_churn)) ?></td>
                     <td><?php echo strtoupper($new->nilai_churn) ?></td>
                     <td><?php echo strtoupper($new->nama) ?></td>
-                    <td><?php echo date("Y-m-d", strtotime($new->tanggal_update)) ?></td>
+                    <td><?php echo $new->tanggal_update;?></td>
                     <td>
                     <?php if($this->session->userdata('level')==4){ ?>
                     <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 

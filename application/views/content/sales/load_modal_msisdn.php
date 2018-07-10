@@ -69,6 +69,11 @@
 				}
 	            ?>
 	            <div id="Table-div" style="font-size: 12px; font-family: tahoma;">
+	            	<?php if($this->session->userdata('level')==4){ ?>
+	                    <a class="mybtn btn-info btn-xs edit-btn" data-toggle="tooltip" 
+	                    title="Click For Edit" href="<?php echo site_url('Admin/sales_edits/'.$detail_msisdn->psb_id) ?>">Edit</a> &nbsp; 
+	                    <a class="mybtn btn-danger btn-xs sales-remove-btn" data-toggle="tooltip" title="Click For Delete" href="<?php echo site_url('Admin/sales_add/remove/'.$detail_msisdn->psb_id) ?>">Delete</a> 
+                    <?php } ?>
 	            	<?php if($this->session->userdata('level')==4 || $this->session->userdata('level')>5){  
                                 if($detail_msisdn->status=='valid' && ($this->session->userdata('level')==7 || $this->session->userdata('level')==4)){ ?>
                               <a class="mybtn btn-success btn-xs edit-btn" data-toggle="tooltip" 
