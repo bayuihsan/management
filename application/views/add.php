@@ -16,14 +16,10 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
 <<<<<<< HEAD
-<<<<<<< HEAD
     <div class="panel-heading">Add Churn data</div>
 =======
     <div class="panel-heading">Add Churn</div>
 >>>>>>> 9eb8d626dd8d62bd9b296a6460c5ac859e739986
-=======
-    <div class="panel-heading">Add Churn</div>
->>>>>>> 6aa6f4342e290d2049f0f1a4a66eb70e1015fdfa
     <div class="panel-body add-client">
     <?php if(!isset($edit_churn)){ ?>  
     <form id="add-churn">
@@ -49,17 +45,12 @@
       </div> 
       <div class="form-group">
 <<<<<<< HEAD
-<<<<<<< HEAD
         <label for="balance">Jumlah Churn</label>
         <input type="text" class="form-control" name="nama_grapari" id="nama_grapari">
 =======
         <label for="balance">Nilai Churn</label>
         <input type="text" class="form-control" name="nilai_churn" id="nilai_churn">
 >>>>>>> 9eb8d626dd8d62bd9b296a6460c5ac859e739986
-=======
-        <label for="balance">Nilai Churn</label>
-        <input type="text" class="form-control" name="nilai_churn" id="nilai_churn">
->>>>>>> 6aa6f4342e290d2049f0f1a4a66eb70e1015fdfa
       </div>
       <div class="form-group">
         <label for="note">Update By</label>
@@ -142,7 +133,7 @@ $(document).ready(function(){
   $('#add-churn').on('submit',function(){     
     var tanggal_churn = $('#tanggal_churn').val(); 
     var nilai_churn = $('#nilai_churn').val(); 
-
+    
     var date1           = new Date(tanggal_churn);
 
     var today = new Date(); 
@@ -163,11 +154,7 @@ $(document).ready(function(){
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
         },success : function(data){ 
-          if(data == "exist"){
-            $(".block-ui").css('display','none'); 
-            swal({title: "Add Failed", text: "Data churn sudah ada<br><br>", type:"warning", html:true});
-            return false;
-          }else if(data=="true"){  
+          if(data=="true"){  
             // sucessAlert("Saved Sucessfully"); 
             $(".block-ui").css('display','none'); 
             if($("#action").val()!='update'){        

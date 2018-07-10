@@ -38,12 +38,12 @@ th, td {
     <div class="card-box">
         <div class="box-callout-green">
             <div class="leftside-cart">
-            <p class="card-head">Monthly Sales</p>
+            <p class="card-head">Monthly Sales<br><?php echo $cart_summery['current_month_psb'];?></p>
                 <!-- <i class="ion-speedometer cart-icon"></i> -->
             </div>
             <div class="rightside-cart">
                 <p>  
-                    <span class="card-value"><?php echo $cart_summery['current_month_psb']; ?> <br> 
+                    <span class="card-value"> <br> 
                         MoM <br>
                         YoY <br>
                         YtD <br>

@@ -12,7 +12,7 @@
     <a class="mybtn btn-default asyn-link" href="<?php echo site_url('Admin/feedback_add') ?>">Add</a>
     <a class="mybtn btn-default" href="<?php echo site_url('Admin/feedback_export/asyn') ?>" download="<?php echo site_url('Admin/feedback_export/asyn') ?>">Export</a>
     </div></div>
-    <div class="panel-body" style="overflow: auto;" >
+    <div class="panel-body" style="overflow: auto; font-size: 10px; font-family: tahoma;" >
         <table id="repeat-salesperson-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th>

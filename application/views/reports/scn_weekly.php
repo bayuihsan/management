@@ -53,7 +53,6 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
             </form>
         </div>
 
-
         <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
         <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
         </div>
@@ -68,8 +67,8 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                       background-color: #b8d1f3;
                 }
             </style>
-            <div id="Table-div" style="overflow: auto; font-size: 9px; font-family: tahoma;">
-                <table class="table table-bordered hoverTable">
+            <div id="Table-div" style="overflow: auto; font-size: 9px; font-family: tahoma; font-style: italic; height: 0.1%;">
+                <table class="table table-bordered  hoverTable">
                     <thead>
                         <tr> 
                             <th rowspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>AREA-2</b></th>
