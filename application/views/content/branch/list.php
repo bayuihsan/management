@@ -15,7 +15,7 @@
     
     <a class="mybtn btn-default" href="<?php echo site_url('Admin/branch_export/asyn') ?>" download="<?php echo site_url('Admin/branch_export/asyn') ?>">Export</a>
     </div></div>
-    <div class="panel-body" style="overflow: auto;">
+    <div class="panel-body" style="overflow: auto; font-size: 10px; font-family: tahoma;">
         <table id="repeat-branch-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>NO</th><th>NAMA BRANCH</th><th>KETUA</th><th>REGION</th>

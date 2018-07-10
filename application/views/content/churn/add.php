@@ -3,7 +3,7 @@
 <div class="main-content">
 <div class="row">
 <div class="inner-contatier">    
-<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Grapari</h4></div>
+<div class="col-md-12 col-lg-12 col-sm-12 content-title"><h4>Churn</h4></div>
 
 <!--Alert-->
 <div class="system-alert-box">
@@ -15,7 +15,7 @@
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Add Grapari</div>
+    <div class="panel-heading">Add Churn data</div>
     <div class="panel-body add-client">
     <?php if(!isset($edit_grapari)){ ?>  
     <form id="add-grapari">
@@ -31,7 +31,7 @@
         </select>      
       </div>
       <div class="form-group">
-        <label for="balance">Nama Grapari</label>
+        <label for="balance">Jumlah Churn</label>
         <input type="text" class="form-control" name="nama_grapari" id="nama_grapari">
       </div>
       <div class="form-group">

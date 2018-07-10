@@ -17,7 +17,7 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
         <?php } ?>
     <a class="mybtn btn-default" href="<?php echo site_url('Admin/saleschannel_export/asyn') ?>" download="<?php echo site_url('Admin/saleschannel_export/asyn') ?>">Export</a>
     </div></div>
-    <div class="panel-body" style="overflow: auto;">
+    <div class="panel-body" style="overflow: auto; font-size: 10px; font-family: tahoma;">
         <table id="sales_channel-table" class="display responsive nowrap" cellspacing="0" width="100%">
             <thead>    
                 <th>ID</th>
