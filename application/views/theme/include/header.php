@@ -337,6 +337,26 @@ $channel = array(0=>'ALL', 1=>'TSA', 2=>'MOGI', 3=>'MITRA AD', 4=>'MITRA DEVICE'
 </ul>
 </li>
 <?php } ?>
+<?php if($this->session->userdata('level')==4){ ?>
+<li class="has-sub">
+<a href="#"><i class="fa fa-book"></i>
+<span class="title">Target Sales</span></a>
+<ul class="collapse">
+    <li><a href="<?php echo site_url('Admin/target_add') ?>"><i class="fa fa-plus-square"></i> Add Target Sales</a></li>
+    <li><a href="<?php echo site_url('Admin/target_view') ?>"><i class="fa fa-book"></i> Data Target Sales</a></li>
+</ul>
+</li>
+<?php } ?>
+<?php if($this->session->userdata('level')==4){ ?>
+<li class="has-sub">
+<a href="#"><i class="fa fa-book"></i>
+<span class="title">Target Churn</span></a>
+<ul class="collapse">
+    <li><a href="<?php echo site_url('Admin/target_churn_add') ?>"><i class="fa fa-plus-square"></i> Add Target Churn</a></li>
+    <li><a href="<?php echo site_url('Admin/target_churn_view') ?>"><i class="fa fa-book"></i> Data Target Churn</a></li>
+</ul>
+</li>
+<?php } ?>
 <?php if($this->session->userdata('level')==3 || $this->session->userdata('level')==4 || $this->session->userdata('level')==5) { ?>
 <li class="has-sub">
 <a href="#"><i class="fa fa-university"></i>

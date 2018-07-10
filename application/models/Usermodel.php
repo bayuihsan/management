@@ -13,9 +13,10 @@ class Usermodel extends CI_Model{
 	
 	public function login($username,$password)
 	{
-		$this->db->select('a.*, b.nama_branch');
+		$this->db->select('a.*, b.nama_branch, c.id_region, c.nama_region');
 		$this->db->from('app_users a');
 		$this->db->join('branch b', 'b.branch_id = a.branch_id');
+		$this->db->join('region c', 'b.id_region = c.id_region','left');
 		$this->db->where('a.username',$username);
 		$this->db->where('a.password',$password);
 		$this->db->where('a.keterangan','Aktif');
@@ -30,6 +31,8 @@ class Usermodel extends CI_Model{
 				'no_hp'     	=> $userdata->no_hp,
 				'branch_id' 	=> $userdata->branch_id,
 				'nama_branch' 	=> $userdata->nama_branch,
+				'id_region' 	=> $userdata->id_region,
+				'nama_region' 	=> $userdata->nama_region,
 				'channel' 		=> $userdata->channel,
 				'level' 		=> $userdata->level,
 				'last_login' 	=> $userdata->last_login,

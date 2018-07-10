@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
             redirect('User');    
         }
         // $this->db2 = $this->load->database('hvc',TRUE);
-        $this->load->model(array('Adminmodel','Bastmodel','Regionmodel','Branchmodel','Churnmodel','Ctpmodel','Msisdnmodel','Custom_fieldsmodel','Datamodel','Feedbacksmodel','Generate_tablemodel','Graparimodel','Kategoripaketmodel','Paketmodel','Reasonmodel','Reportmodel','Sales_channelmodel','Salesmodel','Salespersonmodel','Usermodel','Usersmodel'));
+        $this->load->model(array('Adminmodel','Bastmodel','Regionmodel','Branchmodel','Targetsalesmodel','Targetchurnmodel','Churnmodel','Ctpmodel','Msisdnmodel','Custom_fieldsmodel','Datamodel','Feedbacksmodel','Generate_tablemodel','Graparimodel','Kategoripaketmodel','Paketmodel','Reasonmodel','Reportmodel','Sales_channelmodel','Salesmodel','Salespersonmodel','Usermodel','Usersmodel'));
     }
     
 	public function home($action=''){   
@@ -2233,6 +2233,306 @@ class Admin extends CI_Controller {
         
     }
     //end controller churn
+
+    //controller Target Sales
+    public function target_view($action='')
+    {   
+        $data=array();
+        $sess_branch = $this->session->userdata('branch_id');
+        if($this->session->userdata('level')==4){
+            $data['target']=$this->Targetsalesmodel->get_all(); 
+        }else{
+            $data['target']=$this->Targetsalesmodel->get_all_by($sess_branch); 
+        }
+        
+        if($action=='asyn'){
+            $this->load->view('content/target_sales/list',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/target_sales/list',$data);
+            $this->load->view('theme/include/footer');
+        }
+    }
+
+    /** Method For Add New Target and Target Page View **/    
+    public function target_add($action='',$param1='')
+    {
+        $data['branch']=$this->Branchmodel->get_all(); 
+        if($action=='asyn'){
+            $this->load->view('content/target_sales/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/target_sales/add',$data);
+            $this->load->view('theme/include/footer');
+        }
+        //----End Page Load------//
+        //----For Insert update and delete-----// 
+        if($action=='insert'){  
+            $data=array();
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['branch_id']      = $branch_id = addslashes($this->input->post('branch_id_t',true)); 
+            $data['tahun_target']   = $tahun = addslashes($this->input->post('tahun_target',true)); 
+            $data['bulan_target']   = $bulan = addslashes($this->input->post('bulan_target',true)); 
+            $data['nilai_target']   =addslashes($this->input->post('nilai_target',true)); 
+            $data['updated_by']     =addslashes($this->input->post('updated_by',true));  
+       
+            //-----Validation-----//   
+            $this->form_validation->set_rules('branch_id_t', 'Branch', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('tahun_target', 'Tahun', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('bulan_target', 'Bulan', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('nilai_target', 'Nilai target', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('updated_by', 'Updated by', 'trim|required|xss_clean');
+
+            if (!$this->form_validation->run() == FALSE)
+            {
+                $cek = $this->Targetsalesmodel->cek_target($branch_id, $tahun, $bulan);
+
+                if($do=='insert'){ 
+                    if($cek>0){
+                        echo "exist";
+                    }else{
+                        $this->db->insert('target_sales',$data); 
+                    
+                        echo "true"; 
+                    }
+                }else if($do=='update'){
+                    $id=$this->input->post('id_target',true);
+                    
+                    $this->db->where('id_target', $id);
+                    $this->db->update('target_sales', $data);
+
+                    echo "true";
+
+                }         
+                    
+            }else{
+                //echo "All Field Must Required With Valid Length !";
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+            }
+            //----End validation----//         
+        }
+        else if($action=='remove'){    
+            $this->db->delete('target_sales', array('id_target' => $param1));       
+        }
+    }
+
+    /** Method For get target information for target Edit **/ 
+    public function target_edits($id_target,$action='')
+    {
+        $data=array();
+        $data['edit_target']=getOld("id_target",$id_target,"target_sales");
+        $data['branch']=$this->Branchmodel->get_all();  
+        if($action=='asyn'){
+            $this->load->view('content/target_sales/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/target_sales/add',$data);
+            $this->load->view('theme/include/footer');
+        }    
+    }
+
+    public function target_export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $namaBulan = array("","Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agt","Sep","Okt","Nov","Des");
+            $table_columns = array("ID", "BRANCH", "BULAN", "NILAI TARGET", "UPDATED BY", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $sess_branch = $this->session->userdata('branch_id');
+            if($this->session->userdata('level')==4){
+                $data_target = $this->Targetsalesmodel->get_all();
+
+            }else{
+                $data_target = $this->Targetsalesmodel->get_all_by($sess_branch);
+            }
+            
+            $excel_row = 2;
+            foreach($data_target as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_target));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_branch));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $namaBulan[$row->bulan_target]."-".$row->tahun_target);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nilai_target));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->tanggal_update);
+                $excel_row++;
+            }
+
+            $filename = "Target-Sales-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
+    //end controller target sales
+
+    //controller Target CHurn
+    public function target_churn_view($action='')
+    {   
+        $data=array();
+        $sess_region = $this->session->userdata('id_region');
+        if($this->session->userdata('level')==4){
+            $data['target_churn']=$this->Targetchurnmodel->get_all(); 
+        }else{
+            $data['target_churn']=$this->Targetchurnmodel->get_all_by($sess_region); 
+        }
+        
+        if($action=='asyn'){
+            $this->load->view('content/target_churn/list',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/target_churn/list',$data);
+            $this->load->view('theme/include/footer');
+        }
+    }
+
+    /** Method For Add New Target and Target Page View **/    
+    public function target_churn_add($action='',$param1='')
+    {
+        $data['region']=$this->Regionmodel->get_all(); 
+        if($action=='asyn'){
+            $this->load->view('content/target_churn/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/target_churn/add',$data);
+            $this->load->view('theme/include/footer');
+        }
+        //----End Page Load------//
+        //----For Insert update and delete-----// 
+        if($action=='insert'){  
+            $data=array();
+            $do                     =addslashes($this->input->post('action',true));     
+            $data['id_region']      = $id_region = addslashes($this->input->post('id_region_t',true)); 
+            $data['tahun_target_churn']   = $tahun = addslashes($this->input->post('tahun_target_churn',true)); 
+            $data['bulan_target_churn']   = $bulan = addslashes($this->input->post('bulan_target_churn',true)); 
+            $data['nilai_target_churn']   =addslashes($this->input->post('nilai_target_churn',true)); 
+            $data['updated_by']     =addslashes($this->input->post('updated_by',true));  
+       
+            //-----Validation-----//   
+            $this->form_validation->set_rules('id_region_t', 'Region', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('tahun_target_churn', 'Tahun', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('bulan_target_churn', 'Bulan', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('nilai_target_churn', 'Nilai target', 'trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('updated_by', 'Updated by', 'trim|required|xss_clean');
+
+            if (!$this->form_validation->run() == FALSE)
+            {
+                $cek = $this->Targetchurnmodel->cek_target($id_region, $tahun, $bulan);
+
+                if($do=='insert'){ 
+                    if($cek>0){
+                        echo "exist";
+                    }else{
+                        $this->db->insert('target_churn',$data); 
+                    
+                        echo "true"; 
+                    }
+                }else if($do=='update'){
+                    $id=$this->input->post('id_target_churn',true);
+                    
+                    $this->db->where('id_target_churn', $id);
+                    $this->db->update('target_churn', $data);
+
+                    echo "true";
+
+                }         
+                    
+            }else{
+                //echo "All Field Must Required With Valid Length !";
+                echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
+            }
+            //----End validation----//         
+        }
+        else if($action=='remove'){    
+            $this->db->delete('target_churn', array('id_target_churn' => $param1));       
+        }
+    }
+
+    /** Method For get target churn information for target churn Edit **/ 
+    public function target_churn_edits($id_target,$action='')
+    {
+        $data=array();
+        $data['edit_target_churn']=getOld("id_target_churn",$id_target,"target_churn");
+        $data['region']=$this->Regionmodel->get_all();  
+        if($action=='asyn'){
+            $this->load->view('content/target_churn/add',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('content/target_churn/add',$data);
+            $this->load->view('theme/include/footer');
+        }    
+    }
+
+    public function target_churn_export($action=""){
+        if($action=="asyn"){
+            $object = new PHPExcel();
+
+            $object->setActiveSheetIndex(0);
+
+            $namaBulan = array("","Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agt","Sep","Okt","Nov","Des");
+            $table_columns = array("ID", "REGION", "BULAN", "NILAI TARGET", "UPDATED BY", "UPDATED");
+
+            $column = 0;
+
+            foreach($table_columns as $field)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+                $column++;
+            }
+
+            $sess_region = $this->session->userdata('id_region');
+            if($this->session->userdata('level')==4){
+                $data_target = $this->Targetchurnmodel->get_all();
+
+            }else{
+                $data_target = $this->Targetchurnmodel->get_all_by($sess_region);
+            }
+            
+            $excel_row = 2;
+            foreach($data_target as $row)
+            {
+                $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, strtoupper($row->id_target_churn));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, strtoupper($row->nama_region));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $namaBulan[$row->bulan_target_churn]."-".$row->tahun_target_churn);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, strtoupper($row->nilai_target_churn));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, strtoupper($row->nama));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->tanggal_update);
+                $excel_row++;
+            }
+
+            $filename = "Target-Churn-Exported-on-".date("Y-m-d-H-i-s").".xls";
+
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");;
+            header("Content-Disposition: attachment;filename=$filename");
+            $object_writer->save('php://output');
+        }
+        
+    }
+    //end controller target churn
 
     //controller grapari
     public function grapari_view($action='')
