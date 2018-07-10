@@ -44,4 +44,16 @@ class Churnmodel extends CI_Model{
 		return $result;
 		 
 	} 
+
+	public function cek_churn($branch_id,$tanggal_churn)
+	{
+		$this->db->select('*');
+		$this->db->from('churn');
+		$this->db->where('branch_id',$branch_id);
+		$this->db->where('tanggal_churn',$tanggal_churn);
+		$query=$this->db->get();
+		$row_count=$query->num_rows();
+		
+		return $row_count;
+	}	
 }

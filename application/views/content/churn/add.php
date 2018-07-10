@@ -124,7 +124,7 @@ $(document).ready(function(){
   $('#add-churn').on('submit',function(){     
     var tanggal_churn = $('#tanggal_churn').val(); 
     var nilai_churn = $('#nilai_churn').val(); 
-    
+
     var date1           = new Date(tanggal_churn);
 
     var today = new Date(); 
@@ -145,7 +145,11 @@ $(document).ready(function(){
         beforeSend : function(){
           $(".block-ui").css('display','block'); 
         },success : function(data){ 
-          if(data=="true"){  
+          if(data == "exist"){
+            $(".block-ui").css('display','none'); 
+            swal({title: "Add Failed", text: "Data churn sudah ada<br><br>", type:"warning", html:true});
+            return false;
+          }else if(data=="true"){  
             // sucessAlert("Saved Sucessfully"); 
             $(".block-ui").css('display','none'); 
             if($("#action").val()!='update'){        

@@ -2123,8 +2123,8 @@ class Admin extends CI_Controller {
         if($action=='insert'){  
             $data=array();
             $do                     =addslashes($this->input->post('action',true));     
-            $data['branch_id']      =addslashes($this->input->post('branch_id_c',true)); 
-            $data['tanggal_churn']  =addslashes(date('Y-m-d', strtotime($this->input->post('tanggal_churn',true)))); 
+            $data['branch_id']      = $branch_id = addslashes($this->input->post('branch_id_c',true)); 
+            $data['tanggal_churn']  = $tanggal_churn = addslashes(date('Y-m-d', strtotime($this->input->post('tanggal_churn',true)))); 
             $data['nilai_churn']    =addslashes($this->input->post('nilai_churn',true)); 
             $data['updated_by']     =addslashes($this->input->post('updated_by',true));  
        
@@ -2136,12 +2136,16 @@ class Admin extends CI_Controller {
 
             if (!$this->form_validation->run() == FALSE)
             {
-                if($do=='insert'){ 
+                $cek = $this->Churnmodel->cek_churn($branch_id, $tanggal_churn);
 
-                    $this->db->insert('churn',$data); 
+                if($do=='insert'){ 
+                    if($cek>0){
+                        echo "exist";
+                    }else{
+                        $this->db->insert('churn',$data); 
                     
-                    echo "true";    
-                    
+                        echo "true"; 
+                    }
                 }else if($do=='update'){
                     $id=$this->input->post('id_churn',true);
                     
@@ -2151,6 +2155,7 @@ class Admin extends CI_Controller {
                     echo "true";
 
                 }         
+                    
             }else{
                 //echo "All Field Must Required With Valid Length !";
                 echo validation_errors('<span class="ion-android-alert failedAlert2"> ','</span>');
