@@ -34,4 +34,44 @@ class Adminmodel extends CI_Model{
 
 		return $last_result;
 	}    
+
+	public function getCurMont( $lm='', $tgl=''){
+		//Get Current Day PSB, Expense AND Current Month PSB
+		date_default_timezone_set(get_current_setting('timezone'));	
+		$lm=date('Y-m-d', strtotime($lm));	
+		$date=date('Y-m-d', strtotime($tgl));	
+
+		//Current Month Sales
+		$sales_query=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb 
+			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'");	
+		$sales_result=$sales_query->row();
+
+		//Last Month Sales
+		$sales_lm_query=$this->db->query("SELECT count(psb_id) as amount 
+			FROM new_psb 
+			WHERE status='sukses' AND DATE_FORMAT(tanggal_aktif,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'");	
+		$sales_lm_result=$sales_lm_query->row();
+
+		//Current Month Churn
+		$churn_query=$this->db->query("SELECT sum(nilai_churn) as amount 
+			FROM churn 
+			WHERE DATE_FORMAT(tanggal_churn,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'");	
+		$churn_result=$churn_query->row();
+
+		//Last Month Churn
+		$churn_lm_query=$this->db->query("SELECT sum(nilai_churn) as amount 
+			FROM churn 
+			WHERE DATE_FORMAT(tanggal_churn,'%Y-%m-%d') between ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'");	
+		$churn_lm_result=$churn_lm_query->row();
+
+		$transaction=array(
+			"sales"=> isset($sales_result->amount) ? $sales_result->amount : 0,
+			"sales_lm"=> isset($sales_lm_result->amount) ? $sales_lm_result->amount : 0,
+			"churn"=> isset($churn_result->amount) ? $churn_result->amount : 0,
+			"churn_lm"=> isset($churn_lm_result->amount) ? $churn_lm_result->amount : 0,
+		);	
+
+		return $transaction;
+	}
 }
