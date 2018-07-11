@@ -39,10 +39,14 @@ $sales = $bulan_ini['sales'];
 $churn = $bulan_ini['churn'];
 $sales_lm = $bulan_ini['sales_lm'];
 $churn_lm = $bulan_ini['churn_lm'];
+$sales_ly = $bulan_ini['sales_ly'];
+$churn_ly = $bulan_ini['churn_ly'];
 
 $netadd = $sales-$churn; 
 $netadd_lm= $sales_lm-$churn_lm; 
+$netadd_ly= $sales_ly-$churn_ly; 
 
+// MOM
 if($sales_lm > 0){
     $mom_sales = (($sales-$sales_lm)/$sales_lm)*100; 
 }else{
@@ -91,6 +95,55 @@ if($mom_netadd < 0){
     $warna_netadd = "green";
 }
 
+// YOY
+if($sales_ly > 0){
+    $yoy_sales = (($sales-$sales_ly)/$sales_ly)*100; 
+}else{
+    $yoy_sales = 0;
+}
+
+if($churn_ly > 0){
+    $yoy_churn = (($churn-$churn_ly)/$churn_ly)*100; 
+}else{
+    $yoy_churn = 0;
+}
+
+if($netadd_ly > 0){
+    $yoy_netadd = (($netadd-$netadd_ly)/$netadd_ly)*100; 
+}else{
+    $yoy_netadd = 0;
+}
+
+if($yoy_sales < 0){
+    $yoy_sales = decimalPlace($yoy_sales);
+    $icon_sales_yoy = "down";
+    $warna_sales_yoy = "red";
+}else{
+    $yoy_sales = decimalPlace($yoy_sales);
+    $icon_sales_yoy = "up";
+    $warna_sales_yoy = "green";
+}
+
+if($yoy_churn < 0){
+    $yoy_churn = decimalPlace($yoy_churn);
+    $icon_churn_yoy = "down";
+    $warna_churn_yoy = "green";
+}else{
+    $yoy_churn = decimalPlace($yoy_churn);
+    $icon_churn_yoy = "up";
+    $warna_churn_yoy = "red";
+}
+
+if($yoy_netadd < 0){
+    $yoy_netadd = decimalPlace($yoy_netadd);
+    $icon_netadd_yoy = "down";
+    $warna_netadd_yoy = "red";
+}else{
+    $yoy_netadd = decimalPlace($yoy_netadd);
+    $icon_netadd_yoy = "up";
+    $warna_netadd_yoy = "green";
+}
+
 // echo "Sales ".$sales." - ".$sales_lm.", Churn - ".$churn." - ".$churn_lm.", Netadd - ".$netadd." - ".$netadd_lm;
 // echo "MoM Sales ".$mom_sales.", MoM Churn ".$mom_churn.", MoM Netadd ".$mom_netadd;
 ?>
@@ -105,7 +158,9 @@ if($mom_netadd < 0){
         <!-- /.box-header -->
         <div class="box-body">
             <center><span class="info-box-number"><?php echo number_format($sales)?></span>
-            <span style="color: <?php echo $warna_sales?>">MoM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_sales ?>"></i> <?php echo $mom_sales?>%</span> </center>
+                <span style="color: <?php echo $warna_sales?>">MoM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_sales ?>"></i> <?php echo $mom_sales?>%</span> <br>
+                <span style="color: <?php echo $warna_sales_yoy?>">YoY &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_sales_yoy ?>"></i> <?php echo $yoy_sales?>%</span>
+            </center>
         </div>
         <div class="overlay" style="display: none">
           <i class="fa fa-refresh fa-spin"></i>
@@ -121,8 +176,10 @@ if($mom_netadd < 0){
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-             <center><span class="info-box-number"id="row1_pinjaman_nilai"><?php echo number_format($churn)?></span>
-            <span style="color: <?php echo $warna_churn?>">MoM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_churn ?>"></i> <?php echo $mom_churn?>%</span> </center>
+            <center><span class="info-box-number"id="row1_pinjaman_nilai"><?php echo number_format($churn)?></span>
+                <span style="color: <?php echo $warna_churn?>">MoM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_churn ?>"></i> <?php echo $mom_churn?>%</span>  <br>
+                <span style="color: <?php echo $warna_sales_yoy?>">YoY &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_sales_yoy ?>"></i> <?php echo $yoy_churn?>%</span>
+            </center>
         </div>
         <div class="overlay" style="display: none">
           <i class="fa fa-refresh fa-spin"></i>
@@ -139,7 +196,9 @@ if($mom_netadd < 0){
         <!-- /.box-header -->
         <div class="box-body">
             <center><span class="info-box-number" id="row1_npl_nilai"><?php echo number_format($netadd)?></span>
-            <span style="color: <?php echo $warna_netadd?>">MoM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_netadd ?>"></i> <?php echo $mom_netadd?>%</span> </center>
+                <span style="color: <?php echo $warna_netadd?>">MoM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_netadd ?>"></i> <?php echo $mom_netadd?>%</span> <br>
+                <span style="color: <?php echo $warna_sales_yoy?>">YoY &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-caret-<?php echo $icon_sales_yoy ?>"></i> <?php echo $yoy_netadd ?>%</span>
+            </center>
         </div>
         <div class="overlay" style="display: none">
           <i class="fa fa-refresh fa-spin"></i>

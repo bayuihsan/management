@@ -53,7 +53,7 @@ class Admin extends CI_Controller {
         $data['branch']=$this->Branchmodel->get_all();
         if($action=='asyn'){
             $param1 = $tanggal->tgl_max;
-            $data['bulan_ini'] = $this->Adminmodel->getCurMont($lm,$param1);
+            $data['bulan_ini'] = $this->Adminmodel->getCurMont($ly,$lm,$param1);
             // $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
@@ -67,7 +67,7 @@ class Admin extends CI_Controller {
             $this->load->view('content/index',$data);
         }else if($action==''){
             $param1 = $tanggal->tgl_max;
-            $data['bulan_ini'] = $this->Adminmodel->getCurMont($lm,$param1);
+            $data['bulan_ini'] = $this->Adminmodel->getCurMont($ly,$lm,$param1);
             // $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
@@ -85,7 +85,7 @@ class Admin extends CI_Controller {
             $data['max_tanggal'] = $param1 = $param1;
             $data['lmonth'] = $lm = date('Y-m-d', strtotime('-1 month', strtotime( $param1 )));
             $data['lyear'] = $ly = date('Y-m-d', strtotime('-1 year', strtotime( $param1 )));
-            $data['bulan_ini'] = $this->Adminmodel->getCurMont($lm,$param1);
+            $data['bulan_ini'] = $this->Adminmodel->getCurMont($ly,$lm,$param1);
             // $data['cart_summery']=$this->Reportmodel->getCurMont($param1);
             $data['line_chart']=$this->Reportmodel->dayByDaySales($param1);
             $data['top_branch']=$this->Reportmodel->getTopBranch(20,$ly,$lm,$param1);
