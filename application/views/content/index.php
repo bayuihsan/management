@@ -61,7 +61,8 @@ if($netadd_lm > 0){
     $mom_netadd = 0;
 }
 
-if($mom_sales == 0){
+if($mom_sales < 0){
+    $mom_sales = decimalPlace($mom_sales);
     $icon_sales = "down";
     $warna_sales = "red";
 }else{
@@ -70,7 +71,8 @@ if($mom_sales == 0){
     $warna_sales = "green";
 }
 
-if($mom_churn == 0){
+if($mom_churn < 0){
+    $mom_churn = decimalPlace($mom_churn);
     $icon_churn = "down";
     $warna_churn = "green";
 }else{
@@ -79,7 +81,8 @@ if($mom_churn == 0){
     $warna_churn = "red";
 }
 
-if($mom_netadd == 0){
+if($mom_netadd < 0){
+    $mom_netadd = decimalPlace($mom_netadd);
     $icon_netadd = "down";
     $warna_netadd = "red";
 }else{
