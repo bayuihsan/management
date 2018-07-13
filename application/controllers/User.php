@@ -5,7 +5,7 @@ class User extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-		$this->db2 = $this->load->database('hvc',TRUE);
+		// $this->db2 = $this->load->database('hvc',TRUE);
         $this->load->model(array('Usermodel'));
 
 		/*cash control*/

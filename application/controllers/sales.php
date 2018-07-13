@@ -15,7 +15,7 @@ class sales extends CI_Controller {
             redirect('User');    
         }
         date_default_timezone_set(get_current_setting('timezone')); 
-        $this->db2 = $this->load->database('hvc', TRUE);
+        // $this->db2 = $this->load->database('hvc', TRUE);
         $this->load->model(array('bastmodel','salesmodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel','Reasonmodel'));
     }
     

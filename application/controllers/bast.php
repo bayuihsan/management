@@ -12,7 +12,7 @@ class bast extends CI_Controller {
             redirect('User');    
         }
         date_default_timezone_set("Asia/Bangkok"); 
-        $this->db2 = $this->load->database('hvc', TRUE);
+        // $this->db2 = $this->load->database('hvc', TRUE);
         $this->load->model(array('bastmodel','salesmodel','graparimodel','Branchmodel','Reportmodel','Sales_channelmodel','Paketmodel','usersmodel','Salespersonmodel','Sales_channelmodel','Msisdnmodel','Reasonmodel'));
     }
     

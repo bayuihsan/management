@@ -11,7 +11,7 @@ class sales_channel extends CI_Controller {
         if($this->session->userdata('logged_in')==FALSE){
             redirect('User');    
         }
-        $this->db2 = $this->load->database('hvc',TRUE);
+        // $this->db2 = $this->load->database('hvc',TRUE);
         $this->load->model(array('sales_channelmodel','Branchmodel'));
     }
     
