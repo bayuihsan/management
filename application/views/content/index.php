@@ -262,7 +262,14 @@ if($yoy_netadd < 0){
             <th style="background-color: #2574A9; color: white">OTHERS</th>
             <th style="background-color: #2574A9; color: white">TOTAL</th>
          </tr>
-         <?php $no=1; foreach($branch_info as $binfo) { ?>   
+
+         <?php $no=1; 
+            $tot_tsa_lm = 0;  $tot_tsa_tm = 0;
+            $tot_mad_lm = 0;  $tot_mad_tm = 0;
+            $tot_mdev_lm = 0; $tot_mdev_tm = 0;
+            $tot_oth_lm = 0;  $tot_oth_tm = 0;
+         
+            foreach($branch_info as $binfo) { ?>   
             <tr>
                 <td><b> <?php echo strtoupper($binfo->nama_branch) ?></b></td>
                 <!-- last month -->
@@ -323,7 +330,7 @@ if($yoy_netadd < 0){
                     } ?>
                 <td class="text-right" <?php echo $style?>><?php  echo $mdev_mom.' %'; ?></td>
 
-                <?php if($oth_lm == 0){ 
+                <?php if($oth_lm == 0) { 
                         $oth_mom = '0'; 
                         $style = "style='background-color:#D3D3D3'";
                     }else{ 
@@ -336,6 +343,7 @@ if($yoy_netadd < 0){
                             $style = "style='background-color:#D3D3D3'";
                         }
                     } ?>
+
                 <td class="text-right" <?php echo $style?>><?php  echo $oth_mom.' %'; ?></td>
 
                 <?php if($total_lm == 0){ 
@@ -353,7 +361,97 @@ if($yoy_netadd < 0){
                     } ?>
                 <td class="text-right" <?php echo $style?>><?php  echo $total_mom.' %'; ?></td>
             </tr>
-          <?php } ?>  
+
+          <?php 
+                $tot_tsa_lm  = $tot_tsa_lm  + $tsa_lm;  $tot_tsa_tm  = $tot_tsa_tm  + $tsa_tm;
+                $tot_mad_lm  = $tot_mad_lm  + $mad_lm;  $tot_mad_tm  = $tot_mad_tm  + $mad_tm;
+                $tot_mdev_lm = $tot_mdev_lm + $mdev_lm; $tot_mdev_tm = $tot_mdev_tm + $mdev_tm;
+                $tot_oth_lm  = $tot_oth_lm  + $oth_lm;  $tot_oth_tm  = $tot_oth_tm  + $oth_tm;
+            } ?>
+
+         <tr>
+            <td style="background-color: #2574A9; color: white" class="text-center" >TOTAL</td> 
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_tsa_lm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_mad_lm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_mdev_lm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_oth_lm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($sales_lm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_tsa_tm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_mad_tm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_mdev_tm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_oth_tm)?></td>
+            <td style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($sales)?></td>
+            <?php if($tot_tsa_lm == 0){ 
+                        $tsa_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tsa_mom = (($tot_tsa_tm-$tot_tsa_lm)/$tot_tsa_lm)*100; $tsa_mom = decimalPlace($tsa_mom);
+                        if($tsa_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($tsa_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $tsa_mom.' %'; ?></td>
+            <?php if($tot_mad_lm == 0){ 
+                        $mad_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $mad_mom = (($tot_mad_tm-$tot_mad_lm)/$tot_mad_lm)*100; $mad_mom = decimalPlace($mad_mom);
+                        if($mad_mom > 0){
+                            $style =  "style='background-color:#7CFC00'";
+                        }else if($mad_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style  = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $mad_mom.' %'; ?></td>
+            <?php if($tot_mdev_lm == 0){ 
+                        $mdev_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tot_mdev_mom = (($tot_mdev_tm-$tot_mdev_lm)/$tot_mdev_lm)*100; $mdev_mom = decimalPlace($mdev_mom);
+                        if($mdev_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($mdev_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $mdev_mom.' %'; ?></td>
+                <?php if($tot_oth_lm == 0) { 
+                        $oth_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tot_oth_mom = (($tot_oth_tm-$tot_oth_lm)/$tot_oth_lm)*100; $oth_mom = decimalPlace($oth_mom);
+                        if($oth_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($oth_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $oth_mom.' %'; ?></td>
+            <?php if($sales_lm == 0) { 
+                        $sales_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $sales_mom = (($sales-$sales_lm)/$sales_lm)*100; $sales_mom = decimalPlace($sales_mom);
+                        if($sales_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($sales_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $sales_mom.' %'; ?></td>
+         </tr>  
 
         </table>
 
@@ -382,7 +480,12 @@ if($yoy_netadd < 0){
             <th style="background-color: black; color: white" class="text-right">%MOM</th>
             <th style="background-color: black; color: white" class="text-right">%YOY</th>
             <th style="background-color: black; color: white" class="text-right">Flag</th>
-         <?php $no=1; foreach($top_branch as $top){ ?>   
+         <?php $no=1; 
+         $tot_ly = 0;
+         $tot_lm = 0;
+         $tot_tm = 0;
+
+         foreach($top_branch as $top){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
                 <td><?php echo strtoupper($top->nama_branch) ?></td>
@@ -423,8 +526,49 @@ if($yoy_netadd < 0){
                         $src ="";
                     } ?>
                 <td><?php echo $src?></td>
-                <?php } ?>
-            </tr>  
+                <?php 
+                $tot_ly = $tot_ly + $ly; 
+                $tot_lm = $tot_lm + $lm; 
+                $tot_tm = $tot_tm + $tm; 
+                } ?>
+            </tr>
+
+            <tr>
+            <td style="background-color: black; color: white" colspan="2" class="text-center" >TOTAL</td>
+            <td style="background-color: black; color: white" class="text-center" ><?php echo number_format($tot_ly)?></td>
+            <td style="background-color: black; color: white" class="text-center" ><?php echo number_format($tot_lm)?></td>
+            <td style="background-color: black; color: white" class="text-center" ><?php echo number_format($tot_tm)?></td>
+                <?php if($tot_tm == 0) { 
+                        $tm_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tm_mom = (($tot_tm-$tot_lm)/$tot_lm)*100; $tm_mom = decimalPlace($tm_mom);
+                        if($tm_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($tm_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $tm_mom.' %'; ?></td>
+                <?php if($tot_ly == 0){ 
+                        $tot_yoy = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tot_yoy = (($tot_ly-$tot_tm)/$tot_tm)*100; $tot_yoy = decimalPlace($tot_yoy);
+                        if($tot_yoy > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($tot_yoy < 0){
+                            $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $tot_yoy.' %'; ?></b></td>
+            </tr>
+
+
         </table>
     </div>
     <!--End Panel Body-->
@@ -464,7 +608,11 @@ if($yoy_netadd < 0){
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
             <th style="background-color: black; color: white" class="text-right">%MOM</th>
             <th style="background-color: black; color: white" class="text-right">%YOY</th>
-        <?php $no=1; foreach($top_paket as $paket){ ?>   
+        <?php $no=1; 
+            $tot_ly_paket = 0; 
+            $tot_lm_paket = 0; 
+            $tot_tm_paket = 0;
+        foreach($top_paket as $paket){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
                 <td><b><?php echo strtoupper($paket->nama_paket) ?></b></td>
@@ -501,7 +649,46 @@ if($yoy_netadd < 0){
                 <td class="text-right" <?php echo $style_paket?>><b><?php  echo $yoy_paket.' %'; ?></b></td>
             </tr>
 
-        <?php } ?>  
+        <?php 
+            $tot_ly_paket = $tot_ly_paket + $ly_paket; 
+            $tot_lm_paket = $tot_lm_paket + $lm_paket; 
+            $tot_tm_paket = $tot_tm_paket + $tm_paket; 
+        } ?>
+         <tr>
+            <td style="background-color: black; color: white" colspan="2" class="text-center" >TOTAL</td>
+            <td style="background-color: black; color: white" class="text-center" ><?php echo number_format($tot_ly_paket)?></td>
+            <td style="background-color: black; color: white" class="text-center" ><?php echo number_format($tot_lm_paket)?></td>
+            <td style="background-color: black; color: white" class="text-center" ><?php echo number_format($tot_tm_paket)?></td>
+                <?php if($tot_tm_paket == 0) { 
+                        $tm_paket_mom = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tm_paket_mom = (($tot_tm_paket-$tot_lm_paket)/$tot_lm_paket)*100; $tm_paket_mom = decimalPlace($tm_paket_mom);
+                        if($tm_paket_mom > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($tm_paket_mom < 0){
+                             $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+            <td class="text-right" <?php echo $style?>><?php  echo $tm_paket_mom.' %'; ?></td>
+
+                <?php if($tot_ly_paket == 0){ 
+                        $tot_paket_yoy = '0'; 
+                        $style = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $tot_paket_yoy = (($tot_tm_paket-$tot_ly_paket)/$tot_ly_paket)*100; $tot_paket_yoy = decimalPlace($tot_paket_yoy);
+                        if($tot_paket_yoy > 0){
+                            $style = "style='background-color:#7CFC00'";
+                        }else if($tot_paket_yoy < 0){
+                            $style = "style='background-color:#F08080'";
+                        }else{
+                            $style = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style?>><b><?php  echo $tot_paket_yoy.' %'; ?></b></td>
+            </tr>  
         </table>
     </div>
 
@@ -655,7 +842,10 @@ if($yoy_netadd < 0){
             <th style="background-color: black; color: white" class="text-right"><?php echo strtoupper(date('M-Y',strtotime($max_tanggal)));?></th>
             <th style="background-color: black; color: white" class="text-right">%MOM</th>
             <th style="background-color: black; color: white" class="text-right">%YOY</th>
-        <?php $no=1; foreach($top_channel as $channel){ ?>   
+        <?php $no=1; 
+            $tot_lm_channel = 0;  $tot_tm_channel = 0;
+            $tot_ly_channel = 0;
+        foreach($top_channel as $channel){ ?>   
             <tr>
                 <td class="text-center"><b><?php echo $no++; ?></b></td>
                 <td><b><?php echo strtoupper($data_cn[$channel->sales_channel]) ?></b></td>
@@ -692,8 +882,46 @@ if($yoy_netadd < 0){
                 <td class="text-right" <?php echo $style_channel?>><b><?php  echo $yoy_channel.' %'; ?></b></td>
             </tr>
 
-        <?php } ?>
+        <?php 
+        $tot_ly_channel  = $tot_ly_channel  + $ly_channel;  
+        $tot_lm_channel  = $tot_lm_channel  + $lm_channel;  
+        $tot_tm_channel  = $tot_tm_channel  + $tm_channel;
+        } ?>
+        <tr>
+            <th style="background-color: #2574A9; color: white" colspan="2" class="text-center" >TOTAL</th> 
+            <th style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_ly_channel)?></th>
+            <th style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_lm_channel)?></th>
+            <th style="background-color: #2574A9; color: white" class="text-center" ><?php echo number_format($tot_tm_channel)?></th>
+                <?php if($tot_lm_channel == 0){ 
+                        $mm_channel = '0'; 
+                        $style_channel = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $mm_channel = (($tot_tm_channel-$tot_lm_channel)/$tot_lm_channel)*100; $mm_channel = decimalPlace($mm_channel);
+                        if($mm_channel > 0){
+                            $style_channel = "style='background-color:#7CFC00'";
+                        }else if($mm_channel < 0){
+                            $style_channel = "style='background-color:#F08080'";
+                        }else{
+                            $style_channel = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style_channel?>><b><?php  echo $mm_channel.' %'; ?></b></td>
 
+                <?php if($tot_ly_channel == 0){ 
+                        $yy_channel = '0'; 
+                        $style_channel = "style='background-color:#D3D3D3'";
+                    }else{ 
+                        $yy_channel = (($tot_tm_channel-$tot_ly_channel)/$tot_ly_channel)*100; $yy_channel = decimalPlace($yy_channel);
+                        if($yy_channel > 0){
+                            $style_channel = "style='background-color:#7CFC00'";
+                        }else if($yy_channel < 0){
+                            $style_channel = "style='background-color:#F08080'";
+                        }else{
+                            $style_channel = "style='background-color:#D3D3D3'";
+                        }
+                    } ?>
+                <td class="text-right" <?php echo $style_channel?>><b><?php  echo $yy_channel.' %'; ?></b></td>
+        </tr>
         </table>
     </div>
     <!--End Panel Body-->

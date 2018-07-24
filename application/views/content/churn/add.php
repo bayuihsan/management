@@ -11,7 +11,7 @@
 </div>
 <!--End Alert-->
 
-<div class="col-md-8 col-lg-8 col-sm-8 branch-div">
+<div class="col-md-6 col-lg-6 col-sm-6">
 <!--Start Panel-->
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -50,9 +50,27 @@
       </div>    
       <button type="submit" class="mybtn btn-submit"><i class="fa fa-check"></i> Save</button>
       <a href="<?php echo base_url()?>Admin/churn_view" class="mybtn btn-warning kembali"><i class="fa fa-backward"></i> Back</a>
-    </form>
+      </form>
+    </div>
+  </div>
+          <div  class="col-lg-6">
+           <ul class="list-group">
+          <button type="button" class="list-group-item list-group-item-dark">
+              Upload Churn From Excel
+          </button>
+            <li class="list-group-item">
+              <?php echo form_open_multipart('Uploadchurn/update');?>
+                <input type="file" name="file" size="20" id='files'/>
+                <input type="hidden" name="id_users_up" value="<?php echo $this->session->userdata('id_users');?>">
+          <br>
+              <a href="<?php echo base_url()?>assets/ctp/template/upload_msisdn.xls" download="upload_msisdn.xls">Download Format File</a>
+          <br>
+              <button type="submit" class="mybtn btn-submit">Save</button>
+          </form>
+            </li>
+          </ul>
+        </div>
     <?php }else{ ?>
-
     <form id="add-churn">
       <input type="hidden" name="action" id="action" value="update"/>  
       <input type="hidden" name="id_churn" id="id_churn" value="<?php echo $edit_churn->id_churn ?>"/>   
