@@ -379,8 +379,86 @@ class Reportmodel extends CI_Model{
 		return array($central_jakpusel, $cirebon, $bogor, $karawang, $banten, $tasikmalaya, $bandung, $jakarta_barat, $central_jakutim, $soreang);
 	}
 
+	public function getSCNWeekly($limit=0,  $ly='', $lm='', $tgl='')
+	{
+		$ly=date('Y-m-d', strtotime($ly));
+		$lm=date('Y-m-d', strtotime($lm));
+		$date=date('Y-m-d', strtotime($tgl));
+		$tahun_date = date('Y', strtotime($tgl));
+		$bulan_date = date('m', strtotime($tgl));
+		$sukses_query=$this->db->query("SELECT id_region, nama_region ,
+				IFNULL((SELECT COUNT(p.psb_id) 
+					FROM new_psb p
+					JOIN branch q ON p.branch_id=q.branch_id
+					WHERE p.STATUS='sukses' 
+					AND q.id_region=a.id_region 
+					AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month',
+				IFNULL((SELECT sum(p.nilai_target) 
+					FROM target_sales p
+					JOIN branch q ON p.branch_id=q.branch_id
+					WHERE p.tahun_target='".$tahun_date."' and p.bulan_target='".intval($bulan_date)."'
+					AND q.id_region=a.id_region),0) AS 'target_this_month',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb p 
+					JOIN branch q ON p.branch_id=q.branch_id
+					WHERE p.STATUS='sukses' 
+					AND q.id_region=a.id_region 
+					AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+				IFNULL((SELECT COUNT(psb_id) 
+					FROM new_psb p 
+					JOIN branch q ON p.branch_id=q.branch_id
+					WHERE p.STATUS='sukses' 
+					AND q.id_region=a.id_region 
+					AND DATE_FORMAT(p.tanggal_aktif, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year'
+
+				FROM region a
+				ORDER BY a.id_region ASC
+			")->result();
+
+		$result=$sukses_query;
+		return $result;
+	}
+
+	public function getSCNWeeklyChurn($limit=0,  $ly='', $lm='', $tgl='')
+	{
+		$ly=date('Y-m-d', strtotime($ly));
+		$lm=date('Y-m-d', strtotime($lm));
+		$date=date('Y-m-d', strtotime($tgl));
+		$tahun_date = date('Y', strtotime($tgl));
+		$bulan_date = date('m', strtotime($tgl));
+		$sukses_query=$this->db->query("SELECT id_region, nama_region ,
+				IFNULL((SELECT SUM(p.nilai_churn) 
+					FROM churn p
+					RIGHT JOIN branch q ON p.branch_id=q.branch_id
+					WHERE q.id_region=a.id_region 
+					AND DATE_FORMAT(p.tanggal_churn, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$date."',INTERVAL 1 MONTH)), 1) AND '".$date."'),0) AS 'this_month',
+				IFNULL((SELECT sum(p.nilai_target_churn) 
+					FROM target_churn p
+					RIGHT JOIN branch q ON p.branch_id=q.branch_id
+					WHERE p.tahun_target_churn='".$tahun_date."' and p.bulan_target_churn='".intval($bulan_date)."'
+					AND q.id_region=a.id_region),0) AS 'target_this_month',
+				IFNULL((SELECT SUM(p.nilai_churn) 
+					FROM churn p 
+					RIGHT JOIN branch q ON p.branch_id=q.branch_id
+					WHERE q.id_region=a.id_region 
+					AND DATE_FORMAT(p.tanggal_churn, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$lm."',INTERVAL 1 MONTH)), 1) AND '".$lm."'),0) AS 'last_month',
+				IFNULL((SELECT SUM(p.nilai_churn) 
+					FROM churn p 
+					RIGHT JOIN branch q ON p.branch_id=q.branch_id
+					WHERE q.id_region=a.id_region 
+					AND DATE_FORMAT(p.tanggal_churn, '%Y-%m-%d') BETWEEN ADDDATE(LAST_DAY(SUBDATE('".$ly."',INTERVAL 1 MONTH)), 1) AND '".$ly."'),0) AS 'last_year'
+					
+				FROM region a
+				ORDER BY a.id_region ASC
+			")->result();
+
+		$result=$sukses_query;
+		return $result;
+	}
+
 	//get top branch information 
 	//1.TSA, 2. MOGI, 3.MITRA AD, 4.MITRA DEVICE, 5.OTHERS
+	
 	public function getBranchInfo($limit=0, $lm='', $tgl='')
 	{
 		$date=date('Y-m-d', strtotime($tgl));

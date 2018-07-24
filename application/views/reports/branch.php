@@ -112,7 +112,7 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
 </div><!--End Inner container-->
 </div><!--End Row-->
 </div><!--End Main-content DIV-->
-</section><!--End Main-content Section--a
+</section><!--End Main-content Section-->
 
 <!--<script src="<?php echo base_url() ?>/theme/js/pdf/jspdf.debug.js"></script>-->
 

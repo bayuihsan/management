@@ -23,23 +23,11 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
     <div class="panel-heading">SCN Report Weekly</div>
     <div class="panel-body">
         <div class="col-md-12 col-lg-12 col-sm-12 report-params">
-            <form id="sales_cari" action="<?php echo site_url('Admin/reports_scn_weekly/view') ?>">
-                <div class="col-md-3 col-lg-3 col-sm-3"> 
-                    <select class="form-control" name="vbranch" id="vbranch">
-                        <?php foreach($branch as $row){ 
-                            if($vbranch == $row->branch_id){ ?>
-                            <option value="<?php echo $row->branch_id?>" selected><?php echo $row->branch_id.' - '.$row->nama_branch?></option>
-                        <?php }else{ ?>
-                            <option value="<?php echo $row->branch_id?>"><?php echo $row->branch_id.' - '.$row->nama_branch?></option>
-                         <?php } 
-                        }?>
-                    </select> 
-                </div>
-
+            <form id="sales_cari" action="<?php echo site_url('Reports/reports_scn_weekly/view') ?>">
                 <div class="col-md-2 col-lg-2 col-sm-2"> 
                     <div class="form-group"> 
                         <div class='input-group'>
-                            <input type="text" class="form-control" placeholder="<?php echo isset($bto_date) ? $bto_date : "Date To" ?>" name="vto-date" id="vto-date"/> 
+                            <input type="text" class="form-control" placeholder="<?php echo isset($bto_date) ? $bto_date : "Date To" ?>" name="vto-date" id="vto-date" readonly/> 
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>  
@@ -52,10 +40,6 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                 </div>
             </form>
         </div>
-
-        <div class="Report-Toolbox col-md-6 col-lg-6 col-sm-6 col-md-offset-6 col-lg-offset-6 col-sm-offset-6">
-        <button type="button" class="btn btn-primary print-btn"><i class="fa fa-print"></i> Print</button>
-        </div>
         <div id="Report-Table" class="col-md-12 col-lg-12 col-sm-12">
             <div class="preloader"><img src="<?php echo base_url() ?>theme/images/ring.gif"></div>
             <div class="report-heading">
@@ -64,26 +48,26 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
             <style style="text/css">
                 /* Define the hover highlight color for the table row */
                 .hoverTable tr:hover {
-                      background-color: #b8d1f3;
+                    background-color: #b8d1f3;
                 }
             </style>
             <div id="Table-div" style="overflow: auto; font-size: 9px; font-family: tahoma; font-style: italic; height: 0.1%;">
                 <table class="table table-bordered  hoverTable">
                     <thead>
-                        <tr> 
+                        <tr>
                             <th rowspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>AREA-2</b></th>
                             <th colspan="7" style="background-color: #1e3799; color: white;" class="text-center"><b>CURRENT MONTH</b></th>
                             <th colspan="5" style="background-color: #1e3799; color: white;" class="text-center"><b>CUMMULATIVE</b></th>
                             <th colspan="4" style="background-color: #1e3799; color: white;" class="text-center"><b>FY 2018</b></th>
                         </tr>
                         <tr>
-                            <th colspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>1-8 Juli 2018</b></th>
-                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>1-8 Juni 2018</b></th>
+                            <th colspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>1-8 Juni 2018</b></th>
+                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>1-8 Mei 2018</b></th>
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>MoM Growth</b></th>
                             <th rowspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>1-8 Juli 2017</b></th>
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>YoY Growth</b></th>
-                            <th colspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>Jan - Juli 2018</b></th>
-                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Jan - Juli 2017</b></th>
+                            <th colspan="3" style="background-color: #1e3799; color: white;" class="text-center"><b>Jan - Juni 2018</b></th>
+                            <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Jan - Juni 2017</b></th>
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>YtD Growth</b></th>
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Tgt</b></th>
                             <th rowspan="2" style="background-color: #1e3799; color: white;" class="text-center"><b>Ach</b></th>
@@ -99,10 +83,8 @@ $tgl = array("tanggal_aktif"=>"tanggal_aktif", "tanggal_validasi"=>"tanggal_vali
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
                 </table>
-                <p id="informasi">Information : <br> Selama proses berlangsung, diharapkan menunggu +- 4-8 menit. Silahkan untuk melakukan aktifitas yang lain.</p>
             </div>
 
         </div> 

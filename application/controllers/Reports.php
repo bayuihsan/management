@@ -240,6 +240,147 @@ class Reports extends CI_Controller {
 
     }
 
+    //View SCN Weekly Report//
+    public function reports_scn_weekly($action='', $to_date='')
+    {
+        $data=array();
+        if($action=='asyn'){
+            $this->load->view('reports/scn_weekly',$data);
+        }else if($action==''){
+            $this->load->view('theme/include/header');
+            $this->load->view('reports/scn_weekly', $data);
+            $this->load->view('theme/include/footer', $data);
+        }else if($action=='view'){  
+            $to_date =$this->input->post('vto-date',true);
+            if(date('Y-m-d', strtotime($to_date)) > date('Y-m-d')){
+                echo "error_tgl_lebih";
+            }else{
+                $data['bto_date'] = $to_date;
+                $lm = date('Y-m-d', strtotime('-1 month', strtotime( $to_date )));
+                $ly = date('Y-m-d', strtotime('-1 year', strtotime($to_date)));
+                $reportData=$this->Reportmodel->getSCNWeekly(20,$ly,$lm,$to_date);
+                $reportDataChurn=$this->Reportmodel->getSCNWeeklyChurn(20,$ly,$lm,$to_date);
+                // $reportData=true;
+                if(empty($reportData)){
+                    echo "false";
+                }else{
+                    $no=1 ;
+                    $tot_ly = 0;
+                    $tot_lm = 0;
+                    $tot_tm = 0;
+                    $tot_tgt = 0;
+                    $tot_gap = 0;
+                    foreach ($reportData as $report) { 
+                        $tm = intval($report->this_month);
+                        $lm = intval($report->last_month);
+                        $ly = intval($report->last_year);
+                        $tgt = intval($report->target_this_month);
+                        $sales_gap = $tm-$tgt;
+                        $mom_growth = (($tm-$lm)/$lm)*100;
+                        $yoy_growth = (($tm-$ly)/$ly)*100;
+                    ?>
+                        <tr>
+                            <td><?php echo $report->nama_region?></td>
+                            <td><?php echo $report->this_month?></td>
+                            <td class="text-right"><?php echo $report->target_this_month?></td>
+                            <td class="text-right"><?php echo $sales_gap; ?></td>                            
+                            <td class="text-right"><?php echo $report->last_month?></td>
+                            <td class="text-right"><?php echo number_format($mom_growth).'%'; ?></td>
+                            <td class="text-right"><?php echo $report->last_year?></td>
+                            <td class="text-right"><?php echo number_format($yoy_growth).'%'; ?></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                        </tr>
+                    <?php 
+                    $tot_tm = $tot_tm + $tm;
+                    $tot_lm = $tot_lm + $lm;
+                    $tot_ly = $tot_ly + $ly;
+                    $tot_tgt = $tot_tgt + $tgt;
+                    $tot_gap = $tot_gap + $sales_gap;
+                    $tot_mom = (($tot_tm-$tot_lm)/$tot_lm)*100;
+                    $tot_yoy = (($tot_tm-$tot_ly)/$tot_ly)*100;;
+                    }
+                    ?>
+                    <tr>
+                        <td colspan="" style="background-color: #1e3799; color: white;" class="text-center"><b>Sales</b></td>
+                        <td class="text-right"><?php echo number_format($tot_tm)?></td>
+                        <td class="text-right"><?php echo number_format($tot_tgt)?></td>
+                        <td class="text-right"><?php echo number_format($tot_gap)?></td>
+                        <td class="text-right"><?php echo number_format($tot_lm)?></td>
+                        <td class="text-right"><?php echo number_format($tot_mom).'%'; ?></td>
+                        <td class="text-right"><?php echo number_format($tot_ly)?></td>
+                        <td class="text-right"><?php echo number_format($tot_yoy).'%'; ?></td>
+                    </tr>
+                    <?php 
+                }
+
+                if(empty($reportDataChurn)){
+                    echo "false";
+                }else{
+                    $no=1 ;
+                    $tot_ly_churn = 0;
+                    $tot_lm_churn = 0;
+                    $tot_tm_churn = 0;
+                    $tot_tgt_churn = 0;
+                    $tot_gap_churn = 0;
+                    foreach ($reportDataChurn as $reportChurn) { 
+                        $tm_churn = intval($reportChurn->this_month);
+                        $lm_churn = intval($reportChurn->last_month);
+                        $ly_churn = intval($reportChurn->last_year);
+                        $tgt_churn = intval($reportChurn->target_this_month);
+                        $sales_gap_churn = $tm_churn-$tgt_churn;
+                        $mom_growth_churn = (($tm_churn-$lm_churn)/$lm_churn)*100;
+                        $yoy_growth_churn = (($tm_churn-$ly_churn)/$ly_churn)*100;
+                    ?>
+                        <tr>
+                            <td><?php echo $reportChurn->nama_region?></td>
+                            <td><?php echo $reportChurn->this_month?></td>
+                            <td class="text-right"><?php echo $reportChurn->target_this_month?></td>
+                            <td class="text-right"><?php echo $sales_gap_churn; ?></td>                            
+                            <td class="text-right"><?php echo $reportChurn->last_month?></td>
+                            <td class="text-right"><?php echo number_format($mom_growth_churn).'%'; ?></td>
+                            <td class="text-right"><?php echo $reportChurn->last_year?></td>
+                            <td class="text-right"><?php echo number_format($yoy_growth_churn).'%'; ?></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                            <td class="text-right"></td>
+                        </tr>
+                    <?php 
+                    $tot_tm_churn = $tot_tm_churn + $tm_churn;
+                    $tot_lm_churn = $tot_lm_churn + $lm_churn;
+                    $tot_ly_churn = $tot_ly_churn + $ly_churn;
+                    $tot_tgt_churn = $tot_tgt_churn + $tgt_churn;
+                    $tot_gap_churn = $tot_gap_churn + $sales_gap_churn;
+                    $tot_mom_churn = (($tot_tm_churn-$tot_lm_churn)/$tot_lm_churn)*100;
+                    $tot_yoy_churn = (($tot_tm_churn-$tot_ly_churn)/$tot_ly_churn)*100;;
+                    }
+                    ?>
+                    <tr>
+                        <td colspan="" style="background-color: #1e3799; color: white;" class="text-center"><b>Churn</b></td>
+                        <td class="text-right"><?php echo number_format($tot_tm_churn)?></td>
+                        <td class="text-right"><?php echo number_format($tot_tgt_churn)?></td>
+                        <td class="text-right"><?php echo number_format($tot_gap_churn)?></td>
+                        <td class="text-right"><?php echo number_format($tot_lm_churn)?></td>
+                        <td class="text-right"><?php echo number_format($tot_mom_churn).'%'; ?></td>
+                        <td class="text-right"><?php echo number_format($tot_ly_churn)?></td>
+                        <td class="text-right"><?php echo number_format($tot_yoy_churn).'%'; ?></td>
+                    </tr>
+                    <?php 
+                }
+            }
+        }
+    }
+
+
     //View Branch Report// 
     public function branch($action='',$tanggal='',$status='',$to_date='')
     {
@@ -252,7 +393,7 @@ class Reports extends CI_Controller {
             $this->load->view('theme/include/footer');
         }else if($action=='view'){
             $tanggal    =$this->input->post('vtanggal',true); 
-            $status    =$this->input->post('vstatus',true); 
+            $status     =$this->input->post('vstatus',true); 
             $to_date    =$this->input->post('vto-date',true);  
             if(date('Y-m-d', strtotime($to_date)) > date('Y-m-d')){
                 echo "error_tgl_lebih";
@@ -320,9 +461,9 @@ class Reports extends CI_Controller {
                             <td class="text-right" <?php echo $style_ly?>><b><?php  echo $yoy.' %'; ?></b></td>
                         </tr>
                     <?php 
-                        $tly = $tly + $ly;
-                        $tlm = $tlm + $lm;
-                        $ttm = $ttm + $tm;
+                        $tly  = $tly + $ly;
+                        $tlm  = $tlm + $lm;
+                        $ttm  = $ttm + $tm;
                         $tsla = $tsla + $sla; 
                         
                     }  
